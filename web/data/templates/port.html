@@ -1,0 +1,10 @@
+<h3>Country: {{ country.name }}</h3>
+{% for vessel in vessels %}
+  <li><a href="{{ vessel.cfr_link }}">{{ vessel.cfr }}</a>
+    <ul>
+    <li>{{ vessel.scheme_name }}</li>
+    <li>{{ vessel.total_cost }}</li>
+    <li>{{ vessel.recipient_name }}</li>
+    </ul>
+  </li>
+{% endfor %}

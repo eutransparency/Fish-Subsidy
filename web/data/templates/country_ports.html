@@ -1,0 +1,5 @@
+Country: <h3>{{ country.name }}</h3>
+<h3>{{ number }} ports found</h3>
+{% for port in ports %}
+  <li><a href="">{{ port.port_name|title }}</a></li>
+{% endfor %}
