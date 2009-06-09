@@ -1,8 +1,10 @@
 from django.conf.urls.defaults import *
+from django.views.generic.simple import direct_to_template
+from web import settings
 
 # Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
-# admin.autodiscover()
+from django.contrib import admin
+admin.autodiscover()
 
 urlpatterns = patterns('',
     # Example:
@@ -13,9 +15,19 @@ urlpatterns = patterns('',
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
-    # (r'^admin/(.*)', admin.site.root),
+    (r'^admin/(.*)', admin.site.root),
 )
 
-urlpatterns = patterns('',
+urlpatterns += patterns('',
+    (r'^$', direct_to_template, {'template': 'home.html'}),
     (r'', include('data.urls')),
+    (r'', include('graphs.urls')),
+    (r'', include('farmsubsidy.web.feeds.urls')),    
+)
+
+
+urlpatterns += patterns('django.views',
+     (r'^media/(?P<path>.*)$', 'static.serve',
+     {'document_root': settings.MEDIA_ROOT}),
+
 )

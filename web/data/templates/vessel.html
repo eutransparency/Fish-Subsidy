@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}
+    {{ payments.0.vessel_name|title }} | {{ country.name }}
+{% endblock %}
+
+{% block page_title %}
+    {{ payments.0.vessel_name|title }} &mdash; fish subsidy payments
+{% endblock %}
+
+{% block content %}
+
+  {% load graphs %}
+  {% graph "recipient" payments %}
+
+  <ul>
+    {% for vessel in payments %}
+      <li>{{ vessel.year }}, {{ vessel.scheme_traffic_light }} &mdash; {{ vessel.scheme_name }} &mdash; &euro;{{ vessel.total_cost|intcomma }}</li>
+    {% endfor %}
+  </ul>
+
+{% endblock %}
+
+{% block right %}
+  <div class="box">
+    <h3>Vessel type</h3>
+    <ul>
+      <li>Length: {{ payments.0.overall_length }} M</li>
+      <li>Tonnage: {{ payments.0.tonnage }}</li>
+      <li>Power: {{ payments.0.main_power }}</li>
+    </ul>
+    
+    <h3>Vessel details</h3>
+    <ul>
+      <li>Constructed {{ payments.0.construction_year }} In {{ payments.0.construction_place|title }}</li>
+      {% if payments.0.external_marking %}
+        <li>External Markings: {{ payments.0.external_marking }}</li>      
+      {% endif %}
+      <li>Registration number: {{ payments.0.cfr }}</li>
+      <li>Registration number: {{ payments.0.port_name|title }}</li>
+      <li><a href="{{ payments.0.cfr_link }}">Fleet Registry record</a></li>
+      <li>Country: <a href="/{{ country.code }}">{{ country.name }}</a></li>
+      <li>Infringement record: Witheld</li>
+      <li>Quota: Witheld</li>
+    </ul>
+    <h3>Owner</h3> 
+    <ul>
+      <li>This information has been withheld</li>
+    </ul>
+    <h3>Stocks targeted</h3> 
+    <ul>
+      <li>Tuna:  {% if payments.0.tuna_fleet %}Yes{% else %}No{% endif %}</li>
+      <li>Cod: Withheld</li>
+      <li>Other: Withheld</li>
+    </ul>
+  </div>
+  
+{% endblock %}

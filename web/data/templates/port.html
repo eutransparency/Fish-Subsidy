@@ -1,10 +1,20 @@
-<h3>Country: {{ country.name }}</h3>
-{% for vessel in vessels %}
-  <li><a href="{{ vessel.cfr_link }}">{{ vessel.cfr }}</a>
+{% extends "base.html" %}
+
+{% block title %}
+  {{ port|title }} | {{ country.name }}
+{% endblock %}
+
+{% block content %}
+  <h3>Country: {{ country.name }}</h3>
+  <div class="section">
+    <h2>Top recipient vessels</h2>
     <ul>
-    <li>{{ vessel.scheme_name }}</li>
-    <li>{{ vessel.total_cost }}</li>
-    <li>{{ vessel.recipient_name }}</li>
+    {% for vessel in top_vessels %}
+       {% url vessel country=country.code cfr=vessel.cfr name=vessel.vessel_name|slugify as vessel_url %}
+      <li><a href="{{ vessel_url }}">{{ vessel.vessel_name|title }} ({{ vessel.cfr }})</a> - &euro;{{ vessel.total }}</li>
+    {% endfor %}
     </ul>
-  </li>
-{% endfor %}
+  </div>
+
+{% endblock %}
+

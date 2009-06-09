@@ -1,5 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+
 Country: <h3>{{ country.name }}</h3>
 <h3>{{ number }} ports found</h3>
-{% for port in ports %}
-  <li><a href="">{{ port.port_name|title }}</a></li>
+{% for i,port in ports.items %}
+   {% url data.views.port country=country.code port=port.port_name as port_url %}
+  <li><a href="{{ port_url }}">{{ port.port_name|title }}</a> ({{ port.vessels }} vessels)</li>
 {% endfor %}
+{% endblock %}
