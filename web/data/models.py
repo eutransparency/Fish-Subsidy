@@ -68,12 +68,24 @@ class FishDataManager(models.Manager):
   def country_years(self, country):
     cursor = connection.cursor()
     cursor.execute("""
-      SELECT distinct(year) FROM data_fishdata WHERE iso_country='%(country)s' ORDER BY year ASC;  
+      SELECT distinct(year), sum(total_cost) FROM data_fishdata WHERE iso_country='%(country)s' GROUP BY year ORDER BY year ASC;  
     """ % {'country' : country})
     
     result_list = []
     for row in cursor.fetchall():
-        p = self.model(year=row[0])
+        p = self.model(year=row[0], total_cost=row[1])
+        result_list.append(p)
+    return result_list
+
+  def country_years_traffic_lights(self, country):
+    cursor = connection.cursor()
+    cursor.execute("""
+      SELECT distinct(year), sum(total_cost), scheme_traffic_light FROM data_fishdata WHERE iso_country='%(country)s' GROUP BY year, scheme_traffic_light ORDER BY year ASC;  
+    """ % {'country' : country})
+    
+    result_list = []
+    for row in cursor.fetchall():
+        p = self.model(year=row[0], total_cost=row[1], scheme_traffic_light=row[2])
         result_list.append(p)
     return result_list
     

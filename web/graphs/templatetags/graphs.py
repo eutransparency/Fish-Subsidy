@@ -24,7 +24,12 @@ def graph(graph_type, data):
     data['traffic_lights'] = "|".join(["%s" % t for t in traffic_lights])
     get_data = urlencode(data)
     url = reverse('graph', kwargs={'type':graph_type})
+  
+  
+  if graph_type == "country":
+    url = reverse('stack_graph', kwargs={'country' : data})
+    return {'url' : "%s" % (url)}    
     
   return {'url' : "%s?%s" % (url,get_data)}
-
+  
 register.inclusion_tag('recipient-graph.html')(graph)

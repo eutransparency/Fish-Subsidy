@@ -9,6 +9,10 @@
 {% endblock %}
 {% block content %}
 
+  {% load graphs %}
+  {% graph "country" country.code %}
+  
+
   {% for year in data_years %}
     {% url data.views.country country=country.code year=year.year as year_url %}
     <a href="{{ year_url }}">{{ year.year }}</a>
