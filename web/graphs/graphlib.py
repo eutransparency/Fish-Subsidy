@@ -70,7 +70,9 @@ def make_fig(request, type):
     
     gca().yaxis.set_major_formatter(formatter)
     
-    gca().yaxis.set_major_locator(LinearLocator(numticks=5))
+    # gca().yaxis.set_major_locator(LinearLocator(numticks=5))
+    print len(str(max_value))
+    gca().yaxis.set_major_locator(MaxNLocator(nbins=3, symmetric=True))
     
     for tick in gca().yaxis.get_major_ticks():
       tick = "foo"
@@ -81,7 +83,7 @@ def make_fig(request, type):
     savefig(response, dpi=120)
     return response
     
-def stack_graph(request,country='GB'):
+def stack_graph(request,country='GB', hilight_year=None):
   
   from fishsubsidy.web.data.models import FishData
   print country
