@@ -86,7 +86,6 @@ def make_fig(request, type):
 def stack_graph(request,country='GB', hilight_year=None):
   
   from fishsubsidy.web.data.models import FishData
-  print country
   sql_data = FishData.objects.country_years_traffic_lights(country)
   data = []
   good = {}
