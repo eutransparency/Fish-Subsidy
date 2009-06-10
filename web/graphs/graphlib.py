@@ -144,7 +144,7 @@ def stack_graph(request,country='GB'):
   
   gca().yaxis.set_major_formatter(formatter)
   
-  gca().yaxis.set_major_locator(LinearLocator(numticks=5))
+  gca().yaxis.set_major_locator(MaxNLocator(nbins=3, symmetric=True))
 
    
   response = HttpResponse(mimetype="image/png")
