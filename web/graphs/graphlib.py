@@ -71,7 +71,6 @@ def make_fig(request, type):
     gca().yaxis.set_major_formatter(formatter)
     
     # gca().yaxis.set_major_locator(LinearLocator(numticks=5))
-    print len(str(max_value))
     gca().yaxis.set_major_locator(MaxNLocator(nbins=3, symmetric=True))
     
     for tick in gca().yaxis.get_major_ticks():
@@ -83,7 +82,7 @@ def make_fig(request, type):
     savefig(response, dpi=120)
     return response
     
-def stack_graph(request,country='GB', hilight_year=None):
+def stack_graph(request,country='GB'):
   
   from fishsubsidy.web.data.models import FishData
   sql_data = FishData.objects.country_years_traffic_lights(country)
