@@ -37,7 +37,8 @@
         <li>External Markings: {{ payments.0.external_marking }}</li>      
       {% endif %}
       <li>Registration number: {{ payments.0.cfr }}</li>
-      <li>Registration number: {{ payments.0.port_name|title }}</li>
+      {% url data.views.port country=country.code port=payments.0.port_name as port_url %}
+      <li>Home Port: <a href="{{ port_url }}">{{ payments.0.port_name|title }}</a></li>
       <li><a href="{{ payments.0.cfr_link }}">Fleet Registry record</a></li>
       <li>Country: <a href="/{{ country.code }}">{{ country.name }}</a></li>
       <li>Infringement record: Witheld</li>

@@ -14,7 +14,6 @@ def graph(graph_type, data):
     values = []
     years = []
     traffic_lights = []
-    print data
     for i,item in enumerate(data):
       values.append(item.total_cost)
       years.append(item.year)
@@ -24,7 +23,6 @@ def graph(graph_type, data):
     data['years'] = "|".join(["%s" % y for y in years])
     data['traffic_lights'] = "|".join(["%s" % t for t in traffic_lights])
     get_data = urlencode(data)
-    print get_data
     url = reverse('graph', kwargs={'type':graph_type})
     
   return {'url' : "%s?%s" % (url,get_data)}
