@@ -18,12 +18,17 @@ import xapian
 
 def load_scheme(schemename, datafile=None):
   """
-  Sheme files are csv files with a .scheme extension.  
+  Sheme files are a single csv line containing the  
+  heading row with a .scheme extension.
   
   If datafile is None then it will look for a file 
   with the same name in the same dirctory as the 
   scheme file, with a .csv extension, IE:
   file.scheme and file.csv
+  
+  Note: file.csv shouldn't have a heading row.  
+        This allows for splitting large data 
+        files for one scheme file
   
   """
   schemename = os.path.abspath(schemename)
@@ -40,144 +45,96 @@ def load_scheme(schemename, datafile=None):
       # Return a list of field names
       fields = csv.reader(codecs.open(schemename)).next()
       return fields
-      
     else:
       raise IOError, "Data file not found at %s" % datafile
   else:
     raise IOError, "Scheme file not found %s" % schemename
 
 
-def load_data(datafile, fields):
+def load_data(datafile, fields, dialect=csv):
+  """
+  - `datafile`: path to the file to be loaded
+  - `fields`:   A list of column names in the datafile.  
+                Normally created from load_scheme()
+  - `dialect`:  The format of the datafile.
+  """
   datafile = os.path.abspath(datafile)
   
+  
+  import csv, codecs, cStringIO
+
   class SKV(csv.excel):
       # like excel, but uses semicolons
       delimiter = ";"
-
   csv.register_dialect("SKV", SKV)
   
+  return csv.DictReader(codecs.open(datafile, 'U'), dialect=dialect, fieldnames=fields)
   
-  return csv.DictReader(codecs.open(datafile, 'U'), dialect="SKV", fieldnames=fields)  
 
 
-def index(data, scheme, mapping='mapping.cfg', options={}):
+def load_mapping(filename='fields.cfg'):
+  mapping = ConfigParser.ConfigParser()
+  mapping.readfp(open(filename))
+  return mapping
+  
+
+def index(data, scheme, mapping='fields.cfg', options={}):
+  """
+  - `data`:    A csv.DictReader object (normally from load_data())
+  - `scheme`:  A list of column names
+  - `mapping`: The mapping file.  See load_mapping() for more.
   """
   
-  Options:
-    - database: the database path
-    - stem: stemming language
-    - mappingfile: path to the field mapping file
-  
-  """
-
   # General Options
   opts = ConfigParser.ConfigParser()
-  opts.readfp(open(options.get('optionsfile', 'indexer.cfg')))  
+  opts.readfp(open('indexer.cfg'))
   
-  # Index in to Mysql as well as xapian
-  if opts.getboolean('general', 'mysql') == True:
-    import MySQLdb
-    
-    connection = MySQLdb.connect (host = "localhost",
-                               user = opts.get('mysql', 'mysql_user'),
-                               passwd = opts.get('mysql', 'mysql_pass'),
-                               charset = 'latin1',
-                               db = opts.get('mysql', 'mysql_database')
-                               )
-    
-    c = connection.cursor()
-    create_sql = open(os.path.abspath(opts.get('mysql', 'mysql_scheme')))
-    c.execute(create_sql.read())
-    c.close()
-    c = connection.cursor()
-    
-
-
-    
+  # Mappings
+  mapping = load_mapping(mapping) 
   
-  # Xapian Stuff
-  database = xapian.WritableDatabase(options.get('database', 'xapian.db'), xapian.DB_CREATE_OR_OPEN)
-  indexer = xapian.TermGenerator()
-  stemmer = xapian.Stem(options.get('stem',"english"))
-  indexer.set_stemmer(stemmer)
-  indexer.set_database(database)
-  indexer.set_flags(indexer.FLAG_SPELLING)
-  
-  # Mapping Stuff
-  mapping = ConfigParser.ConfigParser()
-  mapping.readfp(open(options.get('mappingfile', 'fields.cfg')))
+  # One day this will be beautiful.  For now I'll do it an ugly way. :(
+  # modules = opts.options('modules')
+  # modules = [ __import__('modules.%s' % module, fromlist=['modules']) for module in modules]
+  # objects = [m for m in modules]
 
+  use_xapian = False
+  use_mysql = False
+  if 'xapian' in opts.options('modules'):
+    from modules import xapian_indexer
+    use_xapian = True
+  if 'mysql' in opts.options('modules'):
+    from modules import mysql
+    use_mysql = True
+    
+  if use_xapian:
+    xapdb,xapindexer = xapian_indexer.setup(opts)
+  
+  if use_mysql:
+    c = mysql.setup(opts)
+    c = mysql.create_or_reload(c, opts)  
   
   # Main loop though each line of the data
-  for line in data:    
+  for line in data:
+
+    for k,v in line.items():
+      line[k] = unicode(v.decode('latin-1'))
+    
     if options.get('test', False):
       if data.line_num >= 11:
         sys.exit()
         
-    if opts.getboolean('general', 'mysql') == True:
-      values = []
-      keys = []
-      for k,v in line.items():
-        if v is None:
-          v = ""
-        values.append(v)
-        keys.append(k)
-      keys =  ",".join("`%s`" % v for v in keys)
-      values =  ",".join("'%s'" % re.escape(v) for v in values)
-
-
-      sql = "INSERT INTO `data_fishdata` (%s) VALUES (%s)" % (keys,values)
-      # sql = "%s" % str(values)
-      # print sql
-      c.execute(sql)
-      # sys.exit()
-            
+    if use_mysql:
+      mysql.index_line(c,line)
+    # sys.exit()
     
-    # Set up 
-    #Our Xapian document
-    doc = xapian.Document()
-    
-    # Give the indexer the document
-    indexer.set_document(doc)
-    
-    #List of text to index
-    index_text = []
-    
-    # Values that will be concationated to form the document ID
-    docids = [data.line_num]
-    
-    for k,v in line.items():
-      if k in mapping.sections():
-        
-        if mapping.has_option(k, 'debug_print'):
-          print v
-
-        if mapping.has_option(k, 'index'):
-          if v:
-            index_text.append(v)
-    
-        if mapping.has_option(k, 'docid'):
-          docids.append(v)
-    
-
-
-    doc_data = cPickle.dumps(line)
-    doc.set_data(doc_data)
-    if len(docids) >=1:
-      docid = "XDOCID%s" % "-".join(str(s) for s in docids)
-      doc.add_term(docid)
-    else:
-      raise ValueError, "Please define at least one docid"
-    indexer.index_text(" ".join(index_text))
-    database.replace_document(docid,doc)
-
+    if use_xapian:
+      xapian_indexer.index_line(xapdb, xapindexer, line, mapping, data)
 
 
 
 if __name__ == "__main__":
-  # print index()
   scheme = load_scheme('../data/fish.scheme')
-  data = load_data('../data/fish.csv', scheme)
+  data = load_data('../data/fish.csv', scheme, dialect='SKV')
   options = {
     'database' : '../data/xapian.db',
     'mysql_table' : 'data_fishdata'
@@ -186,6 +143,6 @@ if __name__ == "__main__":
   if '-t' in sys.argv:
     options['test'] = True
   
-  index(data, scheme, options=options)
+  index(data, scheme)
 
 

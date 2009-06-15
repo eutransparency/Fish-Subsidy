@@ -62,7 +62,7 @@ def country_codes(code=None, local='GB'):
   'SK'	:	{
     'GB' : 'Slovakia'
     },
-  'SL'	:	{
+  'SI'	:	{
     'GB' : 'Slovenia'
     },
   'ES'	:	{

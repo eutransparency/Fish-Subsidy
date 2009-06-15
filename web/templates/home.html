@@ -4,6 +4,17 @@
 {% block page_title %}Home{% endblock %}
 
 {% block content %}
+
+  <div class="section">
+    <form action="/search" method="get" accept-charset="utf-8" id="search_form">
+      <h2><label for="search" class="section_title">Search</label></h2>
+      <input type="text" name="q" value="" id="q" title="Enter a vessel name, number, port or place name">
+      <div class="description">e.g. <a href="/search?q=nestle">Nestle</a> or <a href="/search?q=windsor">Windsor</a></div>
+      <input type="submit" value="Go" class="submit">
+    </form>
+  </div>
+  
+
   Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 {% endblock %}
 

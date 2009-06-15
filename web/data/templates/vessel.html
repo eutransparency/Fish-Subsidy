@@ -12,7 +12,6 @@
 
   {% load graphs %}
   {% graph "recipient" payments %}
-
   <ul>
     {% for vessel in payments %}
       <li>{{ vessel.year }} &mdash; {{ vessel.scheme_name }} &mdash; &euro;{{ vessel.total_cost|intcomma }}</li>
@@ -41,7 +40,7 @@
       <li>Home Port: <a href="{{ port_url }}">{{ payments.0.port_name|title }}</a></li>
       <li><a href="{{ payments.0.cfr_link }}">Fleet Registry record</a></li>
       <li>Country: <a href="/{{ country.code }}">{{ country.name }}</a></li>
-      <li>Infringement record: Witheld</li>
+      <li>Infringement record: Withheld</li>
       <li>Quota: Witheld</li>
     </ul>
     <h3>Owner</h3> 

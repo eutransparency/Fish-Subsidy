@@ -44,7 +44,7 @@ def make_fig(request, type):
 
     figure(figsize=(5, 2), linewidth=0) # image dimensions  
 
-    subplots_adjust(left=0.2)
+    subplots_adjust(left=0.2, bottom=0.2)
 
     # add bars
     i = 0
@@ -60,7 +60,7 @@ def make_fig(request, type):
     xticks(arange(0.5, len(name_value_dict)),
         [('%s' % value[0]) 
         for value in name_value_dict],
-        size='xx-small')
+        size='xx-small', rotation=45)
     max_value = max([float(v[1]) for v in name_value_dict])
     
     

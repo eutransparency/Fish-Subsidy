@@ -26,6 +26,20 @@ def graph(graph_type, data):
     url = reverse('graph', kwargs={'type':graph_type})
   
   
+  if graph_type == "scheme":
+    years = []
+    values = []
+    for s in data:
+      years.append(s.year)
+      values.append(s.total_cost)
+    url_data = {
+      'values' : "|".join(["%s" % v for v in values]),
+      'years' : "|".join(["%s" % y for y in years])
+    }
+    get_data = urlencode(url_data)
+    url = reverse('graph', kwargs={'type':graph_type})
+    
+  
   if graph_type == "country":
     url = reverse('stack_graph', kwargs={'country' : data})
     return {'url' : "%s" % (url)}    

@@ -21,6 +21,7 @@ urlpatterns = patterns('',
 urlpatterns += patterns('',
     (r'^$', direct_to_template, {'template': 'home.html'}),
     (r'', include('data.urls')),
+    (r'', include('search.urls')),
     (r'', include('graphs.urls')),
     (r'', include('farmsubsidy.web.feeds.urls')),    
 )
