@@ -1,0 +1,3 @@
+The data arrives in a single CSV file.  This is then converted to a mysql database, indexed and denormalized in the following way:
+
+* Port Names field in to `ports` table with a port ID
