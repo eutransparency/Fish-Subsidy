@@ -1,7 +1,8 @@
 
 
 paths = {
-  'project_path'  : '/var/www/fishsubsidy/'
+  'project_path'  : '/var/www/fishsubsidy/',
+  'stats'  : '/var/www/fishsubsidy/data/stats/',
 }
 
 default_year = 2007

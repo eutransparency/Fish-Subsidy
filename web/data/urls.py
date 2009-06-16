@@ -15,6 +15,7 @@ urlpatterns += patterns('web.data.views',
     url(r'^(%s)/ports/$' % "|".join(countryCodes.country_codes()), 'country_ports'),
     url(r'^(?P<country>%s)/ports/(?P<port>.*)$' % "|".join(countryCodes.country_codes()), 'port'),
     url(r'^(?P<country>%s)/vessel/(?P<cfr>.*)/(?P<name>.*)$' % "|".join(countryCodes.country_codes()), 'vessel', name='vessel'),
-    url(r'^scheme/(?P<scheme_id>\d+)/(?P<name>.*)$', 'scheme', name='scheme'),
+    url(r'^schemes$', 'schemes', name='schemes'),
+    url(r'^schemes/(?P<scheme_id>\d+)/(?P<name>.*)$', 'scheme_detail', name='scheme_detail'),
     # url(r'^(%s)/vessel/(\d+)' % "|".join(countryCodes.country_codes()), 'country_ports'),
     )

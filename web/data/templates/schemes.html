@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load humanize traffic_lights %}
+{% block content %}
+  <ul>
+  {% for scheme in schemes %}
+    <li>{{ scheme.scheme_name }} {% traffic_light scheme.scheme_traffic_light%} &mdash; &euro;{{ scheme.total_cost|intcomma }}</li>
+  {% endfor %}
+  </ul>
+{% endblock %}

@@ -12,13 +12,16 @@
 
   {% load graphs %}
   {% graph "recipient" payments %}
+  {% load traffic_lights %}
   <ul>
     {% for vessel in payments %}
-      <li>{{ vessel.year }} &mdash; {{ vessel.scheme_name }} &mdash; &euro;{{ vessel.total_cost|intcomma }}</li>
+      <li>{{ vessel.year }} &mdash; {{ vessel.scheme_name }}{% traffic_light vessel.scheme_traffic_light %} &mdash; &euro;{{ vessel.total_cost|intcomma }}</li>
     {% endfor %}
   </ul>
 
 {% endblock %}
+
+
 
 {% block right %}
   <div class="box">

@@ -8,19 +8,24 @@ class FishDataManager(models.Manager):
     extra_and = ""
     if port:
       extra_and = "AND port_name = '%s'" % port
+    if country:
+      extra_and += " AND iso_country = '%s'" % country
+    if year:
+      extra_and += " AND year='%s'" % year
+      
     cursor = connection.cursor()
     cursor.execute("""
-      SELECT vessel_name, cfr, sum(total_cost) as t 
+      SELECT vessel_name, cfr, sum(total_cost) as t, iso_country, count(cfr) 
       FROM `data_fishdata` 
-      WHERE iso_country = '%(country)s' AND vessel_name IS NOT NULL AND year='%(year)s'  %(extra_and)s
-      GROUP BY vessel_name
+      WHERE vessel_name IS NOT NULL  %(extra_and)s
+      GROUP BY cfr
       ORDER BY t DESC
       LIMIT %(limit)s;
     """ % {'country' : country, 'year' : year, 'limit' : limit, 'extra_and' : extra_and })
     
     result_list = []
     for row in cursor.fetchall():
-        p = self.model(vessel_name=row[0], cfr=row[1])
+        p = self.model(vessel_name=row[0], cfr=row[1], total_cost=row[2], iso_country=row[3], status=row[4])
         p.total = row[2]
         result_list.append(p)
     return result_list
@@ -51,7 +56,7 @@ class FishDataManager(models.Manager):
       extra_and = "AND port_name = '%s'" % port
     cursor = connection.cursor()
     cursor.execute("""
-      SELECT scheme_name, scheme2_id, sum(total_cost) t
+      SELECT scheme_name, scheme2_id, sum(total_cost) t, scheme_traffic_light
       FROM data_fishdata 
       WHERE iso_country = '%(country)s' AND year = '%(year)s' %(extra_and)s
       GROUP BY iso_country,scheme2_id
@@ -61,7 +66,7 @@ class FishDataManager(models.Manager):
     
     result_list = []
     for row in cursor.fetchall():
-        p = self.model(scheme_name=row[0], scheme2_id=row[1])
+        p = self.model(scheme_name=row[0], scheme2_id=row[1], scheme_traffic_light=row[3])
         p.total = row[2]
         result_list.append(p)
     return result_list
@@ -121,6 +126,38 @@ class FishDataManager(models.Manager):
     result_list = []
     for row in cursor.fetchall():
         p = self.model(year=row[0], total_cost=row[1], scheme_traffic_light=row[2], scheme_name=row[3])
+        result_list.append(p)
+    return result_list
+
+  def schemes(self, country=None):
+    cursor = connection.cursor()
+    extra_and = ""
+    if country:
+      extra_and = "AND `iso_country`=%s" % country
+    else:
+      cursor.execute("""
+        SELECT sum(total_cost) as t, scheme_traffic_light, scheme_name 
+        FROM `data_fishdata` %(extra_and)s 
+        GROUP BY `scheme2_id`
+        ORDER BY t DESC
+      """ % {'extra_and' : extra_and})
+
+    result_list = []
+    for row in cursor.fetchall():
+        p = self.model(total_cost=row[0], scheme_traffic_light=row[1], scheme_name=row[2])
+        result_list.append(p)
+    return result_list
+    
+
+  def scheme_length_count(self, scheme_id):
+    cursor = connection.cursor()
+    cursor.execute("""
+        SELECT `overall_length` FROM `data_fishdata` WHERE scheme2_id=%(scheme_id)s AND `overall_length` IS NOT NULL GROUP BY `overall_length`
+      """ % {'scheme_id' : scheme_id})
+    
+    result_list = []
+    for row in cursor.fetchall():
+        p = self.model(overall_length=row[0])
         result_list.append(p)
     return result_list
     

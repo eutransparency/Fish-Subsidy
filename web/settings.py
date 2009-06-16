@@ -82,6 +82,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'data',
     'search',
+    'stats',
     'feeds',
     'graphs',
     'tagging',
@@ -96,6 +97,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
   "django.core.context_processors.media",
   "django.core.context_processors.request",
   'data.context_processors.country',
+  'data.context_processors.ip_country',  
 )
 
 

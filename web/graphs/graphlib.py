@@ -17,6 +17,8 @@ from matplotlib.patches import Ellipse
 import locale
 locale.setlocale(locale.LC_ALL, '')
 
+from fishsubsidy.web.data.models import FishData
+
  
 def format_ticks(a,b):
   return u"€%s" % locale.format('%d', float(a), True)
@@ -83,8 +85,7 @@ def make_fig(request, type):
     return response
     
 def stack_graph(request,country='GB'):
-  
-  from fishsubsidy.web.data.models import FishData
+
   sql_data = FishData.objects.country_years_traffic_lights(country)
   data = []
   good = {}
@@ -149,6 +150,76 @@ def stack_graph(request,country='GB'):
    
   response = HttpResponse(mimetype="image/png")
   savefig(response, dpi=120)
+  return response
+
+def schemes(request):
+  figure(figsize=(5, 4), linewidth=0) # image dimensions  
+  # subplots_adjust(left=0.2, bottom=0.2)
+  schemes = FishData.objects.schemes()
+  
+
+  for i,scheme in enumerate(schemes):
+    bar(i+0.25,scheme.total_cost, linewidth=0, color=format_traffic_lights(scheme.scheme_traffic_light))
+  
+  xticks(alpha=0)
+  yticks(alpha=0)
+   
+  response = HttpResponse(mimetype="image/png")
+  savefig(response, dpi=120)
+  return response
+
+
+def scheme_graph(request,scheme_id,country='GB'):
+  import re
+  x = [float(re.sub(',','.',v.overall_length)) for v in FishData.objects.scheme_length_count(scheme_id)]
+
+  def boltzman(x, xmid, tau):
+    """
+    evaluate the boltzman function with midpoint xmin and time constant tau
+    over x
+    """
+    return 1. / (1. + nx.exp(-x-xmid)/tau)
+
+  
+  # mu, sigma = min(x), max(x)
+
+  # n, bins, patches = plt.hist(x, 30)
+  # y = nx.arange(20)  
+
+  # y = mlab.normpdf(y, 0, 1)
+  # x = mlab.normpdf(nx.arange(20), 0, 1)
+
+  figure(figsize=(5, 2), linewidth=0) # image dimensions  
+  
+  # x = [1,1,1,3,4]
+  n, bins, patches = plt.hist(x, 50, normed=1, alpha=0.10)
+  
+  mu = mean(bins)+100
+  st = std(bins)+100 
+  print st
+  
+
+  
+  
+  
+  # print len(n), len(bins)
+  # n = n[2:]
+  # print bins,n
+  y = normpdf(bins, mu, st) # unit normal
+  # print x
+  # y = x
+  plot(bins,y,'b-', color='red', lw=2)
+
+  num_points = 0
+  min_data = 0
+  
+  axis('off')
+
+  
+  
+  response = HttpResponse(mimetype="image/png")
+  response['cache'] = 'no-cache'
+  savefig(response, dpi=80)
   return response
 
 

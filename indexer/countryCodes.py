@@ -12,7 +12,7 @@ def country_codes(code=None, local='GB'):
     'GB' : 'Bulgaria'
     },
   'CZ'	:	{
-    'GB' : 'Czech'
+    'GB' : 'Czech Republic'
     },
   'DK'	:	{
     'GB' : 'Denmark'
@@ -51,7 +51,7 @@ def country_codes(code=None, local='GB'):
     'GB' : 'Luxembourg'
     },
   'NL'	:	{
-    'GB' : 'Netherland'
+    'GB' : 'Netherlands'
     },
   'PL'	:	{
     'GB' : 'Poland'

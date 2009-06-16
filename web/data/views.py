@@ -60,11 +60,20 @@ def vessel(request, country, cfr, name):
   )
 
 
-def scheme(request, scheme_id, name):
+def schemes(request):
+  schemes = FishData.objects.schemes()
+  return render_to_response(
+    'schemes.html', 
+    {'schemes' : schemes}, 
+    context_instance=RequestContext(request)
+  )
+  
+  
+def scheme_detail(request, scheme_id, name):
   scheme = FishData.objects.scheme_years(scheme_id=scheme_id)
   top_vessels = FishData.objects.top_vessels_by_scheme(scheme_id=scheme_id)
   return render_to_response(
-    'scheme.html', 
+    'scheme_detail.html', 
     {'scheme' : scheme, 'top_vessels' : top_vessels}, 
     context_instance=RequestContext(request)
   )

@@ -17,3 +17,31 @@ body { margin:0 auto; width:80%;}
 #content {width:70%; float:left;}
 
 #right {float:right; width:20%;}
+
+#home #content {width:100%;}
+
+#home .section { padding:2em 0 4em 0; margin:0.5em 0 0 0; border-top:1px solid black; overflow:auto;  position:relative; }
+
+#home .section .section_title {float:left; width:20%;}
+#home .section_content { margin-left:20%; }
+
+#home #search_form #q {font-size:1.4em; height:20px; padding:5px; border:1px solid #333; width:70%; float:left; }
+#home #search_form .description { position:absolute; right:23%; top:6em; }
+#home #search_form label { font-weight:normal; }
+#home #search_form .submit { float:left; font-size:1.4em; height:32px; margin-left:5px; border:1px solid #333; padding:5px; }
+
+#home .col {float:left;}
+#home .wide-col {width:80%;}
+#home .narrow-col {width:20%;}
+#home .col .block {width:48%; float:left;}
+#home .narrow-col .block {width:100%; float:left;}
+
+#home #head {text-align:center; height:200px;}
+#home #head #title {margin-top:20px;}
+
+
+  
+.section { border-top:1px solid black; position:relative; padding-top:2em; margin-top:3em; overflow:visible; clear:both;}
+.section h2 {position:absolute; top:-0.9em; background-color:#fff; padding:0 10px 0 0;}
+#home .section h2 {position:relative; top:0; padding:0;}
+.col { float:left; width:49%; padding-bottom:2em;}
