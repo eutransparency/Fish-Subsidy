@@ -1,0 +1,23 @@
+<div class="col">
+  <h3>Catch and ﬂeet information</h3>
+  {% autoescape off %}
+  <ul>
+    <li><strong>Total Landings 2006 (Volume)</strong>: {{ info.total_landings_2006__volume_ }}</li>
+    <li><strong>Total Landings 2006 (value)</strong>: {{ info.total_landings_2006__value_ }}</li>
+    <li><strong>Number of non-trawlers (on 1 December 2007)</strong>: {{ info.number_of_non_trawlers }}</li>
+    <li><strong>Number of trawlers (on 1 December 2007)</strong>: {{ info.number_of_trawlers }}</li>
+    <li><strong>Number of vessels (on 1 December 2007)</strong>: {{ info.number_of_vessels }}</li>
+    <li><strong>Tonnage in GT (on 1 December 2007)</strong>: {{ info.tonnage_in_gt }}</li>
+    <li><strong>Engine power in kW (on 1 December 2007)</strong>: {{ info.engine_power_in_kw }}</li>
+  </ul>
+ {% endautoescape  %}
+</div>
+
+<div class="col">
+  <h3>Top 5 Species 2006</h3>
+  <ul>
+  {% for f in top_5 %}
+    <li>{{ f.0 }} &mdash; {{ f.1 }} Tonnes</li>
+  {% endfor %}
+  </ul>
+</div>
