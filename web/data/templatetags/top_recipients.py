@@ -6,7 +6,6 @@ register = Library()
 def top_recipients(number, recipient_type=None, country=None, location=None):
   recipients = {}
   country_name = "Europe"
-  print country
   if recipient_type == "vessel":
     recipients = FishData.objects.filter(iso_country=country,scheme2_id__GTE=10)
     
@@ -26,11 +25,3 @@ def top_recipients(number, recipient_type=None, country=None, location=None):
   
 register.inclusion_tag('blocks/top_recipients.html')(top_recipients)
 
-
-
-# def country_recipients(country=None):
-#   
-#   print recipients
-#   return {'recipients' : recipients}
-# register.inclusion_tag('blocks/top_recipients.html')(country_recipients)
-  
