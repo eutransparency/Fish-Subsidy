@@ -1,33 +1,30 @@
-body { margin:0 auto; width:80%;}
+body { margin:0 auto;}
 
+#head {padding:0; position:relative;margin:0 auto 1em auto;height:120px; border-bottom:dotted 1px #a7a9ac;}
 
-#head {border-bottom:1px solid #000; padding:0 1em; position:relative;}
-
-#head #title {}
+#head #title {margin:0;}
 #head #title {font-variant:small-caps; font-weight:bold; text-transform: uppercase; font-size:1.6em;}
 #head #title a {text-decoration:none; color:#000;}
-#head #title img {margin-right:-40px;}
+#head #sub_title {font-size:1.2em; margin:0;}
 
-#head #sub_title {font-size:1.2em}
+#head #mainmenu {position:absolute; right:0; top:0; list-style-type:none;padding:0 1em;}
+#head #mainmenu li {float:left;}
+#head #mainmenu li a {display:block; padding:1em 1.5em 1em 1.5em;}
 
-#head #mainmenu {position:absolute; right:0; top:5px; list-style-type:none;}
-#head #mainmenu li {float:left; margin-left:1em;}
-#head #mainmenu li a {color:#000;}
+#page {width:80%; position:relative; margin:0 auto; padding:0;}
+#content {float:left;}
 
-#content {width:70%; float:left;}
-
-#right {float:right; width:29%;}
+#right {float:right; width:20%;}
 
 #home #content {width:100%;}
 
-#home .section { padding:2em 0 4em 0; margin:0.5em 0 0 0; border-top:1px solid black; overflow:auto;  position:relative; }
+#home .section { padding:2em 0 4em 0; margin:0.5em 0 0 0; overflow:auto;  position:relative; }
 
 #home .section .section_title {float:left; width:20%;}
 #home .section_content { margin-left:20%; }
 
 #home #search_form #q {font-size:1.4em; height:20px; padding:5px; border:1px solid #333; width:70%; float:left; }
 #home #search_form .description { position:absolute; right:23%; top:6em; }
-#home #search_form label { font-weight:normal; }
 #home #search_form .submit { float:left; font-size:1.4em; height:32px; margin-left:5px; border:1px solid #333; padding:5px; }
 
 #home .col {float:left;}
@@ -36,12 +33,13 @@ body { margin:0 auto; width:80%;}
 #home .col .block {width:48%; float:left;}
 #home .narrow-col .block {width:100%; float:left;}
 
-#home #head {text-align:center; height:200px;}
-#home #head #title {margin-top:20px;}
+#home #head {text-align:center; height:250px;}
 
 
   
-.section { border-top:1px solid black; position:relative; padding-top:2em; margin-top:3em; overflow:visible; clear:both;}
+.section {border-top:1px solid black; position:relative; padding-top:2em; margin-top:3em; overflow:visible; clear:both;}
 .section h2 {position:absolute; top:-0.9em; background-color:#fff; padding:0 10px 0 0;}
 #home .section h2 {position:relative; top:0; padding:0;}
 .col { float:left; width:49%; padding-bottom:2em;}
+
+#footer {padding:1em;}

@@ -21,11 +21,17 @@
 	
 </head>
 <body id="{% block body_id%}{% endblock %}" class="{% block body_class%}{% endblock %}">
+  <div id="page">
   <div id="head">
-    <h1 id="title"><a href="/">{% block logo %}<img src="/media/images/logo-small.png" width="83" height="74" />{% endblock %} FishSubsidy.org</a></h1>
-    <h2 id="sub_title">Discover who gets what from European Fish Subsidies</h2>
+    
+    
+    <h1 id="title"><a href="/">{% block logo %}<img src="/media/images/logo-small.png" width="309" height="81" />{% endblock %} <span class="hide">FishSubsidy.org</span></a></h1>
+    <h2 id="sub_title" class="hide">Discover who gets what from European Fish Subsidies</h2>
+    
+    
+    
     <ul id="mainmenu">
-      <li><a href="/">Search / Browse</a></li>
+      <li class="selected"><a href="/" >Search / Browse</a></li>
       <li><a href="faqs">FAQs</a></li>
       <li><a href="about">About</a></li>
     </ul>
@@ -45,6 +51,7 @@
   {% block right %}
     
   {% endblock %}
+  </div>
   </div>
 </body>
 </html>
