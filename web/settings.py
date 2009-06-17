@@ -60,6 +60,7 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',    
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'pagination.middleware.PaginationMiddleware',    
 )
@@ -80,10 +81,13 @@ INSTALLED_APPS = (
     'django.contrib.humanize',    
     'django.contrib.sessions',
     'django.contrib.sites',
+    'django.contrib.flatpages',
+    'django.contrib.markup',
     'data',
     'search',
     'stats',
     'feeds',
+    'misc',
     'graphs',
     'tagging',
     'pagination',    

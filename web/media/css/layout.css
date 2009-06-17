@@ -12,7 +12,7 @@ body { margin:0 auto;}
 #head #mainmenu li a {display:block; padding:1em 1.5em 1em 1.5em;}
 
 #page {width:80%; position:relative; margin:0 auto; padding:0;}
-#content {float:left;}
+#content {float:left; width:70%;}
 
 #right {float:right; width:20%;}
 
