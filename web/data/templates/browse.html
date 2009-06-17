@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block content %}
+{% load pagination_tags %}
+{% autopaginate items 100 %}
+  <table>
+    <thead>
+      <th>{% ifequal sort "name"  %}<strong>Name</strong>{% else %}<a href="/{{ country.code }}/browse/name">Name</a>{% endifequal %}</th>
+      <th>{% ifequal sort "amount"  %}<strong>Amount</strong>{% else %}<a href="/{{ country.code }}/browse/amount">Amount</a>{% endifequal %}</th>
+      <th>{% ifequal sort "port"  %}<strong>Port</strong>{% else %}<a href="/{{ country.code }}/browse/port">Port</a>{% endifequal %}</th>
+    </thead>
+    {% for vessel in items %}
+      {% url vessel country=vessel.iso_country cfr=vessel.cfr name=vessel.vessel_name|slugify as vessel_url %}
+    
+      <tr>
+        <td><a href="{{ vessel_url }}">{{ vessel.vessel_name|title }}</a></td> 
+        <td>&euro;{{ vessel.total_cost|floatformat|intcomma }}</td>
+        <td>{{ vessel.port_name|title }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+  <h4 class="pager">{% paginate %}</h4>
+{% endblock %}

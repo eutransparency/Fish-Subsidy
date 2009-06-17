@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% load humanize traffic_lights %}
+{% block page_title %}
+  Schemes{% ifnotequal country.code "" %}, {{ country.name }}{% endifnotequal %}{% if year %}, {{ year }}{% endif %}
+{% endblock %}
+
 {% block content %}
   <ul>
   {% for scheme in schemes %}

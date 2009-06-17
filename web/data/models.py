@@ -4,7 +4,7 @@ from fishsubsidy import conf
 
 class FishDataManager(models.Manager):
   
-  def top_vessels(self, country=None, limit=10, year=conf.default_year, port=None):
+  def top_vessels(self, country=None, limit=20, year=conf.default_year, port=None):
     extra_and = ""
     if port:
       extra_and = "AND port_name = '%s'" % port
@@ -129,18 +129,18 @@ class FishDataManager(models.Manager):
         result_list.append(p)
     return result_list
 
-  def schemes(self, country=None):
+  def schemes(self, country=None, year=conf.default_year):
     cursor = connection.cursor()
     extra_and = ""
     if country:
-      extra_and = "AND `iso_country`=%s" % country
-    else:
-      cursor.execute("""
-        SELECT sum(total_cost) as t, scheme_traffic_light, scheme_name 
-        FROM `data_fishdata` %(extra_and)s 
-        GROUP BY `scheme2_id`
-        ORDER BY t DESC
-      """ % {'extra_and' : extra_and})
+      extra_and = "AND `iso_country`='%s'" % country
+
+    cursor.execute("""
+      SELECT sum(total_cost) as t, scheme_traffic_light, scheme_name 
+      FROM `data_fishdata` WHERE year = '%(year)s' %(extra_and)s 
+      GROUP BY `scheme2_id`
+      ORDER BY t DESC
+    """ % {'extra_and' : extra_and, 'year' : year})
 
     result_list = []
     for row in cursor.fetchall():
@@ -162,7 +162,22 @@ class FishDataManager(models.Manager):
     return result_list
     
 
+  def browse(self, country, sort='total_cost'):
+    cursor = connection.cursor()
+    cursor.execute("""
+        SELECT vessel_name, sum(total_cost) as total_cost, port_name, cfr, iso_country
+        FROM `data_fishdata` 
+        WHERE iso_country='gb' AND `vessel_name` IS NOT NULL 
+        GROUP BY `cfr` 
+        ORDER BY %(sort)s 
+      """ % {'sort' : sort})
 
+    result_list = []
+    for row in cursor.fetchall():
+        p = self.model(vessel_name=row[0], total_cost=row[1], port_name=row[2], cfr=row[3], iso_country=row[4])
+        result_list.append(p)
+    return result_list
+      
 
 class FishData(models.Model):
   """(Data description)"""  
@@ -215,40 +230,5 @@ class FishData(models.Model):
   def __unicode__(self):
     return "%s" % self.pk
 
-  def top_vessels(self):
-    from django.db import connection, transaction
-    cursor = connection.cursor()
-    cursor.execute("""
-      SELECT vessel_name v, 
-             (SELECT SUM(total_cost) 
-              FROM `data_fishdata`
-              WHERE vessel_name = v
-              ) as total
-              
-      """)
-    row = cursor.fetchone() 
-    return row 
 
     
-
-def port_vessel_count(country):
-  from django.db import connection, transaction
-  cursor = connection.cursor()
-
-  cursor.execute('SELECT port_name, port_name as p, (SELECT count(port_name) FROM `data_fishdata` WHERE port_name=p) as vessels FROM `data_fishdata` WHERE iso_country="%s" AND scheme2_id <= 10 AND port_name IS NOT NULL GROUP BY port_name;' % country)
-  desc = cursor.description
-  dict = {}
-  # print cursor.rowcount
-  data = cursor.fetchall()  
-  for i ,row in enumerate(data):
-    dict[i] = {}
-    for (name, value) in zip(desc, row) :
-      dict[i][name[0]] = value
-
-  return dict
-
-
-
-
-
-

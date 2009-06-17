@@ -31,6 +31,11 @@ def load_info(country=None, format=True, year=conf.default_year):
                 new_k = k[:-2].strip()
                 info[new_k] = u"&euro;%s" % info[k]
                 del info[k]
+              if formatter == "ET":
+                # new_k = re.sub(' \(.*\).*', '',k)
+                new_k = k[:-2].strip()
+                info[new_k] = u"&euro;%s,000" % info[k]
+                del info[k]
               if formatter == "EM":
                 new_k = re.sub(' \(.*\).*', '',k)
                 new_k = new_k.strip()

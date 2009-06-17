@@ -4,7 +4,7 @@
     {% url vessel country=vessel.iso_country cfr=vessel.cfr name=vessel.vessel_name|slugify as vessel_url %}
     <li>
       <a href="{{ vessel_url }}">{{ vessel.vessel_name|title }} ({{ vessel.cfr }})</a>
-      {% if amount %} &mdash; &euro;{{ vessel.total_cost|intcomma }}{% endif %}
+      {% if amount %} &mdash; &euro;{{ vessel.total_cost|floatformat|intcomma }}{% endif %}
       {% if expand %}({{ vessel.status }} payment{{ vessel.status|pluralize }}) {% endif %}
       </li>
   {% endfor %}

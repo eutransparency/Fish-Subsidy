@@ -11,7 +11,7 @@ from data.models import FishData
 
 def country(request, country=None, year=conf.default_year):
 
-  top_vessels = FishData.objects.top_vessels(country, limit='10', year=year)
+  top_vessels = FishData.objects.top_vessels(country, limit='20', year=year)
   top_ports = FishData.objects.top_ports(country, limit='20', year=year)
   top_schemes = FishData.objects.top_schemes(country, limit='5', year=year)
   
@@ -44,6 +44,7 @@ def country_ports(request, country):
 
 def port(request, country, port, year=conf.default_year):
   top_vessels = FishData.objects.top_vessels(country, limit=20, year=year, port=port)
+  port = FishData.objects.filter(port_name=port)[1]
   return render_to_response(
     'port.html', 
     {'top_vessels' : top_vessels, 'port' : port}, 
@@ -60,11 +61,11 @@ def vessel(request, country, cfr, name):
   )
 
 
-def schemes(request):
-  schemes = FishData.objects.schemes()
+def schemes(request, country=None, year=conf.default_year):
+  schemes = FishData.objects.schemes(country, year)
   return render_to_response(
     'schemes.html', 
-    {'schemes' : schemes}, 
+    {'schemes' : schemes, 'year' : year}, 
     context_instance=RequestContext(request)
   )
   
@@ -79,7 +80,20 @@ def scheme_detail(request, scheme_id, name):
   )
   
   
+def country_browse(request, sort='amount'):
+  sort_by = "total_cost DESC"
+  if sort == "name":
+    sort_by = "vessel_name ASC"
+  if sort == "port":
+    sort_by = "port_name ASC"
   
+  items = FishData.objects.browse('gb', sort_by)
+
+  return render_to_response(
+    'browse.html', 
+    {'items' : items, 'sort' : sort}, 
+    context_instance=RequestContext(request)
+  )
   
   
   

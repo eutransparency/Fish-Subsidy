@@ -19,11 +19,6 @@
   {% endfor %}
 
   
-  <div class="section stats">
-    {% load stats %}
-    {% country_info country.code %}
-  </div>
-  
   <div class="section">  
     <h2>Top 20 ports / municipalities</h2>
     <ul>
@@ -46,8 +41,31 @@
     <h2>Top 5 schemes</h2>
     <ul>
     {% for scheme in top_schemes %}
-      <li>{{ scheme.scheme_name|title }}{% traffic_light scheme.scheme_traffic_light %} &ndash; &euro;{{ scheme.total|intcomma }}</li>
+    
+      {% url data.views.scheme_detail scheme_id=scheme.scheme2_id name=scheme.scheme_name|slugify as scheme_url %}
+        
+      <li><a href="{{ scheme_url }}">{{ scheme.scheme_name|title }}</a>{% traffic_light scheme.scheme_traffic_light %} &ndash; &euro;{{ scheme.total|intcomma }}</li>
     {% endfor %}
     </ul>
+    <a href="schemes">More</a>
+  </div>
+{% endblock %}
+
+
+{% block right %}
+
+<div class="box">
+  {% load stats %}
+  {% country_info country.code %}
+</div>
+
+
+  <div class="block">
+    <h3>Recipients in {{ country.name }}</h3>
+    <li><a href="/{{ country.code }}/browse/amount">By amount received</a></p>
+    <li><a href="/{{ country.code }}/browse/name">A - Z by name</a></li>
+    <li><a href="/{{ country.code }}/browse/port">A - Z by port</a></li>
+     
+    
   </div>
 {% endblock %}

@@ -10,6 +10,8 @@ def search(request):
     ports = queries.search(query, options = {'prefix' : 'port:', 'collapse' : 1})
     vessels = queries.search(query, options = {'prefix' : 'vessel:', 'collapse' : 2})
     countries = queries.search(query, options = {'prefix' : 'country:', 'collapse' : 3})
+    schemes = queries.search(query, options = {'prefix' : 'scheme:', 'collapse' : 4})
+
     return render_to_response(
       'results.html', 
       {'ports' : ports, 'vessels' : vessels, 'countries' : countries}, 
