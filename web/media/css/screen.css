@@ -156,7 +156,7 @@ a:visited {color:#007c85;}
 #latest_news {background:#ffffaa; padding:0.3em 1em; border-top:dotted 1px #a7a9ac;border-bottom:dotted 1px #a7a9ac;}
 
 /* Footer */
-#footer {height:6em; background:#808080; border-top:solid 10px #a7a9ac;
+#footer {height:6em; background:#00467f; border-top:solid 10px #a7a9ac;
     padding-top:60px; color:#fff; font-weight:bold; clear:both;}
 #footer a {color:#fff;}    
 
