@@ -1,10 +1,11 @@
 from django.template import Library, Node
 from fishsubsidy.indexer import countryCodes
+from django.utils.datastructures import SortedDict
 register = Library()
 
 def menu(local='GB'):
   codes = countryCodes.country_codes()
-  countries = {}
+  countries = SortedDict()
   for code in codes:
     countries[code] = countryCodes.country_codes(code)['name']
   return {'codes' : countries}
