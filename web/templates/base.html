@@ -31,9 +31,10 @@
     
     
     <ul id="mainmenu">
-      <li class="selected"><a href="/" >Search / Browse</a></li>
-      <li><a href="/about/faq/">FAQs</a></li>
-      <li><a href="/about/">About</a></li>
+      {% load active_url %}
+      <li class="{% active request "^/(?!faqs|about)" %}"><a href="/" >Search / Browse</a></li>
+      <li class="{% active request "^/faqs/" %}"><a href="/faqs/">FAQs</a></li>
+      <li class="{% active request "^/about/" %}"><a href="/about/">About</a></li>
     </ul>
   </div>
   
