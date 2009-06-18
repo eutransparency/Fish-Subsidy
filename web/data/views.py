@@ -71,8 +71,8 @@ def schemes(request, country=None, year=conf.default_year):
   )
   
   
-def scheme_detail(request, scheme_id, name):
-  scheme = FishData.objects.scheme_years(scheme_id=scheme_id)
+def scheme_detail(request, scheme_id, name, country=None):
+  scheme = FishData.objects.scheme_years(scheme_id=scheme_id, country=country)
   top_vessels = FishData.objects.top_vessels_by_scheme(scheme_id=scheme_id)
   return render_to_response(
     'scheme_detail.html', 

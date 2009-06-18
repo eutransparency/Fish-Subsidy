@@ -116,19 +116,22 @@ class FishDataManager(models.Manager):
         result_list.append(p)
     return result_list
     
-  def scheme_years(self, scheme_id, country=None):
+  def scheme_years(self, scheme_id, country='GB'):
     cursor = connection.cursor()
     extra_and = ""
     if country:
-      extra_and = "AND `iso_country`=%s" % country
-    else:
-      cursor.execute("""
-        SELECT year, sum(total_cost), scheme_traffic_light, scheme_name FROM `data_fishdata` WHERE scheme2_id=%(scheme_id)s %(extra_and)s GROUP BY `year`
-      """ % {'scheme_id' : scheme_id, 'extra_and' : extra_and})
+      extra_and = "AND `iso_country`='%s'" % country
+
+    cursor.execute("""
+      SELECT year, sum(total_cost), scheme_traffic_light, scheme_name, scheme2_id 
+      FROM `data_fishdata` 
+      WHERE scheme2_id=%(scheme_id)s %(extra_and)s 
+      GROUP BY `year`
+    """ % {'scheme_id' : scheme_id, 'extra_and' : extra_and})
     
     result_list = []
     for row in cursor.fetchall():
-        p = self.model(year=row[0], total_cost=row[1], scheme_traffic_light=row[2], scheme_name=row[3])
+        p = self.model(year=row[0], total_cost=row[1], scheme_traffic_light=row[2], scheme_name=row[3], scheme2_id=row[4])
         result_list.append(p)
     return result_list
 

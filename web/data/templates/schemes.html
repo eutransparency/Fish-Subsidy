@@ -29,7 +29,11 @@
       <th>Amount</th>
     </thead>
   {% for scheme in schemes %}
-    {% url data.views.scheme_detail scheme_id=scheme.scheme2_id name=scheme.scheme_name|slugify as scheme_url %}
+    {% if country.code %}
+      {% url data.views.scheme_detail scheme_id=scheme.scheme2_id name=scheme.scheme_name|slugify country=country.code as scheme_url %}
+    {% else %}
+      {% url data.views.scheme_detail scheme_id=scheme.scheme2_id name=scheme.scheme_name|slugify as scheme_url %}      
+    {% endif %}
     <tr>
       <td><a href="{{ scheme_url }}">{{ scheme.scheme_name }}</a> {% traffic_light scheme.scheme_traffic_light%}</td>
       <td>&euro;{{ scheme.total_cost|intcomma }}</td>
