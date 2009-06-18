@@ -5,12 +5,11 @@ register = Library()
 
 def top_recipients(number, recipient_type=None, country=None, location=None):
   recipients = {}
+  print number, recipient_type, country, location
+
   country_name = "Europe"
-  if recipient_type == "vessel":
-    recipients = FishData.objects.filter(iso_country=country,scheme2_id__GTE=10)
     
-  if recipient_type == "":
-    
+  if recipient_type == 0:
     
     if country == "EU":
       country = None
@@ -19,7 +18,7 @@ def top_recipients(number, recipient_type=None, country=None, location=None):
     if country:
       country_name = countryCodes.country_codes(country)['name']
 
-    recipients = FishData.objects.top_vessels(country=country, limit=number, year=None)  
+    recipients = FishData.objects.top_vessels(country=country, limit=int(number), year=None)  
     
   return {'recipients' : recipients, 'country' : country_name}
   

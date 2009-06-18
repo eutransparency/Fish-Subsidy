@@ -9,8 +9,8 @@ class FishDataManager(models.Manager):
     if port:
       extra_and = "AND port_name = '%s'" % port
     if country:
-      extra_and += " AND iso_country = '%s'" % country
-    if year != "0":
+      extra_and += " AND `iso_country` = '%s'" % country
+    if year and year != "0":
       extra_and += " AND year='%s'" % year
       
     cursor = connection.cursor()

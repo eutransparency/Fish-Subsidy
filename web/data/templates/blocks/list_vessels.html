@@ -1,17 +1,31 @@
 {% load humanize %}
-<table>
-  <thead>
-    <th>Vessel Name</th>
-    <th>Amount</th>
-  </thead>
-  {% for vessel in vessels %}
-    {% url vessel country=vessel.iso_country cfr=vessel.cfr name=vessel.vessel_name|slugify as vessel_url %}
-    <tr>
-      <td>
-        <a href="{{ vessel_url }}">{{ vessel.vessel_name|title }} ({{ vessel.cfr }})</a>        
-        {% if expand %}({{ vessel.status }} payment{{ vessel.status|pluralize }}) {% endif %}
-      </td>
-      <td>{% if amount %} &euro;{{ vessel.total_cost|floatformat|intcomma }}{% endif %}</td>
-    </tr>
-  {% endfor %}
-</table>
+{% if table %}
+  <table>
+    <thead>
+      <th>Vessel Name</th>
+      <th>Amount</th>
+    </thead>
+    {% for vessel in vessels %}
+      {% url vessel country=vessel.iso_country cfr=vessel.cfr name=vessel.vessel_name|slugify as vessel_url %}
+      <tr>
+        <td>
+          <a href="{{ vessel_url }}">{{ vessel.vessel_name|title }} ({{ vessel.cfr }})</a>        
+          {% if expand %}({{ vessel.status }} payment{{ vessel.status|pluralize }}) {% endif %}
+        </td>
+        <td>{% if amount %} &euro;{{ vessel.total_cost|floatformat|intcomma }}{% endif %}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% else %}
+  <ul>
+    {% for vessel in vessels %}
+      {% url vessel country=vessel.iso_country cfr=vessel.cfr name=vessel.vessel_name|slugify as vessel_url %}
+          <li>
+          <a href="{{ vessel_url }}">{{ vessel.vessel_name|title }} ({{ vessel.cfr }})</a>
+          {% if amount %} &mdash; &euro;{{ vessel.total_cost|floatformat|intcomma }}{% endif %}
+          {% if expand %}({{ vessel.status }} payment{{ vessel.status|pluralize }}) {% endif %}
+          </li>
+    {% endfor %}
+  
+  </ul>
+{% endif %}
