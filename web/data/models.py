@@ -90,10 +90,13 @@ class FishDataManager(models.Manager):
     return result_list
     
   def country_years(self, country):
+    where = "WHERE year IS NOT NULL "
+    if country:
+      where += "AND iso_country='%s'" % country
     cursor = connection.cursor()
     cursor.execute("""
-      SELECT distinct(year), sum(total_cost) FROM data_fishdata WHERE iso_country='%(country)s' GROUP BY year ORDER BY year ASC;  
-    """ % {'country' : country})
+      SELECT distinct(year), sum(total_cost) FROM data_fishdata %(where)s GROUP BY year ORDER BY year ASC;  
+    """ % {'country' : country, 'where' : where})
     
     result_list = []
     for row in cursor.fetchall():
@@ -131,13 +134,16 @@ class FishDataManager(models.Manager):
 
   def schemes(self, country=None, year=conf.default_year):
     cursor = connection.cursor()
-    extra_and = ""
+    
+    extra_and = ""    
+    if year != "0":
+      extra_and += " AND year = '%s' " % year
     if country:
-      extra_and = "AND `iso_country`='%s'" % country
+      extra_and += "AND `iso_country`='%s'" % country
 
     cursor.execute("""
       SELECT sum(total_cost) as t, scheme_traffic_light, scheme_name 
-      FROM `data_fishdata` WHERE year = '%(year)s' %(extra_and)s 
+      FROM `data_fishdata` WHERE scheme_name IS NOT NULL %(extra_and)s 
       GROUP BY `scheme2_id`
       ORDER BY t DESC
     """ % {'extra_and' : extra_and, 'year' : year})

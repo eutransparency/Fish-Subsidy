@@ -10,8 +10,11 @@
 
 {% block content %}
 
-  {% load graphs %}
-  {% graph "recipient" payments %}
+  {% if payments.1 %}
+    {% load graphs %}
+    {% graph "recipient" payments %}
+  {% endif %}
+  
   {% load traffic_lights %}
   <ul>
     {% for vessel in payments %}

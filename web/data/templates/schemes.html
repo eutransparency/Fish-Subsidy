@@ -1,13 +1,38 @@
 {% extends "base.html" %}
 {% load humanize traffic_lights %}
 {% block page_title %}
-  Schemes{% ifnotequal country.code "" %}, {{ country.name }}{% endifnotequal %}{% if year %}, {{ year }}{% endif %}
+  Schemes{% ifnotequal country.code "" %}, <a href="/{{ country.code }}">{{ country.name }}</a>{% endifnotequal %}{% if year %}, {{ year }}{% endif %}
 {% endblock %}
 
 {% block content %}
-  <ul>
+
+  <div class="year_selector">
+    {% for country_year in data_years %}
+      {% if country.code %}
+        <a href="/{{ country.code }}/schemes/{{ country_year.year }}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a>    
+      {% else %}
+        <a href="/schemes/{{ country_year.year }}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a>    
+      {% endif %}
+    {% endfor %}
+    <br />
+    {% if country.code %}
+      <a href="/{{ country.code }}/schemes/0" {% ifequal year 0 %}class="selected"{% endifequal %}>All years</a>
+    {% else %}
+      <a href="/schemes/0" {% ifequal year 0 %}class="selected"{% endifequal %}>All years</a>      
+    {% endif %}
+    
+    </div>
+    
+  <table class="section">
+    <thead>
+      <th>Scheme Name</th>
+      <th>Amount</th>
+    </thead>
   {% for scheme in schemes %}
-    <li>{{ scheme.scheme_name }} {% traffic_light scheme.scheme_traffic_light%} &mdash; &euro;{{ scheme.total_cost|intcomma }}</li>
+    <tr>
+      <td>{{ scheme.scheme_name }} {% traffic_light scheme.scheme_traffic_light%}</td>
+      <td>&euro;{{ scheme.total_cost|intcomma }}</td>
+    </tr>
   {% endfor %}
-  </ul>
+  </table>
 {% endblock %}

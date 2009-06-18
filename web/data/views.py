@@ -63,9 +63,10 @@ def vessel(request, country, cfr, name):
 
 def schemes(request, country=None, year=conf.default_year):
   schemes = FishData.objects.schemes(country, year)
+  data_years = FishData.objects.country_years(country)
   return render_to_response(
     'schemes.html', 
-    {'schemes' : schemes, 'year' : year}, 
+    {'schemes' : schemes, 'year' : int(year), 'data_years' : data_years}, 
     context_instance=RequestContext(request)
   )
   

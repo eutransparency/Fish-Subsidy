@@ -125,7 +125,7 @@ h1 {padding-top:10px;}
 /* Menu */
 #mainmenu {color:#fff; margin:0; font-size:1.1em;}
 #mainmenu li a {font-weight:bold;}
-#page ul#mainmenu li {padding:0 0 0 0.3em;  background-image:none;}
+#page ul#mainmenu li {padding:0 0 0 0.3em;  list-style-image:none;}
 #mainmenu li.selected a, #mainmenu li.selected a:visited {
   background:#00467f;color:#fff;
   -moz-border-radius-bottomleft: 12px; 
@@ -161,11 +161,20 @@ a:visited {color:#007c85;}
 #footer a {color:#fff;}    
 
 /* Lists */
-#page ul{list-style-type:none;padding-left:0;margin-left:0;}
-#page ul li {background:url(../images/bulletsmall.png) no-repeat 0 65% ;padding-left:20px;}
+#page ul{list-style-type:none;padding-left:0;margin-left:20px;}
+#page ul li {list-style-image:url('/media/images/bulletsmall.png'); padding-left:10px; list-style-position:outside;}
 
 /* Clear */
 br.clear {clear:both;}
 
 /* Hide */
 .hide {display:none;}
+
+
+.year_selector { text-align:center;}
+
+.selected:visited {
+  font-weight:bold;
+  color:#000;
+  text-decoration:none;
+}
