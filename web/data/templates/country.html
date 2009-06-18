@@ -12,13 +12,13 @@
   {% load graphs %}
   {% graph "country" country.code %}
   
-
+  <div class="year_selector">
   {% for country_year in data_years %}
     {% url data.views.country country=country.code year=country_year.year as year_url %}
     <a href="{{ year_url }}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a>
   {% endfor %}
   <a href="0" {% ifequal year 0 %}class="selected"{% endifequal %}>All Years</a>
-
+  </div>
   
   <div class="section">  
     <h2>Top 20 ports / municipalities</h2>
