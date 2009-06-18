@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block page_title %}
-  EU Fish subsidies for {{ country.name }} in {{ year }}
+  EU Fish subsidies for {{ country.name }} {% ifnotequal year 0 %} in {{ year }}{% endifnotequal %}
 {% endblock %}
 {% block content %}
 
@@ -13,10 +13,11 @@
   {% graph "country" country.code %}
   
 
-  {% for year in data_years %}
-    {% url data.views.country country=country.code year=year.year as year_url %}
-    <a href="{{ year_url }}">{{ year.year }}</a>
+  {% for country_year in data_years %}
+    {% url data.views.country country=country.code year=country_year.year as year_url %}
+    <a href="{{ year_url }}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a>
   {% endfor %}
+  <a href="0" {% ifequal year 0 %}class="selected"{% endifequal %}>All Years</a>
 
   
   <div class="section">  

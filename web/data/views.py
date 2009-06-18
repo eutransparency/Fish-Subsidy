@@ -24,7 +24,7 @@ def country(request, country=None, year=conf.default_year):
     'top_ports' : top_ports,
     'top_schemes' : top_schemes,
     'data_years' : years,
-    'year' : year,
+    'year' : int(year),
     },
     context_instance=RequestContext(request)
   )  

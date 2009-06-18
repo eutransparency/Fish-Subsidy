@@ -10,7 +10,7 @@ class FishDataManager(models.Manager):
       extra_and = "AND port_name = '%s'" % port
     if country:
       extra_and += " AND iso_country = '%s'" % country
-    if year:
+    if year != "0":
       extra_and += " AND year='%s'" % year
       
     cursor = connection.cursor()
@@ -54,11 +54,14 @@ class FishDataManager(models.Manager):
     extra_and = ""
     if port:
       extra_and = "AND port_name = '%s'" % port
+    if year != "0":
+      extra_and += " AND year = '%s' " % year
+      
     cursor = connection.cursor()
     cursor.execute("""
       SELECT scheme_name, scheme2_id, sum(total_cost) t, scheme_traffic_light
       FROM data_fishdata 
-      WHERE iso_country = '%(country)s' AND year = '%(year)s' %(extra_and)s
+      WHERE iso_country = '%(country)s' %(extra_and)s
       GROUP BY iso_country,scheme2_id
       ORDER BY t DESC
       LIMIT %(limit)s;
@@ -72,15 +75,19 @@ class FishDataManager(models.Manager):
     return result_list
     
   def top_ports(self, country=None, limit=10, year=conf.default_year):
+    extra_and = ""
+    if year != "0":
+      extra_and += " AND year = '%s' " % year
+    
     cursor = connection.cursor()
     cursor.execute("""
       SELECT port_name, sum(total_cost) as t 
       FROM `data_fishdata` 
-      WHERE iso_country = '%(country)s' AND port_name IS NOT NULL AND year = '%(year)s'
+      WHERE iso_country = '%(country)s' AND port_name IS NOT NULL %(extra_and)s
       GROUP BY port_name 
       ORDER BY t DESC      
       LIMIT %(limit)s;
-    """ % {'country' : country, 'year' : year, 'limit' : limit })
+    """ % {'country' : country, 'year' : year, 'limit' : limit, 'extra_and' : extra_and })
     
     result_list = []
     for row in cursor.fetchall():

@@ -8,7 +8,7 @@ from django.db import connection
 
 urlpatterns = patterns('web.data.views',
     url(r'^(?P<country>%s)/$' % "|".join(countryCodes.country_codes()), 'country'),
-    url(r'^(?P<country>%s)/(?P<year>\d{4})$' % "|".join(countryCodes.country_codes()), 'country'),
+    url(r'^(?P<country>%s)/(?P<year>\d+)$' % "|".join(countryCodes.country_codes()), 'country'),
 )
 
 urlpatterns += patterns('web.data.views',
