@@ -142,7 +142,7 @@ class FishDataManager(models.Manager):
       extra_and += "AND `iso_country`='%s'" % country
 
     cursor.execute("""
-      SELECT sum(total_cost) as t, scheme_traffic_light, scheme_name 
+      SELECT sum(total_cost) as t, scheme_traffic_light, scheme_name, scheme2_id 
       FROM `data_fishdata` WHERE scheme_name IS NOT NULL %(extra_and)s 
       GROUP BY `scheme2_id`
       ORDER BY t DESC
@@ -150,7 +150,7 @@ class FishDataManager(models.Manager):
 
     result_list = []
     for row in cursor.fetchall():
-        p = self.model(total_cost=row[0], scheme_traffic_light=row[1], scheme_name=row[2])
+        p = self.model(total_cost=row[0], scheme_traffic_light=row[1], scheme_name=row[2], scheme2_id=row[3])
         result_list.append(p)
     return result_list
     
