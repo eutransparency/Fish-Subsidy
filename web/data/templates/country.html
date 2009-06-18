@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block page_title %}
-  EU Fish subsidies for {{ country.name }} {% ifnotequal year 0 %} in {{ year }}{% endifnotequal %}
+  EU Fish subsidies for {{ country.name }}{% ifnotequal year 0 %} in {{ year }}{% else %}, All years{% endifnotequal %}
 {% endblock %}
 {% block content %}
 

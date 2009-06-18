@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load humanize traffic_lights %}
 {% block page_title %}
-  Schemes{% ifnotequal country.code "" %}, <a href="/{{ country.code }}">{{ country.name }}</a>{% endifnotequal %}{% if year %}, {{ year }}{% endif %}
+  Schemes{% ifnotequal country.code "" %}, <a href="/{{ country.code }}">{{ country.name }}</a>{% endifnotequal %}{% if year %}, {{ year }}{% else %}, All years{% endif %}
 {% endblock %}
 
 {% block content %}
