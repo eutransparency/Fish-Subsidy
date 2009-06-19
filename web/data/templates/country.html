@@ -31,7 +31,7 @@
       {% url data.views.port country=country.code port=port.port_name as port_url %}
       <tr>
       <td><a href="{{ port_url }}">{{ port.port_name|title }}</a></td>
-      <td>&euro;{{ port.total|intcomma }}</td>
+      <td>&euro;{{ port.total|floatformat|intcomma }}</td>
       </tr>
     {% endfor %}
     </table>
@@ -56,7 +56,7 @@
       {% url data.views.scheme_detail scheme_id=scheme.scheme2_id name=scheme.scheme_name|slugify as scheme_url %}
       <tr>  
         <td><a href="{{ scheme_url }}">{{ scheme.scheme_name|title }}</a>{% traffic_light scheme.scheme_traffic_light %}</td>
-          <td>&euro;{{ scheme.total|intcomma }}</td>
+          <td>&euro;{{ scheme.total|floatformat|intcomma }}</td>
       </tr>
     {% endfor %}
     <tr><td><a href="schemes">More</a></td></tr>

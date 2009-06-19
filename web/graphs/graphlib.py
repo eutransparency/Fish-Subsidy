@@ -126,8 +126,8 @@ def stack_graph(request,country='GB'):
   data.append([v for k,v in bad.items()])
     
   if all_countries:
-    figure(figsize=(4, 2), linewidth=0) # image dimensions  
-    subplots_adjust(left=0.01, bottom=0.2)
+    figure(figsize=(3.4, 2), linewidth=0) # image dimensions  
+    subplots_adjust(left=0.08, bottom=0.2)
   else:
     figure(figsize=(5, 2), linewidth=0) # image dimensions    
     subplots_adjust(left=0.2, bottom=0.2)

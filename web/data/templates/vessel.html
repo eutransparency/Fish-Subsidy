@@ -44,7 +44,7 @@
       <li>Registration number: {{ payments.0.cfr }}</li>
       {% url data.views.port country=country.code port=payments.0.port_name as port_url %}
       <li>Home Port: <a href="{{ port_url }}">{{ payments.0.port_name|title }}</a></li>
-      <li><a href="{{ payments.0.cfr_link }}">Fleet Registry record</a></li>
+      <li><a href="http://ec.europa.eu/fisheries/fleet/index.cfm?method=Search.ListSearchSimpleOneVessel&COUNTRY_CODE=&CFR_CODE={{ payments.0.cfr }}&search_type=advanced" target="_blank">Fleet Registry record</a></li>
       <li>Country: <a href="/{{ country.code }}">{{ country.name }}</a></li>
       <li>Infringement record: Withheld</li>
       <li>Quota: Witheld</li>
