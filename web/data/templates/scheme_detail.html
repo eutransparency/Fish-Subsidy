@@ -1,7 +1,15 @@
 {% extends "base.html" %}
 {% load humanize %}
 {% block title %}{{ scheme.0.scheme_name }}{% endblock %}
-{% block page_title %}{% if country.code %}<a href="{{ country.code }}">{{ country.name }}</a> &mdash;  {% endif %}{{ scheme.0.scheme_name }}{% endblock %}
+{% block page_title %}{% if country.code %}<a href="{{ country.code }}">{{ country.name }}</a> &mdash;  {% endif %}Scheme: {{ scheme.0.scheme_name }}{% endblock %}
+
+{% block breadcrumb %}
+  {% if country %}
+    <a href="/{{ country.code }}/schemes">All schemes in {{ country.name }}</a>
+  {% else %}
+    <a href="/schemes">All schemes</a>
+  {% endif %}
+{% endblock %}
 
 {% block content %}
   {% if country.code %}
@@ -12,12 +20,9 @@
   {% graph "scheme" scheme %}
   <div class="section">
     <h2>Top recipient vessels</h2>
-    <ul>
-    {% for vessel in top_vessels %}
-       {% url vessel country=vessel.iso_country cfr=vessel.cfr name=vessel.vessel_name|slugify as vessel_url %}
-      <li><a href="{{ vessel_url }}">{{ vessel.vessel_name|title }} ({{ vessel.cfr }})</a> &mdash; &euro;{{ vessel.total|intcomma }}</li>
-    {% endfor %}
-    </ul>
+    {% load list_data %}
+    {% list_vessels top_vessels 1 0 1 %}
+    
   </div>
 
 {% endblock %}

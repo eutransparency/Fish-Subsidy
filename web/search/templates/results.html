@@ -1,10 +1,18 @@
 {% extends "base.html" %}
 
-{% block title %}
-  Search Results
+{% block title %}Search Results{% endblock %}
+{% block page_title %}Search Results{% endblock %}
+
+{% block breadcrumb %}
+  <a href="/">Home</a>
 {% endblock %}
 
 {% block content %}
+    
+  {% ifequal size 0 %}
+    <h2>No results</h2>
+    <p>Sorry, no results found</p>
+  {% endifequal %}
     
   {% if countries.documents %}
   {% load code_to_name %}

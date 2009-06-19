@@ -44,11 +44,10 @@ def search(request):
           'scheme_id' : schemes['documents'][0]['scheme2_id'],
           'name' : schemes['documents'][0]['scheme_name']
           }))
-      
     
     return render_to_response(
       'results.html', 
-      {'ports' : ports, 'vessels' : vessels, 'countries' : countries, 'schemes' : schemes}, 
+      {'ports' : ports, 'vessels' : vessels, 'countries' : countries, 'schemes' : schemes, 'size' : size}, 
       context_instance=RequestContext(request)
     )  
   else:

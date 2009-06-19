@@ -3,6 +3,7 @@
   <table>
     <thead>
       <th>Vessel Name</th>
+      <th>Home Port</th>
       <th>Amount</th>
     </thead>
     {% for vessel in vessels %}
@@ -12,6 +13,8 @@
           <a href="{{ vessel_url }}">{{ vessel.vessel_name|title }} ({{ vessel.cfr }})</a>        
           {% if expand %}({{ vessel.status }} payment{{ vessel.status|pluralize }}) {% endif %}
         </td>
+        {% url data.views.port country=vessel.iso_country port=vessel.port_name as port_url %}
+        <td><a href="{{ port_url }}">{{ vessel.port_name|title }}</a></td>
         <td>{% if amount %} &euro;{{ vessel.total_cost|floatformat|intcomma }}{% endif %}</td>
       </tr>
     {% endfor %}

@@ -4,32 +4,32 @@ from django.utils.datastructures import SortedDict
 
 def country_codes(code=None, local='GB'):
   countries = SortedDict()
+  countries['AT']	=	{'GB' : 'Austria'}
   countries['BE'] = {'GB' : 'Belgium'}
   countries['BG']	=	{'GB' : 'Bulgaria'}
+  countries['CY']	=	{'GB' : 'Cyprus'}
   countries['CZ']	=	{'GB' : 'Czech Republic'}
   countries['DK']	=	{'GB' : 'Denmark'}
-  countries['DE']	=	{'GB' : 'Germany'}
   countries['EE']	=	{'GB' : 'Estonia'}
-  countries['IE']	=	{'GB' : 'Ireland'}
-  countries['GR']	=	{'GB' : 'Greece'}
-  countries['ES']	=	{'GB' : 'Spain'}
+  countries['FI']	=	{'GB' : 'Finland'}
   countries['FR']	=	{'GB' : 'France'}
+  countries['DE']	=	{'GB' : 'Germany'}
+  countries['GR']	=	{'GB' : 'Greece'}
+  countries['HU']	=	{'GB' : 'Hungary'}
   countries['IT']	=	{'GB' : 'Italy'}
-  countries['CY']	=	{'GB' : 'Cyprus'}
+  countries['IE']	=	{'GB' : 'Ireland'}
   countries['LV']	=	{'GB' : 'Latvia'}  
   countries['LT']	=	{'GB' : 'Lithuania'}
   countries['LU']	=	{'GB' : 'Luxembourg'}
-  countries['HU']	=	{'GB' : 'Hungary'}
   countries['MT']	=	{'GB' : 'Malta'}
   countries['NL']	=	{'GB' : 'Netherlands'}
-  countries['AT']	=	{'GB' : 'Austria'}
   countries['PL']	=	{'GB' : 'Poland'}
   countries['PT']	=	{'GB' : 'Portugal'}
   countries['RO']	=	{'GB' : 'Romania'}
-  countries['SI']	=	{'GB' : 'Slovenia'}
   countries['SK']	=	{'GB' : 'Slovakia'}  
-  countries['FI']	=	{'GB' : 'Finland'}
-  countries['SE']	=	{'GB' : 'Sweden'}
+  countries['SI']	=	{'GB' : 'Slovenia'}
+  countries['ES']	=	{'GB' : 'Spain'}
+  countries['SE']	=	{'GB' : 'Sweden'}  
   countries['GB']	=	{'GB' : 'United Kingdom'}
   
   

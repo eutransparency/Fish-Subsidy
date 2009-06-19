@@ -178,3 +178,5 @@ br.clear {clear:both;}
   color:#000;
   text-decoration:none;
 }
+
+#breadcrumb {float:right;}

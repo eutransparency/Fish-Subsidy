@@ -32,13 +32,17 @@
     
     <ul id="mainmenu">
       {% load active_url %}
-      <li class="{% active request "^/(?!faqs|about)" %}"><a href="/" >Search / Browse</a></li>
+      <li class="{% active request "^/(?!faqs|about|blog|news)" %}"><a href="/" >Search / Browse</a></li>
       <li class="{% active request "^/faqs/" %}"><a href="/faqs/">FAQs</a></li>
       <li class="{% active request "^/about/" %}"><a href="/about/">About</a></li>
+      <li class="{% active request "^/blog/" %}"><a href="/blog/">Blog</a></li>
+      <li class="{% active request "^/news/" %}"><a href="/news/">In The News</a></li>
     </ul>
   </div>
   
   <div id="content">
+    <div id="breadcrumb">{% block breadcrumb %}{% endblock %}</div>
+    
   <h2>{% block page_title %}
     
   {% endblock %}</h2>

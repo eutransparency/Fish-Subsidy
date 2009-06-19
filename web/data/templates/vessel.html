@@ -8,6 +8,17 @@
     {{ payments.0.vessel_name|title }} &mdash; fish subsidy payments
 {% endblock %}
 
+
+{% block breadcrumb %}
+  {% if country %}
+        {% url data.views.port country=country.code port=payments.0.port_name as port_url %}
+    <a href="/{{ country.code }}">{{ country.name }}</a> | <a href="{{ port_url }}">{{ payments.0.port_name|title }}</a>
+  {% else %}
+    <a href="/schemes">All schemes</a>
+  {% endif %}
+{% endblock %}
+
+
 {% block content %}
 
   {% if payments.1 %}
@@ -31,8 +42,8 @@
     <h3>Vessel type</h3>
     <ul>
       <li>Length: {{ payments.0.overall_length }} M</li>
-      <li>Tonnage: {{ payments.0.tonnage }}</li>
-      <li>Power: {{ payments.0.main_power }}</li>
+      <li>Tonnage: {{ payments.0.tonnage|floatformat }}</li>
+      <li>Power: {{ payments.0.main_power|floatformat }} kW</li>
     </ul>
     
     <h3>Vessel details</h3>

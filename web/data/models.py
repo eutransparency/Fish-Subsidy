@@ -15,7 +15,7 @@ class FishDataManager(models.Manager):
       
     cursor = connection.cursor()
     cursor.execute("""
-      SELECT vessel_name, cfr, sum(total_cost) as t, iso_country, count(cfr) 
+      SELECT vessel_name, cfr, sum(total_cost) as t, iso_country, count(cfr), port_name 
       FROM `data_fishdata` 
       WHERE vessel_name IS NOT NULL  %(extra_and)s
       GROUP BY cfr
@@ -25,7 +25,7 @@ class FishDataManager(models.Manager):
     
     result_list = []
     for row in cursor.fetchall():
-        p = self.model(vessel_name=row[0], cfr=row[1], total_cost=row[2], iso_country=row[3], status=row[4])
+        p = self.model(vessel_name=row[0], cfr=row[1], total_cost=row[2], iso_country=row[3], status=row[4], port_name=row[5])
         p.total = row[2]
         result_list.append(p)
     return result_list
@@ -34,7 +34,7 @@ class FishDataManager(models.Manager):
     extra_and = ""
     cursor = connection.cursor()
     cursor.execute("""
-      SELECT vessel_name, cfr, sum(total_cost) as t, iso_country 
+      SELECT vessel_name, cfr, sum(total_cost) as t, iso_country, port_name 
       FROM `data_fishdata` 
       WHERE scheme2_id = %(scheme_id)s AND vessel_name IS NOT NULL  %(extra_and)s
       GROUP BY vessel_name
@@ -44,7 +44,7 @@ class FishDataManager(models.Manager):
     
     result_list = []
     for row in cursor.fetchall():
-        p = self.model(vessel_name=row[0], cfr=row[1], total_cost=row[2], iso_country=row[3])
+        p = self.model(vessel_name=row[0], cfr=row[1], total_cost=row[2], iso_country=row[3], port_name=row[4])
         p.total = row[2]
         result_list.append(p)
     return result_list
