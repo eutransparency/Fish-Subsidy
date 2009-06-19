@@ -34,7 +34,6 @@ def parse():
 
   
       for e in d.entries:
-        print e
         if len(feeds.FeedItems.objects.filter(guid=e.guid)) == 0:      
           date = datetime.datetime(*e.updated_parsed[:7])
       

@@ -36,7 +36,6 @@ def search(request):
           'name' : vessels['documents'][0]['vessel_name']
           }))
       if countries['size'] > 0:
-        print countries
         return HttpResponseRedirect(reverse('country', kwargs={'country' : countries['documents'][0]['iso_country']}))
       if schemes['size'] > 0:
         return HttpResponseRedirect(reverse('scheme_detail', 
