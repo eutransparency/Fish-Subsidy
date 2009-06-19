@@ -33,6 +33,8 @@ def load_queryparser():
   """Creates a xapian.queryparser object and creates the default term prefixes and value range searchers."""
 
   qp = xapian.QueryParser()
+  stemmer = xapian.Stem("english")
+  qp.set_stemmer(stemmer)
   field_mappings = load_fields()
 
   qp.set_default_op(xapian.Query.OP_AND)
@@ -55,41 +57,45 @@ def load_queryparser():
   return (qp,valueranges)
 
 
-def search_ports(query):
-  query_string = unicodedata.normalize('NFKD', unicode(query)).encode('ASCII', 'ignore')
-  (qp,valueranges) = load_queryparser()
-  db = load_database()
-  qp.set_database(db)
-  qp.set_default_op(xapian.Query.OP_OR)
-  DEFAULT_SEARCH_FLAGS = (
-         xapian.QueryParser.FLAG_BOOLEAN |
-         xapian.QueryParser.FLAG_PHRASE |
-         xapian.QueryParser.FLAG_LOVEHATE |   
-         xapian.QueryParser.FLAG_BOOLEAN_ANY_CASE |
-         xapian.QueryParser.FLAG_WILDCARD 
-         # xapian.QueryParser.FLAG_SPELLING_CORRECTION
-         # xapian.QueryParser.FLAG_PARTIAL 
-         )
-  query = qp.parse_query(query_string, DEFAULT_SEARCH_FLAGS, 'port:')
-  enq = load_enquire(db)
-  enq.set_collapse_key(1)
-  enq.set_query(query)
-  matches = enq.get_mset(0, 10)
-  results = {}
-  results['description'] = "Parsed query is: %s" % query.get_description()
-  results['size'] = matches.get_matches_estimated()
-  results['documents'] = {}
-  for k,m in enumerate(matches):
-    results['documents'][k] = dict(cPickle.loads(m.document.get_data()))
-    results['documents'][k]['doc_id'] = m.document.get_docid()
-  return results
-
-
+# def search_ports(query):
+#   query_string = unicodedata.normalize('NFKD', unicode(query)).encode('ASCII', 'ignore')
+#   (qp,valueranges) = load_queryparser()
+#   db = load_database()
+#   qp.set_database(db)
+#   qp.set_default_op(xapian.Query.OP_OR)
+#   DEFAULT_SEARCH_FLAGS = (
+#          xapian.QueryParser.FLAG_BOOLEAN |
+#          xapian.QueryParser.FLAG_PHRASE |
+#          xapian.QueryParser.FLAG_LOVEHATE |   
+#          xapian.QueryParser.FLAG_BOOLEAN_ANY_CASE |
+#          xapian.QueryParser.FLAG_WILDCARD |
+#          xapian.QueryParser.FLAG_SPELLING_CORRECTION
+#          # xapian.QueryParser.FLAG_PARTIAL 
+#          )
+#   query = qp.parse_query(query_string, DEFAULT_SEARCH_FLAGS, 'port:')
+#   enq = load_enquire(db)
+#   enq.set_collapse_key(1)
+#   enq.set_query(query)
+#   matches = enq.get_mset(0, 10)
+#   results = {}
+#   results['description'] = "Parsed query is: %s" % query.get_description()
+#   results['size'] = matches.get_matches_estimated()
+#   results['documents'] = {}
+#   for k,m in enumerate(matches):
+#     results['documents'][k] = dict(cPickle.loads(m.document.get_data()))
+#     results['documents'][k]['doc_id'] = m.document.get_docid()
+#   return results
+# 
+# 
 def search(query, options={}):
   query_string = query
   (qp,valueranges) = load_queryparser()
   db = load_database()
   qp.set_database(db)
+  stemmer = xapian.Stem("en")
+  qp.set_stemming_strategy(qp.STEM_SOME)
+  qp.set_stemmer(stemmer)
+
   
   qp.set_default_op(xapian.Query.OP_OR)
   DEFAULT_SEARCH_FLAGS = (

@@ -21,8 +21,8 @@ def setup(opts):
   database = xapian.WritableDatabase(opts.get('xapian', 'db_path'), xapian.DB_CREATE_OR_OPEN)
   indexer = xapian.TermGenerator()
   stemmer = xapian.Stem(opts.get('xapian',"default_stem"))
-  indexer.set_stemmer(stemmer)
   indexer.set_database(database)
+  indexer.set_stemmer(stemmer)
   indexer.set_flags(indexer.FLAG_SPELLING)
   load_synonyms(database)
   return database,indexer

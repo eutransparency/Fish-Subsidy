@@ -7,7 +7,7 @@ from django.db import connection
 
 
 urlpatterns = patterns('web.data.views',
-    url(r'^(?P<country>%s)/$' % "|".join(countryCodes.country_codes()), 'country'),
+    url(r'^(?P<country>%s)/$' % "|".join(countryCodes.country_codes()), 'country', name='country'),
     url(r'^(?P<country>%s)/(?P<year>\d+)$' % "|".join(countryCodes.country_codes()), 'country'),
 )
 
@@ -17,7 +17,7 @@ urlpatterns += patterns('web.data.views',
     url(r'^(?P<country>%s)/browse$' % "|".join(countryCodes.country_codes()), 'country_browse'),
     url(r'^(?P<country>%s)/browse/(?P<sort>(amount|name|port))$' % "|".join(countryCodes.country_codes()), 'country_browse'),
     
-    url(r'^(?P<country>%s)/ports/(?P<port>.*)$' % "|".join(countryCodes.country_codes()), 'port'),
+    url(r'^(?P<country>%s)/ports/(?P<port>.*)$' % "|".join(countryCodes.country_codes()), 'port', name='port'),
     url(r'^(?P<country>%s)/vessel/(?P<cfr>.*)/(?P<name>.*)$' % "|".join(countryCodes.country_codes()), 'vessel', name='vessel'),
     
     url(r'^schemes$', 'schemes', name='schemes'),

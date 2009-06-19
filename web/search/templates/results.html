@@ -40,4 +40,15 @@
     </ul>
   {% endif %}
   
+  {% if schemes.documents %}
+    <h2>Matching Scheme{{ schemes.size|pluralize }}</h2>
+    <ul>
+      {% for i,scheme in schemes.documents.items %}
+        {% url data.views.scheme_detail  scheme_id=scheme.scheme2_id, name=scheme.scheme_name as scheme_url %}
+        {# {{ vessel }} #}
+        <li><a href="{{ scheme_url }}">{{ scheme.scheme_name|title }}</a></li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  
 {% endblock %}
