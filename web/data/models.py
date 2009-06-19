@@ -56,12 +56,14 @@ class FishDataManager(models.Manager):
       extra_and = "AND port_name = '%s'" % port
     if year != "0":
       extra_and += " AND year = '%s' " % year
+    if country:
+      extra_and += " AND iso_country = '%s' " % country
       
     cursor = connection.cursor()
     cursor.execute("""
       SELECT scheme_name, scheme2_id, sum(total_cost) t, scheme_traffic_light
       FROM data_fishdata 
-      WHERE iso_country = '%(country)s' %(extra_and)s
+      WHERE scheme2_id IS NOT NULL %(extra_and)s
       GROUP BY iso_country,scheme2_id
       ORDER BY t DESC
       LIMIT %(limit)s;
@@ -69,7 +71,7 @@ class FishDataManager(models.Manager):
     
     result_list = []
     for row in cursor.fetchall():
-        p = self.model(scheme_name=row[0], scheme2_id=row[1], scheme_traffic_light=row[3])
+        p = self.model(scheme_name=row[0], scheme2_id=row[1], scheme_traffic_light=row[3], total_cost=row[2])
         p.total = row[2]
         result_list.append(p)
     return result_list
@@ -112,10 +114,17 @@ class FishDataManager(models.Manager):
     return result_list
 
   def country_years_traffic_lights(self, country):
+    extra_and = ""
+    if country == 0:
+      extra_and = "AND iso_country='%s" % country
     cursor = connection.cursor()
     cursor.execute("""
-      SELECT distinct(year), sum(total_cost), scheme_traffic_light FROM data_fishdata WHERE iso_country='%(country)s' GROUP BY year, scheme_traffic_light ORDER BY year ASC;  
-    """ % {'country' : country})
+      SELECT distinct(year), sum(total_cost), scheme_traffic_light 
+      FROM data_fishdata 
+      WHERE year IS NOT NULL %(extra_and)s 
+      GROUP BY year, scheme_traffic_light 
+      ORDER BY year ASC;  
+    """ % {'extra_and' : extra_and})
     
     result_list = []
     for row in cursor.fetchall():
@@ -183,10 +192,10 @@ class FishDataManager(models.Manager):
     cursor.execute("""
         SELECT vessel_name, sum(total_cost) as total_cost, port_name, cfr, iso_country
         FROM `data_fishdata` 
-        WHERE iso_country='gb' AND `vessel_name` IS NOT NULL 
+        WHERE iso_country='%(country)s' AND `vessel_name` IS NOT NULL 
         GROUP BY `cfr` 
         ORDER BY %(sort)s 
-      """ % {'sort' : sort})
+      """ % {'sort' : sort, 'country' : country})
 
     result_list = []
     for row in cursor.fetchall():

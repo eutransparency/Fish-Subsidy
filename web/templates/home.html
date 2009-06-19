@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load countrymenu %}
+{% load humanize %}
 {% block title %}Home{% endblock %}
 {% block body_id%}home{% endblock %}
 
@@ -26,14 +27,47 @@
     <h2 class="section_title">Browse</h2>
       <div class="section_content"> 
         {% load top_recipients %}
+        
         <div class="col wide-col">
-        {% top_recipients 5 0 "EU"%}
-        {% top_recipients 5 0 "GB" %}
+          {% top_recipients 5 0 "EU"%}
+          {% top_recipients 5 0 "GB" %}
+          <div class="section wide-col">
+            <h3>Schemes</h3>
+            <img src="graph/stack/0">
+            
+            
+            
+            {% load traffic_lights %}
+
+            <table>
+              <thead>
+                <th>Scheme Name</th>
+                <th>Amount</th>
+              </thead>
+            {% for scheme in top_schemes %}
+            
+              {% url data.views.scheme_detail scheme_id=scheme.scheme2_id name=scheme.scheme_name|slugify as scheme_url %}
+              <tr>  
+                <td><a href="{{ scheme_url }}">{{ scheme.scheme_name|title }}</a>{% traffic_light scheme.scheme_traffic_light %}</td>
+                  <td>&euro;{{ scheme.total_cost|floatformat|intcomma }}</td>
+              </tr>
+              
+            {% endfor %}
+            
+            <tr><td><a href="schemes">More</a></td></tr>
+            </table>
+            
+
+          </div>
         </div>
+        
+        
+        
         
         <div class="col narrow-col">
           <div class="block"><h3>By country</h3>{% menu %}</div>
         </div>
+        
       </div>
   </div>
 

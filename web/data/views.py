@@ -81,14 +81,14 @@ def scheme_detail(request, scheme_id, name, country=None):
   )
   
   
-def country_browse(request, sort='amount'):
+def country_browse(request, country, sort='amount'):
   sort_by = "total_cost DESC"
   if sort == "name":
     sort_by = "vessel_name ASC"
   if sort == "port":
     sort_by = "port_name ASC"
   
-  items = FishData.objects.browse('gb', sort_by)
+  items = FishData.objects.browse(country, sort_by)
 
   return render_to_response(
     'browse.html', 

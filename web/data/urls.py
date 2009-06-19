@@ -14,8 +14,8 @@ urlpatterns = patterns('web.data.views',
 urlpatterns += patterns('web.data.views',
     url(r'^(%s)/ports/$' % "|".join(countryCodes.country_codes()), 'country_ports'),
     
-    url(r'^(%s)/browse$' % "|".join(countryCodes.country_codes()), 'country_browse'),
-    url(r'^(%s)/browse/(?P<sort>(amount|name|port))$' % "|".join(countryCodes.country_codes()), 'country_browse'),
+    url(r'^(?P<country>%s)/browse$' % "|".join(countryCodes.country_codes()), 'country_browse'),
+    url(r'^(?P<country>%s)/browse/(?P<sort>(amount|name|port))$' % "|".join(countryCodes.country_codes()), 'country_browse'),
     
     url(r'^(?P<country>%s)/ports/(?P<port>.*)$' % "|".join(countryCodes.country_codes()), 'port'),
     url(r'^(?P<country>%s)/vessel/(?P<cfr>.*)/(?P<name>.*)$' % "|".join(countryCodes.country_codes()), 'vessel', name='vessel'),

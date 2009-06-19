@@ -2,6 +2,8 @@ from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 from web import settings
 
+from fishsubsidy.web.data.models import FishData
+
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
@@ -19,7 +21,7 @@ urlpatterns = patterns('',
 )
 
 urlpatterns += patterns('',
-    (r'^$', direct_to_template, {'template': 'home.html'}),
+    (r'^$', direct_to_template, {'template': 'home.html', 'extra_context' : {'top_schemes' : FishData.objects.top_schemes(year="0", limit=5)}}),
     (r'', include('data.urls')),
     (r'', include('search.urls')),
     (r'', include('graphs.urls')),

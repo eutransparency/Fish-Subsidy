@@ -30,7 +30,7 @@ body { margin:0 auto;}
 #home .col {float:left;}
 #home .wide-col {width:80%;}
 #home .narrow-col {width:20%;}
-#home .col .block {width:48%; float:left;}
+#home .col .block {width:48%; float:left; margin-bottom:2em;}
 #home .narrow-col .block {width:100%; float:left;}
 
 #home #head {text-align:center; height:250px;}

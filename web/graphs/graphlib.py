@@ -85,7 +85,9 @@ def make_fig(request, type):
     return response
     
 def stack_graph(request,country='GB'):
-
+  all_countries = False
+  if country == "0":
+    all_countries = True
   sql_data = FishData.objects.country_years_traffic_lights(country)
   data = []
   good = {}
@@ -123,8 +125,13 @@ def stack_graph(request,country='GB'):
   data.append([v for k,v in ugly.items()])
   data.append([v for k,v in bad.items()])
     
-  figure(figsize=(5, 2), linewidth=0) # image dimensions  
-  subplots_adjust(left=0.2, bottom=0.2)
+  if all_countries:
+    figure(figsize=(4, 2), linewidth=0) # image dimensions  
+    subplots_adjust(left=0.01, bottom=0.2)
+  else:
+    figure(figsize=(5, 2), linewidth=0) # image dimensions    
+    subplots_adjust(left=0.2, bottom=0.2)
+    
   
   colLabels = [y for y in years]
   ind = arange(len(colLabels)) + 0.3
@@ -146,7 +153,9 @@ def stack_graph(request,country='GB'):
   gca().yaxis.set_major_formatter(formatter)
   
   gca().yaxis.set_major_locator(MaxNLocator(nbins=3, symmetric=True))
-
+  
+  if all_countries:
+    yticks([])
    
   response = HttpResponse(mimetype="image/png")
   savefig(response, dpi=120)
