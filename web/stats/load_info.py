@@ -49,7 +49,6 @@ def load_info(country=None, format=True, year=conf.default_year):
               if formatter == " T":
                 # new_k = re.sub(' \(.*\).*', '',k)
                 new_k = k[:-2].strip()
-                print new_k
                 info[new_k] = u"%s Tonnes" % info[k]
                 del info[k]
               else:
