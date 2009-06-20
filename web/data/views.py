@@ -11,8 +11,8 @@ from data.models import FishData
 
 def country(request, country=None, year=conf.default_year):
 
-  top_vessels = FishData.objects.top_vessels(country, limit='20', year=year)
-  top_ports = FishData.objects.top_ports(country, limit='20', year=year)
+  top_vessels = FishData.objects.top_vessels(country, limit='10', year=year)
+  top_ports = FishData.objects.top_ports(country, limit='10', year=year)
   top_schemes = FishData.objects.top_schemes(country, limit='5', year=year)
   
   years = FishData.objects.country_years(country)

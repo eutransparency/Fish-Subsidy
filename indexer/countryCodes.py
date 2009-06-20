@@ -31,6 +31,7 @@ def country_codes(code=None, local='GB'):
   countries['ES']	=	{'GB' : 'Spain'}
   countries['SE']	=	{'GB' : 'Sweden'}  
   countries['GB']	=	{'GB' : 'United Kingdom'}
+  countries['EU']	=	{'GB' : 'All Countries'}
   
   
   if code:

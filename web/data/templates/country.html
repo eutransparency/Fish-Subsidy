@@ -18,7 +18,7 @@
     {% url data.views.country country=country.code year=country_year.year as year_url %}
     <a href="{{ year_url }}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a>
   {% endfor %}
-  <a href="0" {% ifequal year 0 %}class="selected"{% endifequal %}>All Years</a>
+  <br /><a href="0" {% ifequal year 0 %}class="selected"{% endifequal %}>All Years</a>
   </div>
   
   <div class="section">  
@@ -35,6 +35,7 @@
       <td>&euro;{{ port.total|floatformat|intcomma }}</td>
       </tr>
     {% endfor %}
+    <tr><td><a href="/{{ country.code }}/ports/browse/0">See All</a></td></tr>
     </table>
   </div>
 
@@ -42,6 +43,7 @@
     <h2>Top vessels</h2>
     {% load list_data %}
     {% list_vessels top_vessels 1 0 %}
+    <a href="/{{ country.code }}/browse/0">See All</a>
   </div>
   
   <div class="section"> 

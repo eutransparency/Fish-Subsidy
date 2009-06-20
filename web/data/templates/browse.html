@@ -12,7 +12,7 @@
   {% url data.views.country_browse country=country.code sort=sort year=country_year.year as year_url %}
   <a href="{{ year_url }}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a>
 {% endfor %}
-<a href="/{{ country.code }}/browse/{{ sort }}" {% ifequal year 0 %}class="selected"{% endifequal %}>All Years</a>
+<br /><a href="/{{ country.code }}/browse/{{ sort }}" {% ifequal year 0 %}class="selected"{% endifequal %}>All Years</a>
 </div>
 
 

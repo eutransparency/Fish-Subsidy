@@ -7,7 +7,7 @@ def top_recipients(number, recipient_type=None, country=None, location=None):
   recipients = {}
   print number, recipient_type, country, location
 
-  country_name = "Europe"
+  country_name = {'name' : "Europe", 'code' : 'EU'}
     
   if recipient_type == 0:
     
@@ -16,7 +16,7 @@ def top_recipients(number, recipient_type=None, country=None, location=None):
     
     
     if country:
-      country_name = countryCodes.country_codes(country)['name']
+      country_name = countryCodes.country_codes(country)
 
     recipients = FishData.objects.top_vessels(country=country, limit=int(number), year=None)  
     

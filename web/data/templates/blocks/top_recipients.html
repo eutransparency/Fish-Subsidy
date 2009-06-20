@@ -1,6 +1,7 @@
 <div class="block">
-  <h3>Top Recipient Vessels <br />in {{ country }}</h3>
+  <h3>Top Recipient Vessels <br />in {{ country.name }}</h3>
   <em>(1994-2007)</em>
   {% load list_data %}
   {% list_vessels recipients 0 0 0 %}
+  <a href="{{ country.code }}/browse">See All</a>
 </div>
