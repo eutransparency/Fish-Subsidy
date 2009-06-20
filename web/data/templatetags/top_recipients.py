@@ -5,7 +5,7 @@ register = Library()
 
 def top_recipients(number, recipient_type=None, country=None, location=None):
   recipients = {}
-  print number, recipient_type, country, location
+
 
   country_name = {'name' : "Europe", 'code' : 'EU'}
     
