@@ -20,6 +20,20 @@ urlpatterns += patterns('web.data.views',
     url(r'^(?P<country>%s)/ports/browse' % "|".join(countryCodes.country_codes()), 'browse_ports', name='browse_ports'),
     url(r'^(?P<country>%s)/ports/(?P<port>.*)$' % "|".join(countryCodes.country_codes()), 'port', name='port'),
     
+    # Geo1
+    url(r'^(?P<country>%s)/municipalities/(?P<sort>(amount|name))$' % "|".join(countryCodes.country_codes()), 'browse_geo1', name='browse_geo1'),
+    url(r'^(?P<country>%s)/municipalities/(?P<sort>(amount|name))/(?P<year>\d+)$' % "|".join(countryCodes.country_codes()), 'browse_geo1', name='browse_geo1'),
+    url(r'^(?P<country>%s)/municipalities/$' % "|".join(countryCodes.country_codes()), 'browse_geo1', name='browse_geo1'),
+    
+    # Geo2
+    url(r'^(?P<country>%s)/municipalities/(?P<geo1>.*)/(?P<sort>(amount|name))$' % "|".join(countryCodes.country_codes()), 'browse_geo2', name='browse_geo2'),
+    url(r'^(?P<country>%s)/municipalities/(?P<geo1>.*)/(?P<sort>(amount|name))/(?P<year>\d+)$' % "|".join(countryCodes.country_codes()), 'browse_geo2', name='browse_geo2'),
+    url(r'^(?P<country>%s)/municipalities/(?P<geo1>.*)/' % "|".join(countryCodes.country_codes()), 'browse_geo2', name='browse_geo2'),
+    
+    
+    
+    # url(r'^(?P<country>%s)/municipalities/(?P<municipality>.*)$' % "|".join(countryCodes.country_codes()), 'browse_municipalities', name='municipalities'),
+    
     # Vessels
     url(r'^(?P<country>%s)/vessel/(?P<cfr>.*)/(?P<name>.*)$' % "|".join(countryCodes.country_codes()), 'vessel', name='vessel'),
     url(r'^(?P<country>%s)/browse/(?P<sort>(amount|name|port))/(?P<year>\d+)$' % "|".join(countryCodes.country_codes()), 'country_browse', name='country_browse'),    

@@ -40,7 +40,8 @@ body { margin:0 auto;}
 .section {border-top:1px solid black; position:relative; padding-top:2em; margin-top:3em; overflow:visible; clear:both;}
 .section h2 {position:absolute; top:-0.9em; background-color:#fff; padding:0 10px 0 0;}
 #home .section h2 {position:relative; top:0; padding:0;}
-.col { float:left; width:49%; padding-bottom:2em;}
+.col { float:left; width:48%; padding-bottom:2em; clear:none; margin-right:10px;}
+#home .col {margin-right:0;}
 
 #content table {width:95%;}
 

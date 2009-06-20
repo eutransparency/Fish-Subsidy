@@ -86,12 +86,15 @@ class FishDataManager(models.Manager):
         result_list.append(p)
     return result_list
     
-  def top_ports(self, country=None, limit=10, year=conf.default_year):
+  def top_ports(self, country=None, limit=10, year=conf.default_year, geo1=None):
     extra_and = ""
     if str(year) != "0":
       extra_and += " AND year = '%s' " % year
     if country and country != "EU":
-      extra_and = " AND iso_country = '%s'" % country
+      extra_and += " AND iso_country = '%s'" % country
+    if geo1:
+      extra_and += " AND geo1='%s'" % geo1
+    
     cursor = connection.cursor()
     cursor.execute("""
       SELECT port_name, sum(total_cost) as t 
@@ -200,12 +203,14 @@ class FishDataManager(models.Manager):
     return result_list
     
 
-  def browse(self, country, sort='total_cost', year=conf.default_year):
+  def browse(self, country, sort='total_cost', year=conf.default_year, geo1=None):
     extra_and = ""
     if str(year) != "0":
       extra_and += " AND year = '%s' " % year
     if country and country != "EU":
       extra_and += "AND iso_country='%s'" % country
+    if geo1:
+      extra_and += "AND geo1='%s'" % geo1
     
     cursor = connection.cursor()
     cursor.execute("""
@@ -242,6 +247,30 @@ class FishDataManager(models.Manager):
     result_list = []
     for row in cursor.fetchall():
         p = self.model(vessel_name=row[0], total_cost=row[1], port_name=row[2], cfr=row[3], iso_country=row[4])
+        result_list.append(p)
+    return result_list
+      
+  def geo(self,geo=1,country="EU", sort="total_cost DESC", year=conf.default_year, geo1=None):
+    extra_and = ""
+    if str(year) != "0":
+      extra_and += " AND year = '%s' " % year
+    if country and country != "EU":
+      extra_and += " AND iso_country='%s'" % country
+    if geo1:
+      extra_and += " AND geo1='%s'" % geo1
+
+    cursor = connection.cursor()
+    cursor.execute("""    
+      SELECT geo1,geo2, sum(total_cost) as total_cost
+      FROM `data_fishdata`
+      WHERE geo%(geo)s IS NOT NULL %(extra_and)s
+      GROUP BY geo%(geo)s
+      ORDER BY %(sort)s
+      """ % {'sort' : sort, 'country' : country, 'extra_and' : extra_and, 'geo' : geo})
+      
+    result_list = []
+    for row in cursor.fetchall():
+        p = self.model(geo1=row[0], geo2=row[1], total_cost=row[2])
         result_list.append(p)
     return result_list
       

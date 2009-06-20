@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title%}Browse Ports{% endblock %}
+{% block page_title%}Browse{% endblock %}
+{% block content %}
+<h3>Municipalities in <a href="/{{ country.code }}">{{ country.name }}</a>{% ifequal 0 year %}, All Years{% else %}, {{ year }}{% endifequal %}</h3>
+
+asd
+<div class="year_selector">
+  {% for country_year in data_years %}
+    {% url data.views.browse_geo1 country=country.code sort=sort year=country_year.year as year_url %}
+    <a href="{{ year_url }}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a>
+  {% endfor %}
+  
+  <br /><a href="/{{ country.code }}/municipalities/browse/{{ sort }}" {% ifequal year 0 %}class="selected"{% endifequal %}>All Years</a>
+</div>
+
+
+{% load pagination_tags %}
+{% autopaginate items 30 %}
+  <table>
+    <thead>
+      <th>{% ifequal sort "name"  %}<strong>Municipality Name</strong>{% else %}<a href="/{{ country.code }}/municipalities/name">Municipality Name</a>{% endifequal %}</th>
+      <th>{% ifequal sort "amount"  %}<strong>Amount</strong>{% else %}<a href="/{{ country.code }}/municipalities/amount">Amount</a>{% endifequal %}</th>
+    </thead>
+    {% for m in items %}
+      {% url browse_geo2 country=country.code geo1=m.geo1 as municipality_url %}
+      <tr>
+        <td><a href="{{ municipality_url }}">{{ m.geo1|title }}</a></td> 
+        <td>&euro;{{ m.total_cost|floatformat|intcomma }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+  <h4 class="pager">{% paginate %}</h4>
+{% endblock %}

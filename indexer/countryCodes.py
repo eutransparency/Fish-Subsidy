@@ -4,6 +4,7 @@ from django.utils.datastructures import SortedDict
 
 def country_codes(code=None, local='GB'):
   countries = SortedDict()
+  countries['EU']	=	{'GB' : 'All Countries'}
   countries['AT']	=	{'GB' : 'Austria'}
   countries['BE'] = {'GB' : 'Belgium'}
   countries['BG']	=	{'GB' : 'Bulgaria'}
@@ -31,7 +32,6 @@ def country_codes(code=None, local='GB'):
   countries['ES']	=	{'GB' : 'Spain'}
   countries['SE']	=	{'GB' : 'Sweden'}  
   countries['GB']	=	{'GB' : 'United Kingdom'}
-  countries['EU']	=	{'GB' : 'All Countries'}
   
   
   if code:

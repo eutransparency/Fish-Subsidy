@@ -21,8 +21,8 @@
   <br /><a href="0" {% ifequal year 0 %}class="selected"{% endifequal %}>All Years</a>
   </div>
   
-  <div class="section">  
-    <h2>Top ports / municipalities</h2>
+  <div class="section col">  
+    <h2>Top Ports</h2>
     <table>
       <thead>
         <th>Port</th>
@@ -33,6 +33,25 @@
       <tr>
       <td><a href="{{ port_url }}">{{ port.port_name|title }}</a></td>
       <td>&euro;{{ port.total|floatformat|intcomma }}</td>
+      </tr>
+    {% endfor %}
+    <tr><td><a href="/{{ country.code }}/ports/browse/0">See All</a></td></tr>
+    </table>
+  </div>
+
+
+  <div class="section col">  
+    <h2>Top Municipalities</h2>
+    <table>
+      <thead>
+        <th>Municipality</th>
+        <th>Amount</th>
+      </thead>
+    {% for m in top_municipalities %}
+      {% url browse_geo2 country=country.code geo1=m.geo1 as municipality_url %}
+      <tr>
+      <td><a href="{{ municipality_url }}">{{ m.geo1|title }}</a></td>
+      <td>&euro;{{ m.total_cost|floatformat|intcomma }}</td>
       </tr>
     {% endfor %}
     <tr><td><a href="/{{ country.code }}/ports/browse/0">See All</a></td></tr>

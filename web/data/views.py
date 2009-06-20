@@ -14,6 +14,8 @@ def country(request, country=None, year=conf.default_year):
   top_vessels = FishData.objects.top_vessels(country, limit='10', year=year)
   top_ports = FishData.objects.top_ports(country, limit='10', year=year)
   top_schemes = FishData.objects.top_schemes(country, limit='5', year=year)
+  top_municipalities = FishData.objects.geo(geo=1, country=country)[0:5]
+  
   
   years = FishData.objects.country_years(country)
   
@@ -23,6 +25,7 @@ def country(request, country=None, year=conf.default_year):
     'top_vessels' : top_vessels,
     'top_ports' : top_ports,
     'top_schemes' : top_schemes,
+    'top_municipalities' : top_municipalities,
     'data_years' : years,
     'year' : int(year),
     },
@@ -112,7 +115,38 @@ def country_browse(request, country, sort='amount', year=conf.default_year):
   )
   
   
+def browse_geo1(request, country, sort='amount', year=conf.default_year):
+  
+  sort_by = "total_cost DESC"
+  if sort == "name":
+    sort_by = "geo1 ASC"
+  
+  m = FishData.objects.geo(country=country, sort=sort_by, year=year)
+  data_years = FishData.objects.country_years(country)
+  
+  return render_to_response(
+    'browse_geo1.html', 
+    {'items' : m, 'data_years' : data_years, 'sort' : sort, 'year' : int(year)}, 
+    context_instance=RequestContext(request)
+  )
   
   
+def browse_geo2(request, country, geo1, sort='amount', year=conf.default_year):
+  sort_by = "total_cost DESC"
+  if sort == "name":
+    sort_by = "geo2 ASC"
+
   
+  m = FishData.objects.geo(geo="2",country=country, sort=sort_by, year=year, geo1=geo1)
+  data_years = FishData.objects.country_years(country)
+  vessels = FishData.objects.browse(country, sort_by, year=year, geo1=geo1)
+  top_ports = FishData.objects.top_ports(country=country, limit=5, year=year, geo1=geo1 )
+  
+  
+  return render_to_response(
+    'browse_geo2.html', 
+    {'items' : m, 'data_years' : data_years, 'sort' : sort, 
+    'year' : int(year), 'vessels' : vessels, 'top_ports' : top_ports}, 
+    context_instance=RequestContext(request)
+  )
   
