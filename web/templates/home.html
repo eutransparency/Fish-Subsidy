@@ -33,7 +33,7 @@
           {% top_recipients 5 0 "GB" %}
           <div class="section wide-col">
             <h3>Top Schemes</h3>
-            <div style="text-align:center"><a href="schemes"><img src="graph/stack/0" /></a></div>
+            <div style="text-align:center"><a href="/EU/schemes"><img src="graph/stack/0" /></a></div>
             
             
             
@@ -46,7 +46,7 @@
               </thead>
             {% for scheme in top_schemes %}
             
-              {% url data.views.scheme_detail scheme_id=scheme.scheme2_id name=scheme.scheme_name|slugify as scheme_url %}
+              {% url data.views.scheme_detail country="EU" scheme_id=scheme.scheme2_id name=scheme.scheme_name|slugify as scheme_url %}
               <tr>  
                 <td><a href="{{ scheme_url }}">{{ scheme.scheme_name|title }}</a>{% traffic_light scheme.scheme_traffic_light %}</td>
                   <td>&euro;{{ scheme.total_cost|floatformat|intcomma }}</td>
@@ -54,7 +54,7 @@
               
             {% endfor %}
             
-            <tr><td><a href="schemes">See All</a></td></tr>
+            <tr><td><a href="/EU/schemes">See All</a></td></tr>
             </table>
             
 

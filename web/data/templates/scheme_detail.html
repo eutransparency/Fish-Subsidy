@@ -4,20 +4,22 @@
 {% block page_title %}{% if country.code %}<a href="{{ country.code }}">{{ country.name }}</a> &mdash;  {% endif %}Scheme: {{ scheme.0.scheme_name }}{% endblock %}
 
 {% block breadcrumb %}
-  {% if country %}
+  {% ifnotequal country.code "EU" %}
     <a href="/{{ country.code }}/schemes">All schemes in {{ country.name }}</a>
   {% else %}
     <a href="/schemes">All schemes</a>
-  {% endif %}
+  {% endifnotequal %}
 {% endblock %}
 
 {% block content %}
-  {% if country.code %}
+  {% ifnotequal country.code "EU" %}
     <p><a href="/schemes/{{ scheme.0.scheme2_id }}/{{ scheme.0.scheme_name }}">View for all countries</a></p>    
-  {% endif %}
+  {% endifnotequal %}
 
   {% load graphs %}
   {% graph "scheme" scheme %}
+  
+  
   <div class="section">
     <h2>Top recipient vessels</h2>
     {% load list_data %}
