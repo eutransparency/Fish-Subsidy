@@ -1,8 +1,24 @@
 {% extends "base.html" %}
 {% load humanize %}
+{% block page_title%}Browse{% endblock %}
+{% block title%}Browse Vessels{% endblock %}
 {% block content %}
+
+
+
+<h3>Vessels in <a href="/{{ country.code }}">{{ country.name }}</a>{% ifequal 0 year %}, All Years{% else %}, {{ year }}{% endifequal %}</h3>
+<div class="year_selector">
+{% for country_year in data_years %}
+  {% url data.views.country_browse country=country.code sort=sort year=country_year.year as year_url %}
+  <a href="{{ year_url }}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a>
+{% endfor %}
+<a href="/{{ country.code }}/browse/{{ sort }}" {% ifequal year 0 %}class="selected"{% endifequal %}>All Years</a>
+</div>
+
+
+
 {% load pagination_tags %}
-{% autopaginate items 100 %}
+{% autopaginate items 30 %}
   <table>
     <thead>
       <th>{% ifequal sort "name"  %}<strong>Name</strong>{% else %}<a href="/{{ country.code }}/browse/name">Name</a>{% endifequal %}</th>
@@ -11,11 +27,12 @@
     </thead>
     {% for vessel in items %}
       {% url vessel country=vessel.iso_country cfr=vessel.cfr name=vessel.vessel_name|slugify as vessel_url %}
+      {% url port country=vessel.iso_country port=vessel.port_name as port_url %}
     
       <tr>
         <td><a href="{{ vessel_url }}">{{ vessel.vessel_name|title }}</a></td> 
         <td>&euro;{{ vessel.total_cost|floatformat|intcomma }}</td>
-        <td>{{ vessel.port_name|title }}</td>
+        <td><a href="{{ port_url }}">{{ vessel.port_name|title }}</a></td>
       </tr>
     {% endfor %}
   </table>

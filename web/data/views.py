@@ -50,6 +50,20 @@ def port(request, country, port, year=conf.default_year):
     {'top_vessels' : top_vessels, 'port' : port}, 
     context_instance=RequestContext(request)
   )  
+
+def browse_ports(request, country, sort='amount', year=conf.default_year):
+  sort_by = "total_cost DESC"
+  if sort == "name":
+    sort_by = "port_name ASC"
+  
+  items = FishData.objects.port_browse(country, sort_by, year=year)
+  data_years = FishData.objects.country_years(country)
+  
+  return render_to_response(
+    'browse_ports.html', 
+    {'items' : items, 'data_years' : data_years, 'sort' : sort, 'year' : int(year)}, 
+    context_instance=RequestContext(request)
+  )
   
   
 def vessel(request, country, cfr, name):
@@ -81,18 +95,19 @@ def scheme_detail(request, scheme_id, name, country=None):
   )
   
   
-def country_browse(request, country, sort='amount'):
+def country_browse(request, country, sort='amount', year=conf.default_year):
   sort_by = "total_cost DESC"
   if sort == "name":
     sort_by = "vessel_name ASC"
   if sort == "port":
     sort_by = "port_name ASC"
   
-  items = FishData.objects.browse(country, sort_by)
-
+  items = FishData.objects.browse(country, sort_by, year=year)
+  data_years = FishData.objects.country_years(country)
+  
   return render_to_response(
     'browse.html', 
-    {'items' : items, 'sort' : sort}, 
+    {'items' : items, 'data_years' : data_years, 'sort' : sort, 'year' : int(year)}, 
     context_instance=RequestContext(request)
   )
   

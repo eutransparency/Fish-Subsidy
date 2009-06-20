@@ -60,7 +60,7 @@
           <td>&euro;{{ scheme.total|floatformat|intcomma }}</td>
       </tr>
     {% endfor %}
-    <tr><td><a href="schemes">More</a></td></tr>
+    <tr><td><a href="schemes">See All</a></td></tr>
     </table>
   </div>
 {% endblock %}
@@ -78,9 +78,19 @@
 
     <h3>Recipients in {{ country.name }}</h3>
     <ul>
-      <li><a href="/{{ country.code }}/browse/amount">By amount received</a></p>
-      <li><a href="/{{ country.code }}/browse/name">A - Z by name</a></li>
-      <li><a href="/{{ country.code }}/browse/port">A - Z by port</a></li>
+      <li><strong>Vessels</strong>
+        <ul>
+          <li><a href="/{{ country.code }}/browse/amount">By amount received</a></p>
+          <li><a href="/{{ country.code }}/browse/name">A - Z by name</a></li>
+          <li><a href="/{{ country.code }}/browse/port">A - Z by port</a></li>
+        </ul>
+      </li>
+      <li><strong>Ports</strong>
+        <ul>
+          <li><a href="/{{ country.code }}/ports/browse/amount">By amount received</a></p>
+          <li><a href="/{{ country.code }}/ports/browse/name">A - Z by name</a></li>
+        </ul>
+      </li>
     </ul> 
     
 

@@ -10,7 +10,7 @@ class FishDataManager(models.Manager):
       extra_and = "AND port_name = '%s'" % port
     if country:
       extra_and += " AND `iso_country` = '%s'" % country
-    if year and year != "0":
+    if year and str(year) != "0":
       extra_and += " AND year='%s'" % year
       
     cursor = connection.cursor()
@@ -54,7 +54,7 @@ class FishDataManager(models.Manager):
     extra_and = ""
     if port:
       extra_and = "AND port_name = '%s'" % port
-    if year != "0":
+    if str(year) != "0":
       extra_and += " AND year = '%s' " % year
     if country:
       extra_and += " AND iso_country = '%s' " % country
@@ -78,7 +78,7 @@ class FishDataManager(models.Manager):
     
   def top_ports(self, country=None, limit=10, year=conf.default_year):
     extra_and = ""
-    if year != "0":
+    if str(year) != "0":
       extra_and += " AND year = '%s' " % year
     
     cursor = connection.cursor()
@@ -155,7 +155,7 @@ class FishDataManager(models.Manager):
     cursor = connection.cursor()
     
     extra_and = ""    
-    if year != "0":
+    if str(year) != "0":
       extra_and += " AND year = '%s' " % year
     if country:
       extra_and += "AND `iso_country`='%s'" % country
@@ -187,15 +187,40 @@ class FishDataManager(models.Manager):
     return result_list
     
 
-  def browse(self, country, sort='total_cost'):
+  def browse(self, country, sort='total_cost', year=conf.default_year):
+    extra_and = ""
+    if str(year) != "0":
+      extra_and += " AND year = '%s' " % year
+    
     cursor = connection.cursor()
     cursor.execute("""
         SELECT vessel_name, sum(total_cost) as total_cost, port_name, cfr, iso_country
         FROM `data_fishdata` 
-        WHERE iso_country='%(country)s' AND `vessel_name` IS NOT NULL 
+        WHERE iso_country='%(country)s' AND `vessel_name` IS NOT NULL %(extra_and)s 
         GROUP BY `cfr` 
         ORDER BY %(sort)s 
-      """ % {'sort' : sort, 'country' : country})
+      """ % {'sort' : sort, 'country' : country, 'extra_and' : extra_and})
+
+    result_list = []
+    for row in cursor.fetchall():
+        p = self.model(vessel_name=row[0], total_cost=row[1], port_name=row[2], cfr=row[3], iso_country=row[4])
+        result_list.append(p)
+    return result_list
+
+
+  def port_browse(self, country, sort='total_cost', year=conf.default_year):
+    extra_and = ""
+    if str(year) != "0":
+      extra_and += " AND year = '%s' " % year
+    
+    cursor = connection.cursor()
+    cursor.execute("""
+        SELECT port_name, sum(total_cost) as total_cost, port_name, cfr, iso_country
+        FROM `data_fishdata` 
+        WHERE iso_country='%(country)s' AND `port_name` IS NOT NULL %(extra_and)s
+        GROUP BY `port_name` 
+        ORDER BY %(sort)s 
+      """ % {'sort' : sort, 'country' : country, 'extra_and' : extra_and})
 
     result_list = []
     for row in cursor.fetchall():
