@@ -34,10 +34,7 @@ def country(request, country=None, year=conf.default_year):
 
   
 def country_ports(request, country):
-  # ports.query.group_by = ['port_name']
-  # count = ports.count()
-  # ports = models.port_vessel_count(country)
-  # print ports
+
   return render_to_response(
     'country_ports.html', 
     {'ports' : ports}, 
@@ -90,10 +87,23 @@ def schemes(request, country=None, year=conf.default_year):
   
 def scheme_detail(request, scheme_id, name, country=None):
   scheme = FishData.objects.scheme_years(scheme_id=scheme_id, country=country)
-  top_vessels = FishData.objects.top_vessels_by_scheme(scheme_id=scheme_id)
+  top_vessels = FishData.objects.top_vessels_by_scheme(scheme_id=scheme_id, country=country)
+  top_ports = FishData.objects.top_ports(scheme_id=scheme_id, country=country)
+  top_municipalities = FishData.objects.geo(country=country, scheme_id=scheme_id)[0:5]
+  if len(top_municipalities) >= 1 and  len(top_ports) >= 1:
+    col = True
+  else:
+    col = False
+  
   return render_to_response(
     'scheme_detail.html', 
-    {'scheme' : scheme, 'top_vessels' : top_vessels}, 
+    {
+    'col' : col, 
+    'scheme' : scheme, 
+    'top_vessels' : top_vessels, 
+    'top_ports': top_ports,
+    'top_municipalities': top_municipalities,
+    }, 
     context_instance=RequestContext(request)
   )
   

@@ -76,7 +76,7 @@ class FishDataManager(models.Manager):
         result_list.append(p)
     return result_list
     
-  def top_ports(self, country=None, limit=10, year=conf.default_year, geo1=None):
+  def top_ports(self, country=None, limit=10, year=conf.default_year, geo1=None, scheme_id=None):
     extra_and = ""
     if str(year) != "0":
       extra_and += " AND year = '%s' " % year
@@ -84,6 +84,8 @@ class FishDataManager(models.Manager):
       extra_and += " AND iso_country = '%s'" % country
     if geo1:
       extra_and += " AND geo1='%s'" % geo1
+    if scheme_id:
+      extra_and += " AND scheme2_id='%s'" % scheme_id
     
     cursor = connection.cursor()
     cursor.execute("""
@@ -240,7 +242,7 @@ class FishDataManager(models.Manager):
         result_list.append(p)
     return result_list
       
-  def geo(self,geo=1,country="EU", sort="total_cost DESC", year=conf.default_year, geo1=None):
+  def geo(self,geo=1,country="EU", sort="total_cost DESC", year=conf.default_year, geo1=None, scheme_id=None):
     extra_and = ""
     if str(year) != "0":
       extra_and += " AND year = '%s' " % year
@@ -248,6 +250,9 @@ class FishDataManager(models.Manager):
       extra_and += " AND iso_country='%s'" % country
     if geo1:
       extra_and += " AND geo1='%s'" % geo1
+    if scheme_id:
+      extra_and += " AND scheme2_id='%s'" % scheme_id
+      
 
     cursor = connection.cursor()
     cursor.execute("""    
