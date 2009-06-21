@@ -205,7 +205,6 @@ def scheme_graph(request,scheme_id,country='GB'):
   
   mu = mean(bins)+100
   st = std(bins)+100 
-  print st
   
 
   

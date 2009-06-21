@@ -41,17 +41,7 @@ class FishDataManager(models.Manager):
       ORDER BY t DESC
       LIMIT %(limit)s;
     """ % {'scheme_id' : scheme_id, 'country' : country, 'limit' : limit, 'extra_and' : extra_and })
-    
-    
-    print """
-      SELECT vessel_name, cfr, sum(total_cost) as t, iso_country, port_name 
-      FROM `data_fishdata` 
-      WHERE scheme2_id = %(scheme_id)s AND vessel_name IS NOT NULL  %(extra_and)s
-      GROUP BY vessel_name
-      ORDER BY t DESC
-      LIMIT %(limit)s;
-    """ % {'scheme_id' : scheme_id, 'country' : country, 'limit' : limit, 'extra_and' : extra_and }
-    
+        
     result_list = []
     for row in cursor.fetchall():
         p = self.model(vessel_name=row[0], cfr=row[1], total_cost=row[2], iso_country=row[3], port_name=row[4])
