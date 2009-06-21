@@ -5,7 +5,6 @@
 {% block content %}
 <h3>Municipalities in <a href="/{{ country.code }}">{{ country.name }}</a>{% ifequal 0 year %}, All Years{% else %}, {{ year }}{% endifequal %}</h3>
 
-asd
 <div class="year_selector">
   {% for country_year in data_years %}
     {% url data.views.browse_geo1 country=country.code sort=sort year=country_year.year as year_url %}
