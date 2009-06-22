@@ -104,8 +104,10 @@ class FishDataManager(models.Manager):
         result_list.append(p)
     return result_list
     
-  def country_years(self, country):
+  def country_years(self, country, port=None):
     where = "WHERE year IS NOT NULL "
+    if port:
+      where += " AND port_name = '%s'" % port
     if country and country != "EU":
       where += "AND iso_country='%s'" % country
       
@@ -114,7 +116,7 @@ class FishDataManager(models.Manager):
       SELECT distinct(year), sum(total_cost) 
       FROM data_fishdata %(where)s GROUP BY year ORDER BY year ASC;  
     """ % {'country' : country, 'where' : where})
-    
+        
     result_list = []
     for row in cursor.fetchall():
         p = self.model(year=row[0], total_cost=row[1])

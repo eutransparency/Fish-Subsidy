@@ -43,11 +43,19 @@ def country_ports(request, country):
 
 
 def port(request, country, port, year=conf.default_year):
-  top_vessels = FishData.objects.top_vessels(country, limit=20, year=year, port=port)
-  port = FishData.objects.filter(port_name=port)[1]
+  top_vessels = FishData.objects.top_vessels(country, limit=2000, year=year, port=port)
+  data_years = FishData.objects.country_years(country, port=port)  
+  
+  if country != "EU":
+    port = FishData.objects.filter(port_name=port, iso_country=None)[1]
+  else:
+    port = FishData.objects.filter(port_name=port)[1]
+    
+
+
   return render_to_response(
     'port.html', 
-    {'top_vessels' : top_vessels, 'port' : port}, 
+    {'top_vessels' : top_vessels, 'port' : port, 'data_years' : data_years, 'year' : int(year)}, 
     context_instance=RequestContext(request)
   )  
 

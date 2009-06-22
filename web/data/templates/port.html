@@ -1,29 +1,50 @@
 {% extends "base.html" %}
-
+{% load humanize %}
 {% block title %}
   {{ port.port_name|title }} | {{ country.name }}
 {% endblock %}
 
 {% block page_title %}
-  {{ port.port_name|title }}
+  Vessels in {{ port.port_name|title }}, <a href="/{{ country.code }}">{{ country.name }}</a>
 {% endblock %}
 
 
 
-{% block content %}
-  
-  
-  <h3>Country: {{ country.name }}</h3>
-  <div class="section">
-    <h2>Top recipient vessels</h2>
-    <ul>
-    {% for vessel in top_vessels %}
-       {% url vessel country=country.code cfr=vessel.cfr name=vessel.vessel_name|slugify as vessel_url %}
-      <li><a href="{{ vessel_url }}">{{ vessel.vessel_name|title }} ({{ vessel.cfr }})</a> - &euro;{{ vessel.total }}</li>
-    {% endfor %}
-    </ul>
-  </div>
+{% block content %}  
 
+{% if data_years %}
+  {{ year }}
+
+<div class="year_selector">
+{% for country_year in data_years %}
+  {% url data.views.port country=country.code port=port.port_name year=country_year.year as year_url %}
+  <a href="{{ year_url }}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a>
+{% endfor %}
+<br /><a href="0" {% ifequal year 0 %}class="selected"{% endifequal %}>All Years</a>
+</div>
+{% endif %}
+
+  {% load pagination_tags %}
+  {% autopaginate top_vessels 30 %}
+  
+  <div class="section">
+    <h2>Vessels</h2>
+    
+    <table>
+      <thead>
+        <th>Name</th>
+        <th>Amount</th>
+      </thead>
+      {% for vessel in top_vessels %}
+      <tr>{% url vessel country=country.code cfr=vessel.cfr name=vessel.vessel_name|slugify as vessel_url %}
+        <td><a href="{{ vessel_url }}">{{ vessel.vessel_name|title }} ({{ vessel.cfr }})</a></td>
+        <td>&euro;{{ vessel.total|floatformat|intcomma }}</td>
+      </tr>
+      {% endfor %}
+    
+    </table>    
+  </div>
+  <h4 class="pager">{% paginate %}</h4>
 {% endblock %}
 
 
