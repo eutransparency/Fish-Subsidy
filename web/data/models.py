@@ -245,7 +245,7 @@ class FishDataManager(models.Manager):
     return result_list
       
   def geo(self,geo=1,country="EU", sort="total_cost DESC", year=conf.default_year, geo1=None, scheme_id=None):
-    extra_and = ""
+    extra_and = " AND vessel_name IS NULL AND port_name IS NULL "
     if str(year) != "0":
       extra_and += " AND year = '%s' " % year
     if country and country != "EU":
@@ -258,7 +258,7 @@ class FishDataManager(models.Manager):
 
     cursor = connection.cursor()
     cursor.execute("""    
-      SELECT geo1,geo2, sum(total_cost) as total_cost
+      SELECT geo1,geo2, sum(total_cost) as total_cost, iso_country
       FROM `data_fishdata`
       WHERE geo%(geo)s IS NOT NULL %(extra_and)s
       GROUP BY geo%(geo)s
@@ -267,7 +267,7 @@ class FishDataManager(models.Manager):
       
     result_list = []
     for row in cursor.fetchall():
-        p = self.model(geo1=row[0], geo2=row[1], total_cost=row[2])
+        p = self.model(geo1=row[0], geo2=row[1], total_cost=row[2], iso_country=row[3])
         result_list.append(p)
     return result_list
       

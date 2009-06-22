@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% load humanize traffic_lights %}
+{% block title %}
+  Schemes{% ifnotequal country.code "" %}, {{ country.name }}{% endifnotequal %}{% if year %}, {{ year }}{% else %}, All years{% endif %}
+{% endblock %}
 {% block page_title %}
   Schemes{% ifnotequal country.code "" %}, <a href="/{{ country.code }}">{{ country.name }}</a>{% endifnotequal %}{% if year %}, {{ year }}{% else %}, All years{% endif %}
 {% endblock %}
@@ -36,8 +39,25 @@
     {% endif %}
     <tr>
       <td><a href="{{ scheme_url }}">{{ scheme.scheme_name }}</a> {% traffic_light scheme.scheme_traffic_light%}</td>
-      <td>&euro;{{ scheme.total_cost|intcomma }}</td>
+      <td>&euro;{{ scheme.total_cost|floatformat|intcomma }}</td>
     </tr>
   {% endfor %}
   </table>
+{% endblock %}
+
+
+
+{% block right %}
+  <div id="scheme_help">
+    <h3>About Schemes</h3>
+  <p>To help make sense of the various subsidy types we have adopted a classification developed by the Fisheries Centre of the University of British Columbia. 
+      This classification divides subsidy schemes and measures into:</p>    
+  <ul>
+      <li>Good (green {% traffic_light "1" %})</li>
+      <li>Bad (red{% traffic_light "3" %})</li> 
+      <li>Ugly (yellow{% traffic_light "2" %})</li>
+    </ul>
+      <a href="/about/schemes/">Read More</a>
+  </div>
+
 {% endblock %}

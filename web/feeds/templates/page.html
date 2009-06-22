@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load pagination_tags %}
 {% load humanize %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+
 {% block content %}
     {% autopaginate items 10 %}
     {% for item in items %}

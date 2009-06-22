@@ -47,7 +47,7 @@ def port(request, country, port, year=conf.default_year):
   data_years = FishData.objects.country_years(country, port=port)  
   
   if country != "EU":
-    port = FishData.objects.filter(port_name=port, iso_country=None)[1]
+    port = FishData.objects.filter(port_name=port, iso_country=country)[1]
   else:
     port = FishData.objects.filter(port_name=port)[1]
     

@@ -13,8 +13,6 @@
 {% block content %}  
 
 {% if data_years %}
-  {{ year }}
-
 <div class="year_selector">
 {% for country_year in data_years %}
   {% url data.views.port country=country.code port=port.port_name year=country_year.year as year_url %}

@@ -22,9 +22,10 @@ body { margin:0 auto;}
 
 #home .section .section_title {float:left; width:20%;}
 #home .section_content { margin-left:20%; }
+#home .section_content_tall { height:8em; }
 
 #home #search_form #q {font-size:1.4em; height:20px; padding:5px; border:1px solid #333; width:70%; float:left; }
-#home #search_form .description { position:absolute; right:23%; top:6em; }
+#home #search_form .description { position:absolute; right:23%; top:6em; text-align:right;}
 #home #search_form .submit { float:left; font-size:1.4em; height:32px; margin-left:5px; border:1px solid #333; padding:5px; }
 
 #home .col {float:left;}

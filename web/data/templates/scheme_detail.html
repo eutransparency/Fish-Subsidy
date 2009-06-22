@@ -1,14 +1,12 @@
 {% extends "base.html" %}
-{% load humanize %}
+{% load humanize traffic_lights %}
 {% block title %}{{ scheme.0.scheme_name }}{% endblock %}
 {% block page_title %}{% if country.code %}<a href="{{ country.code }}">{{ country.name }}</a> &mdash;  {% endif %}Scheme: {{ scheme.0.scheme_name }}{% endblock %}
 
 {% block breadcrumb %}
-  {% ifnotequal country.code "EU" %}
+
     <a href="/{{ country.code }}/schemes">All schemes in {{ country.name }}</a>
-  {% else %}
-    <a href="/schemes">All schemes</a>
-  {% endifnotequal %}
+
 {% endblock %}
 
 {% block content %}
@@ -58,7 +56,7 @@
         <th>Amount</th>
       </thead>
     {% for m in top_municipalities %}
-      {% url browse_geo2 country=country.code geo1=m.geo1 as municipality_url %}
+      {% url browse_geo2 country=m.iso_country geo1=m.geo1 as municipality_url %}
       <tr>
       <td><a href="{{ municipality_url }}">{{ m.geo1|title }}</a></td>
       <td>&euro;{{ m.total_cost|floatformat|intcomma }}</td>
@@ -72,5 +70,21 @@
   
   
   
+  
+{% endblock %}
+
+
+{% block right %}
+  <div id="scheme_help">
+    <h3>About Schemes</h3>
+  <p>To help make sense of the various subsidy types we have adopted a classification developed by the Fisheries Centre of the University of British Columbia. 
+      This classification divides subsidy schemes and measures into:</p>    
+  <ul>
+      <li>Good (green {% traffic_light "1" %})</li>
+      <li>Bad (red{% traffic_light "3" %})</li> 
+      <li>Ugly (yellow{% traffic_light "2" %})</li>
+    </ul>
+      <a href="/about/schemes/">Read More</a>
+  </div>
   
 {% endblock %}

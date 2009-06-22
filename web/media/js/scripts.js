@@ -10,6 +10,20 @@ $(function() {
     $('.welcome_message').effect('blind')
   });
   
+  
+  search_help = $('#home .search_help').html()
+  $('#home .search_help').html('<a href="#">Help</a>')
+  
+  $('#home .search_help a').click(function() {
+    $('#home .section_content').addClass('section_content_tall')
+    $('#home .search_help').html(search_help)
+    return false
+  })
+  
+  
+  
+  
+  
   $('#list p').click(function() {
     $('.list_items').toggle()
   });
