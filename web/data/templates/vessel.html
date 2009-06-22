@@ -57,8 +57,11 @@
       <li>Home Port: <a href="{{ port_url }}">{{ payments.0.port_name|title }}</a></li>
       <li><a href="http://ec.europa.eu/fisheries/fleet/index.cfm?method=Search.ListSearchSimpleOneVessel&COUNTRY_CODE=&CFR_CODE={{ payments.0.cfr }}&search_type=advanced" target="_blank">Fleet Registry record</a></li>
       <li>Country: <a href="/{{ country.code }}">{{ country.name }}</a></li>
-      <li>Infringement record: Withheld</li>
-      <li>Quota: Witheld</li>
+      <li>Infringement record: Data Withheld</li>
+      <li>Quota: Data Witheld</li>
+      {% if payments.0.greenpeace_link %}
+        <li><a href="{{ payments.0.greenpeace_link }}" target="_blank">Greenpeace Blacklist</a></li>
+      {% endif %}
     </ul>
     <h3>Owner</h3> 
     <ul>

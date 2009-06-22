@@ -21,7 +21,10 @@ from fishsubsidy.web.data.models import FishData
 
  
 def format_ticks(a,b):
-  return u"€%s" % locale.format('%d', float(a), True)
+  from django.contrib.humanize.templatetags import humanize
+  from django.template.defaultfilters import floatformat
+  
+  return u"€%s" % humanize.intcomma(floatformat(a))
 
 def format_traffic_lights(t):
   t = str(t)
