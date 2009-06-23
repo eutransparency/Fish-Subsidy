@@ -57,7 +57,7 @@
       <li>Home Port: <a href="{{ port_url }}">{{ payments.0.port_name|title }}</a></li>
       <li><a href="http://ec.europa.eu/fisheries/fleet/index.cfm?method=Search.ListSearchSimpleOneVessel&COUNTRY_CODE=&CFR_CODE={{ payments.0.cfr }}&search_type=advanced" target="_blank">Fleet Registry record</a></li>
       <li>Country: <a href="/{{ country.code }}">{{ country.name }}</a></li>
-      <li>Infringement record: Data Withheld</li>
+      <li>Infringement record: <a href="/faqs#withheld">Data Withheld</a></li>
       <li>Quota: Data Witheld</li>
       {% if payments.0.greenpeace_link %}
         <li><a href="{{ payments.0.greenpeace_link }}" target="_blank">Greenpeace Blacklist</a></li>
@@ -65,12 +65,12 @@
     </ul>
     <h3>Owner</h3> 
     <ul>
-      <li>This information has been withheld</li>
+      <li>This information has been <a href="/faqs#withheld">withheld</a></li>
     </ul>
     <h3>Stocks targeted</h3> 
     <ul>
       <li>Tuna Fleet:  {% if payments.0.tuna_fleet %}Yes (<a href="/tuna-fleet">view all</a>){% else %}No{% endif %} </li>
-      <li>Other: Withheld</li>
+      <li>Other: <a href="/faqs#withheld">Withheld</p></li>
     </ul>
     <p><a href="http://www.google.co.uk/search?q={{ payments.0.vessel_name|title }}">Google this recipient</a></p>
   </div>
