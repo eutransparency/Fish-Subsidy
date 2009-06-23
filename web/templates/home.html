@@ -19,7 +19,7 @@
         <input type="text" name="q" value="" id="q" title="Enter a vessel name, number, port or place name">
         <div class="description">e.g. <a href="/search?q=Aurora">Aurora</a>, <a href="/search?q=DEU000300601">DEU000300601</a> or <a href="/search?q=Dieppe">Dieppe</a>
           <div class="search_help">Use "AND", "OR" or "NOT" to refine searches.  <br />Use "-" (minus) to remove particular words, for example "Jan  -Looden"<br />
-            Results with only match will take you directly to the relevant page.
+            If a search that returns only one hit, it will be displayed directly.
             </div></div>
         <input type="submit" value="Go" class="submit">
       </div>
@@ -33,7 +33,7 @@
         
         <div class="col wide-col">
           {% top_recipients 5 0 "EU"%}
-          {% top_recipients 5 0 "GB" %}
+          {% top_recipients 5 0 ip_country %}
           <div class="section wide-col">
             <h3>Top Schemes</h3>
             <div style="text-align:center"><a href="/EU/schemes"><img src="graph/stack/0" /></a></div>

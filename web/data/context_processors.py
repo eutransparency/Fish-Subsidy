@@ -15,12 +15,13 @@ def country(request):
 
 
 def ip_country(request):
+
   if request.session.get('ip_country', None) == None:
     try:
       timeout = 3
       socket.setdefaulttimeout(timeout)
 
-      ip = request.META.get('REMOTE_ADDR') 
+      ip = request.META.get('REMOTE_ADDR')
       req = urllib2.Request('http://gaze.mysociety.org/gaze-rest?f=get_country_from_ip&ip=%s' % ip)
       ip_country = urllib2.urlopen(req).read()
 
