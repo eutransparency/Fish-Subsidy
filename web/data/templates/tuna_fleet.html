@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block page_title%}Tuna Fleet{% endblock %}
+{% block title%}Tuna Fleet{% endblock %}
+{% block content %}
+{% load pagination_tags %}
+{% autopaginate vessels 30 %}
+
+<table>
+  <thead>
+    <th>Name</th>
+    <th>Amount</th>
+    <th>Port</th>
+  </thead>
+  {% for vessel in vessels %}
+    {% url vessel country=vessel.iso_country cfr=vessel.cfr name=vessel.vessel_name|slugify as vessel_url %}
+    {% url port country=vessel.iso_country port=vessel.port_name as port_url %}
+  
+    <tr>
+      <td><a href="{{ vessel_url }}">{{ vessel.vessel_name|title }}</a></td> 
+      <td>&euro;{{ vessel.total_cost|floatformat|intcomma }}</td>
+      <td><a href="{{ port_url }}">{{ vessel.port_name|title }}</a></td>
+    </tr>
+  {% endfor %}
+</table>
+  <h4 class="pager">{% paginate %}</h4>
+
+{% endblock %}

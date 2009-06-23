@@ -91,13 +91,24 @@ def schemes(request, country=None, year=conf.default_year):
     {'schemes' : schemes, 'year' : int(year), 'data_years' : data_years}, 
     context_instance=RequestContext(request)
   )
+
+def tuna_fleet(request):
+  vessels = FishData.objects.tuna_fleet()
+  return render_to_response(
+    'tuna_fleet.html', 
+    {'vessels' : vessels,}, 
+    context_instance=RequestContext(request)
+  )
   
   
-def scheme_detail(request, scheme_id, name, country=None):
+def scheme_detail(request, scheme_id, name, country=None, year=conf.default_year):
   scheme = FishData.objects.scheme_years(scheme_id=scheme_id, country=country)
-  top_vessels = FishData.objects.top_vessels_by_scheme(scheme_id=scheme_id, country=country)
-  top_ports = FishData.objects.top_ports(scheme_id=scheme_id, country=country)
-  top_municipalities = FishData.objects.geo(country=country, scheme_id=scheme_id)[0:5]
+  
+  data_years = FishData.objects.country_years(country, scheme_id=scheme_id)  
+    
+  top_vessels = FishData.objects.top_vessels_by_scheme(scheme_id=scheme_id, country=country, year=year)
+  top_ports = FishData.objects.top_ports(scheme_id=scheme_id, country=country, year=year)
+  top_municipalities = FishData.objects.geo(country=country, scheme_id=scheme_id, year=year)[0:5]
   if len(top_municipalities) >= 1 and  len(top_ports) >= 1:
     col = True
   else:
@@ -111,6 +122,8 @@ def scheme_detail(request, scheme_id, name, country=None):
     'top_vessels' : top_vessels, 
     'top_ports': top_ports,
     'top_municipalities': top_municipalities,
+    'data_years' : data_years,
+    'year' : int(year),
     }, 
     context_instance=RequestContext(request)
   )

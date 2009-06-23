@@ -29,12 +29,15 @@ def graph(graph_type, data):
   if graph_type == "scheme":
     years = []
     values = []
+    traffic_lights = []
     for s in data:
       years.append(s.year)
       values.append(s.total_cost)
+      traffic_lights.append(s.scheme_traffic_light)
     url_data = {
       'values' : "|".join(["%s" % v for v in values]),
-      'years' : "|".join(["%s" % y for y in years])
+      'years' : "|".join(["%s" % y for y in years]),
+      'traffic_lights' : "|".join(["%s" % y for y in traffic_lights])
     }
     get_data = urlencode(url_data)
     url = reverse('graph', kwargs={'type':graph_type})

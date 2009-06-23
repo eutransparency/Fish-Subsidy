@@ -29,9 +29,34 @@ class FishDataManager(models.Manager):
         p.total = row[2]
         result_list.append(p)
     return result_list
+  
+  def tuna_fleet(self):
+    extra_and = ""  
+    cursor = connection.cursor()
+    cursor.execute("""
+      SELECT vessel_name, cfr, sum(total_cost) as t, iso_country, count(cfr), port_name 
+      FROM `data_fishdata` 
+      WHERE vessel_name IS NOT NULL AND `tuna_fleet` IS NOT NULL  %(extra_and)s
+      GROUP BY cfr
+      ORDER BY t DESC;
+    """ % {'extra_and' : extra_and })
     
-  def top_vessels_by_scheme(self, scheme_id, country=None, limit=10):
-    extra_and = ""
+    result_list = []
+    for row in cursor.fetchall():
+        p = self.model(vessel_name=row[0], cfr=row[1], total_cost=row[2], iso_country=row[3], status=row[4], port_name=row[5])
+        p.total = row[2]
+        result_list.append(p)
+    return result_list
+    
+  
+    
+  def top_vessels_by_scheme(self, scheme_id, country=None, limit=10, year=conf.default_year):
+
+    extra_and = ""    
+    if year and str(year) != "0":
+      extra_and += " AND year='%s'" % year
+
+
     cursor = connection.cursor()
     cursor.execute("""
       SELECT vessel_name, cfr, sum(total_cost) as t, iso_country, port_name 
@@ -104,10 +129,12 @@ class FishDataManager(models.Manager):
         result_list.append(p)
     return result_list
     
-  def country_years(self, country, port=None):
+  def country_years(self, country, port=None, scheme_id=None):
     where = "WHERE year IS NOT NULL "
     if port:
       where += " AND port_name = '%s'" % port
+    if scheme_id:
+      where += " AND scheme2_id = '%s'" % scheme_id
     if country and country != "EU":
       where += "AND iso_country='%s'" % country
       

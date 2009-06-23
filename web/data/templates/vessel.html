@@ -70,9 +70,9 @@
     <h3>Stocks targeted</h3> 
     <ul>
       <li>Tuna:  {% if payments.0.tuna_fleet %}Yes{% else %}No{% endif %}</li>
-      <li>Cod: Withheld</li>
       <li>Other: Withheld</li>
     </ul>
+    <p><a href="http://www.google.co.uk/search?q={{ payments.0.vessel_name|title }}">Google this recipient</a></p>
   </div>
   
 {% endblock %}

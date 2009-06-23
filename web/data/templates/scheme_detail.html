@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load humanize traffic_lights %}
 {% block title %}{{ scheme.0.scheme_name }}{% endblock %}
-{% block page_title %}{% if country.code %}<a href="{{ country.code }}">{{ country.name }}</a> &mdash;  {% endif %}Scheme: {{ scheme.0.scheme_name }}{% endblock %}
+{% block page_title %}{% if country.code %}<a href="{{ country.code }}">{{ country.name }}</a> &mdash; {% ifnotequal year 0 %} {{ year }}{% else %} All years{% endifnotequal %} {% endif %}<br />Scheme: {{ scheme.0.scheme_name }}{% endblock %}
 
 {% block breadcrumb %}
 
@@ -16,6 +16,18 @@
 
   {% load graphs %}
   {% graph "scheme" scheme %}
+
+
+
+  <div class="year_selector">
+  {% for country_year in data_years %}
+    {% url data.views.scheme_detail country=country.code year=country_year.year, scheme_id=scheme.0.scheme2_id, name=scheme.0.scheme_name|slugify as year_url %}
+    <a href="{{ year_url }}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a>
+  {% endfor %}
+  <br /><a href="0" {% ifequal year 0 %}class="selected"{% endifequal %}>All Years</a>
+  </div>
+
+
   
   {% if top_vessels.0.vessel_name %}
     <div class="section">
@@ -24,7 +36,7 @@
       {% list_vessels top_vessels 1 0 1 %}    
     </div>
   {% endif %}
-  
+
   
 
   {% if top_ports.0.port_name %}
