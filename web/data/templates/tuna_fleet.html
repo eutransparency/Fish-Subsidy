@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 {% load humanize %}
-{% block page_title%}Tuna Fleet{% endblock %}
 {% block title%}Tuna Fleet{% endblock %}
+{% block page_title%}<a href="/{{ country.code }}">{{ country.name }}</a>: Tuna Fleet{% endblock %}
 {% block content %}
 {% load pagination_tags %}
 {% autopaginate vessels 30 %}
 
+
+{% if vessels.0 %}
+  
 <table>
   <thead>
     <th>Name</th>
@@ -24,5 +27,8 @@
   {% endfor %}
 </table>
   <h4 class="pager">{% paginate %}</h4>
+  {% else %}
+    <p>{{ country.name }} has no vessels in the Tuna Fleet.  <a href="/EU/tuna-fleet">View the full list</a></p>
+  {% endif %}
 
 {% endblock %}

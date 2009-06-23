@@ -92,8 +92,8 @@ def schemes(request, country=None, year=conf.default_year):
     context_instance=RequestContext(request)
   )
 
-def tuna_fleet(request):
-  vessels = FishData.objects.tuna_fleet()
+def tuna_fleet(request, country):
+  vessels = FishData.objects.tuna_fleet(country)
   return render_to_response(
     'tuna_fleet.html', 
     {'vessels' : vessels,}, 

@@ -30,8 +30,11 @@ class FishDataManager(models.Manager):
         result_list.append(p)
     return result_list
   
-  def tuna_fleet(self):
+  def tuna_fleet(self, country):
     extra_and = ""  
+    if country and country != "EU":
+      extra_and += " AND iso_country='%s'" % country
+    
     cursor = connection.cursor()
     cursor.execute("""
       SELECT vessel_name, cfr, sum(total_cost) as t, iso_country, count(cfr), port_name 

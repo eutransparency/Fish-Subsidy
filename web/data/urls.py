@@ -39,7 +39,7 @@ urlpatterns += patterns('web.data.views',
     url(r'^(?P<country>%s)/browse' % "|".join(countryCodes.country_codes()), 'country_browse', name='country_browse'),    
     
     #Tuna fleet
-    url(r'^tuna-fleet$', 'tuna_fleet', name='tuna_fleet'),    
+    url(r'^(?P<country>%s)/tuna-fleet$' % "|".join(countryCodes.country_codes()), 'tuna_fleet', name='tuna_fleet'),
     
     # Schemes
     url(r'^(?P<country>%s)/schemes$' % "|".join(countryCodes.country_codes()), 'schemes', name='schemes'),
