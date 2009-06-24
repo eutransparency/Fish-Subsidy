@@ -46,7 +46,7 @@ def make_fig(request, type):
     else:
       traffic_lights = None
     name_value_dict = zip(years, values)
-
+    print name_value_dict
     figure(figsize=(5, 2), linewidth=0) # image dimensions  
 
     subplots_adjust(left=0.2, bottom=0.2)
@@ -107,16 +107,16 @@ def stack_graph(request,country='GB'):
       ugly[o.year] = 0
       
     if o.scheme_traffic_light == "1":
-      good[o.year] += o.total_cost
+      good[o.year] += o.total_scheme
       bad[o.year] += 0
       ugly[o.year] += 0
     if o.scheme_traffic_light == "2":
-      ugly[o.year] += o.total_cost
+      ugly[o.year] += o.total_scheme
       bad[o.year] += 0
       good[o.year] += 0
       
     if o.scheme_traffic_light == "3":
-      bad[o.year] += o.total_cost
+      bad[o.year] += o.total_scheme
       good[o.year] += 0
       ugly[o.year] += 0
       
@@ -171,7 +171,7 @@ def schemes(request):
   
 
   for i,scheme in enumerate(schemes):
-    bar(i+0.25,scheme.total_cost, linewidth=0, color=format_traffic_lights(scheme.scheme_traffic_light))
+    bar(i+0.25,scheme.total_scheme, linewidth=0, color=format_traffic_lights(scheme.scheme_traffic_light))
   
   xticks(alpha=0)
   yticks(alpha=0)

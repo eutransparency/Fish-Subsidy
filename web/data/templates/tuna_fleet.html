@@ -21,7 +21,7 @@
   
     <tr>
       <td><a href="{{ vessel_url }}">{{ vessel.vessel_name|title }}</a></td> 
-      <td>&euro;{{ vessel.total_cost|floatformat|intcomma }}</td>
+      <td>&euro;{{ vessel.total_scheme|floatformat|intcomma }}</td>
       <td><a href="{{ port_url }}">{{ vessel.port_name|title }}</a></td>
     </tr>
   {% endfor %}

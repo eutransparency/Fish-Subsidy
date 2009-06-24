@@ -39,7 +39,7 @@
     {% endif %}
     <tr>
       <td><a href="{{ scheme_url }}">{{ scheme.scheme_name }}</a> {% traffic_light scheme.scheme_traffic_light%}</td>
-      <td>&euro;{{ scheme.total_cost|floatformat|intcomma }}</td>
+      <td>&euro;{{ scheme.total_scheme|floatformat|intcomma }}</td>
     </tr>
   {% endfor %}
   </table>

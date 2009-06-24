@@ -15,7 +15,7 @@ def graph(graph_type, data):
     years = []
     traffic_lights = []
     for i,item in enumerate(data):
-      values.append(item.total_cost)
+      values.append(item.total_scheme)
       years.append(item.year)
       traffic_lights.append(item.scheme_traffic_light)
     data = {}
@@ -32,7 +32,7 @@ def graph(graph_type, data):
     traffic_lights = []
     for s in data:
       years.append(s.year)
-      values.append(s.total_cost)
+      values.append(s.total_scheme)
       traffic_lights.append(s.scheme_traffic_light)
     url_data = {
       'values' : "|".join(["%s" % v for v in values]),

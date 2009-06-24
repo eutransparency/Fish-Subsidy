@@ -60,7 +60,7 @@ def port(request, country, port, year=conf.default_year):
   )  
 
 def browse_ports(request, country, sort='amount', year=conf.default_year):
-  sort_by = "total_cost DESC"
+  sort_by = "total_scheme DESC"
   if sort == "name":
     sort_by = "port_name ASC"
   
@@ -130,7 +130,7 @@ def scheme_detail(request, scheme_id, name, country=None, year=conf.default_year
   
   
 def country_browse(request, country, sort='amount', year=conf.default_year):
-  sort_by = "total_cost DESC"
+  sort_by = "total_scheme DESC"
   if sort == "name":
     sort_by = "vessel_name ASC"
   if sort == "port":
@@ -148,7 +148,7 @@ def country_browse(request, country, sort='amount', year=conf.default_year):
   
 def browse_geo1(request, country, sort='amount', year=conf.default_year):
   
-  sort_by = "total_cost DESC"
+  sort_by = "total_scheme DESC"
   if sort == "name":
     sort_by = "geo1 ASC"
   
@@ -163,7 +163,7 @@ def browse_geo1(request, country, sort='amount', year=conf.default_year):
   
   
 def browse_geo2(request, country, geo1, sort='amount', year=conf.default_year):
-  sort_by = "total_cost DESC"
+  sort_by = "total_scheme DESC"
   if sort == "name":
     sort_by = "geo2 ASC"
 
