@@ -15,7 +15,7 @@ class FishDataManager(models.Manager):
       
     cursor = connection.cursor()
     cursor.execute("""
-      SELECT vessel_name, cfr, sum(total_scheme) as t, iso_country, count(cfr), port_name 
+      SELECT vessel_name, cfr, sum(total_subsidy) as t, iso_country, count(cfr), port_name 
       FROM `data_fishdata` 
       WHERE vessel_name IS NOT NULL  %(extra_and)s
       GROUP BY cfr
@@ -25,7 +25,7 @@ class FishDataManager(models.Manager):
     
     result_list = []
     for row in cursor.fetchall():
-        p = self.model(vessel_name=row[0], cfr=row[1], total_scheme=row[2], iso_country=row[3], status=row[4], port_name=row[5])
+        p = self.model(vessel_name=row[0], cfr=row[1], total_subsidy=row[2], iso_country=row[3], status=row[4], port_name=row[5])
         p.total = row[2]
         result_list.append(p)
     return result_list
@@ -37,7 +37,7 @@ class FishDataManager(models.Manager):
     
     cursor = connection.cursor()
     cursor.execute("""
-      SELECT vessel_name, cfr, sum(total_scheme) as t, iso_country, count(cfr), port_name 
+      SELECT vessel_name, cfr, sum(total_subsidy) as t, iso_country, count(cfr), port_name 
       FROM `data_fishdata` 
       WHERE vessel_name IS NOT NULL AND `tuna_fleet` IS NOT NULL  %(extra_and)s
       GROUP BY cfr
@@ -46,7 +46,7 @@ class FishDataManager(models.Manager):
     
     result_list = []
     for row in cursor.fetchall():
-        p = self.model(vessel_name=row[0], cfr=row[1], total_scheme=row[2], iso_country=row[3], status=row[4], port_name=row[5])
+        p = self.model(vessel_name=row[0], cfr=row[1], total_subsidy=row[2], iso_country=row[3], status=row[4], port_name=row[5])
         p.total = row[2]
         result_list.append(p)
     return result_list
@@ -62,7 +62,7 @@ class FishDataManager(models.Manager):
 
     cursor = connection.cursor()
     cursor.execute("""
-      SELECT vessel_name, cfr, sum(total_scheme) as t, iso_country, port_name 
+      SELECT vessel_name, cfr, sum(total_subsidy) as t, iso_country, port_name 
       FROM `data_fishdata` 
       WHERE scheme2_id = %(scheme_id)s AND vessel_name IS NOT NULL  %(extra_and)s
       GROUP BY vessel_name
@@ -72,7 +72,7 @@ class FishDataManager(models.Manager):
         
     result_list = []
     for row in cursor.fetchall():
-        p = self.model(vessel_name=row[0], cfr=row[1], total_scheme=row[2], iso_country=row[3], port_name=row[4])
+        p = self.model(vessel_name=row[0], cfr=row[1], total_subsidy=row[2], iso_country=row[3], port_name=row[4])
         p.total = row[2]
         result_list.append(p)
     return result_list
@@ -89,7 +89,7 @@ class FishDataManager(models.Manager):
       
     cursor = connection.cursor()
     cursor.execute("""
-      SELECT scheme_name, scheme2_id, sum(total_scheme) t, scheme_traffic_light
+      SELECT scheme_name, scheme2_id, sum(total_subsidy) t, scheme_traffic_light
       FROM data_fishdata 
       WHERE scheme2_id IS NOT NULL %(extra_and)s
       GROUP BY iso_country,scheme2_id
@@ -99,7 +99,7 @@ class FishDataManager(models.Manager):
     
     result_list = []
     for row in cursor.fetchall():
-        p = self.model(scheme_name=row[0], scheme2_id=row[1], scheme_traffic_light=row[3], total_scheme=row[2])
+        p = self.model(scheme_name=row[0], scheme2_id=row[1], scheme_traffic_light=row[3], total_subsidy=row[2])
         p.total = row[2]
         result_list.append(p)
     return result_list
@@ -117,7 +117,7 @@ class FishDataManager(models.Manager):
     
     cursor = connection.cursor()
     cursor.execute("""
-      SELECT port_name, sum(total_scheme) as t 
+      SELECT port_name, sum(total_subsidy) as t 
       FROM `data_fishdata` 
       WHERE port_name IS NOT NULL %(extra_and)s
       GROUP BY port_name 
@@ -143,13 +143,13 @@ class FishDataManager(models.Manager):
       
     cursor = connection.cursor()
     cursor.execute("""
-      SELECT distinct(year), sum(total_scheme) 
+      SELECT distinct(year), sum(total_subsidy) 
       FROM data_fishdata %(where)s GROUP BY year ORDER BY year ASC;  
     """ % {'country' : country, 'where' : where})
         
     result_list = []
     for row in cursor.fetchall():
-        p = self.model(year=row[0], total_scheme=row[1])
+        p = self.model(year=row[0], total_subsidy=row[1])
         result_list.append(p)
     return result_list
 
@@ -159,7 +159,7 @@ class FishDataManager(models.Manager):
       extra_and = "AND iso_country='%s" % country
     cursor = connection.cursor()
     cursor.execute("""
-      SELECT distinct(year), sum(total_scheme), scheme_traffic_light 
+      SELECT distinct(year), sum(total_subsidy), scheme_traffic_light 
       FROM data_fishdata 
       WHERE year IS NOT NULL %(extra_and)s 
       GROUP BY year, scheme_traffic_light 
@@ -168,7 +168,7 @@ class FishDataManager(models.Manager):
     
     result_list = []
     for row in cursor.fetchall():
-        p = self.model(year=row[0], total_scheme=row[1], scheme_traffic_light=row[2])
+        p = self.model(year=row[0], total_subsidy=row[1], scheme_traffic_light=row[2])
         result_list.append(p)
     return result_list
     
@@ -179,7 +179,7 @@ class FishDataManager(models.Manager):
       extra_and = "AND `iso_country`='%s'" % country
 
     cursor.execute("""
-      SELECT year, sum(total_scheme), scheme_traffic_light, scheme_name, scheme2_id 
+      SELECT year, sum(total_subsidy), scheme_traffic_light, scheme_name, scheme2_id 
       FROM `data_fishdata` 
       WHERE scheme2_id=%(scheme_id)s %(extra_and)s 
       GROUP BY `year`
@@ -187,7 +187,7 @@ class FishDataManager(models.Manager):
     
     result_list = []
     for row in cursor.fetchall():
-        p = self.model(year=row[0], total_scheme=row[1], scheme_traffic_light=row[2], scheme_name=row[3], scheme2_id=row[4])
+        p = self.model(year=row[0], total_subsidy=row[1], scheme_traffic_light=row[2], scheme_name=row[3], scheme2_id=row[4])
         result_list.append(p)
     return result_list
 
@@ -201,7 +201,7 @@ class FishDataManager(models.Manager):
       extra_and += "AND `iso_country`='%s'" % country
 
     cursor.execute("""
-      SELECT sum(total_scheme) as t, scheme_traffic_light, scheme_name, scheme2_id 
+      SELECT sum(total_subsidy) as t, scheme_traffic_light, scheme_name, scheme2_id 
       FROM `data_fishdata` WHERE scheme_name IS NOT NULL %(extra_and)s 
       GROUP BY `scheme2_id`
       ORDER BY t DESC
@@ -209,7 +209,7 @@ class FishDataManager(models.Manager):
 
     result_list = []
     for row in cursor.fetchall():
-        p = self.model(total_scheme=row[0], scheme_traffic_light=row[1], scheme_name=row[2], scheme2_id=row[3])
+        p = self.model(total_subsidy=row[0], scheme_traffic_light=row[1], scheme_name=row[2], scheme2_id=row[3])
         result_list.append(p)
     return result_list
     
@@ -227,7 +227,7 @@ class FishDataManager(models.Manager):
     return result_list
     
 
-  def browse(self, country, sort='total_scheme', year=conf.default_year, geo1=None):
+  def browse(self, country, sort='total_subsidy', year=conf.default_year, geo1=None):
     extra_and = ""
     if str(year) != "0":
       extra_and += " AND year = '%s' " % year
@@ -238,7 +238,7 @@ class FishDataManager(models.Manager):
     
     cursor = connection.cursor()
     cursor.execute("""
-            SELECT vessel_name, sum(total_scheme) as total_scheme, port_name, cfr, iso_country
+            SELECT vessel_name, sum(total_subsidy) as total_subsidy, port_name, cfr, iso_country
             FROM `data_fishdata` 
             WHERE `vessel_name` IS NOT NULL %(extra_and)s 
             GROUP BY `cfr` 
@@ -247,12 +247,12 @@ class FishDataManager(models.Manager):
               
     result_list = []
     for row in cursor.fetchall():
-        p = self.model(vessel_name=row[0], total_scheme=row[1], port_name=row[2], cfr=row[3], iso_country=row[4])
+        p = self.model(vessel_name=row[0], total_subsidy=row[1], port_name=row[2], cfr=row[3], iso_country=row[4])
         result_list.append(p)
     return result_list
 
 
-  def port_browse(self, country, sort='total_scheme', year=conf.default_year):
+  def port_browse(self, country, sort='total_subsidy', year=conf.default_year):
     extra_and = ""
     if str(year) != "0":
       extra_and += " AND year = '%s' " % year
@@ -261,7 +261,7 @@ class FishDataManager(models.Manager):
     
     cursor = connection.cursor()
     cursor.execute("""
-        SELECT port_name, sum(total_scheme) as total_scheme, port_name, cfr, iso_country
+        SELECT port_name, sum(total_subsidy) as total_subsidy, port_name, cfr, iso_country
         FROM `data_fishdata` 
         WHERE `port_name` IS NOT NULL  %(extra_and)s
         GROUP BY `port_name` 
@@ -270,11 +270,11 @@ class FishDataManager(models.Manager):
 
     result_list = []
     for row in cursor.fetchall():
-        p = self.model(vessel_name=row[0], total_scheme=row[1], port_name=row[2], cfr=row[3], iso_country=row[4])
+        p = self.model(vessel_name=row[0], total_subsidy=row[1], port_name=row[2], cfr=row[3], iso_country=row[4])
         result_list.append(p)
     return result_list
       
-  def geo(self,geo=1,country="EU", sort="total_scheme DESC", year=conf.default_year, geo1=None, scheme_id=None):
+  def geo(self,geo=1,country="EU", sort="total_subsidy DESC", year=conf.default_year, geo1=None, scheme_id=None):
     extra_and = " AND vessel_name IS NULL AND port_name IS NULL "
     if str(year) != "0":
       extra_and += " AND year = '%s' " % year
@@ -288,7 +288,7 @@ class FishDataManager(models.Manager):
 
     cursor = connection.cursor()
     cursor.execute("""    
-      SELECT geo1,geo2, sum(total_scheme) as total_scheme, iso_country
+      SELECT geo1,geo2, sum(total_subsidy) as total_subsidy, iso_country
       FROM `data_fishdata`
       WHERE geo%(geo)s IS NOT NULL %(extra_and)s
       GROUP BY geo%(geo)s
@@ -297,7 +297,7 @@ class FishDataManager(models.Manager):
       
     result_list = []
     for row in cursor.fetchall():
-        p = self.model(geo1=row[0], geo2=row[1], total_scheme=row[2], iso_country=row[3])
+        p = self.model(geo1=row[0], geo2=row[1], total_subsidy=row[2], iso_country=row[3])
         result_list.append(p)
     return result_list
       
@@ -347,7 +347,7 @@ class FishData(models.Model):
   recipient_name = models.TextField(blank=True)
   greenpeace_link = models.TextField(blank=True)
   lenght_code = models.TextField(blank=True)
-  total_scheme = models.TextField(blank=True)
+  total_subsidy = models.TextField(blank=True)
     
   objects = FishDataManager()
    

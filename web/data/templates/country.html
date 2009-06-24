@@ -51,7 +51,7 @@
       {% url browse_geo2 country=country.code geo1=m.geo1 as municipality_url %}
       <tr>
       <td><a href="{{ municipality_url }}">{{ m.geo1|title }}</a></td>
-      <td>&euro;{{ m.total_scheme|floatformat|intcomma }}</td>
+      <td>&euro;{{ m.total_subsidy|floatformat|intcomma }}</td>
       </tr>
     {% endfor %}
     <tr><td><a href="/{{ country.code }}/municipalities/">See All</a></td></tr>

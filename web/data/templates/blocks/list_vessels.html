@@ -15,7 +15,7 @@
         </td>
         {% url data.views.port country=vessel.iso_country port=vessel.port_name as port_url %}
         <td><a href="{{ port_url }}">{{ vessel.port_name|title }}</a></td>
-        <td>{% if amount %} &euro;{{ vessel.total_scheme|floatformat|intcomma }}{% endif %}</td>
+        <td>{% if amount %} &euro;{{ vessel.total_subsidy|floatformat|intcomma }}{% endif %}</td>
       </tr>
     {% endfor %}
   </table>
@@ -25,7 +25,7 @@
       {% url vessel country=vessel.iso_country cfr=vessel.cfr name=vessel.vessel_name|slugify as vessel_url %}
           <li>
           <a href="{{ vessel_url }}">{{ vessel.vessel_name|title }} ({{ vessel.cfr }})</a>
-          {% if amount %} &mdash; &euro;{{ vessel.total_scheme|floatformat|intcomma }}{% endif %}
+          {% if amount %} &mdash; &euro;{{ vessel.total_subsidy|floatformat|intcomma }}{% endif %}
           {% if expand %}({{ vessel.status }} payment{{ vessel.status|pluralize }}) {% endif %}
           </li>
     {% endfor %}
