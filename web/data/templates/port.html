@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block page_title %}
-  Vessels in {{ port.port_name|title }}, <a href="/{{ country.code }}">{{ country.name }}</a>
+  Vessels in {{ port.port_name|title }}, <a href="/{{ country.code }}">{{ country.name }}</a>{% ifequal 0 year %}, All Years{% else %}, {{ year }}{% endifequal %}
 {% endblock %}
 
 

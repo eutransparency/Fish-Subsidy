@@ -14,7 +14,7 @@ def country(request, country=None, year=conf.default_year):
   top_vessels = FishData.objects.top_vessels(country, limit='10', year=year)
   top_ports = FishData.objects.top_ports(country, limit='10', year=year)
   top_schemes = FishData.objects.top_schemes(country, limit='5', year=year)
-  top_municipalities = FishData.objects.geo(geo=1, country=country)[0:5]
+  top_municipalities = FishData.objects.geo(geo=1, country=country, year=year)[0:5]
   
   
   years = FishData.objects.country_years(country)
@@ -102,11 +102,15 @@ def tuna_fleet(request, country):
   
   
 def scheme_detail(request, scheme_id, name, country=None, year=conf.default_year):
-  scheme = FishData.objects.scheme_years(scheme_id=scheme_id, country=country)
   
-  data_years = FishData.objects.country_years(country, scheme_id=scheme_id)  
-    
-  top_vessels = FishData.objects.top_vessels_by_scheme(scheme_id=scheme_id, country=country, year=year)
+
+  
+  scheme = FishData.objects.scheme_years(scheme_id=scheme_id, country=country, year=year)
+  
+  data_years = FishData.objects.country_years(country=country, scheme_id=scheme_id)      
+  
+  top_vessels = FishData.objects.top_vessels_by_scheme(country=country, scheme_id=scheme_id, year=year)
+  
   top_ports = FishData.objects.top_ports(scheme_id=scheme_id, country=country, year=year)
   top_municipalities = FishData.objects.geo(country=country, scheme_id=scheme_id, year=year)[0:5]
   if len(top_municipalities) >= 1 and  len(top_ports) >= 1:

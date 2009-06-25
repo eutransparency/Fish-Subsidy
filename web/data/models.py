@@ -7,7 +7,7 @@ class FishDataManager(models.Manager):
   def top_vessels(self, country=None, limit=20, year=conf.default_year, port=None):
     extra_and = ""
     if port:
-      extra_and = "AND port_name = '%s'" % port
+      extra_and += " AND port_name = '%s'" % port
     if country and country != "EU":
       extra_and += " AND `iso_country` = '%s'" % country
     if year and str(year) != "0":
@@ -59,13 +59,16 @@ class FishDataManager(models.Manager):
     if year and str(year) != "0":
       extra_and += " AND year='%s'" % year
 
+    if country and country != "EU":
+      extra_and += " AND `iso_country` = '%s'" % country
+
 
     cursor = connection.cursor()
     cursor.execute("""
       SELECT vessel_name, cfr, sum(total_subsidy) as t, iso_country, port_name 
       FROM `data_fishdata` 
       WHERE scheme2_id = %(scheme_id)s AND vessel_name IS NOT NULL  %(extra_and)s
-      GROUP BY vessel_name
+      GROUP BY cfr
       ORDER BY t DESC
       LIMIT %(limit)s;
     """ % {'scheme_id' : scheme_id, 'country' : country, 'limit' : limit, 'extra_and' : extra_and })
@@ -172,11 +175,13 @@ class FishDataManager(models.Manager):
         result_list.append(p)
     return result_list
     
-  def scheme_years(self, scheme_id, country='EU'):
+  def scheme_years(self, scheme_id, country='EU', year=conf.default_year):
     cursor = connection.cursor()
     extra_and = ""
     if country and country != "EU" :
-      extra_and = "AND `iso_country`='%s'" % country
+      extra_and += " AND `iso_country`='%s'" % country
+    if str(year) != "0":
+      extra_and += " AND year = '%s' " % year
 
     cursor.execute("""
       SELECT year, sum(total_subsidy), scheme_traffic_light, scheme_name, scheme2_id 

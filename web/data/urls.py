@@ -42,10 +42,10 @@ urlpatterns += patterns('web.data.views',
     url(r'^(?P<country>%s)/tuna-fleet$' % "|".join(countryCodes.country_codes()), 'tuna_fleet', name='tuna_fleet'),
     
     # Schemes
-    url(r'^(?P<country>%s)/schemes$' % "|".join(countryCodes.country_codes()), 'schemes', name='schemes'),
     url(r'^(?P<country>%s)/schemes/(?P<year>\d+)$' % "|".join(countryCodes.country_codes()), 'schemes', name='schemes'),
-    url(r'^(?P<country>%s)/schemes/(?P<scheme_id>\d+)/(?P<name>.*)$' % "|".join(countryCodes.country_codes()), 'scheme_detail', name='scheme_country_detail'),
+    url(r'^(?P<country>%s)/schemes$' % "|".join(countryCodes.country_codes()), 'schemes', name='schemes'),
     url(r'^(?P<country>%s)/schemes/(?P<scheme_id>\d+)/(?P<name>.*)/(?P<year>\d+)$' % "|".join(countryCodes.country_codes()), 'scheme_detail', name='scheme_country_detail'),
+    url(r'^(?P<country>%s)/schemes/(?P<scheme_id>\d+)/(?P<name>.*)$' % "|".join(countryCodes.country_codes()), 'scheme_detail', name='scheme_country_detail'),
     )
     
     

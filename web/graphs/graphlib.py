@@ -46,7 +46,6 @@ def make_fig(request, type):
     else:
       traffic_lights = None
     name_value_dict = zip(years, values)
-    print name_value_dict
     figure(figsize=(5, 2), linewidth=0) # image dimensions  
 
     subplots_adjust(left=0.2, bottom=0.2)
