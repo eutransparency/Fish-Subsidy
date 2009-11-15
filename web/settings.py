@@ -1,10 +1,10 @@
 # Django settings for web project.
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
+   # ('Sym Fish', 'fishsubsidy@talusdesign.co.uk'),
 )
 
 MANAGERS = ADMINS
