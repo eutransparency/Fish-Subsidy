@@ -187,4 +187,17 @@ def browse_geo2(request, country, geo1, sort='amount', year=conf.default_year):
     'year' : int(year), 'vessels' : vessels, 'top_ports' : top_ports}, 
     context_instance=RequestContext(request)
   )
-  
+
+
+def infringements(request):
+  infringements = illegalFishing.objects.all_infringements()
+  return render_to_response(
+    'infringements.html', 
+    {
+    'infringements' : infringements,
+    }, 
+    context_instance=RequestContext(request)
+  )
+
+
+

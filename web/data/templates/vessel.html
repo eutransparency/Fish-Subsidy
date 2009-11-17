@@ -79,7 +79,7 @@
     <h3>Infringement record</h3> 
     {% for record in infringement_record %}
       <ul>
-      <li><strong>Date</strong>: {{ record.date }}<br />
+      <li><strong>Date</strong>: {{ record.date|date:"F Y" }}<br />
       <strong>Offense</strong>: {{ record.description }}<br />
       {% if record.sanction %}        
         <strong>Sanction</strong>: {{ record.sanction }}<br />
@@ -89,7 +89,8 @@
       {% endif %}
       </ul>
     {% endfor %}
-    
+    <a href="/faqs#infringement">About infringement records</a>
+    <a href="/infringements">View all infringements</a>
       
     {% endif %}
     

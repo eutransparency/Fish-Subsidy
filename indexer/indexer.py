@@ -36,7 +36,7 @@ def load_scheme(schemename, datafile=None):
   # Check if the scheme file exists
   if os.path.exists(schemename):
     if datafile is None:
-      basename = "".join(schemename.split('.')[:1])
+      basename = "".join(os.path.split(schemename).split('.')[:1])
       datafile = "%s.csv" % basename
     
     # Check if it has a matching data file
