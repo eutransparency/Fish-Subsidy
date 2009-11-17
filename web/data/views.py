@@ -4,10 +4,10 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 import models
 
-from fishsubsidy import conf
+import conf
 import simplejson
 
-from data.models import FishData
+from data.models import FishData, illegalFishing
 
 def country(request, country=None, year=conf.default_year):
 
@@ -76,9 +76,11 @@ def browse_ports(request, country, sort='amount', year=conf.default_year):
   
 def vessel(request, country, cfr, name):
   payments = FishData.objects.filter(cfr=cfr).order_by('year')
+  infringement_record = illegalFishing.objects.filter(cfr=cfr).order_by('date')
+  print infringement_record
   return render_to_response(
     'vessel.html', 
-    {'payments' : payments}, 
+    {'payments' : payments, 'infringement_record' : infringement_record}, 
     context_instance=RequestContext(request)
   )
 
@@ -117,6 +119,7 @@ def scheme_detail(request, scheme_id, name, country=None, year=conf.default_year
     col = True
   else:
     col = False
+  
   
   return render_to_response(
     'scheme_detail.html', 

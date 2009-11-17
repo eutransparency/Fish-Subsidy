@@ -4,21 +4,27 @@
 import os
 import tempfile
 import matplotlib
+
 matplotlib.use('Agg')  # force the antigrain backend
+# from matplotlib.backends.backend_agg import FigureCanvasAgg
+
+
+
 from matplotlib import rc
-from matplotlib.backends.backend_agg import FigureCanvasAgg
 from matplotlib.figure import Figure
 from matplotlib.cbook import iterable
-import matplotlib.numerix as nx
+# import matplotlib.numerix as nx
+
 from pylab import *
-from django.http import HttpResponse
-from pylab import figure, show, rand
 from matplotlib.patches import Ellipse
-import locale
-locale.setlocale(locale.LC_ALL, '')
+from pylab import figure, show, rand
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.pyplot import show
 
-from fishsubsidy.web.data.models import FishData
+from web.data.models import FishData
 
+from django.http import HttpResponse
  
 def format_ticks(a,b):
   from django.contrib.humanize.templatetags import humanize

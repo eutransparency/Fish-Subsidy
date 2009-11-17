@@ -2,7 +2,7 @@ from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 from web import settings
 
-from fishsubsidy.web.data.models import FishData
+from web.data.models import FishData
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -25,7 +25,7 @@ urlpatterns += patterns('',
     (r'', include('data.urls')),
     (r'', include('search.urls')),
     (r'', include('graphs.urls')),
-    (r'', include('farmsubsidy.web.feeds.urls')),    
+    (r'', include('web.feeds.urls')),    
 )
 
 

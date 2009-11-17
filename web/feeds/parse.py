@@ -10,7 +10,6 @@ import time
 def parse():
 
   allfeeds = feeds.Feeds.objects.filter(is_active=True)
-
   for f in allfeeds:
 
 

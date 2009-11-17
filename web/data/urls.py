@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
 
 from data.models import FishData
-from fishsubsidy.indexer import countryCodes
+from indexer import countryCodes
 
 from django.db import connection
 

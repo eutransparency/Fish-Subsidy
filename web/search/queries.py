@@ -1,10 +1,9 @@
 import sys
-from fishsubsidy import conf
 import cPickle
 import unicodedata
 import xapian
 import ConfigParser
-from fishsubsidy import conf
+import conf
 
 def load_database(db=conf.xapianDbPath):
   """Returns a xapian.Database object
