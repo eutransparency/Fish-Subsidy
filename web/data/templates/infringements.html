@@ -1,7 +1,15 @@
 {% extends "base.html" %}
 
+{% block title %}All Infringements{% endblock %}
+{% block page_title %}All Infringements{% endblock %}
 
 {% block content %}
+
+<p>Data on convictions for illegal fishing is currently only for 
+  France and Spain and unlike data on subsidies, it is not official data from 
+  governments but information obtained from the press reports and court records. 
+  It is therefore likely to be incomplete.</p>
+
   {% for record in infringements %}
   
     {% ifchanged %}<h3>{{ record.date|date:"F Y" }}</h3>{% endifchanged %}
