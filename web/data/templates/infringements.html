@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+  {% for record in infringements %}
+  
+    {% ifchanged %}<h3>{{ record.date|date:"F Y" }}</h3>{% endifchanged %}
+      <h5 class="inline"><a href="{% url vessel country=record.iso_country cfr=record.cfr name=record.vesssel_name  %}">{{ record.vesssel_name }}</a></h5>
+      <p>
+      <strong>Date</strong>: {{ record.date|date:"F Y" }}<br />
+      <strong>Offense</strong>: {{ record.description }}<br />
+      {% if record.sanction %}        
+        <strong>Sanction</strong>: {{ record.sanction }}<br />
+      {% endif %}
+      {% if record.skipper %}        
+        <strong>Skipper</strong>: {{ record.skipper }}<br />
+      {% endif %}
+      </p>
+    
+  {% endfor %}
+{% endblock %}

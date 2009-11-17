@@ -2,6 +2,29 @@ from django.db import models
 from django.db import connection, backend, models
 import conf
 
+class illegalFishingManager(models.Manager):
+  
+  def all_infringements(self):
+    cursor = connection.cursor()
+    cursor.execute("""
+      SELECT i.*, f.vessel_name, f.iso_country 
+      FROM data_illegalfishing i
+      INNER JOIN `data_fishdata` f
+      ON i.cfr = f.cfr
+      WHERE f.vessel_name IS NOT NULL
+      GROUP BY i.id
+      ORDER BY i.date DESC;
+    """)
+    
+    result_list = []
+    for row in cursor.fetchall():
+        p = self.model(cfr=row[1], date=row[2], sanction=row[3], description=row[4], skipper=row[5])
+        p.vesssel_name = row[6] or row[1]
+        p.iso_country = row[7]
+        result_list.append(p)
+    return result_list
+
+
 class FishDataManager(models.Manager):
   
   def top_vessels(self, country=None, limit=20, year=conf.default_year, port=None):

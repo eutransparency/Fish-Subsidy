@@ -1,7 +1,7 @@
 from django.db import models
 from django.db import connection, backend, models
 import conf
-from managers.FishData import FishDataManager
+from managers.FishData import FishDataManager, illegalFishingManager
 
 class FishData(models.Model):
   """(Data description)"""  
@@ -60,6 +60,8 @@ class illegalFishing(models.Model):
   
   def __unicode__(self):
     return "%s" % self.cfr
+
+  objects = illegalFishingManager()
   
   cfr = models.CharField(blank=True, max_length=100)
   date = models.DateField(blank=True, null=True)
