@@ -5,10 +5,7 @@
 
 {% block content %}
 
-<p>Data on convictions for illegal fishing is currently only for 
-  France and Spain and unlike data on subsidies, it is not official data from 
-  governments but information obtained from the press reports and court records. 
-  It is therefore likely to be incomplete.</p>
+<p>Data on convictions for illegal fishing is currently only for a few countries (France, Spain and the UK). Unlike data on subsidies, it is not official data obtained directly from governments but information collected manually from government websites, press reports and court records. It is therefore certain to be incomplete.</p>
   
   <table>
     <thead>
@@ -26,11 +23,11 @@
         <td><a href="{% url country record.iso_country %}">{% code_to_name record.iso_country %}</a></td>
         <td>{{ record.description }}
         {% if record.sanction %}
-        <br />
-          <strong>Sanction:</strong>{{ record.sanction }}<br />
+          
+          <strong>Sanction:</strong> {{ record.sanction }}<br />
         {% endif %}
         {% if record.skipper %}          
-          <strong>Skipper</strong>{{ record.skipper }}<br />
+          <strong>Skipper:</strong> {{ record.skipper }}<br />
         {% endif %}
         </td>
       </tr>
