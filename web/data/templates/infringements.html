@@ -23,7 +23,7 @@
         <td><a href="{% url country record.iso_country %}">{% code_to_name record.iso_country %}</a></td>
         <td>{{ record.description }}
         {% if record.sanction %}
-          
+          <br />
           <strong>Sanction:</strong> {{ record.sanction }}<br />
         {% endif %}
         {% if record.skipper %}          
