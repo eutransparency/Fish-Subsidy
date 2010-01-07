@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load code_to_name %}
 {% block title %}All Infringements{% endblock %}
 {% block page_title %}All Infringements{% endblock %}
 
@@ -9,21 +9,34 @@
   France and Spain and unlike data on subsidies, it is not official data from 
   governments but information obtained from the press reports and court records. 
   It is therefore likely to be incomplete.</p>
-
-  {% for record in infringements %}
   
-    {% ifchanged %}<h3>{{ record.date|date:"F Y" }}</h3>{% endifchanged %}
-      <h5 class="inline"><a href="{% url vessel country=record.iso_country cfr=record.cfr name=record.vesssel_name  %}">{{ record.vesssel_name }}</a></h5>
-      <p>
-      <strong>Date</strong>: {{ record.date|date:"F Y" }}<br />
-      <strong>Offense</strong>: {{ record.description }}<br />
-      {% if record.sanction %}        
-        <strong>Sanction</strong>: {{ record.sanction }}<br />
-      {% endif %}
-      {% if record.skipper %}        
-        <strong>Skipper</strong>: {{ record.skipper }}<br />
-      {% endif %}
-      </p>
+  <table>
+    <thead>
+      <th>{% ifnotequal sort 'date'%}<a href="?sort=date">Date</a>{% else %}Date{% endifnotequal %}</th>
+      <th>{% ifnotequal sort 'vessel'%}<a href="?sort=vessel">Vessel Name</a>{% else %}Vessel Name{% endifnotequal %}</th>
+      <th>{% ifnotequal sort 'port'%}<a href="?sort=port">Home Port</a>{% else %}Home Port{% endifnotequal %}</th>
+      <th>{% ifnotequal sort 'country'%}<a href="?sort=country">Country</a>{% else %}Country{% endifnotequal %}</th>
+      <th>Description</th>
+    </thead>
+    {% for record in infringements %}
+      <tr class="{% cycle 'odd' 'even' %}">
+        <td>{{ record.date|date:"F Y"|default:"Unknown" }}</td>
+        <td><a href="{% url vessel country=record.iso_country cfr=record.cfr name=record.vesssel_name  %}">{{ record.vesssel_name }}</a></td>
+        <td><a href="{% url port record.iso_country record.port_name as port_url %}{{ port_url }}">{{ record.port_name|title }}</a></td>
+        <td><a href="{% url country record.iso_country %}">{% code_to_name record.iso_country %}</a></td>
+        <td>{{ record.description }}
+        {% if record.sanction %}
+        <br />
+          <strong>Sanction:</strong>{{ record.sanction }}<br />
+        {% endif %}
+        {% if record.skipper %}          
+          <strong>Skipper</strong>{{ record.skipper }}<br />
+        {% endif %}
+        </td>
+      </tr>
+
+
     
-  {% endfor %}
+    {% endfor %}
+  </table>
 {% endblock %}

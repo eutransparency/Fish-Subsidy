@@ -4,23 +4,34 @@ import conf
 
 class illegalFishingManager(models.Manager):
   
-  def all_infringements(self):
+  def all_infringements(self, sort='date'):
+    
+    if sort == 'country':
+        order_by = 'f.iso_country ASC'
+    elif sort == 'vessel':
+        order_by = 'f.vessel_name ASC'
+    elif sort == 'port':
+        order_by = 'f.port_name ASC'
+    else:
+        order_by = 'i.date DESC'
+    
     cursor = connection.cursor()
     cursor.execute("""
-      SELECT i.*, f.vessel_name, f.iso_country 
+      SELECT i.*, f.vessel_name, f.iso_country, f.port_name
       FROM data_illegalfishing i
       INNER JOIN `data_fishdata` f
       ON i.cfr = f.cfr
       WHERE f.vessel_name IS NOT NULL
       GROUP BY i.id
-      ORDER BY i.date DESC;
-    """)
+      ORDER BY %(order_by)s;
+    """ % locals())
     
     result_list = []
     for row in cursor.fetchall():
         p = self.model(cfr=row[1], date=row[2], sanction=row[3], description=row[4], skipper=row[5])
         p.vesssel_name = row[6] or row[1]
         p.iso_country = row[7]
+        p.port_name = row[8]
         result_list.append(p)
     return result_list
 
