@@ -49,14 +49,16 @@ class database(object):
       if line['cfr']:
         line['table_name'] = self.table_name.strip()
         try:
-          line['date'] = datetime.strptime(line['date'], "%d/%m/%Y")
+          line['date'] = datetime.strptime(line['date'], "%d/%m/%y")
         except:
           line['date'] = None
         self.cursor.execute("""
         INSERT INTO data_illegalfishing (cfr,date,sanction,description,skipper)
         VALUES (%(cfr)s,%(date)s,%(sanction)s,%(description)s,%(skipper)s)
         """, line)
-    
+  
+  def reset(self):
+      self.cursor.execute("DELETE FROM %s" % self.table_name)
 
 def main():
   
@@ -64,11 +66,16 @@ def main():
   parser = OptionParser()
   parser.add_option("-f", "--file", dest="filename",
                     help="File to import from", metavar="filename")
+  parser.add_option("-a", "--append", dest="append", action="store_true", default=False,
+                    help="Append data to existing data (don't reset)", metavar="append")
 
   (options, args) = parser.parse_args()
   
   
-  database(options).index()
+  db = database(options)
+  if not options.append:
+      db.reset()
+  db.index()
 
 
 if __name__ == "__main__":

@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block page_title %}
-    {{ payments.0.vessel_name|title }} &mdash; fish subsidy payments
+    {{ payments.0.vessel_name|title }} &mdash; Fish Subsidy payments
 {% endblock %}
 
 
@@ -27,11 +27,25 @@
   {% endif %}
   
   {% load traffic_lights %}
-  <ul>
+  <table>
+    <thead>
+      <th>Year</th>
+      <th>Scheme</th>
+      <th>Amount</th>
+    </thead>
     {% for vessel in payments %}
-      <li>{{ vessel.year }} &mdash; {{ vessel.scheme_name }}{% traffic_light vessel.scheme_traffic_light %} &mdash; &euro;{{ vessel.total_subsidy|floatformat|intcomma }}</li>
+      <tr>
+        <td>{{ vessel.year }}</td>
+        <td>{{ vessel.scheme_name }}{% traffic_light vessel.scheme_traffic_light %}</td>
+        <td>&euro;{{ vessel.total_subsidy|floatformat|intcomma }}</td>
+      </tr>
     {% endfor %}
-  </ul>
+    <tr>
+      <td></td>
+      <td style="text-align:right"><strong>Total</strong>:</td>
+      <td>&euro;{{ total|floatformat|intcomma }}</td>
+    </tr>
+  </table>
 
 {% endblock %}
 
@@ -66,13 +80,13 @@
     
     <h3>Owner</h3> 
     <ul>
-      <li>This information has been <a href="/faqs#withheld">withheld</a></li>
+      <li>This information has been <a href="/faqs#withheld">Data Withheld</a></li>
     </ul>
     
     <h3>Stocks targeted</h3> 
     <ul>
       <li>Tuna Fleet:  {% if payments.0.tuna_fleet %}Yes (<a href="/tuna-fleet">view all</a>){% else %}No{% endif %} </li>
-      <li>Other: <a href="/faqs#withheld">Withheld</a></p></li>
+      <li>Other: <a href="/faqs#withheld">Data Withheld</a></p></li>
     </ul>
     
     {% if infringement_record %}
@@ -90,7 +104,7 @@
       </ul>
     {% endfor %}
     <p><a href="/faqs#infringement">About infringement records</a><br />
-    <a href="/infringements">View all infringements</a></p>
+    <a href="/infringements">View more infringements</a></p>
       
     {% endif %}
     

@@ -13,6 +13,7 @@ body { margin:0 auto;}
 
 #page {width:80%; position:relative; margin:0 auto; padding:0;}
 #content {float:left; width:70%;}
+.wide #content {float:left; width:100%;}
 
 #right {float:right; width:29%;}
 

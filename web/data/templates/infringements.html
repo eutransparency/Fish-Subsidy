@@ -1,33 +1,48 @@
 {% extends "base.html" %}
+{% load humanize %}
 {% load code_to_name %}
-{% block title %}All Infringements{% endblock %}
-{% block page_title %}All Infringements{% endblock %}
+{% block title %}Identified Infringements{% endblock %}
+{% block page_title %}Identified Infringements{% endblock %}
+
+{% block body_class%}wide{% endblock %}
 
 {% block content %}
+<p>Limited data on convictions for serious infringements (illegal fishing) is
+currently only for a few countries (France, Spain and the UK). Unlike data on
+subsidies, it is not official data obtained directly from governments but
+information collected manually from government websites, press reports and
+court records. It is therefore certain to be incomplete.</p>
 
-<p>Data on convictions for illegal fishing is currently only for a few countries (France, Spain and the UK). Unlike data on subsidies, it is not official data obtained directly from governments but information collected manually from government websites, press reports and court records. It is therefore certain to be incomplete.</p>
+<p>The table below shows
+a list of vessels that have received subsidies and have been convicted of
+serious infringements.</p>
   
   <table>
     <thead>
       <th>{% ifnotequal sort 'date'%}<a href="?sort=date">Date</a>{% else %}Date{% endifnotequal %}</th>
       <th>{% ifnotequal sort 'vessel'%}<a href="?sort=vessel">Vessel Name</a>{% else %}Vessel Name{% endifnotequal %}</th>
+      <th>{% ifnotequal sort 'total'%}<a href="?sort=total">Total Subsidy</a>{% else %}Total Subsidy{% endifnotequal %}</th>
       <th>{% ifnotequal sort 'port'%}<a href="?sort=port">Home Port</a>{% else %}Home Port{% endifnotequal %}</th>
       <th>{% ifnotequal sort 'country'%}<a href="?sort=country">Country</a>{% else %}Country{% endifnotequal %}</th>
       <th>Description</th>
     </thead>
     {% for record in infringements %}
+    
+      {% url vessel country=record.iso_country cfr=record.cfr name=record.vesssel_name as link_to_vessel %}
+    
       <tr class="{% cycle 'odd' 'even' %}">
         <td>{{ record.date|date:"F Y"|default:"Unknown" }}</td>
-        <td><a href="{% url vessel country=record.iso_country cfr=record.cfr name=record.vesssel_name  %}">{{ record.vesssel_name }}</a></td>
+        <td><a href="{{ link_to_vessel }}">{{ record.vesssel_name }}</a></td>
+        <td><a href="{{ link_to_vessel }}">&euro;{{ record.total|floatformat|intcomma }}</a></td>
         <td><a href="{% url port record.iso_country record.port_name as port_url %}{{ port_url }}">{{ record.port_name|title }}</a></td>
         <td><a href="{% url country record.iso_country %}">{% code_to_name record.iso_country %}</a></td>
         <td>{{ record.description }}
         {% if record.sanction %}
           <br />
-          <strong>Sanction:</strong> {{ record.sanction }}<br />
+          Sanction: {{ record.sanction }}<br />
         {% endif %}
         {% if record.skipper %}          
-          <strong>Skipper:</strong> {{ record.skipper }}<br />
+          Skipper/Owner: {{ record.skipper }}<br />
         {% endif %}
         </td>
       </tr>

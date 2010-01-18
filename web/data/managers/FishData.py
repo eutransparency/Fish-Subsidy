@@ -10,6 +10,8 @@ class illegalFishingManager(models.Manager):
         order_by = 'f.iso_country ASC'
     elif sort == 'vessel':
         order_by = 'f.vessel_name ASC'
+    elif sort == 'total':
+        order_by = 't DESC'
     elif sort == 'port':
         order_by = 'f.port_name ASC'
     else:
@@ -17,7 +19,7 @@ class illegalFishingManager(models.Manager):
     
     cursor = connection.cursor()
     cursor.execute("""
-      SELECT i.*, f.vessel_name, f.iso_country, f.port_name
+      SELECT i.*, f.vessel_name, f.iso_country, f.port_name, SUM(f.total_subsidy) as t
       FROM data_illegalfishing i
       INNER JOIN `data_fishdata` f
       ON i.cfr = f.cfr
@@ -32,6 +34,7 @@ class illegalFishingManager(models.Manager):
         p.vesssel_name = row[6] or row[1]
         p.iso_country = row[7]
         p.port_name = row[8]
+        p.total = row[9]
         result_list.append(p)
     return result_list
 

@@ -76,11 +76,16 @@ def browse_ports(request, country, sort='amount', year=conf.default_year):
   
 def vessel(request, country, cfr, name):
   payments = FishData.objects.filter(cfr=cfr).order_by('year')
+  total = 0
+  for payment in payments:
+      total += payment.total_subsidy
   infringement_record = illegalFishing.objects.filter(cfr=cfr).order_by('date')
-  print infringement_record
   return render_to_response(
     'vessel.html', 
-    {'payments' : payments, 'infringement_record' : infringement_record}, 
+    {'payments' : payments, 
+    'infringement_record' : infringement_record,
+    'total' : total,
+    }, 
     context_instance=RequestContext(request)
   )
 
