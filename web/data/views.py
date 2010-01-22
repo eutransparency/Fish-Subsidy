@@ -197,6 +197,7 @@ def browse_geo2(request, country, geo1, sort='amount', year=conf.default_year):
 def infringements(request):
   sort = request.GET.get('sort','date')
   infringements = illegalFishing.objects.all_infringements(sort=sort)
+      
   return render_to_response(
     'infringements.html', 
     {
