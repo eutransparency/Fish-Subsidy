@@ -1,0 +1,137 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-02-21 11:03+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: global_settings.py:89
+msgid "German"
+msgstr ""
+
+#: global_settings.py:90
+msgid "English"
+msgstr ""
+
+#: misc/countryCodes.py:7
+msgid "All Countries"
+msgstr ""
+
+#: misc/countryCodes.py:8
+msgid "Austria"
+msgstr ""
+
+#: misc/countryCodes.py:9
+msgid "Belgium"
+msgstr ""
+
+#: misc/countryCodes.py:10
+msgid "Bulgaria"
+msgstr ""
+
+#: misc/countryCodes.py:11
+msgid "Cyprus"
+msgstr ""
+
+#: misc/countryCodes.py:12
+msgid "Czech Republic"
+msgstr ""
+
+#: misc/countryCodes.py:13
+msgid "Denmark"
+msgstr ""
+
+#: misc/countryCodes.py:14
+msgid "Estonia"
+msgstr ""
+
+#: misc/countryCodes.py:15
+msgid "Finland"
+msgstr ""
+
+#: misc/countryCodes.py:16
+msgid "France"
+msgstr ""
+
+#: misc/countryCodes.py:17
+msgid "Germany"
+msgstr ""
+
+#: misc/countryCodes.py:18
+msgid "Greece"
+msgstr ""
+
+#: misc/countryCodes.py:19
+msgid "Hungary"
+msgstr ""
+
+#: misc/countryCodes.py:20
+msgid "Italy"
+msgstr ""
+
+#: misc/countryCodes.py:21
+msgid "Ireland"
+msgstr ""
+
+#: misc/countryCodes.py:22
+msgid "Latvia"
+msgstr ""
+
+#: misc/countryCodes.py:23
+msgid "Lithuania"
+msgstr ""
+
+#: misc/countryCodes.py:24
+msgid "Luxembourg"
+msgstr ""
+
+#: misc/countryCodes.py:25
+msgid "Malta"
+msgstr ""
+
+#: misc/countryCodes.py:26
+msgid "Netherlands"
+msgstr ""
+
+#: misc/countryCodes.py:27
+msgid "Poland"
+msgstr ""
+
+#: misc/countryCodes.py:28
+msgid "Portugal"
+msgstr ""
+
+#: misc/countryCodes.py:29
+msgid "Romania"
+msgstr ""
+
+#: misc/countryCodes.py:30
+msgid "Slovakia"
+msgstr ""
+
+#: misc/countryCodes.py:31
+msgid "Slovenia"
+msgstr ""
+
+#: misc/countryCodes.py:32
+msgid "Spain"
+msgstr ""
+
+#: misc/countryCodes.py:33
+msgid "Sweden"
+msgstr ""
+
+#: misc/countryCodes.py:34
+msgid "United Kingdom"
+msgstr ""
