@@ -1,5 +1,8 @@
 import random
-from indexer import countryCodes
+
+from django.utils.translation import ugettext_lazy as _
+
+from misc import countryCodes
 
 
 def country(request):

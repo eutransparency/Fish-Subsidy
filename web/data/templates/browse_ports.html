@@ -1,15 +1,26 @@
 {% extends "base.html" %}
 {% load humanize %}
-{% block title%}Browse Ports{% endblock %}
-{% block page_title%}Browse{% endblock %}
+{% block title%}{% trans "Browse Ports" %}{% endblock %}
+{% block page_title%}{% trans "Browse" %}{% endblock %}
 {% block content %}
-<h3>Ports in <a href="/{{ country.code }}">{{ country.name }}</a>{% ifequal 0 year %}, All Years{% else %}, {{ year }}{% endifequal %}</h3>
+<h3>
+  {% url country country.name as country_url %}
+{% ifequal 0 year %}
+  {% blocktrans with country.name as country %}
+    Ports in <a href="{{ country_url }}">{{ country }}</a>, All Years
+  {% endblocktrans %}
+{% else %}
+  {% blocktrans with country.name as country %}
+    Ports in <a href="{{ country_url }}">{{ country }}</a>, {{ year }}
+  {% endblocktrans %}
+{% endifequal %}
+</h3>
 <div class="year_selector">
 {% for country_year in data_years %}
   {% url data.views.browse_ports country=country.code sort=sort year=country_year.year as year_url %}
   <a href="{{ year_url }}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a>
 {% endfor %}
-<br /><a href="/{{ country.code }}/ports/browse/{{ sort }}" {% ifequal year 0 %}class="selected"{% endifequal %}>All Years</a>
+<br /><a href="/{{ country.code }}/ports/browse/{{ sort }}" {% ifequal year 0 %}class="selected"{% endifequal %}>{% trans "All Years" %}</a>
 </div>
 
 
@@ -17,8 +28,8 @@
 {% autopaginate items 30 %}
   <table>
     <thead>
-      <th>{% ifequal sort "name"  %}<strong>Name</strong>{% else %}<a href="/{{ country.code }}/ports/browse/name">Port Name</a>{% endifequal %}</th>
-      <th>{% ifequal sort "amount"  %}<strong>Amount</strong>{% else %}<a href="/{{ country.code }}/ports/browse/amount">Amount</a>{% endifequal %}</th>
+      <th>{% ifequal sort "name"  %}<strong>{% trans "Port Name" %}</strong>{% else %}<a href="/{{ country.code }}/ports/browse/name">{% trans "Port Name" %}</a>{% endifequal %}</th>
+      <th>{% ifequal sort "amount"  %}<strong>{% trans "Amount" %}</strong>{% else %}<a href="/{{ country.code }}/ports/browse/amount">{% trans "Amount" %}</a>{% endifequal %}</th>
     </thead>
     {% for port in items %}
       {% url port country=port.iso_country port=port.port_name as vessel_url %}

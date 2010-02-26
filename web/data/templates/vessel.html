@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 {% load humanize %}
+{% load i18n %}
 {% block title %}
     {{ payments.0.vessel_name|title }} | {{ country.name }}
 {% endblock %}
 
 {% block page_title %}
-    {{ payments.0.vessel_name|title }} &mdash; Fish Subsidy payments
+    {{ payments.0.vessel_name|title }} &mdash; {% trans "Fish Subsidy payments" %}
 {% endblock %}
 
 
@@ -29,20 +30,20 @@
   {% load traffic_lights %}
   <table>
     <thead>
-      <th>Year</th>
-      <th>Scheme</th>
-      <th>Amount</th>
+      <th>{% trans "Year" %}</th>
+      <th>{% trans "Scheme" %}</th>
+      <th>{% trans "Amount" %}</th>
     </thead>
     {% for vessel in payments %}
       <tr>
         <td>{{ vessel.year }}</td>
-        <td>{{ vessel.scheme_name }}{% traffic_light vessel.scheme_traffic_light %}</td>
+        <td><a href="{% url scheme_country_detail vessel.iso_country vessel.scheme2_id vessel.scheme_name %}">{{ vessel.scheme_name }}</a>{% traffic_light vessel.scheme_traffic_light %}</td>
         <td>&euro;{{ vessel.total_subsidy|floatformat|intcomma }}</td>
       </tr>
     {% endfor %}
     <tr>
       <td></td>
-      <td style="text-align:right"><strong>Total</strong>:</td>
+      <td style="text-align:right"><strong>{% trans "Total" %}</strong>:</td>
       <td>&euro;{{ total|floatformat|intcomma }}</td>
     </tr>
   </table>
@@ -53,64 +54,80 @@
 
 {% block right %}
   <div class="box">
-    <h3>Vessel type</h3>
+    <h3>{% trans "Vessel type" %}</h3>
     <ul>
-      <li>Length: {{ payments.0.overall_length }} M</li>
-      <li>Tonnage: {{ payments.0.tonnage|floatformat }}</li>
-      <li>Power: {{ payments.0.main_power|floatformat }} kW</li>
+      <li>{% trans "Length:" %} {{ payments.0.overall_length }} M</li>
+      <li>{% trans "Tonnage:" %} {{ payments.0.tonnage|floatformat }}</li>
+      <li>{% trans "Power:" %} {{ payments.0.main_power|floatformat }} kW</li>
     </ul>
     
-    <h3>Vessel details</h3>
+    <h3>{% trans "Vessel details" %}</h3>
     <ul>
-      <li>Constructed {{ payments.0.construction_year }} In {{ payments.0.construction_place|title }}</li>
+      <li>{% blocktrans with payments.0.construction_year as construction_year and payments.0.construction_place|title as construction_place  %}
+        Constructed {{ construction_year }} In {{ construction_place }}
+      {% endblocktrans %}</li>
       {% if payments.0.external_marking %}
-        <li>External Markings: {{ payments.0.external_marking }}</li>      
+        <li>{% trans "External Markings" %}: {{ external_marking }}</li>
       {% endif %}
-      <li>Registration number: {{ payments.0.cfr }}</li>
+      <li>{% trans "Registration number" %}: {{ cfr }}</li>
       {% url data.views.port country=country.code port=payments.0.port_name as port_url %}
-      <li>Home Port: <a href="{{ port_url }}">{{ payments.0.port_name|title }}</a></li>
-      <li><a href="http://ec.europa.eu/fisheries/fleet/index.cfm?method=Search.ListSearchSimpleOneVessel&COUNTRY_CODE=&CFR_CODE={{ payments.0.cfr }}&search_type=advanced" target="_blank">Fleet Registry record</a></li>
-      <li>Country: <a href="/{{ country.code }}">{{ country.name }}</a></li>
-      <li>Infringement record: <a href="/faqs#withheld">Data Withheld</a></li>
-      <li>Quota: Data Witheld</li>
+      <li>{% trans "Home Port" %}: <a href="{{ port_url }}">{{ payments.0.port_name|title }}</a></li>
+      <li><a href="http://ec.europa.eu/fisheries/fleet/index.cfm?method=Search.ListSearchSimpleOneVessel&COUNTRY_CODE=&CFR_CODE={{ payments.0.cfr }}&search_type=advanced" target="_blank">{% trans "Fleet Registry record" %}</a></li>
+      <li>{% trans "Country" %}: <a href="/{{ country.code }}">{{ country.name }}</a></li>
+      <li>{% trans "Infringement record" %}: <a href="/faqs#withheld">Data Withheld</a></li>
+      <li>{% trans "Quota: Data Witheld" %}</li>
       {% if payments.0.greenpeace_link %}
-        <li><a href="{{ payments.0.greenpeace_link }}" target="_blank">Greenpeace Blacklist</a></li>
+        <li><a href="{{ payments.0.greenpeace_link }}" target="_blank">{% trans "Greenpeace Blacklist" %}</a></li>
       {% endif %}
     </ul>
     
-    <h3>Owner</h3> 
+    <h3>{% trans "Owner" %}</h3> 
     <ul>
-      <li>This information has been <a href="/faqs#withheld">Data Withheld</a></li>
+      <li>{% blocktrans %}
+        This information has been <a href="/faqs#withheld">Data Withheld</a>
+      {% endblocktrans %}</li>
     </ul>
     
-    <h3>Stocks targeted</h3> 
+    <h3>{% trans "Stocks targeted" %}</h3> 
     <ul>
-      <li>Tuna Fleet:  {% if payments.0.tuna_fleet %}Yes (<a href="/tuna-fleet">view all</a>){% else %}No{% endif %} </li>
-      <li>Other: <a href="/faqs#withheld">Data Withheld</a></p></li>
+      <li>
+        {% if payments.0.tuna_fleet %}
+          {% blocktrans %}
+            Tuna Fleet:  Yes (<a href="/tuna-fleet">view all</a>)
+          {% endblocktrans %}
+        {% else %}
+          {% blocktrans %}        
+            Tuna Fleet:  No
+          {% endblocktrans %}            
+        {% endif %} 
+        </li>
+      <li>{% blocktrans %}
+        Other: <a href="/faqs#withheld">Data Withheld</a></p>
+      {% endblocktrans %}</li>
     </ul>
     
     {% if infringement_record %}
-    <h3>Infringement record</h3> 
+    <h3>{% trans "Infringement record" %}</h3> 
     {% for record in infringement_record %}
       <ul>
-      <li><strong>Date</strong>: {{ record.date|date:"F Y" }}<br />
-      <strong>Offense</strong>: {{ record.description }}<br />
+      <li><strong>{% trans "Date" %}</strong>: {{ record.date|date:"F Y" }}<br />
+      <strong>{% trans "Offense" %}</strong>: {{ record.description }}<br />
       {% if record.sanction %}        
-        <strong>Sanction</strong>: {{ record.sanction }}<br />
+        <strong>{% trans "Sanction" %}</strong>: {{ record.sanction }}<br />
       {% endif %}
       {% if record.skipper %}        
-        <strong>Skipper</strong>: {{ record.skipper }}<br />
+        <strong>{% trans "Skipper" %}</strong>: {{ record.skipper }}<br />
       {% endif %}
       </ul>
     {% endfor %}
-    <p><a href="/faqs#infringement">About infringement records</a><br />
-    <a href="/infringements">View more infringements</a></p>
+    <p><a href="/faqs#infringement">{% trans "About infringement records" %}</a><br />
+    <a href="/infringements">{% trans "View more infringements" %}</a></p>
       
     {% endif %}
     
     
     
-    <p><a href="http://www.google.co.uk/search?q={{ payments.0.vessel_name|title }}">Google this recipient</a></p>
+    <p><a href="http://www.google.co.uk/search?q={{ payments.0.vessel_name|title }}">{% trans "Google this recipient" %}</a></p>
   </div>
   
 {% endblock %}

@@ -1,10 +1,20 @@
 {% extends "base.html" %}
-{% load humanize traffic_lights %}
+{% load humanize traffic_lights i18n %}
 {% block title %}
-  Schemes{% ifnotequal country.code "" %}, {{ country.name }}{% endifnotequal %}{% if year %}, {{ year }}{% else %}, All years{% endif %}
+  {% ifnotequal year 0 %}
+      {% blocktrans %}Schemes {{ year }}{% endblocktrans %}
+  {% else %}
+      {% blocktrans %}Schemes, All years{% endblocktrans %}
+  {% endifnotequal %}
 {% endblock %}
 {% block page_title %}
-  Schemes{% ifnotequal country.code "" %}, <a href="/{{ country.code }}">{{ country.name }}</a>{% endifnotequal %}{% if year %}, {{ year }}{% else %}, All years{% endif %}
+
+  {% url country country.code as country_url %}
+  {% ifnotequal year 0 %}
+      {% blocktrans with country.name as country %}Schemes in <a href="{{ country_url }}">{{ country }}</a> in {{ year }}{% endblocktrans %}
+  {% else %}                                     
+      {% blocktrans with country.name as country %}Schemes in <a href="{{ country_url }}">{{ country }}</a>, all years{% endblocktrans %}
+  {% endifnotequal %}
 {% endblock %}
 
 {% block content %}
@@ -19,17 +29,17 @@
     {% endfor %}
     <br />
     {% if country.code %}
-      <a href="/{{ country.code }}/schemes/0" {% ifequal year 0 %}class="selected"{% endifequal %}>All years</a>
+      <a href="/{{ country.code }}/schemes/0" {% ifequal year 0 %}class="selected"{% endifequal %}>{% trans "All years" %}</a>
     {% else %}
-      <a href="/schemes/0" {% ifequal year 0 %}class="selected"{% endifequal %}>All years</a>      
+      <a href="/schemes/0" {% ifequal year 0 %}class="selected"{% endifequal %}>{% trans "All years" %}</a>
     {% endif %}
     
     </div>
     
   <table class="section">
     <thead>
-      <th>Scheme Name</th>
-      <th>Amount</th>
+      <th>{% trans "Scheme Name" %}</th>
+      <th>{% trans "Amount" %}</th>
     </thead>
   {% for scheme in schemes %}
     {% if country.code %}
@@ -49,15 +59,17 @@
 
 {% block right %}
   <div id="scheme_help">
-    <h3>About Schemes</h3>
+    <h3>{% trans "About Schemes" %}</h3>
   <p>To help make sense of the various subsidy types we have adopted a classification developed by the Fisheries Centre of the University of British Columbia. 
-      This classification divides subsidy schemes and measures into:</p>    
-  <ul>
-      <li>Good (green {% traffic_light "1" %})</li>
-      <li>Bad (red{% traffic_light "3" %})</li> 
-      <li>Ugly (yellow{% traffic_light "2" %})</li>
-    </ul>
-      <a href="/about/schemes/">Read More</a>
-  </div>
+      This classification divides subsidy schemes and measures into:</p>
+      <ul>
+          <li>Good (green {{ good }})</li>
+          <li>Bad (red {{ bad }})</li> 
+          <li>Ugly (yellow {{ ugly }})</li>
+        </ul>
+          <a href="/about/schemes/">Read More</a>
+      </div>
+  
+  {# {% endblocktrans %} #}
 
 {% endblock %}

@@ -1,11 +1,17 @@
 {% extends "base.html" %}
 {% load humanize %}
+{% load i18n %}
 {% block title %}
   {{ country.name }}
 {% endblock %}
 
 {% block page_title %}
-  EU Fish subsidies for {{ country.name }}{% ifnotequal year 0 %} in {{ year }}{% else %}, All years{% endifnotequal %}
+  {% ifnotequal year 0 %}
+      {% blocktrans with country.name as country %}EU Fish subsidies for {{ country }} in {{ year }}{% endblocktrans %}
+  {% else %}
+      {% blocktrans with country.name as country %}EU Fish subsidies for {{ country }}, all years{% endblocktrans %}
+  {% endifnotequal %}
+  
 {% endblock %}
 
 {% block content %}
@@ -18,15 +24,15 @@
     {% url data.views.country country=country.code year=country_year.year as year_url %}
     <a href="{{ year_url }}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a>
   {% endfor %}
-  <br /><a href="0" {% ifequal year 0 %}class="selected"{% endifequal %}>All Years</a>
+  <br /><a href="0" {% ifequal year 0 %}class="selected"{% endifequal %}>{% trans "All Years" %}</a>
   </div>
   
   <div class="section col">  
-    <h2>Top Ports</h2>
+    <h2>{% trans "Top Ports" %}</h2>
     <table>
       <thead>
-        <th>Port</th>
-        <th>Amount</th>
+        <th>{% trans "Port" %}</th>
+        <th>{% trans "Amount" %}</th>
       </thead>
     {% for port in top_ports %}
       {% url data.views.port country=country.code port=port.port_name as port_url %}
@@ -35,17 +41,17 @@
       <td>&euro;{{ port.total|floatformat|intcomma }}</td>
       </tr>
     {% endfor %}
-    <tr><td><a href="/{{ country.code }}/ports/browse/0">See All</a></td></tr>
+    <tr><td><a href="/{{ country.code }}/ports/browse/0">{% trans "See All" %}</a></td></tr>
     </table>
   </div>
 
 
   <div class="section col">  
-    <h2>Top Municipalities</h2>
+    <h2>{% trans "Top Municipalities" %}</h2>
     <table>
       <thead>
-        <th>Municipality</th>
-        <th>Amount</th>
+        <th>{% trans "Municipality" %}</th>
+        <th>{% trans "Amount" %}</th>
       </thead>
     {% for m in top_municipalities %}
       {% url browse_geo2 country=country.code geo1=m.geo1 as municipality_url %}
@@ -54,24 +60,26 @@
       <td>&euro;{{ m.total_subsidy|floatformat|intcomma }}</td>
       </tr>
     {% endfor %}
-    <tr><td><a href="/{{ country.code }}/municipalities/">See All</a></td></tr>
+    <tr><td><a href="/{{ country.code }}/municipalities/">{% trans "See All" %}</a></td></tr>
     </table>
   </div>
 
-  <div class="section">
-    <h2>Top vessels</h2>
-    {% load list_data %}
-    {% list_vessels top_vessels 1 0 %}
-    <a href="/{{ country.code }}/browse/0">See All</a>
-  </div>
-  
+  {% if top_vessels.0 %}
+    <div class="section">
+      <h2>{% trans "Top vessels" %}</h2>
+      {% load list_data %}
+      {% list_vessels top_vessels 1 0 %}
+      <a href="/{{ country.code }}/browse/0">{% trans "See All" %}</a>
+    </div>
+  {% endif %}
+    
   <div class="section"> 
     {% load traffic_lights %}
-    <h2>Top schemes</h2>
+    <h2>{% trans "Top schemes" %}</h2>
     <table>
       <thead>
-        <th>Scheme Name</th>
-        <th>Amount</th>
+        <th>{% trans "Scheme Name" %}</th>
+        <th>{% trans "Amount" %}</th>
       </thead>
     {% for scheme in top_schemes %}
     
@@ -81,7 +89,7 @@
           <td>&euro;{{ scheme.total|floatformat|intcomma }}</td>
       </tr>
     {% endfor %}
-    <tr><td><a href="schemes">See All</a></td></tr>
+    <tr><td><a href="schemes">{% trans "See All" %}</a></td></tr>
     </table>
   </div>
 {% endblock %}
@@ -97,20 +105,22 @@
 </div>
 
 
-    <h3>Recipients in {{ country.name }}</h3>
+    <h3>{% blocktrans with country.name as country %}
+      Recipients in {{ country }}
+    {% endblocktrans %}</h3>
     <ul>
-      <li><strong>Vessels</strong>
+      <li><strong>{% trans "Vessels" %}</strong>
         <ul>
-          <li><a href="/{{ country.code }}/browse/amount">By amount received</a></p>
-          <li><a href="/{{ country.code }}/browse/name">A - Z by name</a></li>
-          <li><a href="/{{ country.code }}/browse/port">A - Z by port</a></li>
-          <li><a href="/{{ country.code }}/tuna-fleet">Tuna Fleet</a></li>
+          <li><a href="/{{ country.code }}/browse/amount">{% trans "By amount received" %}</a></p>
+          <li><a href="/{{ country.code }}/browse/name">{% trans "A - Z by name" %}</a></li>
+          <li><a href="/{{ country.code }}/browse/port">{% trans "A - Z by port" %}</a></li>
+          <li><a href="/{{ country.code }}/tuna-fleet">{% trans "Tuna Fleet" %}</a></li>
         </ul>
       </li>
       <li><strong>Ports</strong>
         <ul>
-          <li><a href="/{{ country.code }}/ports/browse/amount">By amount received</a></p>
-          <li><a href="/{{ country.code }}/ports/browse/name">A - Z by name</a></li>
+          <li><a href="/{{ country.code }}/ports/browse/amount">{% trans "By amount received" %}</a></p>
+          <li><a href="/{{ country.code }}/ports/browse/name">{% trans "A - Z by name" %}</a></li>
         </ul>
       </li>
 

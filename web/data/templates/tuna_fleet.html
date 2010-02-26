@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% load humanize %}
-{% block title%}Tuna Fleet{% endblock %}
-{% block page_title%}<a href="/{{ country.code }}">{{ country.name }}</a>: Tuna Fleet{% endblock %}
+{% block title%}{% trans "Tuna Fleet" %}{% endblock %}
+{% block page_title%}{% blocktrans with country.name as country and country.code as code %}
+  <a href="/{{ code }}">{{ name }}</a>: Tuna Fleet
+{% endblocktrans %}{% endblock %}
 {% block content %}
 {% load pagination_tags %}
 {% autopaginate vessels 30 %}
@@ -11,9 +13,9 @@
   
 <table>
   <thead>
-    <th>Name</th>
-    <th>Amount</th>
-    <th>Port</th>
+    <th>{% trans "Name" %}</th>
+    <th>{% trans "Amount" %}</th>
+    <th>{% trans "Port" %}</th>
   </thead>
   {% for vessel in vessels %}
     {% url vessel country=vessel.iso_country cfr=vessel.cfr name=vessel.vessel_name|slugify as vessel_url %}
@@ -28,7 +30,9 @@
 </table>
   <h4 class="pager">{% paginate %}</h4>
   {% else %}
-    <p>{{ country.name }} has no vessels in the Tuna Fleet.  <a href="/EU/tuna-fleet">View the full list</a></p>
+    <p>{% blocktrans country.name as country %}
+      {{ country.name }} has no vessels in the Tuna Fleet.  <a href="/EU/tuna-fleet">View the full list</a>
+    {% endblocktrans %}</p>
   {% endif %}
 
 {% endblock %}

@@ -1,11 +1,22 @@
 {% extends "base.html" %}
 {% load humanize %}
+{% load i18n %}
 {% block title %}
   {{ port.port_name|title }} | {{ country.name }}
 {% endblock %}
 
 {% block page_title %}
-  Vessels in {{ port.port_name|title }}, <a href="/{{ country.code }}">{{ country.name }}</a>{% ifequal 0 year %}, All Years{% else %}, {{ year }}{% endifequal %}
+  {% url country country.code as country_url %}
+  {% ifequal 0 year %}
+    {% blocktrans with port.port_name|title as port_name and country.name as country %}
+      Vessels in {{ port_name }}, <a href="/{{ country_url }}">{{ country }}</a>, All Years
+    {% endblocktrans %}
+  {% else %}
+    {% blocktrans with port.port_name|title as port_name and country.name as country %}  
+      Vessels in {{ port_name }}, <a href="/{{ country_url }}">{{ country }}</a> {{ year }}
+    {% endblocktrans %}
+  {% endifequal %}
+  
 {% endblock %}
 
 
@@ -18,7 +29,7 @@
   {% url data.views.port country=country.code port=port.port_name year=country_year.year as year_url %}
   <a href="{{ year_url }}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a>
 {% endfor %}
-<br /><a href="0" {% ifequal year 0 %}class="selected"{% endifequal %}>All Years</a>
+<br /><a href="0" {% ifequal year 0 %}class="selected"{% endifequal %}>{% trans "All Years" %}</a>
 </div>
 {% endif %}
 
@@ -26,12 +37,12 @@
   {% autopaginate top_vessels 30 %}
   
   <div class="section">
-    <h2>Vessels</h2>
+    <h2>{% trans "Vessels" %}</h2>
     
     <table>
       <thead>
-        <th>Name</th>
-        <th>Amount</th>
+        <th>{% trans "Name" %}</th>
+        <th>{% trans "Amount" %}</th>
       </thead>
       {% for vessel in top_vessels %}
       <tr>{% url vessel country=country.code cfr=vessel.cfr name=vessel.vessel_name|slugify as vessel_url %}

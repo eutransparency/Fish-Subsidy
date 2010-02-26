@@ -1,14 +1,15 @@
 {% extends "base.html" %}
 {% load humanize %}
 {% load code_to_name %}
-{% block title %}Identified Infringements{% endblock %}
-{% block page_title %}Identified Infringements{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Identified Infringements" %}{% endblock %}
+{% block page_title %}{% trans "Identified Infringements" %}{% endblock %}
 
 {% block body_class%}wide{% endblock %}
 
 {% block content %}
 
-
+{% blocktrans %}
 <p>Illegal fishing contributes to the overfishing of valuable fish stocks,
 many of which are at dangerously depleted levels. Very limited data on
 convictions for serious infringements (illegal fishing) has been compiled from
@@ -19,15 +20,16 @@ therefore certain to be incomplete.</p>
 
 <p>The table below shows vessels that have received fisheries subsidies and
 have been convicted of serious infringements.</p>
+{% endblocktrans %}
 
   <table>
     <thead>
-      <th>{% ifnotequal sort 'date'%}<a href="?sort=date">Date</a>{% else %}Date{% endifnotequal %}</th>
-      <th>{% ifnotequal sort 'vessel'%}<a href="?sort=vessel">Vessel Name</a>{% else %}Vessel Name{% endifnotequal %}</th>
-      <th>{% ifnotequal sort 'total'%}<a href="?sort=total">Total Subsidy</a>{% else %}Total Subsidy{% endifnotequal %}</th>
-      <th>{% ifnotequal sort 'port'%}<a href="?sort=port">Home Port</a>{% else %}Home Port{% endifnotequal %}</th>
-      <th>{% ifnotequal sort 'country'%}<a href="?sort=country">Country</a>{% else %}Country{% endifnotequal %}</th>
-      <th>Description</th>
+      <th>{% ifnotequal sort 'date'%}<a href="?sort=date">{% trans "Date" %}</a>{% else %}{% trans "Date" %}{% endifnotequal %}</th>
+      <th>{% ifnotequal sort 'vessel'%}<a href="?sort=vessel">{% trans "Vessel Name" %}</a>{% else %}{% trans "Vessel Name" %}{% endifnotequal %}</th>
+      <th>{% ifnotequal sort 'total'%}<a href="?sort=total">{% trans "Total Subsidy" %}</a>{% else %}{% trans "Total Subsidy" %}{% endifnotequal %}</th>
+      <th>{% ifnotequal sort 'port'%}<a href="?sort=port">{% trans "Home Port" %}</a>{% else %}{% trans "Home Port" %}{% endifnotequal %}</th>
+      <th>{% ifnotequal sort 'country'%}<a href="?sort=country">{% trans "Country" %}</a>{% else %}{% trans "Country" %}{% endifnotequal %}</th>
+      <th>{% trans "Description" %}</th>
     </thead>
     {% for record in infringements %}
     
@@ -42,10 +44,10 @@ have been convicted of serious infringements.</p>
         <td>{{ record.description }}
         {% if record.sanction %}
           <br />
-          Sanction: {{ record.sanction }}<br />
+          {% trans "Sanction" %}: {{ record.sanction }}<br />
         {% endif %}
         {% if record.skipper %}          
-          Skipper/Owner: {{ record.skipper }}<br />
+          {% trans "Skipper/Owner" %}: {{ record.skipper }}<br />
         {% endif %}
         </td>
       </tr>

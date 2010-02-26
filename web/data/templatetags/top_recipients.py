@@ -1,6 +1,6 @@
 from django.template import Library, Node
 from data.models import FishData
-from indexer import countryCodes
+from misc import countryCodes
 register = Library()
 
 def top_recipients(number, recipient_type=None, country=None, location=None):

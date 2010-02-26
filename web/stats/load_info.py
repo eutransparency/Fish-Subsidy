@@ -1,6 +1,6 @@
 import csv
 import re
-from fishsubsidy import conf
+import conf
 from django.contrib.humanize.templatetags import humanize
 
 def load_info(country=None, format=True, year=conf.default_year):

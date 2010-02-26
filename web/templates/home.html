@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% load countrymenu %}
 {% load humanize %}
-{% block title %}Home{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Home" %}{% endblock %}
 {% block body_id%}home{% endblock %}
 
 {% block logo %}
@@ -14,12 +15,18 @@
   {% latestnews "" 1 "Blog" 1 %}
   <div class="section">
     <form action="/search" method="get" accept-charset="utf-8" id="search_form">
-      <h2><label for="search" class="section_title">Search</label></h2>
+      <h2><label for="search" class="section_title">{% trans "Search" %}</label></h2>
       <div class="section_content">
-        <input type="text" name="q" value="" id="q" title="Enter a vessel name, number, port or place name">
-        <div class="description">e.g. <a href="/search?q=Aurora">Aurora</a>, <a href="/search?q=DEU000300601">DEU000300601</a> or <a href="/search?q=Dieppe">Dieppe</a>
-          <div class="search_help">Use "AND", "OR" or "NOT" to refine searches.  <br />Use "-" (minus) to remove particular words, for example "Jan  -Looden"<br />
-            If a search that returns only one hit, it will be displayed directly.
+        <input type="text" name="q" value="" id="q" title="{% trans "Enter a vessel name, number, port or place name" %}">
+        <div class="description">
+          {% blocktrans %}
+          e.g. <a href="/search?q=Aurora">Aurora</a>, <a href="/search?q=DEU000300601">DEU000300601</a> or <a href="/search?q=Dieppe">Dieppe</a>
+          {% endblocktrans %}
+          <div class="search_help">
+            {% blocktrans %}
+              Use "AND", "OR" or "NOT" to refine searches.  <br />Use "-" (minus) to remove particular words, for example "Jan  -Looden"<br />
+              If a search that returns only one hit, it will be displayed directly.            
+            {% endblocktrans %}
             </div></div>
         <input type="submit" value="Go" class="submit">
       </div>
@@ -27,7 +34,7 @@
   </div>
   
   <div class="section">
-    <h2 class="section_title">Browse</h2>
+    <h2 class="section_title">{% trans "Browse" %}</h2>
       <div class="section_content"> 
         {% load top_recipients %}
         
@@ -35,7 +42,7 @@
           {% top_recipients 5 0 "EU"%}
           {% top_recipients 5 0 ip_country %}
           <div class="section wide-col">
-            <h3>Top Schemes</h3>
+            <h3>{% trans "Top Schemes" %}</h3>
             <div style="text-align:center"><a href="/EU/schemes"><img src="graph/stack/0" /></a></div>
             
             
@@ -44,8 +51,8 @@
 
             <table>
               <thead>
-                <th>Scheme Name</th>
-                <th>Amount</th>
+                <th>{% trans "Scheme Name" %}</th>
+                <th>{% trans "Amount" %}</th>
               </thead>
             {% for scheme in top_schemes %}
             
@@ -57,7 +64,7 @@
               
             {% endfor %}
             
-            <tr><td><a href="/EU/schemes">See All</a></td></tr>
+            <tr><td><a href="/EU/schemes">{% trans "See All" %}</a></td></tr>
             </table>
             
 
@@ -68,7 +75,12 @@
         
         
         <div class="col narrow-col">
-          <div class="block"><h3>By country</h3>{% menu %}</div>
+          <div class="block"><h3>{% trans "By country" %}</h3>{% menu %}</div>
+          <div class="block">
+            <h3>Follow <a href="http://twitter.com/fishsubsidy">fishsubsidy.org</a> on Twitter</h3>
+            {{ tweet.text }}
+          </div>
+          
         </div>
         
       </div>

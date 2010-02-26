@@ -1,5 +1,5 @@
 from django.template import Library, Node
-from indexer import countryCodes
+from misc import countryCodes
 from django.utils.datastructures import SortedDict
 register = Library()
 

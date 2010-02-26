@@ -1,5 +1,5 @@
 # Django settings for web project.
-
+from django.utils.translation import ugettext_lazy as _
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -40,8 +40,9 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',    
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'pagination.middleware.PaginationMiddleware',    
@@ -67,7 +68,7 @@ INSTALLED_APPS = (
     'graphs',
     'tagging',
     'pagination',    
-    
+    'registration',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -78,7 +79,19 @@ TEMPLATE_CONTEXT_PROCESSORS = (
   "django.core.context_processors.request",
   'data.context_processors.country',
   'data.context_processors.ip_country',  
+  'misc.context_processors.latest_tweet',
 )
 
 
 DEFAULT_CHARSET = "utf-8" 
+
+
+LANGUAGES = (
+  ('de', _('German')),
+  ('en', _('English')),
+)
+
+# LANGUAGE_CODE = 'de'
+
+TWITTER_USER = "fishsubsidy"
+TWITTER_TIMEOUT = 3600
