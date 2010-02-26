@@ -27,9 +27,9 @@ urlpatterns += patterns('',
     (r'', include('search.urls')),
     (r'', include('graphs.urls')),
     (r'', include('web.feeds.urls')),    
-    (r'^i18n/', include('django.conf.urls.i18n')),
-    url(r'^accounts/', include('registration.urls')),    
-    url(r'^login/$',misc.views.login, name='login'),    
+    # (r'^i18n/', include('django.conf.urls.i18n')),
+    # url(r'^accounts/', include('registration.urls')),    
+    # url(r'^login/$',misc.views.login, name='login'),    
 )
 
 
