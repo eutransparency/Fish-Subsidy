@@ -46,12 +46,12 @@ def port(request, country, port, year=conf.default_year):
   top_vessels = FishData.objects.top_vessels(country, limit=2000, year=year, port=port)
   data_years = FishData.objects.country_years(country, port=port)  
   
+  ports = FishData.objects.filter(port_name=port)
   if country != "EU":
-    port = FishData.objects.filter(port_name=port, iso_country=country)[1]
-  else:
-    port = FishData.objects.filter(port_name=port)[1]
-    
+    ports.filter(iso_country=country)
 
+  if len(ports) > 0:
+      port = ports[0]
 
   return render_to_response(
     'port.html', 
@@ -109,9 +109,6 @@ def tuna_fleet(request, country):
   
   
 def scheme_detail(request, scheme_id, name, country=None, year=conf.default_year):
-  
-
-  
   scheme = FishData.objects.scheme_years(scheme_id=scheme_id, country=country, year=year)
   
   data_years = FishData.objects.country_years(country=country, scheme_id=scheme_id)      
