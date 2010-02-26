@@ -1,3 +1,5 @@
+import re
+
 from django.db import models
 from django.db import connection, backend, models
 import conf
@@ -58,7 +60,7 @@ class FishDataManager(models.Manager):
       GROUP BY cfr
       ORDER BY t DESC
       LIMIT %(limit)s;
-    """ % {'country' : country, 'year' : year, 'limit' : limit, 'extra_and' : extra_and })
+    """ % {'country' : country, 'year' : year, 'limit' : limit, 'extra_and' : re.escape(extra_and) })
     
     result_list = []
     for row in cursor.fetchall():
@@ -79,7 +81,7 @@ class FishDataManager(models.Manager):
       WHERE vessel_name IS NOT NULL AND `tuna_fleet` IS NOT NULL  %(extra_and)s
       GROUP BY cfr
       ORDER BY t DESC;
-    """ % {'extra_and' : extra_and })
+    """ % {'extra_and' : re.escape(extra_and) })
     
     result_list = []
     for row in cursor.fetchall():
@@ -108,7 +110,7 @@ class FishDataManager(models.Manager):
       GROUP BY cfr
       ORDER BY t DESC
       LIMIT %(limit)s;
-    """ % {'scheme_id' : scheme_id, 'country' : country, 'limit' : limit, 'extra_and' : extra_and })
+    """ % {'scheme_id' : scheme_id, 'country' : country, 'limit' : limit, 'extra_and' : re.escape(extra_and) })
         
     result_list = []
     for row in cursor.fetchall():
@@ -135,7 +137,7 @@ class FishDataManager(models.Manager):
       GROUP BY iso_country,scheme2_id
       ORDER BY t DESC
       LIMIT %(limit)s;
-    """ % {'country' : country, 'year' : year, 'limit' : limit, 'extra_and' : extra_and })
+    """ % {'country' : country, 'year' : year, 'limit' : limit, 'extra_and' : re.escape(extra_and) })
     
     result_list = []
     for row in cursor.fetchall():
@@ -163,7 +165,7 @@ class FishDataManager(models.Manager):
       GROUP BY port_name 
       ORDER BY t DESC      
       LIMIT %(limit)s;
-    """ % {'country' : country, 'year' : year, 'limit' : limit, 'extra_and' : extra_and })
+    """ % {'country' : country, 'year' : year, 'limit' : limit, 'extra_and' : re.escape(extra_and) })
     
     result_list = []
     for row in cursor.fetchall():
@@ -204,7 +206,7 @@ class FishDataManager(models.Manager):
       WHERE year IS NOT NULL %(extra_and)s 
       GROUP BY year, scheme_traffic_light 
       ORDER BY year ASC;  
-    """ % {'extra_and' : extra_and})
+    """ % {'extra_and' : re.escape(extra_and)})
     
     result_list = []
     for row in cursor.fetchall():
@@ -225,7 +227,7 @@ class FishDataManager(models.Manager):
       FROM `data_fishdata` 
       WHERE scheme2_id=%(scheme_id)s %(extra_and)s 
       GROUP BY `year`
-    """ % {'scheme_id' : scheme_id, 'extra_and' : extra_and})
+    """ % {'scheme_id' : scheme_id, 'extra_and' : re.escape(extra_and)})
     
     result_list = []
     for row in cursor.fetchall():
@@ -247,7 +249,7 @@ class FishDataManager(models.Manager):
       FROM `data_fishdata` WHERE scheme_name IS NOT NULL %(extra_and)s 
       GROUP BY `scheme2_id`
       ORDER BY t DESC
-    """ % {'extra_and' : extra_and, 'year' : year})
+    """ % {'extra_and' : re.escape(extra_and), 'year' : year})
 
     result_list = []
     for row in cursor.fetchall():
@@ -285,7 +287,7 @@ class FishDataManager(models.Manager):
             WHERE `vessel_name` IS NOT NULL %(extra_and)s 
             GROUP BY `cfr` 
             ORDER BY %(sort)s 
-          """ % {'sort' : sort, 'country' : country, 'extra_and' : extra_and})
+          """ % {'sort' : sort, 'country' : country, 'extra_and' : re.escape(extra_and)})
               
     result_list = []
     for row in cursor.fetchall():
@@ -308,7 +310,7 @@ class FishDataManager(models.Manager):
         WHERE `port_name` IS NOT NULL  %(extra_and)s
         GROUP BY `port_name` 
         ORDER BY %(sort)s 
-      """ % {'sort' : sort, 'country' : country, 'extra_and' : extra_and})
+      """ % {'sort' : sort, 'country' : country, 'extra_and' : re.escape(extra_and)})
 
     result_list = []
     for row in cursor.fetchall():
@@ -335,7 +337,10 @@ class FishDataManager(models.Manager):
       WHERE geo%(geo)s IS NOT NULL %(extra_and)s
       GROUP BY geo%(geo)s
       ORDER BY %(sort)s
-      """ % {'sort' : sort, 'country' : country, 'extra_and' : extra_and, 'geo' : geo})
+      """ % {'sort' : sort, 
+             'country' : country, 
+             'extra_and' : re.escape(extra_and), 
+             'geo' : geo})
       
     result_list = []
     for row in cursor.fetchall():
