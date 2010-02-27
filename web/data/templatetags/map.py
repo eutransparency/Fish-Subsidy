@@ -3,7 +3,7 @@ register = Library()
 
 import settings
 
-def get_map(lat,lon):
+def get_map(lat=None,lon=None):
   try:
     t = float(lat) + 0.03
     b = float(lat) - 0.03
