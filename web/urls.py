@@ -4,6 +4,7 @@ from web import settings
 
 from web.data.models import FishData
 import misc.views
+import features
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -30,6 +31,10 @@ urlpatterns += patterns('',
     # (r'^i18n/', include('django.conf.urls.i18n')),
     # url(r'^accounts/', include('registration.urls')),    
     # url(r'^login/$',misc.views.login, name='login'),    
+    
+    # Features
+    url(r'^features/', include('features.urls')),
+    
 )
 
 

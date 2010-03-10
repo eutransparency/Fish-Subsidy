@@ -42,7 +42,17 @@
       <li class="{% active request "^/news/" %}"><a href="/news/">In The News</a></li>
     </ul>
   </div>
-  
+  {% if featured_items %}
+    <ul id="features">
+      <li class="heading"><h5>{% trans "Featured:" %}</h5></li>
+      {% for feature in featured_items %}
+        <li>
+          <p><strong><a href="{% url feature_detail feature.slug %}">{{ feature.title }}</a>:</strong>
+          {{ feature.teaser|truncatewords:"25" }}</p>
+          </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
   <div id="content">
     <div id="breadcrumb">{% block breadcrumb %}{% endblock %}</div>
     

@@ -8,9 +8,10 @@ def latest_tweet(request):
 
     if tweet:
         return {"tweet": tweet}
-
-    tweet = twitter.Api().GetUserTimeline(settings.TWITTER_USER)[0]
-    tweet.date = datetime.strptime( tweet.created_at, "%a %b %d %H:%M:%S +0000 %Y" )
-    cache.set( 'tweet', tweet, settings.TWITTER_TIMEOUT )
-
+    try:
+        tweet = twitter.Api().GetUserTimeline(settings.TWITTER_USER)[0]
+        tweet.date = datetime.strptime( tweet.created_at, "%a %b %d %H:%M:%S +0000 %Y" )
+        cache.set( 'tweet', tweet, settings.TWITTER_TIMEOUT )
+    except:
+        tweet = {}
     return {"tweet": tweet}

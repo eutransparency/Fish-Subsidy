@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+  <form method="POST">
+  {{ registration_form }}
+  <input type="submit" name="register" value="Create your account" />
+  </form>  
+
+  <hr>
+  <form method="POST">
+  {{ login_form }}
+  <input type="submit" name="login" value="Sign in" />
+  </form>
+{% endblock %}

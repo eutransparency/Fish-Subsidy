@@ -69,6 +69,7 @@ INSTALLED_APPS = (
     'tagging',
     'pagination',    
     'registration',
+    'features'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -80,6 +81,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
   'data.context_processors.country',
   'data.context_processors.ip_country',  
   'misc.context_processors.latest_tweet',
+  'features.context_processors.featured_items',
 )
 
 

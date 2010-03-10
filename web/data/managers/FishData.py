@@ -153,7 +153,7 @@ class FishDataManager(models.Manager):
     if country and country != "EU":
       extra_and += " AND iso_country = '%s'" % country
     if geo1:
-      extra_and += " AND geo1='%s'" % geo1
+      extra_and += " AND geo1='%s'" % re.escape(geo1)
     if scheme_id:
       extra_and += " AND scheme2_id='%s'" % scheme_id
     
