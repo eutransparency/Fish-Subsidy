@@ -52,22 +52,20 @@
   {% load comments i18n %}
   {% get_comment_list for payments.0 as comment_list %}
   {% if comment_list %}
-    
-
-  <div class="section">
-    {% for comment in comment_list %}
-      <div class="comment">
-        <div class="info col">        
-          <h4>{{ comment.user }}</h4>
-          {{ comment.submit_date|date:"H.i" }} {{ comment.submit_date|naturalday|title }}
-        </div>    
-        <div class="message col">
-          {{ comment.comment|markdown:"safe" }}
+    <div class="section">
+      <h3>Information added by users</h3>
+      {% for comment in comment_list %}
+        <div class="comment">
+          <div class="info col">        
+            <h4>{{ comment.user }}</h4>
+            {{ comment.submit_date|date:"H.i" }} {{ comment.submit_date|naturalday|title }}
+          </div>    
+          <div class="message col">
+            {{ comment.comment|markdown:"safe" }}
+          </div>
         </div>
-      </div>
-    {% endfor %}
-    
-  </div>
+      {% endfor %}    
+    </div>
   {% endif %}
   <div class="section">
     <h3>Add information for this recipient</h3>
