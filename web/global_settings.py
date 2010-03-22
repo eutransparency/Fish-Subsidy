@@ -46,6 +46,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',    
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'pagination.middleware.PaginationMiddleware',    
+    'django_notify.middleware.NotificationsMiddleware',    
 )
 
 ROOT_URLCONF = 'web.urls'
@@ -53,6 +54,7 @@ ROOT_URLCONF = 'web.urls'
 
 INSTALLED_APPS = (
     'django.contrib.auth',
+    'django.contrib.comments',    
     'django.contrib.contenttypes',
     'django.contrib.admin',    
     'django.contrib.humanize',    
@@ -69,7 +71,11 @@ INSTALLED_APPS = (
     'tagging',
     'pagination',    
     'registration',
-    'features'
+    'features',
+    'listmaker',
+    'profiles',
+    'frontend',
+    'django_notify',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -82,11 +88,12 @@ TEMPLATE_CONTEXT_PROCESSORS = (
   'data.context_processors.ip_country',  
   'misc.context_processors.latest_tweet',
   'features.context_processors.featured_items',
+  'django_notify.context_processors.notifications',  
 )
 
 
 DEFAULT_CHARSET = "utf-8" 
-
+NOTIFICATIONS_STORAGE = 'session.SessionStorage'
 
 LANGUAGES = (
   ('de', _('German')),
@@ -97,3 +104,9 @@ LANGUAGES = (
 
 TWITTER_USER = "fishsubsidy"
 TWITTER_TIMEOUT = 3600
+
+AUTH_PROFILE_MODULE = 'frontend.Profile'
+LOGIN_URL = '/login/'
+
+SESSION_TIMEOUT = 1209600
+REGISTRATION_BACKEND = "registration.backends.default.DefaultBackend"

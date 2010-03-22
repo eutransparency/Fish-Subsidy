@@ -24,6 +24,42 @@
 	
 </head>
 <body id="{% block body_id%}{% endblock %}" class="{% block body_class%}{% endblock %}">
+  
+  <div id="topbar">
+    
+    <form method="post" action="http://app.icontact.com/icp/signup.php" name="icpsignup" accept-charset="UTF-8" onsubmit="return verifyRequired();">
+    <input name="redirect" value="http://www.icontact.com/www/signup/thanks.html" type="hidden">
+    <input name="errorredirect" value="http://www.icontact.com/www/signup/error.html" type="hidden">
+    <script type="text/javascript">
+
+    if (document.location.protocol === "https:")
+
+    	document.icpsignup.action = "https://app.icontact.com/icp/signup.php";
+    function verifyRequired() {
+      if (document.icpsignup["fields_email"].value == "") {
+        document.icpsignup["fields_email"].focus();
+        alert("The Email field is required.");
+        return false;
+      }
+
+
+    return true;
+    }
+    </script>
+    <div id="SignUp">
+      <label for="fields_email">Join the fishsubsidy.org newsletter. Email:</label>&nbsp;<input type="text" name="fields_email" value="" id="fields_email" size="20">
+      <input name="Submit" value="Submit" type="submit">
+        <input name="listid" value="3290" type="hidden">
+        <input name="specialid:3290" value="OMN5" type="hidden">
+        <input name="clientid" value="161514" type="hidden">
+        <input name="formid" value="278" type="hidden">
+        <input name="reallistid" value="1" type="hidden">
+        <input name="doubleopt" value="1" type="hidden">
+    </div>
+    </form>
+  </div>
+  
+  
   <div id="page">
   <div id="head">
     
@@ -41,6 +77,17 @@
       <li class="{% active request "^/blog/" %}"><a href="/blog/">Blog</a></li>
       <li class="{% active request "^/news/" %}"><a href="/news/">In The News</a></li>
     </ul>
+    
+    
+    <div id="user_menu">
+      {% if user.is_authenticated %}
+        <a href="{% url profiles.views.profile_detail user.username %}">{{ user.username }}</a> Logged in <a href="{% url logout %}">Log out</a>
+      {% else %}
+       <a href="{% url login %}">Create an account or Log in</a>
+      {% endif %}  
+
+    </div>
+    
   </div>
   {% if featured_items %}
     <ul id="features">
@@ -60,6 +107,16 @@
     
   {% endblock %}</h2>
   
+  {% if notifications %}
+  <ul>
+
+      {% for message in notifications %}
+  	{% if forloop.first %} {% comment %} Just get the first notification - otherwise login message displays twice, strange bug {% endcomment %}
+         <li {% if message.tags %}class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+         {% endif %}
+      {% endfor %}
+  </ul>
+  {% endif %}
   
   {% block content %}
   
@@ -73,10 +130,13 @@
   </div>
   </div>
   <div id="footer">
-    <ul id="links">
+    <ul class="col">
       <li><a href="/about/">About</a></li>
       <li><a href="/about/legal/">Legal / Privacy</a></li>
+    </ul>
+    <ul class="col">
       <li><a href="/faqs/">FAQs</a></li>
+      <li><a href="{% url download %}">Get the Data</a></li>
     </ul>
   </div>
 <script type="text/javascript">

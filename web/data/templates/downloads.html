@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<table>
+  <thead>
+    <th>File Name</th>
+    <th>File Format</th>
+    <th>File Description</th>
+  </thead>
+  <tbody>
+    
+  
+  {% for file in files %}
+  <tr>
+    <td>{{ file.filename }}</td>
+    <td>{{ file.format }}</td>
+    <td>{{ file.description }}</td>
+    <td><a href="{% url download_file file.pk %}">Download</a></td>
+    </tr>
+  {% endfor %}  
+  </tbody>
+</table>
+{% endblock %}

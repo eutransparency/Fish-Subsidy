@@ -36,8 +36,10 @@ def load_scheme(schemename, datafile=None):
   # Check if the scheme file exists
   if os.path.exists(schemename):
     if datafile is None:
-      basename = "".join(os.path.split(schemename).split('.')[:1])
-      datafile = "%s.csv" % basename
+      
+      basename = "/".join(os.path.split(schemename)[:-1])
+      file_name = schemename.split('.')[-2]
+      datafile = "%s.csv" % file_name
     
     # Check if it has a matching data file
     if os.path.exists(datafile):
@@ -99,36 +101,44 @@ def index(data, scheme, mapping='fields.cfg', options={}):
 
   use_xapian = False
   use_mysql = False
-  if 'xapian' in opts.options('modules'):
-    from modules import xapian_indexer
-    use_xapian = True
+  # if 'xapian' in opts.options('modules'):
+  #   from modules import xapian_indexer
+  #   use_xapian = True
   if 'mysql' in opts.options('modules'):
     from modules import mysql
     use_mysql = True
     
-  if use_xapian:
-    xapdb,xapindexer = xapian_indexer.setup(opts)
+  # if use_xapian:
+  #   xapdb,xapindexer = xapian_indexer.setup(opts)
   
   if use_mysql:
     c = mysql.setup(opts)
     c = mysql.create_or_reload(c, opts)  
   
+    sql = """
+      LOAD DATA INFILE 'fish.csv'
+      INTO TABLE data_fishdata
+      FIELDS TERMINATED BY ';' ENCLOSED BY '"'
+      LINES TERMINATED BY '\r\n'
+    """
+    c.execute(sql)
+  
   # Main loop though each line of the data
-  for line in data:
-
-    for k,v in line.items():
-      line[k] = unicode(v.decode('latin-1'))
-    
-    if options.get('test', False):
-      if data.line_num >= 11:
-        sys.exit()
-        
-    if use_mysql:
-      mysql.index_line(c,line)
-    # sys.exit()
-    
-    if use_xapian:
-      xapian_indexer.index_line(xapdb, xapindexer, line, mapping, data)
+  # for line in data:
+  #   # for k,v in line.items():
+  #   #   if v:
+  #   #     line[k] = unicode(v.decode('latin-1'))
+  #   
+  #   if options.get('test', False):
+  #     if data.line_num >= 11:
+  #       sys.exit()
+  #       
+  #   if use_mysql:
+  #     mysql.index_line(c,line)
+  #   # sys.exit()
+  #   
+  #   # if use_xapian:
+  #   #   xapian_indexer.index_line(xapdb, xapindexer, line, mapping, data)
 
 
 

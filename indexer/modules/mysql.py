@@ -15,8 +15,9 @@ def setup(opts):
 
 def create_or_reload(c, opts):
   
-  exit = raw_input("""WARNING: This will destroy any existing data that may be 
-  in the table named %s.  Do you want to continue?\n[Y/n]:""" % opts.get('mysql', 'mysql_table'))
+  # exit = raw_input("""WARNING: This will destroy any existing data that may be 
+  # in the table named %s.  Do you want to continue?\n[Y/n]:""" % opts.get('mysql', 'mysql_table'))
+  exit = "y"
   if len(exit) > 0 and exit[0] == "n":
     print "Exiting"
     sys.exit()
@@ -31,25 +32,28 @@ def format_sql(v):
     return '\N'
     
   else:
-    return "'%s'" % re.escape(v)
+    return "'%s'" % re.sub("\'", "\\'", v)
 
 def index_line(c,line):
-  values = []
-  keys = []
-  for k,v in line.items():
-    # if v is not None:
-    #   v = "'%s'" % v
-    values.append(v)
-    keys.append(k)
-  keys =  ",".join("`%s`" % v for v in keys)
-  values =  ",".join(format_sql(v) for v in values)
+  pass
+  # values = []
+  # keys = []
+  # for k,v in line.items():
+  #   # if v is not None:
+  #   #   v = "'%s'" % v
+  #   values.append(v)
+  #   # keys.append(k)
+  # keys =  ",".join("%s" % v for v in keys)
+  # values =  (format_sql(v) for v in values)
+  # values = line.values()
+  # print len(values)
   # print values
-  
-  sql = "INSERT INTO `data_fishdata` (%s) VALUES (%s)" % (keys,values)
-  c.execute(sql)
-  
-  
-  
-  
-  
-  
+  # 
+  # # sql = "INSERT INTO `data_fishdata` (%s) VALUES (%s)" % (keys,values)
+  # c.execute("""INSERT INTO `data_fishdata` %s""", (values,))
+  # 
+  # 
+  # 
+  # 
+  # 
+  # 

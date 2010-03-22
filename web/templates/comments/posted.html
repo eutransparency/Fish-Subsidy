@@ -1,0 +1,16 @@
+{% extends "comments/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Thanks for commenting" %}.{% endblock %}
+
+{% block page_title %}
+  {% trans "Thank you for your comment" %}.
+{% endblock %}
+
+{% block content %}
+{% ifequal comment.content_type "fish data" %}
+  yes
+{% endifequal %}
+{{ comment.content_type }}
+  <a href="/viewid/{{ comment.object_pk }}/">Return to the original post</a>
+{% endblock %}

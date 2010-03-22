@@ -1,13 +1,21 @@
-# Create your views here.
-from django.http import HttpResponse
-from django.template import RequestContext
-from django.shortcuts import render_to_response
-import models
-
-import conf
 import simplejson
+import mimetypes
 
+from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.template import RequestContext
+from django.shortcuts import render_to_response, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
+from django.core.servers.basehttp import FileWrapper
+
+
+
+import models
+import conf
 from data.models import FishData, illegalFishing
+from frontend.models import Profile
+from frontend.forms import UserProfileForm, DataAgreementForm
+from data.models import DataDownload
 
 def country(request, country=None, year=conf.default_year):
 
@@ -78,7 +86,10 @@ def vessel(request, country, cfr, name):
   payments = FishData.objects.filter(cfr=cfr).order_by('year')
   total = 0
   for payment in payments:
-      total += payment.total_subsidy
+      try:
+        total += int(payment.total_subsidy)
+      except:
+        pass
   infringement_record = illegalFishing.objects.filter(cfr=cfr).order_by('date')
   return render_to_response(
     'vessel.html', 
@@ -205,4 +216,59 @@ def infringements(request):
   )
 
 
+@login_required
+def download(request, data_file=None):
+    user = request.user
+    try:
+        profile = Profile.objects.get(user=user)
+    except Profile.DoesNotExist:
+        return HttpResponseRedirect(reverse('profiles_create_profile'))
+
+    if profile.data_agreement == False:
+        request.notifications.add("Please agree to the following licence before downloading the data")
+        return HttpResponseRedirect(reverse('data_agreement_form'))
+    
+    if data_file:
+        download_file = get_object_or_404(DataDownload, pk=data_file)
+        f = open(download_file.file_path)
+        file_mimetype = mimetypes.guess_type(download_file.file_path)
+        response = HttpResponse(FileWrapper(f), content_type=file_mimetype[0])
+        response['Content-Disposition'] = 'attachment; filename="%s"' % \
+                        download_file.file_path.split('/')[-1]
+        return response
+        
+    files = DataDownload.objects.filter(public=True)
+    return render_to_response(
+      'downloads.html', 
+      {
+      'files' : files,
+      },
+      context_instance=RequestContext(request)
+    )
+    
+
+@login_required
+def data_agreement_form(request):
+    try:
+        profile = Profile.objects.get(user=request.user)
+        if profile.data_agreement:
+            return HttpResponseRedirect(reverse('download'))
+    except Profile.DoesNotExist:
+        return HttpResponseRedirect(reverse('profiles_create_profile'))
+    
+    if request.POST:
+        form = DataAgreementForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save() 
+    else:
+        form = DataAgreementForm(instance=profile)
+    
+    return render_to_response(
+      'data_agreement_form.html', 
+      {
+      'form' : form,
+      }, 
+      context_instance=RequestContext(request)
+    )
+    
 

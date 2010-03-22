@@ -35,6 +35,10 @@ urlpatterns += patterns('',
     # Features
     url(r'^features/', include('features.urls')),
     
+    # Frontend, including profiles
+    (r'', include('frontend.urls')),
+    (r'accounts/', include('registration.backends.default.urls')),
+    (r'^comments/', include('django.contrib.comments.urls')),    
 )
 
 

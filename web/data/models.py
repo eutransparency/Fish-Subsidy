@@ -6,7 +6,6 @@ from managers.FishData import FishDataManager, illegalFishingManager
 class FishData(models.Model):
   """(Data description)"""  
   
-  # id = models.TextField(blank=True)
   cci = models.TextField(blank=True)
   description = models.TextField(blank=True)
   project_no = models.TextField(blank=True)
@@ -24,8 +23,8 @@ class FishData(models.Model):
   status = models.TextField(blank=True)
   status_code_status = models.TextField(blank=True)
   approval_date = models.TextField(blank=True)
-  year = models.IntegerField(blank=True)
-  total_cost = models.TextField(blank=True)
+  year = models.IntegerField(blank=True, null=True)
+  total_cost = models.TextField(blank=True, null=True)
   member_state = models.TextField(blank=True)
   fifg = models.TextField(blank=True)
   vessel_name = models.TextField(blank=True)
@@ -56,6 +55,26 @@ class FishData(models.Model):
     return "%s" % self.pk
 
 
+class Vessel(models.Model):
+
+  cfr = models.CharField(blank=True, max_length=255, primary_key=True)
+  name = models.CharField(blank=True, max_length=255)
+
+  def __unicode__(self):
+    return u"%s" % self.name
+
+
+class Payment(models.Model):
+  """(Payment description)"""
+  
+  cfr = models.ForeignKey(Vessel)
+  total_subsidy = models.FloatField()
+  year = models.IntegerField(blank=True, null=True)
+  
+  def __unicode__(self):
+    return u"Payment"
+
+
 class illegalFishing(models.Model):
   
   def __unicode__(self):
@@ -70,8 +89,14 @@ class illegalFishing(models.Model):
   skipper = models.TextField(blank=True)
 
 
-
-
-
-
+class DataDownload(models.Model):
     
+    public = models.BooleanField(default=True)
+    filename = models.CharField(blank=True, max_length=255)
+    format = models.CharField(blank=True, max_length=100)
+    description = models.TextField(blank=True)
+    file_path = models.CharField(blank=True, max_length=255)
+    download_count = models.IntegerField(blank=True, null=True)
+    
+    def __unicode__(self):
+        return u"%s" % self.filename

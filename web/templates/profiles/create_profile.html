@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block content %}  
+<form method="POST">
+  {{ form.as_ul }}
+  <input type="submit" name="some_name" value="" id="some_name">
+</form>
+{% endblock %}

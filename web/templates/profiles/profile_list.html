@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block page_title %}{% trans "Fish Subsidy User Profiles" %}{% endblock %}
+{% block title %}{% trans "Fish Subsidy User Profiles" %}{% endblock %}
+{% block content %}
+  {% for profile in object_list %}
+    {{ profile.name }}
+  {% endfor %}
+{% endblock %}

@@ -19,7 +19,7 @@ body { margin:0 auto;}
 
 #home #content {width:100%;}
 
-#home .section { padding:2em 0 4em 0; margin:0.5em 0 0 0; overflow:auto;  position:relative; }
+#home .section { padding:2em 0 6em 0; margin:0.5em 0 0 0; overflow:auto;  position:relative; }
 
 #home .section .section_title {float:left; width:20%;}
 #home .section_content { margin-left:20%; }
@@ -43,8 +43,28 @@ body { margin:0 auto;}
 .section h2 {position:absolute; top:-0.9em; background-color:#fff; padding:0 10px 0 0;}
 #home .section h2 {position:relative; top:0; padding:0;}
 .col { float:left; width:48%; padding-bottom:2em; clear:none; margin-right:10px;}
+form.col, #footer .col {width:45%;}
+form.col1 {border-right:1px solid black;}
 #home .col {margin-right:0;}
 
 #content table {width:95%;}
 
 #footer {padding:1em 10% 0 10%;}
+
+
+#user_menu {
+  position:absolute;
+  bottom: 0.5em;
+  right:0;
+}
+
+#topbar {
+  background:#00467f;
+  color:#FFF;
+  padding:0 10%;
+}
+
+#topbar form {
+  text-align:right;
+  clear:both;
+}

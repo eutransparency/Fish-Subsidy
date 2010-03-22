@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3>The fishsubsidy.org database is made available under the<br /> <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open Database License</a>.</h3>
+
+ <h3>You are free:</h3>
+ <dl>
+	<dt>To Share:</dt> 
+	<dd>To copy, distribute and use the database.</dd>
+	<dt>To Create:</dt> 
+	<dd>To produce works from the database.</dd>
+	<dt>To Adapt:</dt> 
+	<dd>To modify, transform and build upon the database.</dd>
+ </dl>
+
+<h3>As long as you:</h3>
+
+<dl>
+<dt>Attribute:</dt>
+<dd>You must attribute any public use of the database, or works produced from the database, by referencing farmsubsidy.org or 'data derived from the farmsubsidy.org database of farm subsidy payments'. For any use or redistribution of the database, or works produced from it, you must make clear to others the license of the database and keep intact any notices on the original database.</dd>
+
+<dt>Share-Alike:</dt> 
+<dd>If you publicly use any adapted version of this database, or works produced from an adapted database, you must also offer that adapted database under the ODbL.</dd>
+
+<dt>Keep open:</dt>
+<dd>If you redistribute the database, or an adapted version of it, then you may use technological measures that restrict the work (such as DRM) as long as you also redistribute a version without such measures.</dd>
+</dl>
+
+<form method="POST">
+  {{ form.as_p }}
+{# {{ form.data_agreement.label_tag }} #}
+{# {{ form.data_agreement }} #}
+{#  #}
+{# {{ form.data_description.label_tag }} #}
+{# {{ form.data_description }} #}
+<input type="submit" name="submit" value="Continue" id="submit">
+</form>
+
+{% endblock %}
+  
