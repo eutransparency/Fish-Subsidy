@@ -52,12 +52,12 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'web.urls'
 
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.comments',    
     'django.contrib.contenttypes',
-    'django.contrib.admin',    
-    'django.contrib.humanize',    
+    'django.contrib.admin',
+    'django.contrib.humanize',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.flatpages',
@@ -69,14 +69,15 @@ INSTALLED_APPS = (
     'misc',
     'graphs',
     'tagging',
-    'pagination',    
+    'pagination',
     'registration',
     'features',
     'listmaker',
     'profiles',
     'frontend',
     'django_notify',
-)
+    'rosetta',
+]
 
 TEMPLATE_CONTEXT_PROCESSORS = (
   "django.core.context_processors.auth",
@@ -88,6 +89,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
   'data.context_processors.ip_country',  
   'misc.context_processors.latest_tweet',
   'features.context_processors.featured_items',
+  'listmaker.context_processors.list_items',
   'django_notify.context_processors.notifications',  
 )
 
@@ -108,5 +110,7 @@ TWITTER_TIMEOUT = 3600
 AUTH_PROFILE_MODULE = 'frontend.Profile'
 LOGIN_URL = '/login/'
 
+SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
 SESSION_TIMEOUT = 1209600
 REGISTRATION_BACKEND = "registration.backends.default.DefaultBackend"
+

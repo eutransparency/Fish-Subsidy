@@ -19,21 +19,22 @@ urlpatterns = patterns('',
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
+    url(r'^admin/rosetta/', include('rosetta.urls')),
     (r'^admin/(.*)', admin.site.root),
 )
 
 urlpatterns += patterns('',
-    url(r'^$', direct_to_template, {'template': 'home.html', 'extra_context' : {'top_schemes' : FishData.objects.top_schemes(year="0", limit=5)}}, name='home'),
     (r'', include('data.urls')),
     (r'', include('search.urls')),
     (r'', include('graphs.urls')),
     (r'', include('web.feeds.urls')),    
     # (r'^i18n/', include('django.conf.urls.i18n')),
-    # url(r'^accounts/', include('registration.urls')),    
-    # url(r'^login/$',misc.views.login, name='login'),    
     
     # Features
     url(r'^features/', include('features.urls')),
+
+    # Lists
+    url(r'', include('listmaker.urls')),
     
     # Frontend, including profiles
     (r'', include('frontend.urls')),
@@ -42,8 +43,9 @@ urlpatterns += patterns('',
 )
 
 
-urlpatterns += patterns('django.views',
-     (r'^media/(?P<path>.*)$', 'static.serve',
-     {'document_root': settings.MEDIA_ROOT}),
 
-)
+# # urlpatterns += patterns('django.views',
+# #      (r'^media/(?P<path>.*)$', 'static.serve',
+# #      {'document_root': settings.MEDIA_ROOT}),
+# 
+# )

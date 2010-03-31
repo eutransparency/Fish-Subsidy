@@ -22,7 +22,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.pyplot import show
 
-from web.data.models import FishData
+from django.db.models import Sum
+
+from web.data.models import FishData, Scheme
 
 from django.http import HttpResponse
  
@@ -33,12 +35,12 @@ def format_ticks(a,b):
   return u"€%s" % humanize.intcomma(floatformat(a))
 
 def format_traffic_lights(t):
-  t = str(t)
-  if t == "3":
+  t = int(t)
+  if t == 3:
     return '#FF0000'
-  if t == "2":
+  if t == 2:
     return '#FF9900'
-  if t == "1":
+  if t == 1:
     return '#339900'
 
 def make_fig(request, type):
@@ -96,38 +98,51 @@ def stack_graph(request,country='GB'):
   all_countries = False
   if country == "0":
     all_countries = True
-  sql_data = FishData.objects.country_years_traffic_lights(country)
+  # sql_data = FishData.objects.country_years_traffic_lights(country)
+  sql_data = Scheme.objects.all()
+  sql_data.values('name', 'year', 'traffic_light')
+  sql_data.exclude(year="0")
+  sql_data.annotate(total=Sum('total'))
+  
+
+  
   data = []
   good = {}
   bad = {}
   ugly = {}
   years = []
-  
+
+  print dir(sql_data[0])
+  # print sql_data[0].items()
+
   for o in sql_data:
-    if o.year not in good:
-      good[o.year] = 0
-    if o.year not in bad:
-      bad[o.year] = 0
-    if o.year not in ugly:  
-      ugly[o.year] = 0
+    year = o.year
+    traffic_light = o.traffic_light
+    if year != 0:
+      if year not in good:
+        good[year] = 0
+      if year not in bad:
+        bad[year] = 0
+      if year not in ugly:  
+        ugly[year] = 0
       
-    if o.scheme_traffic_light == "1":
-      good[o.year] += o.total_subsidy
-      bad[o.year] += 0
-      ugly[o.year] += 0
-    if o.scheme_traffic_light == "2":
-      ugly[o.year] += o.total_subsidy
-      bad[o.year] += 0
-      good[o.year] += 0
+      if traffic_light == 1:
+        good[year] += o.total
+        bad[year] += 0
+        ugly[year] += 0
+      if traffic_light == 2:
+        ugly[year] += o.total
+        bad[year] += 0
+        good[year] += 0
       
-    if o.scheme_traffic_light == "3":
-      bad[o.year] += o.total_subsidy
-      good[o.year] += 0
-      ugly[o.year] += 0
+      if traffic_light == 3:
+        bad[year] += o.total
+        good[year] += 0
+        ugly[year] += 0
       
     
-    if o.year not in years:
-      years.append(o.year)
+      if year not in years:
+        years.append(year)
       
   data.append([v for k,v in good.items()])
   data.append([v for k,v in ugly.items()])
@@ -166,6 +181,7 @@ def stack_graph(request,country='GB'):
     yticks([])
    
   response = HttpResponse(mimetype="image/png")
+  response['Content-Disposition'] = 'filename="stack_graph.png"'
   savefig(response, dpi=120)
   return response
 
@@ -188,6 +204,7 @@ def schemes(request):
 
 def scheme_graph(request,scheme_id,country='GB'):
   import re
+  print "this one"
   x = [float(re.sub(',','.',v.overall_length)) for v in FishData.objects.scheme_length_count(scheme_id)]
 
   def boltzman(x, xmid, tau):

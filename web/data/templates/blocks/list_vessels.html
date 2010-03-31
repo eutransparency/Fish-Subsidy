@@ -22,10 +22,10 @@
 {% else %}
   <ul>
     {% for vessel in vessels %}
-      {% url vessel country=vessel.iso_country cfr=vessel.cfr name=vessel.vessel_name|slugify as vessel_url %}
+      {% url vessel country=vessel.country cfr=vessel.cfr name=vessel.name|slugify as vessel_url %}
           <li>
-          <a href="{{ vessel_url }}">{{ vessel.vessel_name|title }} ({{ vessel.cfr }})</a>
-          {% if amount %} &mdash; &euro;{{ vessel.total_subsidy|floatformat|intcomma }}{% endif %}
+          <a href="{{ vessel_url }}">{{ vessel.name|title }} ({{ vessel.cfr }})</a>
+          {% if amount %} &mdash; &euro;{{ vessel.amount|floatformat|intcomma }}{% endif %}
           {% if expand %}({{ vessel.status }} payment{{ vessel.status|pluralize }}) {% endif %}
           </li>
     {% endfor %}

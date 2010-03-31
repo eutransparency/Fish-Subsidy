@@ -43,6 +43,26 @@ class illegalFishingManager(models.Manager):
 
 class FishDataManager(models.Manager):
   
+  def get_latest_row(self, cfr):
+    cursor = connection.cursor()
+    cursor.execute("""
+    SELECT * FROM 
+    (SELECT * FROM data_fishdata f
+    WHERE cfr=%s
+    ORDER BY year DESC
+    LIMIT 1
+    ) t
+    """, (cfr,))
+
+    desc = cursor.description
+    result_list = []
+    for row in cursor.fetchall():
+        p = self.model()
+        p.__dict__.update(dict(zip([col[0] for col in desc], row)))
+        result_list.append(p)
+    return result_list[0]
+      
+
   def top_vessels(self, country=None, limit=20, year=conf.default_year, port=None):
     extra_and = ""
     if port:
@@ -128,7 +148,7 @@ class FishDataManager(models.Manager):
       extra_and += " AND year = '%s' " % year
     if country and country != "EU":
       extra_and += " AND iso_country = '%s' " % country
-      
+    
     cursor = connection.cursor()
     cursor.execute("""
       SELECT scheme_name, scheme2_id, sum(total_subsidy) t, scheme_traffic_light

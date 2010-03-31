@@ -15,8 +15,8 @@ from django.contrib.contenttypes import generic
 class List(models.Model):
     """Stores list definitions against a user"""
     
-    name = models.CharField(blank=True, max_length=100)
-    discription = models.TextField(blank=True)
+    name = models.CharField(blank=False, max_length=100)
+    description = models.TextField(blank=False)
     user = models.ForeignKey(User)
     
     def __unicode__(self):
@@ -32,6 +32,6 @@ class ListItem(models.Model):
     content_object = generic.GenericForeignKey('content_type', 'object_id')
 
     def __unicode__(self):
-        return u"ListItem"
+        return u"%s-%s" % (self.content_type, self.object_id)
 
 

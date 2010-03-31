@@ -15,9 +15,9 @@ def graph(graph_type, data):
     years = []
     traffic_lights = []
     for i,item in enumerate(data):
-      values.append(item.total_subsidy)
+      values.append(item.amount)
       years.append(item.year)
-      traffic_lights.append(item.scheme_traffic_light)
+      # traffic_lights.append(item.scheme_traffic_light)
     data = {}
     data['values'] = "|".join(["%s" % v for v in values])
     data['years'] = "|".join(["%s" % y for y in years])

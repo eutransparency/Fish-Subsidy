@@ -2,31 +2,32 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-21 12:35+0000\n"
-"PO-Revision-Date: 2010-02-21 12:48+0100\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2010-03-24 13:06\n"
+"Last-Translator: <sym@talusdesign.co.uk>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Translated-Using: django-rosetta 0.5.3\n"
 
 #: global_settings.py:89
 msgid "German"
-msgstr ""
+msgstr "Deutsch"
 
 #: global_settings.py:90
 msgid "English"
-msgstr ""
+msgstr "Englisch"
 
 #: data/templates/country.html:10
 #, python-format
 msgid "EU Fish subsidies for %(country)s in %(year)s"
-msgstr ""
+msgstr "EU-Subventionen für die Fisch %(country)s  in %(year)s "
 
 #: data/templates/country.html:12
 #, python-format
@@ -35,32 +36,27 @@ msgstr ""
 
 #: data/templates/country.html:27
 msgid "All Years"
-msgstr ""
+msgstr "Alle Jahre"
 
 #: data/templates/country.html:31
 msgid "Top Ports"
-msgstr ""
+msgstr "Top-Ports"
 
-#: data/templates/country.html:34
-#: data/templates/tuna_fleet.html:18
+#: data/templates/country.html:34 data/templates/tuna_fleet.html:18
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
-#: data/templates/country.html:35
-#: data/templates/country.html.py:54
-#: data/templates/country.html:80
-#: data/templates/tuna_fleet.html:17
+#: data/templates/country.html:35 data/templates/country.html.py:54
+#: data/templates/country.html:80 data/templates/tuna_fleet.html:17
 #: templates/home.html:55
 msgid "Amount"
-msgstr ""
+msgstr "Betrag"
 
-#: data/templates/country.html:44
-#: data/templates/country.html.py:63
-#: data/templates/country.html:71
-#: data/templates/country.html.py:90
+#: data/templates/country.html:44 data/templates/country.html.py:63
+#: data/templates/country.html:71 data/templates/country.html.py:90
 #: templates/home.html:67
 msgid "See All"
-msgstr ""
+msgstr "Alle"
 
 #: data/templates/country.html:50
 msgid "Top Municipalities"
@@ -78,8 +74,7 @@ msgstr ""
 msgid "Top schemes"
 msgstr ""
 
-#: data/templates/country.html:79
-#: templates/home.html:54
+#: data/templates/country.html:79 templates/home.html:54
 msgid "Scheme Name"
 msgstr ""
 
@@ -95,13 +90,11 @@ msgstr ""
 msgid "Vessels"
 msgstr ""
 
-#: data/templates/country.html:112
-#: data/templates/country.html.py:120
+#: data/templates/country.html:112 data/templates/country.html.py:120
 msgid "By amount received"
 msgstr ""
 
-#: data/templates/country.html:113
-#: data/templates/country.html.py:121
+#: data/templates/country.html:113 data/templates/country.html.py:121
 msgid "A - Z by name"
 msgstr ""
 
@@ -109,8 +102,7 @@ msgstr ""
 msgid "A - Z by port"
 msgstr ""
 
-#: data/templates/country.html:115
-#: data/templates/tuna_fleet.html:3
+#: data/templates/country.html:115 data/templates/tuna_fleet.html:3
 msgid "Tuna Fleet"
 msgstr ""
 
@@ -141,8 +133,7 @@ msgstr ""
 msgid "Year"
 msgstr ""
 
-#: data/templates/vessel.html:34
-#: data/templates/vessel.html.py:35
+#: data/templates/vessel.html:34 data/templates/vessel.html.py:35
 msgid "Scheme"
 msgstr ""
 
@@ -198,8 +189,7 @@ msgstr ""
 msgid "Country"
 msgstr ""
 
-#: data/templates/vessel.html:77
-#: data/templates/vessel.html.py:110
+#: data/templates/vessel.html:77 data/templates/vessel.html.py:110
 msgid "Infringement record"
 msgstr ""
 
@@ -425,4 +415,3 @@ msgstr ""
 #: templates/home.html:78
 msgid "By country"
 msgstr ""
-

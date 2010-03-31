@@ -3,45 +3,44 @@
 {% load i18n %}
 <html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>{% block title %}{% endblock %} | FishSubsidy.org</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>{% block title %}{% endblock %} | FishSubsidy.org</title>
 
-  <link rel="stylesheet" href="/media/css/screen.css" type="text/css" media="screen, projection">
-  <link rel="stylesheet" href="/media/css/layout.css" type="text/css"> 
-  <link rel="stylesheet" href="/media/css/print.css" type="text/css" media="print"> 
-  
+  <link rel="stylesheet" href="http://192.168.56.101/fishsubsidy/web/media/css/screen.css" type="text/css" media="screen, projection">
+  <link rel="stylesheet" href="http://192.168.56.101/fishsubsidy/web/media/css/layout.css" type="text/css"> 
+  <link rel="stylesheet" href="http://192.168.56.101/fishsubsidy/web/media/css/print.css" type="text/css" media="print"> 
+
   <!--[if IE]>
     <link rel="stylesheet" href="/media/css/ie.css" type="text/css" media="screen, projection">
   <![endif]-->
-  
-  <link rel="shortcut icon" href="/media/images/favicon.ico">
-  
-  <script type="text/javascript" src="/media/js/jquery.js"></script>
-  <script type="text/javascript" src="/media/js/jquery.example.min.js"></script>
-  <script type="text/javascript" src="/media/js/jquery-ui-1.7.1.custom.min.js"></script>
-  <script src="/media/js/scripts.js" type="text/javascript" charset="utf-8"></script>
-	
-	
+
+  <link rel="shortcut icon" href="http://192.168.56.101/fishsubsidy/web/media/images/favicon.ico">
+
+  <script type="text/javascript" src="http://192.168.56.101/fishsubsidy/web/media/js/jquery.js"></script>
+  <script type="text/javascript" src="http://192.168.56.101/fishsubsidy/web/media/js/jquery.example.min.js"></script>
+  <script type="text/javascript" src="http://192.168.56.101/fishsubsidy/web/media/js/jquery-ui-1.7.1.custom.min.js"></script>
+  <script src="http://192.168.56.101/fishsubsidy/web/media/js/scripts.js" type="text/javascript" charset="utf-8"></script>
+  <script src="http://192.168.56.101/fishsubsidy/web/media/js/lists.js" type="text/javascript" charset="utf-8"></script>
+
 </head>
-<body id="{% block body_id%}{% endblock %}" class="{% block body_class%}{% endblock %}">
-  
+<body id="{% block body_id%}{% endblock %}" class="{% block body_class%}{% endblock %}{% if list_enabled %} list_enabled{% endif %}">
+
   <div id="topbar">
-    
+
     <form method="post" action="http://app.icontact.com/icp/signup.php" name="icpsignup" accept-charset="UTF-8" onsubmit="return verifyRequired();">
     <input name="redirect" value="http://www.icontact.com/www/signup/thanks.html" type="hidden">
     <input name="errorredirect" value="http://www.icontact.com/www/signup/error.html" type="hidden">
     <script type="text/javascript">
 
-    if (document.location.protocol === "https:")
-
-    	document.icpsignup.action = "https://app.icontact.com/icp/signup.php";
+    if (document.location.protocol === "https:") {
+      document.icpsignup.action = "https://app.icontact.com/icp/signup.php";
+    }
     function verifyRequired() {
       if (document.icpsignup["fields_email"].value == "") {
         document.icpsignup["fields_email"].focus();
         alert("The Email field is required.");
         return false;
       }
-
 
     return true;
     }
@@ -58,17 +57,13 @@
     </div>
     </form>
   </div>
-  
-  
+
   <div id="page">
   <div id="head">
-    
-    
+
     <h1 id="title"><a href="/">{% block logo %}<img src="/media/images/logo-small.png" width="309" height="81" />{% endblock %} <span class="hide">FishSubsidy.org</span></a></h1>
     <h2 id="sub_title" class="hide">Discover who gets what from European Fish Subsidies</h2>
-    
-    
-    
+
     <ul id="mainmenu">
       {% load active_url %}
       <li class="{% active request "^/(?!faqs|about|blog|news)" %}"><a href="/" >Search / Browse</a></li>
@@ -91,13 +86,24 @@
   </div>
   {% if featured_items %}
     <ul id="features">
-      <li class="heading"><h5>{% trans "Featured:" %}</h5></li>
-      {% for feature in featured_items %}
         <li>
-          <p><strong><a href="{% url feature_detail feature.slug %}">{{ feature.title }}</a>:</strong>
-          {{ feature.teaser|truncatewords:"25" }}</p>
-          </li>
-      {% endfor %}
+          <a href="{% url feature_detail featured_items.0.slug %}">
+          <strong>{{ featured_items.0.title }}:</strong>
+          <p>{{ featured_items.0.teaser|truncatewords:"25" }}</p>
+          </a>
+        </li>
+        <li>
+          <a href="{% url feature_detail featured_items.1.slug %}">
+          <strong>{{ featured_items.1.title }}:</strong>
+          <p>{{ featured_items.1.teaser|truncatewords:"25" }}</p>
+          </a>
+        </li>
+        <li>
+          <a href="{% url feature_detail featured_items.2.slug %}">
+          <strong>{{ featured_items.2.title }}:</strong>
+          <p>{{ featured_items.2.teaser|truncatewords:"25" }}</p>
+          </a>
+        </li>
     </ul>
   {% endif %}
   <div id="content">
@@ -126,6 +132,26 @@
   {% block right %}
     
   {% endblock %}
+    {% if list_enabled %}
+      
+      <h3>Custom Lists</h3>
+      Editing <span class="list_name"><a href="{% url list_detail list_object.pk %}">{{ list_object }}</a></span>
+      {% if list_items %}
+      {% load lists %}
+      <ul class="list_items">
+        {% for item in list_items %}
+          <li><strong>{{ item.content_object.name }}</strong><br />
+              {{ item.content_object.amount }}<br />
+              {{ item.content_object.pk }}<br />
+              {% list_item_edit item.content_object %}
+              </li>
+        {% endfor %}        
+      </ul>
+      {% else %}
+      <p>No items in your list yet</p>
+      {% endif %}
+      
+    {% endif %}
     
   </div>
   </div>
@@ -139,15 +165,15 @@
       <li><a href="{% url download %}">Get the Data</a></li>
     </ul>
   </div>
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("UA-126704-4");
-pageTracker._trackPageview();
-} catch(err) {}</script>
+{# <script type="text/javascript"> #}
+{# var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www."); #}
+{# document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E")); #}
+{# </script> #}
+{# <script type="text/javascript"> #}
+{# try { #}
+{# var pageTracker = _gat._getTracker("UA-126704-4"); #}
+{# pageTracker._trackPageview(); #}
+{# } catch(err) {}</script> #}
 
 
 

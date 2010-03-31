@@ -8,7 +8,7 @@ def featured_items(request):
     in_features = bool(request.META['PATH_INFO'].split('/')[1] =='features')
     
     if not featured_items:
-        featured_items = Feature.objects.filter(featured=True, published=True)
+        featured_items = Feature.objects.filter(featured=True, published=True)[:3]
         cache.set('featured_items', featured_items)
     if featured_items and not in_features:
         return {'featured_items' : featured_items}

@@ -8,14 +8,12 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.core.servers.basehttp import FileWrapper
 
-
-
 import models
 import conf
 from data.models import FishData, illegalFishing
 from frontend.models import Profile
 from frontend.forms import UserProfileForm, DataAgreementForm
-from data.models import DataDownload
+from data.models import DataDownload, Recipient, Payment
 
 def country(request, country=None, year=conf.default_year):
 
@@ -83,22 +81,23 @@ def browse_ports(request, country, sort='amount', year=conf.default_year):
   
   
 def vessel(request, country, cfr, name):
-  payments = FishData.objects.filter(cfr=cfr).order_by('year')
-  total = 0
-  for payment in payments:
-      try:
-        total += int(payment.total_subsidy)
-      except:
-        pass
-  infringement_record = illegalFishing.objects.filter(cfr=cfr).order_by('date')
-  return render_to_response(
+    vessel = Recipient.objects.select_related().get(cfr=cfr)
+    
+    full_row = FishData.objects.get_latest_row(cfr)
+    
+    total = 0
+    infringement_record = illegalFishing.objects.select_related().filter(cfr=cfr).order_by('date')
+    return render_to_response(
     'vessel.html', 
-    {'payments' : payments, 
+    {
+    # 'payments' : payments,
+    'vessel' : vessel,
+    'full_row' : full_row,
     'infringement_record' : infringement_record,
     'total' : total,
     }, 
     context_instance=RequestContext(request)
-  )
+    )
 
 
 def schemes(request, country=None, year=conf.default_year):
@@ -150,18 +149,28 @@ def scheme_detail(request, scheme_id, name, country=None, year=conf.default_year
   
   
 def country_browse(request, country, sort='amount', year=conf.default_year):
-  sort_by = "total_subsidy DESC"
+  sort_by = "-amount"
   if sort == "name":
-    sort_by = "vessel_name ASC"
+    sort_by = "name"
   if sort == "port":
-    sort_by = "port_name ASC"
-  
-  items = FishData.objects.browse(country, sort_by, year=year)
-  data_years = FishData.objects.country_years(country)
-  
+    sort_by = "port"
+
+  items = Recipient.objects.filter(country=country)
+  if year:
+      items = items.filter(payment__year__exact=year)
+  items = items.order_by(sort_by)
+
+
+  data_years = Payment.objects.filter(country=country).values('year').annotate()
+
   return render_to_response(
-    'browse.html', 
-    {'items' : items, 'data_years' : data_years, 'sort' : sort, 'year' : int(year)}, 
+    'browse.html',
+    {
+        'items' : items,
+        'data_years' : data_years,
+        'sort' : sort,
+        'year' : int(year)
+    },
     context_instance=RequestContext(request)
   )
   

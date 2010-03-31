@@ -1,26 +1,25 @@
 from django.template import Library, Node
-from data.models import FishData
+from data.models import Recipient
 from misc import countryCodes
 register = Library()
 
 def top_recipients(number, recipient_type=None, country=None, location=None):
-  recipients = {}
+    recipients = Recipient.objects.filter()
 
-
-  country_name = {'name' : "Europe", 'code' : 'EU'}
-    
-  if recipient_type == 0:
-    
     if country == "EU":
-      country = None
-    
-    
-    if country:
-      country_name = countryCodes.country_codes(country)
+        pass
+    else:
+        print country
+        recipients = recipients.filter(country__exact=country)
 
-    recipients = FishData.objects.top_vessels(country=country, limit=int(number), year=None)  
-    
-  return {'recipients' : recipients, 'country' : country_name}
-  
+    recipients = recipients.order_by('-amount')
+
+    if country:
+        country_name = countryCodes.country_codes(country)
+    else:
+        country_name = {'name' : "Europe", 'code' : 'EU'}
+
+    return {'recipients' : recipients[:int(number)], 'country' : country_name}
+
 register.inclusion_tag('blocks/top_recipients.html')(top_recipients)
 
