@@ -1,36 +1,35 @@
 $(function() {
-
-    $('.list_form').each(function (i, el){
-        $(el).children().hide();
-        action = $(el).children('.action').attr('name');
-        $(el).append('<a class="list_item list_'+action+'"><span></span></a>');
-    });
-
-
-    function update_list(obj) {
-        $('.list_items').html('')
-        new_list = $('<ul />')
-        console.debug(obj)
-        for (ikey in obj.items) {
-            new_item = $('<li>tet</li>')
-            new_item.html('<strong>'+obj.items[ikey].name+'</strong>')
-            new_list.append(new_item)
-            // console.debug(ikey)
-            // console.debug(obj.items[ikey].name)
-        }
-        $('.list_items').html(new_list)
+    
+    function make_icons(){
+        $('.list_form').each(function (i, el){
+            alerady_converted = $(el).children('.list_item');
+            if ($(alerady_converted).length == 0) {
+                $(el).children().hide();
+                action = $(el).children('.action').attr('name');                
+                $(el).append('<a class="list_item list_'+action+'"><span></span></a>');                
+            }
+        });
     }
 
-    $('.list_item').click(function(){  
+    make_icons()
+    
+    function update_list(obj) {
+        $('.list_items').html(obj.html)
+        make_icons()
+    }
+
+    $('.list_item').live('click', function(){  
         item = $(this)
         object_id = $(this).parent().children('.object_id').attr('value');
         content_type = $(this).parent().children('.content_type').attr('value');
+        list_item_id = $(this).parent().children('.list_item_id').attr('value');
         action = $(this).parent().children('.action').attr('name');
         form_action = $(this).parent().attr('action');
 
         form_data = {
             content_type : content_type,
             object_id : object_id,
+            list_item_id : list_item_id,
             action : action,
         }
 
@@ -42,15 +41,22 @@ $(function() {
                 obj = eval('('+obj+')')
                 update_list(obj)
                 // alert(obj.action)
+                item = $("[value="+obj.list_item_id+"]").parent().children('.list_item')
                 if (obj.action == "add") {
-                    item.removeClass('list_add')
-                    item.addClass('list_remove')
-                    item.parent().children('.action').attr('name', 'remove');
+                    item.each(function(i, el) {
+                        el = $(el)
+                        el.removeClass('list_add')
+                        el.addClass('list_remove')
+                        el.parent().children('.action').attr('name', 'remove');                        
+                    })
                 }
                 if (obj.action == "remove") {
-                    item.removeClass('list_remove')
-                    item.addClass('list_add')
-                    item.parent().children('.action').attr('name', 'add');
+                    item.each(function(i, el) {
+                        el = $(el)                        
+                        el.removeClass('list_remove')
+                        el.addClass('list_add')
+                        el.parent().children('.action').attr('name', 'add');
+                    })
                 }
             },
         });

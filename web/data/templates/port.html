@@ -9,11 +9,11 @@
   {% url country country.code as country_url %}
   {% ifequal 0 year %}
     {% blocktrans with port.port_name|title as port_name and country.name as country %}
-      Vessels in {{ port_name }}, <a href="/{{ country_url }}">{{ country }}</a>, All Years
+      Vessels in {{ port_name }}, <a href="{{ country_url }}">{{ country }}</a>, All Years
     {% endblocktrans %}
   {% else %}
     {% blocktrans with port.port_name|title as port_name and country.name as country %}  
-      Vessels in {{ port_name }}, <a href="/{{ country_url }}">{{ country }}</a> {{ year }}
+      Vessels in {{ port_name }}, <a href="{{ country_url }}">{{ country }}</a> {{ year }}
     {% endblocktrans %}
   {% endifequal %}
   
@@ -22,17 +22,7 @@
 
 
 {% block content %}  
-
-{% if data_years %}
-<div class="year_selector">
-{% for country_year in data_years %}
-  {% url data.views.port country=country.code port=port.port_name year=country_year.year as year_url %}
-  <a href="{{ year_url }}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a>
-{% endfor %}
-<br /><a href="0" {% ifequal year 0 %}class="selected"{% endifequal %}>{% trans "All Years" %}</a>
-</div>
-{% endif %}
-
+  
   {% load pagination_tags %}
   {% autopaginate top_vessels 30 %}
   
@@ -45,9 +35,9 @@
         <th>{% trans "Amount" %}</th>
       </thead>
       {% for vessel in top_vessels %}
-      <tr>{% url vessel country=country.code cfr=vessel.cfr name=vessel.vessel_name|slugify as vessel_url %}
-        <td><a href="{{ vessel_url }}">{{ vessel.vessel_name|title }} ({{ vessel.cfr }})</a></td>
-        <td>&euro;{{ vessel.total|floatformat|intcomma }}</td>
+      <tr>{% url vessel country=country.code cfr=vessel.pk name=vessel.name|slugify as vessel_url %}
+        <td><a href="{{ vessel_url }}">{{ vessel.name|title }} ({{ vessel.pk }})</a></td>
+        <td>&euro;{{ vessel.payment_total|floatformat|intcomma }}</td>
       </tr>
       {% endfor %}
     
@@ -59,6 +49,21 @@
 
 {% block right %}
   {% load map %}
-  {# {% get_map port.port_lat port.port_lng %} #}
-  
+  {% get_map port.port_lat port.port_lng %}
+
+  <div class="box">
+    <h3>Filter</h3>
+    {% if data_years %}
+    <div class="">
+      <ul>
+        <li><a href="0" {% ifequal year 0 %}class="selected"{% endifequal %}>{% trans "All Years" %}</a></li>
+        {% for country_year in data_years %}
+          {% url data.views.port country=country.code port=port.port_name year=country_year.year as year_url %}
+          <li><a href="{{ year_url }}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+  </div>
+
 {% endblock %}

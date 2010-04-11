@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load humanize %}
 {% load i18n %}
+{% load cache %}
+{% load lists %}
 {% block title %}
   {{ country.name }}
 {% endblock %}
@@ -17,7 +19,9 @@
 {% block content %}
 
   {% load graphs %}
+  {% cache 1000 country_graph %}
   {% graph "country" country.code %}
+  {% endcache %}
   
   <div class="year_selector">
   {% for country_year in data_years %}
@@ -35,9 +39,9 @@
         <th>{% trans "Amount" %}</th>
       </thead>
     {% for port in top_ports %}
-      {% url data.views.port country=country.code port=port.port_name as port_url %}
+      {% url data.views.port country=country.code port=port.name as port_url %}
       <tr>
-      <td><a href="{{ port_url }}">{{ port.port_name|title }}</a></td>
+      <td><a href="{{ port_url }}">{{ port.name|title }}</a></td>
       <td>&euro;{{ port.total|floatformat|intcomma }}</td>
       </tr>
     {% endfor %}
@@ -63,13 +67,44 @@
     <tr><td><a href="/{{ country.code }}/municipalities/">{% trans "See All" %}</a></td></tr>
     </table>
   </div>
-
-  {% if top_vessels.0 %}
+  
+  {% if top_vessels %}
     <div class="section">
       <h2>{% trans "Top vessels" %}</h2>
       {% load list_data %}
       {% list_vessels top_vessels 1 0 %}
-      <a href="/{{ country.code }}/browse/0">{% trans "See All" %}</a>
+      <a href="/{{ country.code }}/browse/vessel/0">{% trans "See All" %}</a>
+    </div>
+  {% endif %}
+  {% if non_vessles %}
+    <div class="section">
+      <h2>{% trans "Top non-vessel payments" %}</h2>
+      
+      <table>
+        <thead>
+          <th>Beneficiary Name</th>
+          <th>Amount</th>
+        </thead>
+        {% for beneficiary in non_vessles %}
+          {% url nonvessel country=beneficiary.country project_no=beneficiary.recipient_id as beneficiary_url%}
+          <tr>
+            <td>
+              <a href="{{ beneficiary_url }}">
+                {% if beneficiary.name %}
+                  {{ beneficiary.name|title }} 
+                {% else %}
+                  {% trans "Unknown beneficiary" %}
+                {% endif %}
+
+                ({{ beneficiary.pk }})</a>
+            </td>
+            <td>{% if beneficiary.amount %} &euro;{{ beneficiary.total|floatformat|intcomma }}{% endif %}</td>
+            <td>{% list_item_edit beneficiary %}</td>
+          </tr>
+        {% endfor %}
+      </table>
+      
+      <a href="/{{ country.code }}/browse/nonvessel/0">{% trans "See All" %}</a>
     </div>
   {% endif %}
     
@@ -82,10 +117,9 @@
         <th>{% trans "Amount" %}</th>
       </thead>
     {% for scheme in top_schemes %}
-    
-      {% url data.views.scheme_detail scheme_id=scheme.scheme2_id name=scheme.scheme_name|slugify country=country.code as scheme_url %}
+      {% url data.views.scheme_detail scheme_id=scheme.scheme_id name=scheme.name|slugify country=country.code as scheme_url %}
       <tr>  
-        <td><a href="{{ scheme_url }}">{{ scheme.scheme_name|title }}</a>{% traffic_light scheme.scheme_traffic_light %}</td>
+        <td><a href="{{ scheme_url }}">{{ scheme.name|title }}</a>{% traffic_light scheme.traffic_light %}</td>
           <td>&euro;{{ scheme.total|floatformat|intcomma }}</td>
       </tr>
     {% endfor %}
@@ -106,7 +140,7 @@
 
 
     <h3>{% blocktrans with country.name as country %}
-      Recipients in {{ country }}
+        Recipients in {{ country }}
     {% endblocktrans %}</h3>
     <ul>
       <li><strong>{% trans "Vessels" %}</strong>
@@ -117,7 +151,7 @@
           <li><a href="/{{ country.code }}/tuna-fleet">{% trans "Tuna Fleet" %}</a></li>
         </ul>
       </li>
-      <li><strong>Ports</strong>
+      <li><strong>{% trans "Ports" %}</strong>
         <ul>
           <li><a href="/{{ country.code }}/ports/browse/amount">{% trans "By amount received" %}</a></p>
           <li><a href="/{{ country.code }}/ports/browse/name">{% trans "A - Z by name" %}</a></li>

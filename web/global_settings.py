@@ -39,7 +39,9 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.load_template_source',
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE_CLASSES = [
+    'johnny.middleware.LocalStoreClearMiddleware',
+    'johnny.middleware.QueryCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -47,7 +49,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'pagination.middleware.PaginationMiddleware',    
     'django_notify.middleware.NotificationsMiddleware',    
-)
+]
 
 ROOT_URLCONF = 'web.urls'
 
@@ -98,11 +100,11 @@ DEFAULT_CHARSET = "utf-8"
 NOTIFICATIONS_STORAGE = 'session.SessionStorage'
 
 LANGUAGES = (
-  ('de', _('German')),
   ('en', _('English')),
+  ('es', _('Spanish')),
 )
 
-# LANGUAGE_CODE = 'de'
+LANGUAGE_CODE = 'en'
 
 TWITTER_USER = "fishsubsidy"
 TWITTER_TIMEOUT = 3600

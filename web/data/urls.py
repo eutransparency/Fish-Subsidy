@@ -6,46 +6,62 @@ from misc import countryCodes
 from django.db import connection
 
 
-urlpatterns = patterns('web.data.views',
-    url(r'^(?P<country>%s)/$' % "|".join(countryCodes.country_codes()), 'country', name='country'),
-    url(r'^(?P<country>%s)/(?P<year>\d+)$' % "|".join(countryCodes.country_codes()), 'country'),
-)
+def country_url(pattern, *args, **kwargs):
+    """
+    Wrap url() with a URL that always prepends a list of countries (upper and
+    lower case)
+    """
+    countries = countryCodes.country_codes()
+    # countries.extend([c.lower() for c in countries])
+    countries = "|".join(countries)
+    return url(r'^(?i)(?P<country>%s)/%s' % (countries, pattern), *args, **kwargs)
 
-urlpatterns += patterns('web.data.views',
-    url(r'^(%s)/ports/$' % "|".join(countryCodes.country_codes()), 'country_ports'),
+
+urlpatterns = patterns('web.data.views',
+    
+    #Home page
+    url(r'^$', 'home', name='home'),
+    
+    # Country Home page
+    country_url(r'$', 'country', name='country'),
+    country_url(r'(?P<year>\d+)$', 'country'),
+
     
     # Ports
-    url(r'^(?P<country>%s)/ports/browse/(?P<sort>(amount|name))$' % "|".join(countryCodes.country_codes()), 'browse_ports', name='browse_ports'),
-    url(r'^(?P<country>%s)/ports/browse/(?P<sort>(amount|name))/(?P<year>\d+)$' % "|".join(countryCodes.country_codes()), 'browse_ports', name='browse_ports'),
-    url(r'^(?P<country>%s)/ports/browse' % "|".join(countryCodes.country_codes()), 'browse_ports', name='browse_ports'),
-    url(r'^(?P<country>%s)/ports/(?P<port>[^/]+)$' % "|".join(countryCodes.country_codes()), 'port', name='port'),
-    url(r'^(?P<country>%s)/ports/(?P<port>[^/]+)/(?P<year>\d+)$' % "|".join(countryCodes.country_codes()), 'port', name='port'),
+    country_url(r'ports/$', 'country_ports'),
+    country_url(r'ports/browse/(?P<sort>(amount|name))$', 'browse_ports', name='browse_ports'),
+    country_url(r'ports/browse/(?P<sort>(amount|name))/(?P<year>\d+)$', 'browse_ports', name='browse_ports'),
+    country_url(r'ports/browse', 'browse_ports', name='browse_ports'),
+    country_url(r'ports/(?P<port>[^/]+)$', 'port', name='port'),
+    country_url(r'ports/(?P<port>[^/]+)/(?P<year>\d+)$', 'port', name='port'),
     
     # Geo1
-    url(r'^(?P<country>%s)/municipalities/(?P<sort>(amount|name))$' % "|".join(countryCodes.country_codes()), 'browse_geo1', name='browse_geo1'),
-    url(r'^(?P<country>%s)/municipalities/(?P<sort>(amount|name))/(?P<year>\d+)$' % "|".join(countryCodes.country_codes()), 'browse_geo1', name='browse_geo1'),
-    url(r'^(?P<country>%s)/municipalities/$' % "|".join(countryCodes.country_codes()), 'browse_geo1', name='browse_geo1'),
+    country_url(r'municipalities/(?P<sort>(amount|name))$', 'browse_geo1', name='browse_geo1'),
+    country_url(r'municipalities/(?P<sort>(amount|name))/(?P<year>\d+)$', 'browse_geo1', name='browse_geo1'),
+    country_url(r'municipalities/$', 'browse_geo1', name='browse_geo1'),
     
     # Geo2
-    url(r'^(?P<country>%s)/municipalities/(?P<geo1>.*)/(?P<sort>(amount|name))$' % "|".join(countryCodes.country_codes()), 'browse_geo2', name='browse_geo2'),
-    url(r'^(?P<country>%s)/municipalities/(?P<geo1>.*)/(?P<sort>(amount|name))/(?P<year>\d+)$' % "|".join(countryCodes.country_codes()), 'browse_geo2', name='browse_geo2'),
-    url(r'^(?P<country>%s)/municipalities/(?P<geo1>.*)/' % "|".join(countryCodes.country_codes()), 'browse_geo2', name='browse_geo2'),
+    country_url(r'municipalities/(?P<geo1>.*)/(?P<sort>(amount|name))$', 'browse_geo2', name='browse_geo2'),
+    country_url(r'municipalities/(?P<geo1>.*)/(?P<sort>(amount|name))/(?P<year>\d+)$', 'browse_geo2', name='browse_geo2'),
+    country_url(r'municipalities/(?P<geo1>.*)/', 'browse_geo2', name='browse_geo2'),
     
+    # Nonessels (Different from vessels)
+    country_url(r'nonvessel/(?P<project_no>.*)$', 'nonvessel', name='nonvessel'),    
     
-    # Vessels
-    url(r'^(?P<country>%s)/vessel/(?P<cfr>.*)/(?P<name>.*)$' % "|".join(countryCodes.country_codes()), 'vessel', name='vessel'),
-    url(r'^(?P<country>%s)/browse/(?P<sort>(amount|name|port))/(?P<year>\d+)$' % "|".join(countryCodes.country_codes()), 'country_browse', name='country_browse'),    
-    url(r'^(?P<country>%s)/browse/(?P<sort>(amount|name|port))$' % "|".join(countryCodes.country_codes()), 'country_browse', name='country_browse'),    
-    url(r'^(?P<country>%s)/browse' % "|".join(countryCodes.country_codes()), 'country_browse', name='country_browse'),    
+    # Vessels (Different from non-vessels)
+    country_url(r'vessel/(?P<cfr>.*)/(?P<name>.*)$', 'vessel', name='vessel'),
+    country_url(r'browse/(?P<year>\d+)$', 'country_browse', name='country_browse'),
+    country_url(r'browse/', 'country_browse', name='country_browse'),
     
+
     #Tuna fleet
-    url(r'^(?P<country>%s)/tuna-fleet$' % "|".join(countryCodes.country_codes()), 'tuna_fleet', name='tuna_fleet'),
+    country_url(r'tuna-fleet$', 'tuna_fleet', name='tuna_fleet'),
     
     # Schemes
-    url(r'^(?P<country>%s)/schemes/(?P<year>\d+)$' % "|".join(countryCodes.country_codes()), 'schemes', name='schemes'),
-    url(r'^(?P<country>%s)/schemes$' % "|".join(countryCodes.country_codes()), 'schemes', name='schemes'),
-    url(r'^(?P<country>%s)/schemes/(?P<scheme_id>\d+)/(?P<name>.*)/(?P<year>\d+)$' % "|".join(countryCodes.country_codes()), 'scheme_detail', name='scheme_country_detail'),
-    url(r'^(?P<country>%s)/schemes/(?P<scheme_id>\d+)/(?P<name>.*)$' % "|".join(countryCodes.country_codes()), 'scheme_detail', name='scheme_country_detail'),
+    country_url(r'schemes/(?P<year>\d+)$', 'schemes', name='schemes'),
+    country_url(r'schemes$', 'schemes', name='schemes'),
+    country_url(r'schemes/(?P<scheme_id>\d+)/(?P<name>.*)/(?P<year>\d+)$', 'scheme_detail', name='scheme_country_detail'),
+    country_url(r'schemes/(?P<scheme_id>\d+)/(?P<name>.*)$', 'scheme_detail', name='scheme_country_detail'),
         
     # infringements
     url(r'^infringements$', 'infringements', name='infringements'),    

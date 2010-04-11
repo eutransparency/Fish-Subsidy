@@ -1,3 +1,6 @@
+"""
+Actually, this is normalization I guess.  A bit of both.
+"""
 import re
 
 from django.db import models
@@ -7,14 +10,12 @@ import conf
 class Denormalize(models.Manager):
 
     def recipient(self):
-
+        
         cursor = connection.cursor()
         cursor.execute("""
-          SELECT *, SUM(f.total_subsidy) as t
+          SELECT *, SUM(f.total_subsidy) as t, COALESCE(cfr, project_no) as recipient_id_fixed
           FROM `data_fishdata` f
-          WHERE f.vessel_name !=''
-          AND cfr != ''
-          GROUP BY f.cfr;
+          GROUP BY recipient_id_fixed;
         """ % locals())
     
         desc = cursor.description
@@ -26,6 +27,8 @@ class Denormalize(models.Manager):
             p.amount = item['t']
             result_list.append(p)
         return result_list
+
+    # def non_vessel_recipient(self):
 
     def years(self):
         cursor = connection.cursor()
@@ -79,13 +82,31 @@ class Denormalize(models.Manager):
 
         cursor = connection.cursor()
         cursor.execute("""
-          SELECT *
+          SELECT *, COALESCE(cfr, project_no) as recipient_id
           FROM `data_fishdata` f
-          WHERE f.vessel_name !=''
-          AND vessel_name IS NOT NULL;
+          WHERE recipient_id IS NOT NULL;
         """ % locals())
 
         desc = cursor.description    
+        result_list = []
+        for row in cursor.fetchall():
+            p = self.model()
+            item = dict(zip([col[0] for col in desc], row))
+            p.__dict__.update(item)
+            result_list.append(p)
+        return result_list
+        
+
+    def ports(self):
+        cursor = connection.cursor()
+        cursor.execute("""
+          SELECT *, SUM(total_subsidy) as total
+          FROM `data_fishdata` f
+          WHERE port_name IS NOT NULL
+          GROUP BY port_name
+        """)
+
+        desc = cursor.description
         result_list = []
         for row in cursor.fetchall():
             p = self.model()

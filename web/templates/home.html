@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load countrymenu %}
 {% load humanize %}
+{% load code_to_name %}
+{% load lists %}
 {% load i18n %}
 {% block title %}{% trans "Home" %}{% endblock %}
 {% block body_id%}home{% endblock %}
@@ -36,11 +38,85 @@
   <div class="section">
     <h2 class="section_title">{% trans "Browse" %}</h2>
       <div class="section_content"> 
-        {% load top_recipients %}
         
         <div class="col wide-col">
-          {% top_recipients 5 0 "EU"%}
-          {% top_recipients 5 0 ip_country %}
+
+          <div class="block">
+            <h3>Top Recipient Vessels <br />in Europe</h3>
+            <em>(1994-2007)</em>
+            <ul>
+            {% for recipient in top_vessels %}
+              <li>
+                <a href="{% url vessel recipient.country recipient.pk recipient.name %}">
+                  {{ recipient.name|title }} ({{ recipient.pk }})
+                  </a>{% list_item_edit recipient %}
+              </li>
+            {% endfor %}
+            </ul>
+            <a href="EU/browse">See All</a>
+          </div>
+          
+          <div class="block">
+            <h3>Top Recipient Vessels <br />in {% code_to_name ip_country %}</h3>
+            <em>(1994-2007)</em>
+            <ul>
+            {% for recipient in country_top_vessels %}
+              <li>
+                <a href="{% url vessel recipient.country recipient.pk recipient.name %}">
+                  {{ recipient.name|title }} ({{ recipient.pk }})
+                  </a>
+                  {% list_item_edit recipient %}
+              </li>
+            {% endfor %}
+            </ul>
+            <a href="{{ ip_country }}/browse/vessel">See All</a>
+          </div>
+
+          <div class="block">
+            <h3>Top Non-vessel Payments <br />in Europe</h3>
+            <em>(1994-2007)</em>
+            <ul>
+            {% for recipient in top_nonvessel %}
+              <li>
+                <a href="{% url vessel recipient.country recipient.pk recipient.name %}">
+                  {% if vessel.name %}
+                    {{ vessel.name|title }} 
+                  {% else %}
+                    {% trans "Unknown beneficiary" %}
+                  {% endif %}
+                  ({{ recipient.pk }})
+                  </a>
+                  {% list_item_edit recipient %}
+              </li>
+            {% endfor %}
+            </ul>
+            <a href="{{ ip_country }}/browse/vessel">See All</a>
+          </div>
+
+          <div class="block">
+            <h3>Top Non-vessel Payments <br />in {% code_to_name ip_country %}</h3>
+            <em>(1994-2007)</em>
+            <ul>
+            {% for recipient in country_top_nonvessels %}
+              <li>
+                <a href="{% url vessel recipient.country recipient.pk recipient.name %}">
+                  {% if vessel.name %}
+                    {{ vessel.name|title }} 
+                  {% else %}
+                    {% trans "Unknown beneficiary" %}
+                  {% endif %}
+                  ({{ recipient.pk }})
+                  </a>
+                  {% list_item_edit recipient %}
+              </li>
+            {% endfor %}
+            </ul>
+            <a href="{{ ip_country }}/browse?filter=vessel">See All</a>
+          </div>
+
+
+
+
           <div class="section wide-col">
             <h3>{% trans "Top Schemes" %}</h3>
             <div style="text-align:center"><a href="/EU/schemes"><img src="graph/stack/0" /></a></div>
@@ -56,10 +132,10 @@
               </thead>
             {% for scheme in top_schemes %}
             
-              {% url data.views.scheme_detail country="EU" scheme_id=scheme.scheme2_id name=scheme.scheme_name|slugify as scheme_url %}
+              {% url data.views.scheme_detail country="EU" scheme_id=scheme.scheme_id name=scheme.name|slugify as scheme_url %}
               <tr>  
-                <td><a href="{{ scheme_url }}">{{ scheme.scheme_name|title }}</a>{% traffic_light scheme.scheme_traffic_light %}</td>
-                  <td>&euro;{{ scheme.total_subsidy|floatformat|intcomma }}</td>
+                <td><a href="{{ scheme_url }}">{{ scheme.name|title }}</a>{% traffic_light scheme.traffic_light %}</td>
+                  <td>&euro;{{ scheme.total|floatformat|intcomma }}</td>
               </tr>
               
             {% endfor %}

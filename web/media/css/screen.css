@@ -241,10 +241,13 @@ form p label {
 
 
 /* Lists */
+.list_form {
+  display:inline;
+}
 a.list_item span { 
   display:block; 
-  height:35px; 
-  width:35px; 
+  height:25px; 
+  width:25px; 
   overflow:hidden;
   background:url('/media/images/list_toggle.png') 0px 0px no-repeat;
 }

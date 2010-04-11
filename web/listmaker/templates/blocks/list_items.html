@@ -1,0 +1,14 @@
+{% load lists %}
+<ul class="list_items">
+  {% if list_items %}
+    {% for item in list_items %}
+      <li><strong>{{ item.content_object.name }}</strong><br />
+          {{ item.content_object.amount }}<br />
+          {{ item.content_object.pk }}<br />
+          {% list_item_edit item.content_object %}
+          </li>
+    {% endfor %}
+  {% else %}
+    <p>No items in your list</p>
+  {% endif %}
+</ul>

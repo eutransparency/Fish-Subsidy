@@ -1,12 +1,25 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block page_title %}{{ flatpage.title }}{% endblock%}
-{% block title %}{{ flatpage.title }}{% endblock%}
+{% block page_title %}
+  {% blocktrans with flatpage.title as title %}
+    {{ title }}
+  {% endblocktrans %}
+{% endblock%}
+{% block title %}
+  {% blocktrans with flatpage.title as title %}
+    {{ title }}
+  {% endblocktrans %}
+{% endblock%}
 
 
 {% block content %}
 {% load markup %}
-{{ flatpage.content|markdown }}
+{% blocktrans with flatpage.content|markdown as content %}
+  {{ content }}
+{% endblocktrans %}
+
+{{  }}
 
 {% endblock%}
 

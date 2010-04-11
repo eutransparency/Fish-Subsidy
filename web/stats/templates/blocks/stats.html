@@ -1,30 +1,31 @@
-  <h3>Current catch data (2006)</h3>
+{% load i18n %}
+  <h3>{% trans "Current catch data (2006)" %}</h3>
   {% autoescape off %}
   <ul>
-    <li><strong>Total Landings (volume)</strong>: {{ info.total_landings_2006__volume_ }}</li>
-    <li><strong>Total Landings (value)</strong>: {{ info.total_landings_2006__value_ }}</li>
-    <li><strong>Top 5 Species</strong>
+    <li><strong>{% trans "Total Landings (volume)" %}</strong>: {{ info.total_landings_2006__volume_ }}</li>
+    <li><strong>{% trans "Total Landings (value)" %}</strong>: {{ info.total_landings_2006__value_ }}</li>
+    <li><strong>{% trans "Top 5 Species" %}</strong>
       <ul>
       {% for f in top_5 %}
-        <li>{{ f.0 }} &mdash; {{ f.1 }} Tonnes</li>
+        <li>{{ f.0 }} &mdash; {{ f.1 }} {% trans "Tonnes" %}</li>
       {% endfor %}
      </ul>
-     <a href="http://www.panda.org/what_we_do/how_we_work/conservation/marine/our_solutions/sustainable_fishing/sustainable_seafood/seafood_guides/">Consumer guides to sustainable seafood</a>
+     <a href="http://www.panda.org/what_we_do/how_we_work/conservation/marine/our_solutions/sustainable_fishing/sustainable_seafood/seafood_guides/">{% trans "Consumer guides to sustainable seafood" %}</a>
     </li>
   </ul>
     
     
-  <h3>Current fleet data (2007)</h3>
+  <h3>{% trans "Current fleet data (2007)" %}</h3>
   <ul>
-    <li><strong>Number of vessels</strong>: {{ info.number_of_vessels }}
-        <br />of which:
+    <li><strong>{% trans "Number of vessels" %}</strong>: {{ info.number_of_vessels }}
+        <br />{% trans "of which:" %}
       <ul>
-        <li><strong>Number of trawlers</strong>: {{ info.number_of_trawlers }}</li>
-        <li><strong>Number of non-trawlers</strong>: {{ info.number_of_non_trawlers }}</li>
+        <li><strong>{% trans "Number of trawlers" %}</strong>: {{ info.number_of_trawlers }}</li>
+        <li><strong>{% trans "Number of non-trawlers" %}</strong>: {{ info.number_of_non_trawlers }}</li>
       </ul>      
     </li>    
-    <li><strong>Tonnage in GT</strong>: {{ info.tonnage_in_gt }}</li>
-    <li><strong>Engine power in kW</strong>: {{ info.engine_power_in_kw }}</li>
+    <li><strong>{% trans "Tonnage in GT" %}</strong>: {{ info.tonnage_in_gt }}</li>
+    <li><strong>{% trans "Engine power in kW" %}</strong>: {{ info.engine_power_in_kw }}</li>
   </ul>
  {% endautoescape  %}
 

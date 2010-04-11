@@ -2,6 +2,7 @@ import re
 
 from django.db import models
 from django.db import connection, backend, models
+from django.db.models import Sum, Max
 import conf
 
 class illegalFishingManager(models.Manager):
@@ -41,18 +42,81 @@ class illegalFishingManager(models.Manager):
     return result_list
 
 
+class VesselsManager(models.Manager):
+    def get_query_set(self):
+        return super(VesselsManager, self).get_query_set().filter(
+                                                    recipient_type='vessel'
+                                                    )
+
+    def top_vessels(self, country=None, port=None, scheme_id=None, year=0):
+        vessels = self.all()
+        kwargs = {}
+        if country and country!='EU':
+            kwargs['country'] = country
+            kwargs['payment__country'] = country
+        if int(year) != 0:
+            kwargs['payment__year__exact'] = year
+        if port:
+            kwargs['port__name'] = port
+        vessels = vessels.filter(port__country=country, **kwargs)
+        vessels = vessels.annotate(payment_total=Sum('payment__amount'))
+        vessels = vessels.order_by('-payment_total')
+        vessels = vessels[:20]
+        vessels = vessels.select_related('port__name')
+        return vessels
+
+
+class NonVesselsManager(models.Manager):
+    def get_query_set(self):
+        return super(NonVesselsManager, self).get_query_set().filter(
+                                                    recipient_type='nonvessel'
+                                                    )
+    
+class SchemeManager(models.Manager):
+    
+    def top_schemes(self, country=None, year=0, limit=10):
+        """
+        Schemes have a global total, but not one per country.
+        
+        Because of this, we can get a total for all countries easier than we
+        can get a total for one country.
+    
+        """
+        if country:
+            top_schemes = self.values("scheme_id")
+            kwargs = {}
+            if country:
+                kwargs['payment__country__exact'] = country
+            if year != 0:
+                kwargs['payment__year__exact'] = year
+            top_schemes = top_schemes.filter(**kwargs)
+            top_schemes = top_schemes.annotate(total=Sum('payment__amount'))
+            top_schemes = top_schemes.values("name", "traffic_light", "total", "scheme_id")
+            top_schemes = top_schemes.order_by('-total')
+        else:
+            top_schemes = self.all()
+            if year != 0:
+                top_schemes = self.filter(year=year)
+            top_schemes = top_schemes.order_by('-total')
+            
+            
+        return top_schemes[:limit]
+
+    
+    
+    
 class FishDataManager(models.Manager):
   
-  def get_latest_row(self, cfr):
+  def get_latest_row(self, pk):
     cursor = connection.cursor()
     cursor.execute("""
     SELECT * FROM 
-    (SELECT * FROM data_fishdata f
-    WHERE cfr=%s
+    (SELECT *, COALESCE(cfr, project_no) as recipient_id_fixed FROM data_fishdata f
+    WHERE cfr=%s OR project_no=%s
     ORDER BY year DESC
     LIMIT 1
     ) t
-    """, (cfr,))
+    """, (pk,pk,))
 
     desc = cursor.description
     result_list = []

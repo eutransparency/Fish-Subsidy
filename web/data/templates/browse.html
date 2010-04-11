@@ -1,40 +1,86 @@
 {% extends "base.html" %}
 {% load pagination_tags %}
-
+{% load parse_qs %}
 {% load humanize i18n %}
-{# {% block page_title%}Browse{% endblock %} #}
-{# {% block title%}Browse Vessels{% endblock %} #}
+{% load lists %}
+{% block page_title%}{% trans "Browse" %}{% endblock %}
+{% block title%}{% trans "Browse Vessels" %}{% endblock %}
 {% block content %}
 
 
 
-{# <h3>Vessels in <a href="/{{ country.code }}">{{ country.name }}</a>{% ifequal 0 year %}, All Years{% else %}, {{ year }}{% endifequal %}</h3> #}
-{# <div class="year_selector"> #}
-{# {% for country_year in data_years %} #}
-{#   {% url data.views.country_browse country=country.code sort=sort year=country_year.year as year_url %} #}
-{#   <a href="{{ year_url }}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a> #}
-{# {% endfor %} #}
-{# <br /><a href="/{{ country.code }}/browse/{{ sort }}" {% ifequal year 0 %}class="selected"{% endifequal %}>All Years</a> #}
-{# </div> #}
+<h3>Recipients in <a href="/{{ country.code }}">{{ country.name }}</a>{% ifequal 0 year %}, {% trans "All Years" %}{% else %}, {{ year }}{% endifequal %}</h3>
 {% autopaginate items 30 %}
-{% load lists %}
   <table>
     <thead>
-      <th>{% ifequal sort "name"  %}<strong>Name</strong>{% else %}<a href="/{{ country.code }}/browse/name">{% trans "Name" %}</a>{% endifequal %}</th>
-      <th>{% ifequal sort "amount"  %}<strong>Amount</strong>{% else %}<a href="/{{ country.code }}/browse/amount">{% trans "Amount" %}</a>{% endifequal %}</th>
-      <th>{% ifequal sort "port"  %}<strong>Port</strong>{% else %}<a href="/{{ country.code }}/browse/port">{% trans "Port" %}</a>{% endifequal %}</th>
+      <th>{% ifequal sort "name"  %}<strong>Name</strong>{% else %}<a href="{% parse_qs request.GET "sort" "name" %}">{% trans "Name" %}</a>{% endifequal %}</th>
+      <th>{% ifequal sort "amount"  %}<strong>Amount</strong>{% else %}<a href="{% parse_qs request.GET "sort" "amount" %}">{% trans "Amount" %}</a>{% endifequal %}</th>
+      <th>{% ifequal sort "port"  %}<strong>Port</strong>{% else %}<a href="{% parse_qs request.GET "sort" "port" %}">{% trans "Port" %}</a>{% endifequal %}</th>
     </thead>
-    {% for vessel in items %}
-      {% url vessel country=vessel.country cfr=vessel.pk name=vessel.name|slugify as vessel_url %}
-      {% url port country=vessel.iso_country port=vessel.port_name as port_url %}
+    {% for beneficiary in items %}
+    {% ifequal beneficiary.recipient_type "vessel "%}
+      {% url vessel country=beneficiary.country cfr=beneficiary.pk name=beneficiary.name|slugify as vessel_url %}
+    {% else %}
+      {% url nonvessel country=beneficiary.country project_no=beneficiary.pk as vessel_url %}
+    {% endifequal %}
+      {% url port country=beneficiary.country port=beneficiary.port.name as port_url %}
     
       <tr>
-        <td><a href="{{ vessel_url }}">{{ vessel.name|title }}</a></td> 
-        <td>&euro;{{ vessel.amount|floatformat|intcomma }}</td>
-        <td><a href="{{ port_url }}">{{ vessel.port|title }}</a></td>
-        <td>{% list_item_edit vessel %}</td>
+        <td><a href="{{ vessel_url }}">
+          {% if beneficiary.name %}
+            {{ beneficiary.name|title }} 
+          {% else %}
+            {% trans "Unknown beneficiary" %} 
+          {% endif %}
+          ({{ beneficiary.pk }})
+          </a></td> 
+        <td>&euro;{{ beneficiary.amount|floatformat|intcomma }}</td>
+        <td>
+          {% if beneficiary.port.name %}
+          <a href="{{ port_url }}">{{ beneficiary.port.name|title }}</a>
+          {% else %}            
+          {% trans "Unknown port" %}
+          {% endif %}
+        </td>
+        <td>{% list_item_edit beneficiary %}</td>
       </tr>
     {% endfor %}
   </table>
   <h4 class="pager">{% paginate %}</h4>
+{% endblock %}
+
+
+{% block right %}
+
+  <div class="box">
+    <h3>{% trans "Filter" %}</h3>
+    <h4>{% trans "Recipient Type" %}</h4>
+    <ul>
+      <li>{% ifequal filter_by False  %}
+        {% trans "All" %}
+        {% else %}
+        <a href="{% parse_qs request.GET "filter" "" %}">{% trans "All" %}</a>
+      {% endifequal %}</li>
+      <li>{% ifequal filter_by "vessel"  %}
+        {% trans "Vessels" %}
+        {% else %}
+        <a href="{% parse_qs request.GET "filter" "vessel" %}">{% trans "Vessels" %}</a>
+      {% endifequal %}</li>
+      <li>{% ifequal filter_by "nonvessel"  %}
+        {% trans "Non-Vessels" %}
+        {% else %}
+        <a href="{% parse_qs request.GET "filter" "nonvessel" %}">{% trans "Non-Vessels" %}</a>
+      {% endifequal %}</li>
+    </ul>
+    <h4>{% trans "Year" %}</h4>
+    <ul>
+      <div class="">
+<li><a href="/{{ country.code }}/browse/vessel" {% ifequal year 0 %}class="selected"{% endifequal %}>{% trans "All Years" %}</a></li>
+      {% for country_year in data_years %}
+        {% url data.views.country_browse country=country.code year=country_year.year as year_url %}
+        <li><a href="{{ year_url }}{% parse_qs request.GET %}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a></li>
+      {% endfor %}
+      </div>
+    </ul>
+  </div>
 {% endblock %}

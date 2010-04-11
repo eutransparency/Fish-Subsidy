@@ -1,21 +1,32 @@
 {% load humanize %}
+{% load i18n %}
+{% load lists %}
 {% if table %}
   <table>
     <thead>
       <th>Vessel Name</th>
-      <th>Home Port</th>
+      {% if port %}<th>Home Port</th>{% endif %}
       <th>Amount</th>
     </thead>
     {% for vessel in vessels %}
-      {% url vessel country=vessel.iso_country cfr=vessel.cfr name=vessel.vessel_name|slugify as vessel_url %}
+      {% url vessel country=vessel.country cfr=vessel.pk name=vessel.name|slugify as vessel_url %}
       <tr>
         <td>
-          <a href="{{ vessel_url }}">{{ vessel.vessel_name|title }} ({{ vessel.cfr }})</a>        
+          <a href="{{ vessel_url }}">
+              
+            {% if vessel.name %}
+              {{ vessel.name|title }} 
+            {% else %}
+              {% trans "Unknown beneficiary" %}
+            {% endif %}
+            
+            ({{ vessel.pk }})</a>        
           {% if expand %}({{ vessel.status }} payment{{ vessel.status|pluralize }}) {% endif %}
         </td>
-        {% url data.views.port country=vessel.iso_country port=vessel.port_name as port_url %}
-        <td><a href="{{ port_url }}">{{ vessel.port_name|title }}</a></td>
-        <td>{% if amount %} &euro;{{ vessel.total_subsidy|floatformat|intcomma }}{% endif %}</td>
+        {% url data.views.port country=vessel.country port=vessel.port_set.name as port_url %}
+        {% if port %}<td><a href="{{ port_url }}">{{ vessel.port.name|title }}</a></td>{% endif %}
+        <td>{% if amount %} &euro;{{ vessel.total|floatformat|intcomma }}{% endif %}</td>
+        <td>{% list_item_edit vessel %}</td>                  
       </tr>
     {% endfor %}
   </table>

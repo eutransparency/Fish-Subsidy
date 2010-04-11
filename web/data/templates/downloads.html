@@ -1,5 +1,14 @@
 {% extends "base.html" %}
+{% block title %}Data Download{% endblock %}
+{% block page_title %}Data Download{% endblock %}
+{% block body_class%}wide{% endblock %}
 {% block content %}
+<h3>We make our database available under the Open Database License, which means you should:</h3>
+
+<ul>
+  <li>Attribute your use of this database to us, and</li>
+  <li>Share your changes back with everyone else.</li>
+</ul>
 <table>
   <thead>
     <th>File Name</th>
@@ -7,16 +16,14 @@
     <th>File Description</th>
   </thead>
   <tbody>
-    
-  
-  {% for file in files %}
-  <tr>
-    <td>{{ file.filename }}</td>
-    <td>{{ file.format }}</td>
-    <td>{{ file.description }}</td>
-    <td><a href="{% url download_file file.pk %}">Download</a></td>
+    {% for file in files %}
+    <tr>
+      <td>{{ file.filename }}</td>
+      <td>{{ file.format }}</td>
+      <td>{{ file.description }}</td>
+      <td><a href="{% url download_file file.pk %}">Download</a></td>
     </tr>
-  {% endfor %}  
+    {% endfor %}
   </tbody>
 </table>
 {% endblock %}

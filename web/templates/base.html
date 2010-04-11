@@ -4,23 +4,24 @@
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />  
   <title>{% block title %}{% endblock %} | FishSubsidy.org</title>
 
-  <link rel="stylesheet" href="http://192.168.56.101/fishsubsidy/web/media/css/screen.css" type="text/css" media="screen, projection">
-  <link rel="stylesheet" href="http://192.168.56.101/fishsubsidy/web/media/css/layout.css" type="text/css"> 
-  <link rel="stylesheet" href="http://192.168.56.101/fishsubsidy/web/media/css/print.css" type="text/css" media="print"> 
+  <link rel="stylesheet" href="{{ MEDIA_URL }}/css/screen.css" type="text/css" media="screen, projection">
+  <link rel="stylesheet" href="{{ MEDIA_URL }}/css/layout.css" type="text/css"> 
+  <link rel="stylesheet" href="{{ MEDIA_URL }}/css/print.css" type="text/css" media="print"> 
 
   <!--[if IE]>
     <link rel="stylesheet" href="/media/css/ie.css" type="text/css" media="screen, projection">
   <![endif]-->
 
-  <link rel="shortcut icon" href="http://192.168.56.101/fishsubsidy/web/media/images/favicon.ico">
+  <link rel="shortcut icon" href="/media/images/favicon.ico">
 
-  <script type="text/javascript" src="http://192.168.56.101/fishsubsidy/web/media/js/jquery.js"></script>
-  <script type="text/javascript" src="http://192.168.56.101/fishsubsidy/web/media/js/jquery.example.min.js"></script>
-  <script type="text/javascript" src="http://192.168.56.101/fishsubsidy/web/media/js/jquery-ui-1.7.1.custom.min.js"></script>
-  <script src="http://192.168.56.101/fishsubsidy/web/media/js/scripts.js" type="text/javascript" charset="utf-8"></script>
-  <script src="http://192.168.56.101/fishsubsidy/web/media/js/lists.js" type="text/javascript" charset="utf-8"></script>
+  <script src="{{ MEDIA_URL }}/js/jquery.js" type="text/javascript"></script>
+  <script src="{{ MEDIA_URL }}/js/jquery.example.min.js"type="text/javascript"></script>
+  <script src="{{ MEDIA_URL }}/js/jquery-ui-1.7.1.custom.min.js" type="text/javascript"></script>
+  <script src="{{ MEDIA_URL }}/js/scripts.js" type="text/javascript" charset="utf-8"></script>
+  <script src="{{ MEDIA_URL }}/js/lists.js" type="text/javascript" charset="utf-8"></script>
 
 </head>
 <body id="{% block body_id%}{% endblock %}" class="{% block body_class%}{% endblock %}{% if list_enabled %} list_enabled{% endif %}">
@@ -46,8 +47,8 @@
     }
     </script>
     <div id="SignUp">
-      <label for="fields_email">Join the fishsubsidy.org newsletter. Email:</label>&nbsp;<input type="text" name="fields_email" value="" id="fields_email" size="20">
-      <input name="Submit" value="Submit" type="submit">
+      <label for="fields_email">{% trans "Join the fishsubsidy.org newsletter. Email:" %}</label>&nbsp;<input type="text" name="fields_email" value="" id="fields_email" size="20">
+      <input name="Submit" value="{% trans "Submit" %}" type="submit">
         <input name="listid" value="3290" type="hidden">
         <input name="specialid:3290" value="OMN5" type="hidden">
         <input name="clientid" value="161514" type="hidden">
@@ -61,24 +62,34 @@
   <div id="page">
   <div id="head">
 
-    <h1 id="title"><a href="/">{% block logo %}<img src="/media/images/logo-small.png" width="309" height="81" />{% endblock %} <span class="hide">FishSubsidy.org</span></a></h1>
-    <h2 id="sub_title" class="hide">Discover who gets what from European Fish Subsidies</h2>
+    <h1 id="title"><a href="/">{% block logo %}<img src="{{ MEDIA_URL }}/images/logo-small.png" width="309" height="81" />{% endblock %} <span class="hide">FishSubsidy.org</span></a></h1>
+    <h2 id="sub_title" class="hide">{% trans "Discover who gets what from European Fish Subsidies" %}</h2>
 
     <ul id="mainmenu">
       {% load active_url %}
-      <li class="{% active request "^/(?!faqs|about|blog|news)" %}"><a href="/" >Search / Browse</a></li>
-      <li class="{% active request "^/faqs/" %}"><a href="/faqs/">FAQs</a></li>
-      <li class="{% active request "^/about/" %}"><a href="/about/">About</a></li>
-      <li class="{% active request "^/blog/" %}"><a href="/blog/">Blog</a></li>
-      <li class="{% active request "^/news/" %}"><a href="/news/">In The News</a></li>
+      <li class="{% active request "^/(?!faqs|about|blog|news|lists)" %}"><a href="/" >{% trans "Search / Browse" %}</a></li>
+      <li class="{% active request "^/faqs/" %}"><a href="/faqs/">{% trans "FAQs" %}</a></li>
+      <li class="{% active request "^/about/" %}"><a href="/about/">{% trans "About" %}</a></li>
+      <li class="{% active request "^/blog/" %}"><a href="/blog/">{% trans "Blog" %}</a></li>
+      <li class="{% active request "^/news/" %}"><a href="/news/">{% trans "In The News" %}</a></li>
+      <li class="{% active request "^/lists/" %}"><a href="/lists/">{% trans "Lists" %}</a></li>
     </ul>
     
     
     <div id="user_menu">
+      <form action="/i18n/setlang/" method="post">
+      <select name="language">
+          {% for lang in LANGUAGES %}
+          <option value="{{ lang.0 }}" {% ifequal LANGUAGE_CODE lang.0 %}selected{% endifequal %}>{{ lang.1 }}</option>
+          {% endfor %}
+      </select>
+      <input type="submit" value="{% trans "Go" %}" />
+      </form>
+
       {% if user.is_authenticated %}
-        <a href="{% url profiles.views.profile_detail user.username %}">{{ user.username }}</a> Logged in <a href="{% url logout %}">Log out</a>
+        <a href="{% url profiles.views.profile_detail user.username %}">{{ user.username }}</a> {% trans "Logged in" %} <a href="{% url logout %}">{% trans "Log out" %}</a>
       {% else %}
-       <a href="{% url login %}">Create an account or Log in</a>
+       <a href="{% url login %}">{% trans "Create an account or Log in" %}</a>
       {% endif %}  
 
     </div>
@@ -132,37 +143,18 @@
   {% block right %}
     
   {% endblock %}
-    {% if list_enabled %}
-      
-      <h3>Custom Lists</h3>
-      Editing <span class="list_name"><a href="{% url list_detail list_object.pk %}">{{ list_object }}</a></span>
-      {% if list_items %}
-      {% load lists %}
-      <ul class="list_items">
-        {% for item in list_items %}
-          <li><strong>{{ item.content_object.name }}</strong><br />
-              {{ item.content_object.amount }}<br />
-              {{ item.content_object.pk }}<br />
-              {% list_item_edit item.content_object %}
-              </li>
-        {% endfor %}        
-      </ul>
-      {% else %}
-      <p>No items in your list yet</p>
-      {% endif %}
-      
-    {% endif %}
-    
+  
+    {% include "blocks/list_view.html" %}
   </div>
   </div>
   <div id="footer">
     <ul class="col">
-      <li><a href="/about/">About</a></li>
-      <li><a href="/about/legal/">Legal / Privacy</a></li>
+      <li><a href="/about/">{% trans "About" %}</a></li>
+      <li><a href="/about/legal/">{% trans "Legal / Privacy" %}</a></li>
     </ul>
     <ul class="col">
-      <li><a href="/faqs/">FAQs</a></li>
-      <li><a href="{% url download %}">Get the Data</a></li>
+      <li><a href="/faqs/">{% trans "FAQs" %}</a></li>
+      <li><a href="{% url download %}">{% trans "Get the Data" %}</a></li>
     </ul>
   </div>
 {# <script type="text/javascript"> #}
@@ -175,16 +167,6 @@
 {# pageTracker._trackPageview(); #}
 {# } catch(err) {}</script> #}
 
-
-
-{# <form action="/i18n/setlang/" method="post"> #}
-{# <select name="language"> #}
-{#     {% for lang in LANGUAGES %} #}
-{#     <option value="{{ lang.0 }}">{{ lang.1 }}</option> #}
-{#     {% endfor %} #}
-{# </select> #}
-{# <input type="submit" value="Go" /> #}
-{# </form> #}
 
 
 </body>

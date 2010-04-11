@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
-from web import settings
+from django.conf import settings
 
 from web.data.models import FishData
 import misc.views
@@ -28,7 +28,7 @@ urlpatterns += patterns('',
     (r'', include('search.urls')),
     (r'', include('graphs.urls')),
     (r'', include('web.feeds.urls')),    
-    # (r'^i18n/', include('django.conf.urls.i18n')),
+    (r'^i18n/', include('django.conf.urls.i18n')),
     
     # Features
     url(r'^features/', include('features.urls')),
@@ -43,9 +43,8 @@ urlpatterns += patterns('',
 )
 
 
-
-# # urlpatterns += patterns('django.views',
-# #      (r'^media/(?P<path>.*)$', 'static.serve',
-# #      {'document_root': settings.MEDIA_ROOT}),
-# 
-# )
+if settings.DEBUG:
+    urlpatterns += patterns('django.views',
+         (r'^media/(?P<path>.*)$', 'static.serve',
+         {'document_root': settings.MEDIA_ROOT}),
+    )

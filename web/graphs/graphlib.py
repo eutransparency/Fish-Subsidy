@@ -23,7 +23,7 @@ import numpy as np
 from matplotlib.pyplot import show
 
 from django.db.models import Sum
-
+from django.core.cache import cache
 from web.data.models import FishData, Scheme
 
 from django.http import HttpResponse
@@ -98,6 +98,11 @@ def stack_graph(request,country='GB'):
   all_countries = False
   if country == "0":
     all_countries = True
+  cache_key = "graph_stack_%s" % country
+  cached = cache.get(cache_key)
+  if cached:
+      return cached
+       
   # sql_data = FishData.objects.country_years_traffic_lights(country)
   sql_data = Scheme.objects.all()
   sql_data.values('name', 'year', 'traffic_light')
@@ -112,7 +117,6 @@ def stack_graph(request,country='GB'):
   ugly = {}
   years = []
 
-  print dir(sql_data[0])
   # print sql_data[0].items()
 
   for o in sql_data:
@@ -183,6 +187,7 @@ def stack_graph(request,country='GB'):
   response = HttpResponse(mimetype="image/png")
   response['Content-Disposition'] = 'filename="stack_graph.png"'
   savefig(response, dpi=120)
+  cache.set(cache_key, response)
   return response
 
 def schemes(request):
@@ -204,7 +209,6 @@ def schemes(request):
 
 def scheme_graph(request,scheme_id,country='GB'):
   import re
-  print "this one"
   x = [float(re.sub(',','.',v.overall_length)) for v in FishData.objects.scheme_length_count(scheme_id)]
 
   def boltzman(x, xmid, tau):

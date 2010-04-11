@@ -1,6 +1,7 @@
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.core.urlresolvers import reverse
+from django.template.loader import render_to_string, select_template
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 import json
@@ -8,6 +9,24 @@ import models
 import forms
 from django.contrib.auth.decorators import login_required
 
+
+def lists_home(request):
+    return render_to_response(
+    'lists_home.html', 
+    {}, 
+    context_instance = RequestContext(request)
+    )
+    
+
+def activate(request):
+    request.session['list_enabled'] = True
+    request.session['list_object'] = models.List()
+    return HttpResponseRedirect(reverse('lists_home'))
+
+def deactivate(request):
+    request.session['list_enabled'] = False
+    request.session['list_object'] = models.List()
+    return HttpResponseRedirect(reverse('lists_home'))
 
 @login_required
 def manage_lists(request, list_id=None):
@@ -120,12 +139,12 @@ def add_remove_item(request):
         return HttpResponse(json.dumps({'type' : 'error', 'message' : 'invalid object id'}), status=500)
 
     # Load the current list
-    list_items = request.session['list_items']
+    list_items = request.session.get('list_items', [])
     
     # Load the object we're adding or removing
-    list_object = models.List.objects.get(pk=4)
     list_item = models.ListItem(list_id=list_object, content_object=co)
-    print co
+    list_item_id = request.POST.get('list_item_id')
+    
     action = request.POST.get('action')
 
     # print dir(request.session['list_items'])
@@ -162,15 +181,20 @@ def add_remove_item(request):
     
     # Do this to make sure the list is always updated
     request.session.modified = True
+    
+    t = select_template(["blocks/ahah_list.html",])
+    c = RequestContext(request, RequestContext(request))
+    html = t.render(c)
+    
+    
     if request.META['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest':
         return HttpResponse(json.dumps(
             {
-            'message' : 'invalid object id',
             'total' : list_total,
+            'html' : html, 
             'action' : action,
-            'items' : items_dict
+            'list_item_id' : list_item_id,
             }))
         
     res = HttpResponseRedirect(request.META['HTTP_REFERER'])
     return res
-        
