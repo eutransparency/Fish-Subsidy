@@ -48,7 +48,8 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',    
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'pagination.middleware.PaginationMiddleware',    
-    'django_notify.middleware.NotificationsMiddleware',    
+    'django_notify.middleware.NotificationsMiddleware',
+    'multilingual.flatpages.middleware.FlatpageFallbackMiddleware'
 ]
 
 ROOT_URLCONF = 'web.urls'
@@ -80,20 +81,23 @@ INSTALLED_APPS = [
     'django_notify',
     'rosetta',
     'johnny',
+    'multilingual',
+    'multilingual.flatpages',
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-  "django.core.context_processors.auth",
-  "django.core.context_processors.debug",
-  "django.core.context_processors.i18n",
-  "django.core.context_processors.media",
-  "django.core.context_processors.request",
-  'data.context_processors.country',
-  'data.context_processors.ip_country',  
-  'misc.context_processors.latest_tweet',
-  'features.context_processors.featured_items',
-  'listmaker.context_processors.list_items',
-  'django_notify.context_processors.notifications',  
+    "django.core.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.request",
+    'multilingual.context_processors.multilingual',  
+    'data.context_processors.country',
+    'data.context_processors.ip_country',  
+    'misc.context_processors.latest_tweet',
+    'features.context_processors.featured_items',
+    'listmaker.context_processors.list_items',
+    'django_notify.context_processors.notifications',  
 )
 
 
@@ -106,6 +110,7 @@ LANGUAGES = (
 )
 
 LANGUAGE_CODE = 'en'
+DEFAULT_LANGUAGE = 1
 
 TWITTER_USER = "fishsubsidy"
 TWITTER_TIMEOUT = 3600

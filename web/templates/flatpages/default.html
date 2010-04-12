@@ -1,31 +1,24 @@
 {% extends 'base.html' %}
-{% load i18n %}
 
 {% block page_title %}
-  {% blocktrans with flatpage.title as title %}
-    {{ title }}
-  {% endblocktrans %}
+    {{ flatpage.title }}
 {% endblock%}
 {% block title %}
-  {% blocktrans with flatpage.title as title %}
-    {{ title }}
-  {% endblocktrans %}
+    {{ flatpage.title }}
 {% endblock%}
 
 
 {% block content %}
 {% load markup %}
-{% blocktrans with flatpage.content|markdown as content %}
-  {{ content }}
-{% endblocktrans %}
 
-{{  }}
+  {{ flatpage.content|markdown }}
+
+
 
 {% endblock%}
 
 
 {% block right %}
-{% load flatpage_menu %}
-{% flatpage_menu %}
-
+  {# {% load flatpage_menu %} #}
+  {# {% flatpage_menu %} #}
 {% endblock %}
