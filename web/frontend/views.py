@@ -74,7 +74,7 @@ def login(request):
                 if redirect:
                     return HttpResponseRedirect(redirect)
                 else:
-                    return HttpResponseRedirect(success_url or reverse('registration_complete'))
+                    return HttpResponseRedirect(reverse('registration_complete'))
 
     else:
         login_form = SigninForm()
