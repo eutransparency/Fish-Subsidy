@@ -121,4 +121,6 @@ LOGIN_URL = '/login/'
 SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
 SESSION_TIMEOUT = 1209600
 REGISTRATION_BACKEND = "registration.backends.default.DefaultBackend"
+ACCOUNT_ACTIVATION_DAYS = 15
 
+DEFAULT_FROM_EMAIL = "team@fishsubsidy.org"

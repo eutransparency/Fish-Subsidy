@@ -13,12 +13,10 @@
 
   {{ flatpage.content|markdown }}
 
-
-
 {% endblock%}
 
 
 {% block right %}
-  {# {% load flatpage_menu %} #}
-  {# {% flatpage_menu %} #}
+  {% load flatpage_menu %}
+  {% flatpage_menu %}
 {% endblock %}
