@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 
+{% load i18n %}
+{% load multilingual_tags %}
+
 {% block page_title %}
     {{ flatpage.title }}
 {% endblock%}
@@ -18,5 +21,6 @@
 
 {% block right %}
   {% load flatpage_menu %}
-  {% flatpage_menu %}
+  {% get_current_language as LANGUAGE_CODE %}
+  {% flatpage_menu LANGUAGE_CODE %}
 {% endblock %}
