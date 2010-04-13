@@ -1,4 +1,5 @@
 {% load lists %}
+Editing {% if list_object.name %}<a href="{% url save_list %}">{{ list_object.name }}</a>{% else %}a new list{% endif %}
 <ul class="list_items">
   {% if list_items %}
     {% for item in list_items %}

@@ -11,7 +11,7 @@ body { margin:0 auto;}
 #head #mainmenu li {float:left;}
 #head #mainmenu li a {display:block; padding:1em 1.5em 1em 1.5em;}
 
-#page {width:80%; position:relative; margin:0 auto; padding:0;}
+#page {width:80%; position:relative; margin:0 auto; padding:0; min-height:550px;}
 #content {float:left; width:70%;}
 .wide #content {float:left; width:100%;}
 
@@ -61,10 +61,12 @@ form.col1 {border-right:1px solid black;}
 #topbar {
   background:#00467f;
   color:#FFF;
-  padding:0 10%;
+  padding:0 11%;
 }
 
 #topbar form {
   text-align:right;
   clear:both;
+  padding:4px;
+  margin:0;
 }

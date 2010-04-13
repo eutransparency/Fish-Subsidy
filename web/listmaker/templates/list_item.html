@@ -1,10 +1,14 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load markup %}
 {% block page_title %}{{ list_item.name }}{% endblock %}
 {% block title %}{{ list_item.name }}{% endblock %}
 {% block content %}
-  {{ list_item.description }}
+  {{ list_item.description|markdown }}
   
+  <div class="section">
+  <h3>Items</h3>
+    
   {% if list_item.listitem_set.all %}
   <a href="{% url edit_list_items list_item.pk %}">Add Items</a>
   <table>
@@ -28,8 +32,8 @@
           {% endfor %}</ul>
           
           
-          ---</td>
-          <td>{{ item.content_object.port }}</td>
+          </td>
+          <td>{{ item.content_object.port.name }}</td>
           <td>{{ item.content_object.amount }}</td>
         </tr>
       {% endfor %}
@@ -37,7 +41,12 @@
     </tbody>
   </table>
   {% else %}
+  {% ifequal user.pk list_item.user.pk  %}
   There is nothing in your list yet.  <a href="{% url edit_list_items list_item.pk %}">Add Items</a>
+  {% else %}
+  The list owner hasn't added any items to this list yet.
+  {% endifequal %}
   {% endif %}
+  </div>
   
 {% endblock %}

@@ -9,7 +9,12 @@ def flatpage_menu(language=settings.LANGUAGE_CODE):
 
     menu = '<ul>'
     for page in pages:
-        menu += '<li>'+'<a href="'+page.url+'" title="'+page.title+'">'+page.title+'</a></li>'
+        menu += """
+        <li><a href="%(url)s" title="%(title)s">%(title)s</a></li>
+        """ % {
+            'url' : page.url or "",
+            'title' : page.title or "",
+        }
     menu += '</ul>'
     return menu 
 

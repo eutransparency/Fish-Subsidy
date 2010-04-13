@@ -47,8 +47,16 @@ def make_fig(request, type):
     """ make a chart """
     name_value_dict = {}
     
+    graph_hash = "make_fig%s" % "@@".join((request.GET['years'], request.GET['values'],))
+    cached = cache.get(graph_hash)
+    if cached:
+        return cached
+
+
     years = request.GET['years'].split("|")
     values = request.GET['values'].split("|")
+    
+    
     if 'traffic_lights' in request.GET:
       traffic_lights = request.GET['traffic_lights'].split("|")
     else:
@@ -64,7 +72,7 @@ def make_fig(request, type):
       if traffic_lights:
         bar(i+0.25 , float(key[1]), 0.5,  color=format_traffic_lights(traffic_lights[i]), alpha=0.7, linewidth=0)
       else:
-        bar(i+0.25 , float(key[1]), 0.5,  color='grey', alpha=0.7, linewidth=0)
+        bar(i+0.25 , float(key[1] or 0), 0.5,  color='grey', alpha=0.7, linewidth=0)
       i = i+1
     # assert False      
 
@@ -92,6 +100,7 @@ def make_fig(request, type):
     
     response = HttpResponse(mimetype="image/png")
     savefig(response, dpi=120)
+    cache.set(graph_hash, response)
     return response
     
 def stack_graph(request,country='GB'):

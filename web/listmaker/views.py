@@ -9,6 +9,18 @@ import models
 import forms
 from django.contrib.auth.decorators import login_required
 
+def active_list_required(view):
+    """
+    Decorator that checks for a list, and redirects to the list home if one 
+    doesn't exist.
+    """
+    def _decorated(request, *arg, **kw):
+        if not request.session.get('list_enabled'):
+            return HttpResponseRedirect(reverse('lists_home'))
+        return view(request, *arg, **kw)
+    return _decorated
+
+
 
 def lists_home(request):
     return render_to_response(
@@ -24,14 +36,24 @@ def activate(request):
     return HttpResponseRedirect(reverse('lists_home'))
 
 def deactivate(request):
-    request.session['list_enabled'] = False
-    request.session['list_object'] = models.List()
-    return HttpResponseRedirect(reverse('lists_home'))
-
+    if request.POST.get('deactivate_confirm'):
+        request.session['list_enabled'] = False
+        request.session['list_object'] = models.List()
+        request.notifications.add("Your list has been deactivated")
+        return HttpResponseRedirect(reverse('lists_home'))
+    return render_to_response(
+        'deactivate_warming.html',
+        {},
+        context_instance = RequestContext(request)
+        )
+    
 @login_required
+@active_list_required
 def manage_lists(request, list_id=None):
-    if list_id:
-        list_item = get_object_or_404(models.List, pk=list_id, user=request.user)
+    active_list = request.session.get('list_object')
+    if list_id or active_list:
+        print active_list.pk
+        list_item = get_object_or_404(models.List, pk=list_id or active_list.pk, user=request.user)
     else:
         list_item = models.List(user=request.user)
     
@@ -39,9 +61,19 @@ def manage_lists(request, list_id=None):
         new_list_form = forms.ListForm(request.POST, instance=list_item)
         new_list_form.user = request.user
         if new_list_form.is_valid():
-            new_list_form.save()
-        
+            list_item = new_list_form.save()
+            
+            # Save the list object
+            request.session['list_object'] = list_item
+            
+            # Save each item in the list
+            for item in request.session['list_items']:
+                item.save()
+                # models.ListItem.objects.get_or_create(content_type=item.content_)
+            return HttpResponseRedirect(reverse('list_detail', kwargs={'list_id' : list_item.pk}))
     else:
+        print "-=="
+        print repr(list_item)
         new_list_form = forms.ListForm(instance=list_item)
     return render_to_response(
         'edit.html', 
@@ -64,9 +96,6 @@ def list_view(request, list_id):
         list_item = models.List.objects.select_related().get(pk=list_id)
     except models.List.DoesNotExist:
         raise Http404
-
-
-    # list_item = models.List.objects.select_related().get(pk=4)
 
     return render_to_response(
         'list_item.html',
@@ -92,7 +121,7 @@ def edit_list_items(request, list_id=None):
     request.session.modified = True
     return HttpResponseRedirect(reverse('list_detail', args=(list_object.pk,)))
 
-
+@active_list_required
 def add_remove_item(request):
     """
     Expects POST data with the following values:
@@ -159,8 +188,13 @@ def add_remove_item(request):
 
     if action == "remove":
         try:
-            list_items.remove(list_item)
-            print 'removed'            
+            for i in list_items:
+                # This is needed becuase an instance of the object
+                # maybe saved, and there wont be the same
+                if i.content_type == list_item.content_type and \
+                i.object_id == list_item.object_id:
+                    list_items.remove(i)
+                # list_items.remove(list_item)
         except:
             pass
     # Create the total for this list
@@ -172,8 +206,6 @@ def add_remove_item(request):
     request.session['list_items'] = list_items
     
     # We'll need a dict of the items.
-    # TODO: one day this should get all the attributes from the model, so we
-    # don't hard code any fields.
     items_dict = {}
     for i in list_items:
         co = i.content_object
