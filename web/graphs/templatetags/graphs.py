@@ -19,9 +19,9 @@ def graph(graph_type, data):
       years.append(item.year)
       # traffic_lights.append(item.scheme_traffic_light)
     data = {}
-    data['values'] = "|".join(["%s" % v for v in values])
-    data['years'] = "|".join(["%s" % y for y in years])
-    data['traffic_lights'] = "|".join(["%s" % t for t in traffic_lights])
+    data['values'] = "|".join(["%s" % v or 0 for v in values])
+    data['years'] = "|".join(["%s" % y or 0 for y in years])
+    data['traffic_lights'] = "|".join(["%s" % t or 0 for t in traffic_lights])
     get_data = urlencode(data)
     url = reverse('graph', kwargs={'type':graph_type})
   
@@ -31,13 +31,14 @@ def graph(graph_type, data):
     values = []
     traffic_lights = []
     for s in data:
-      years.append(s.year)
-      values.append(s.total_subsidy)
-      traffic_lights.append(s.scheme_traffic_light)
+        if s.year:
+          years.append(s.year)
+          values.append(s.total_subsidy or 0)
+          traffic_lights.append(s.scheme_traffic_light)
     url_data = {
-      'values' : "|".join(["%s" % v for v in values]),
-      'years' : "|".join(["%s" % y for y in years]),
-      'traffic_lights' : "|".join(["%s" % y for y in traffic_lights])
+      'values' : "|".join(["%s" % v or 0 for v in values]),
+      'years' : "|".join(["%s" % y or 0 for y in years]),
+      'traffic_lights' : "|".join(["%s" % y or 0 for y in traffic_lights])
     }
     get_data = urlencode(url_data)
     url = reverse('graph', kwargs={'type':graph_type})

@@ -32,7 +32,7 @@
         <p>To add items, <a href="{{ home_url }}">browse or search</a> the site and click on the icon next to a recipient.</p>
       {% endblocktrans %}</p>
       {% endif %}
-      
+      <a href="{% url deactivate_list %}">Deactivate this list</a>
     {% else %}
       <h3>Create a list</h3>
       <p>You don't currently have a list activated. <a href="{% url activate_list %}">Activate one now</a></p>

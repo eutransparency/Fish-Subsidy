@@ -16,7 +16,7 @@ class List(models.Model):
     """Stores list definitions against a user"""
     
     name = models.CharField(blank=False, max_length=100)
-    description = models.TextField(blank=False)
+    description = models.TextField(blank=False, help_text="""Text will be formatted using <a href="">Markdown</a>""")
     user = models.ForeignKey(User)
     
     def __unicode__(self):
