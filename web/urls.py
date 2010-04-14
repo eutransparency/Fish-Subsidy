@@ -21,6 +21,7 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/rosetta/', include('rosetta.urls')),
     (r'^admin/(.*)', admin.site.root),
+    
 )
 
 urlpatterns += patterns('',
@@ -40,6 +41,7 @@ urlpatterns += patterns('',
     (r'', include('frontend.urls')),
     (r'accounts/', include('registration.backends.default.urls')),
     (r'^comments/', include('django.contrib.comments.urls')),    
+
 )
 
 
