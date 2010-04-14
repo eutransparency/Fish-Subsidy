@@ -42,7 +42,7 @@
         <div class="col wide-col">
 
           <div class="block">
-            <h3>Top Recipient Vessels <br />in Europe</h3>
+            <h3>{% trans "Top Recipient Vessels <br />in Europe" %}</h3>
             <em>(1994-2007)</em>
             <ul>
             {% for recipient in top_vessels %}
@@ -53,11 +53,16 @@
               </li>
             {% endfor %}
             </ul>
-            <a href="EU/browse">See All</a>
+            <a href="EU/browse">{% trans "See All" %}</a>
           </div>
           
           <div class="block">
-            <h3>Top Recipient Vessels <br />in {% code_to_name ip_country %}</h3>
+            <h3>
+              {% code_to_name ip_country as ip_country_name %}
+              {% blocktrans with ip_country_name as ip_country_name %}
+              Top Recipient Vessels <br />in {{ ip_country_name }}
+              {% endblocktrans %}
+              </h3>
             <em>(1994-2007)</em>
             <ul>
             {% for recipient in country_top_vessels %}
@@ -94,7 +99,9 @@
           </div>
 
           <div class="block">
-            <h3>Top Non-vessel Payments <br />in {% code_to_name ip_country %}</h3>
+            {% blocktrans with ip_country_name as ip_country_name %}
+              <h3>Top Non-vessel Payments <br />in </h3>
+            {% endblocktrans %}
             <em>(1994-2007)</em>
             <ul>
             {% for recipient in country_top_nonvessels %}
@@ -111,7 +118,7 @@
               </li>
             {% endfor %}
             </ul>
-            <a href="{{ ip_country }}/browse?filter=vessel">See All</a>
+            <a href="{{ ip_country }}/browse?filter=vessel">{% trans "See All" %}</a>
           </div>
 
 
@@ -153,7 +160,10 @@
         <div class="col narrow-col">
           <div class="block"><h3>{% trans "By country" %}</h3>{% menu %}</div>
           <div class="block">
-            <h3>Follow <a href="http://twitter.com/fishsubsidy">fishsubsidy.org</a> on Twitter</h3>
+            <h3>
+              {% blocktrans %}
+              Follow <a href="http://twitter.com/fishsubsidy">fishsubsidy.org</a> on Twitter</h3>
+              {% endblocktrans %}
             {{ tweet.text }}
           </div>
           

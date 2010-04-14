@@ -40,7 +40,7 @@ have been convicted of serious infringements.</p>
         <td><a href="{{ link_to_vessel }}">{{ record.vesssel_name }}</a></td>
         <td><a href="{{ link_to_vessel }}">&euro;{{ record.total|floatformat|intcomma }}</a></td>
         <td><a href="{% url port record.iso_country record.port_name as port_url %}{{ port_url }}">{{ record.port_name|title }}</a></td>
-        <td><a href="{% url country record.iso_country %}">{% code_to_name record.iso_country %}</a></td>
+        <td><a href="{% url country record.iso_country %}">{% code_to_name record.iso_country as country_name %}{{ country_name }}</a></td>
         <td>{{ record.description }}
         {% if record.sanction %}
           <br />
