@@ -12,12 +12,11 @@ class CodeToName(Node):
         self.code = Variable(self.code).resolve(context)
         if self.code == "UK":
             self.code = "GB"
-
+        
         context[self.varname] = countryCodes.country_codes(self.code)['name']
         return ''
 
 @register.tag
 def code_to_name(parser, token):
     bits = token.contents.split()
-    print bits
     return CodeToName(bits[1], bits[3])
