@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # Django settings for web project.
 from django.utils.translation import ugettext_lazy as _
 
@@ -104,9 +106,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 DEFAULT_CHARSET = "utf-8" 
 NOTIFICATIONS_STORAGE = 'session.SessionStorage'
 
+ugettext = lambda s: s
+
 LANGUAGES = (
-  ('en', _('English')),
-  ('es', _('Spanish')),
+  ('en', ugettext('English')),
+  ('es', ugettext('Español')),
 )
 
 LANGUAGE_CODE = 'en'
