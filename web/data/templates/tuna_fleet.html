@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% load humanize %}
+{% load i18n %}
 {% block title%}{% trans "Tuna Fleet" %}{% endblock %}
 {% block page_title%}{% blocktrans with country.name as country and country.code as code %}
-  <a href="/{{ code }}">{{ name }}</a>: Tuna Fleet
+  <a href="/{{ code }}">{{ country }}</a>: Tuna Fleet
 {% endblocktrans %}{% endblock %}
 {% block content %}
 {% load pagination_tags %}
@@ -30,8 +31,8 @@
 </table>
   <h4 class="pager">{% paginate %}</h4>
   {% else %}
-    <p>{% blocktrans country.name as country %}
-      {{ country.name }} has no vessels in the Tuna Fleet.  <a href="/EU/tuna-fleet">View the full list</a>
+    <p>{% blocktrans with country.name as country %}
+      {{ country }} has no vessels in the Tuna Fleet.  <a href="/EU/tuna-fleet">View the full list</a>
     {% endblocktrans %}</p>
   {% endif %}
 
