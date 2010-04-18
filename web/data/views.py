@@ -303,7 +303,10 @@ def country_browse(request, country, year=conf.default_year):
         items = items.filter(recipient_type=filter_by)
     items = items.order_by(sort_by)
 
-    data_years = Payment.objects.filter(country=country).values('year').annotate().order_by('year')
+    data_years = Payment.objects.all()
+    if country != 'EU':
+        data_years = data_years.filter(country=country)
+    data_years = data_years.values('year').annotate().order_by('year')
 
     return render_to_response(
         'browse.html',

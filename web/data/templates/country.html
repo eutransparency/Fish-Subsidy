@@ -143,11 +143,19 @@
         Recipients in {{ country }}
     {% endblocktrans %}</h3>
     <ul>
+      <li><strong>{% trans "Non Vessels" %}</strong>
+        <ul>
+          <li><a href="/{{ country.code }}/browse/?filter=nonvessel&sort=amount">{% trans "By amount received" %}</a>
+          <li><a href="/{{ country.code }}/browse/?filter=nonvessel&sort=name">{% trans "A - Z by name" %}</a></li>
+          <li><a href="/{{ country.code }}/tuna-fleet">{% trans "Tuna Fleet" %}</a></li>
+        </ul>
+      </li>
+
       <li><strong>{% trans "Vessels" %}</strong>
         <ul>
-          <li><a href="/{{ country.code }}/browse/amount">{% trans "By amount received" %}</a></p>
-          <li><a href="/{{ country.code }}/browse/name">{% trans "A - Z by name" %}</a></li>
-          <li><a href="/{{ country.code }}/browse/port">{% trans "A - Z by port" %}</a></li>
+          <li><a href="/{{ country.code }}/browse/?filter=vessel&sort=amount">{% trans "By amount received" %}</a>
+          <li><a href="/{{ country.code }}/browse/?filter=vessel&sort=name">{% trans "A - Z by name" %}</a></li>
+          <li><a href="/{{ country.code }}/browse/?filter=vessel&sort=port">{% trans "A - Z by port" %}</a></li>
           <li><a href="/{{ country.code }}/tuna-fleet">{% trans "Tuna Fleet" %}</a></li>
         </ul>
       </li>
