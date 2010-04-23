@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load humanize traffic_lights i18n %}
+{% load babel %}
 {% block title %}
   {% ifnotequal year 0 %}
       {% blocktrans %}Schemes {{ year }}{% endblocktrans %}
@@ -18,23 +19,6 @@
 {% endblock %}
 
 {% block content %}
-
-  <div class="year_selector">
-    {% for country_year in data_years %}
-      {% if country.code %}
-        <a href="/{{ country.code }}/schemes/{{ country_year.year }}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a>    
-      {% else %}
-        <a href="/schemes/{{ country_year.year }}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a>    
-      {% endif %}
-    {% endfor %}
-    <br />
-    {% if country.code %}
-      <a href="/{{ country.code }}/schemes/0" {% ifequal year 0 %}class="selected"{% endifequal %}>{% trans "All years" %}</a>
-    {% else %}
-      <a href="/schemes/0" {% ifequal year 0 %}class="selected"{% endifequal %}>{% trans "All years" %}</a>
-    {% endif %}
-    
-    </div>
     
   <table class="section">
     <thead>
@@ -43,13 +27,20 @@
     </thead>
   {% for scheme in schemes %}
     {% if country.code %}
-      {% url data.views.scheme_detail scheme_id=scheme.scheme2_id name=scheme.scheme_name|slugify country=country.code as scheme_url %}
+      {% url data.views.scheme_detail scheme_id=scheme.scheme_id name=scheme.name_en|slugify country=country.code as scheme_url %}
     {% else %}
-      {% url data.views.scheme_detail scheme_id=scheme.scheme2_id name=scheme.scheme_name|slugify as scheme_url %}      
+      {% url data.views.scheme_detail scheme_id=scheme.scheme_id name=scheme.name_en|slugify as scheme_url %}      
     {% endif %}
     <tr>
-      <td><a href="{{ scheme_url }}">{{ scheme.scheme_name }}</a> {% traffic_light scheme.scheme_traffic_light%}</td>
-      <td>&euro;{{ scheme.total_subsidy|floatformat|intcomma }}</td>
+      <td><a href="{{ scheme_url }}">{{ scheme.name_es }}{{ scheme.name_en }}</a> {% traffic_light scheme.traffic_light%}</td>
+      <td>
+        {% if scheme.total %}
+        {{ scheme.total|currencyfmt:"EUR" }}
+        {% else %}
+        {{ 0|currencyfmt:"EUR" }}
+        {% endif %}
+        
+        </td>
     </tr>
   {% endfor %}
   </table>
@@ -58,18 +49,43 @@
 
 
 {% block right %}
-  <div id="scheme_help">
-    <h3>{% trans "About Schemes" %}</h3>
-  <p>To help make sense of the various subsidy types we have adopted a classification developed by the Fisheries Centre of the University of British Columbia. 
-      This classification divides subsidy schemes and measures into:</p>
-      <ul>
-          <li>Good (green {{ good }})</li>
-          <li>Bad (red {{ bad }})</li> 
-          <li>Ugly (yellow {{ ugly }})</li>
-        </ul>
-          <a href="/about/schemes/">Read More</a>
-      </div>
+  <div id="scheme_help" class="box">
+    {% blocktrans with good as good and bad as bad and ugly as ugly %}
+
+
+    <h3>About Schemes</h3>
+    <p>To help make sense of the various subsidy types we have adopted a classification developed by the Fisheries Centre of the University of British Columbia. 
+    This classification divides subsidy schemes and measures into:</p>
+    <ul>
+      <li>Good (green {{ good }})</li>
+      <li>Bad (red {{ bad }})</li> 
+      <li>Ugly (yellow {{ ugly }})</li>
+    </ul>
+    <a href="/about/schemes/">Read More</a>
+  </div>
   
-  {# {% endblocktrans %} #}
+  {% endblocktrans %}
+
+  <div class="box">
+    <h3>{% trans "Filter" %}</h3>
+    <h4>{% trans "Years" %}</h4>
+    
+    <ul>
+      {% if country.code %}
+        <li><a href="/{{ country.code }}/schemes/0" {% ifequal year 0 %}class="selected"{% endifequal %}>{% trans "All years" %}</a></li>
+      {% else %}
+        <li><a href="/schemes/0" {% ifequal year 0 %}class="selected"{% endifequal %}>{% trans "All years" %}</a></li>
+      {% endif %}
+    
+      {% for country_year in data_years %}
+        {% if country.code %}
+          <li><a href="/{{ country.code }}/schemes/{{ country_year.year }}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a>    </li>
+        {% else %}
+          <li><a href="/schemes/{{ country_year.year }}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a>    </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+    </div>
+  
 
 {% endblock %}

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load humanize %}
+{% load babel %}
 {% load i18n %}
 {% block title %}
   {{ port.port_name|title }} | {{ country.name }}
@@ -37,7 +38,7 @@
       {% for vessel in top_vessels %}
       <tr>{% url vessel country=country.code cfr=vessel.pk name=vessel.name|slugify as vessel_url %}
         <td><a href="{{ vessel_url }}">{{ vessel.name|title }} ({{ vessel.pk }})</a></td>
-        <td>&euro;{{ vessel.payment_total|floatformat|intcomma }}</td>
+        <td>{{ vessel.payment_total|currencyfmt:"EUR" }}</td>
       </tr>
       {% endfor %}
     

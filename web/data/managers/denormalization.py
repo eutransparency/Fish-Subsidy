@@ -2,6 +2,7 @@
 Actually, this is normalization I guess.  A bit of both.
 """
 import re
+from decimal import *
 
 from django.db import models
 from django.db import connection, backend, models
@@ -24,7 +25,10 @@ class Denormalize(models.Manager):
             p = self.model()
             item = dict(zip([col[0] for col in desc], row))
             p.__dict__.update(item)
-            p.amount = item['t']
+            if item['t']:
+                p.amount = Decimal(str(item['t']))
+            else:
+                p.amount = Decimal(0)
             result_list.append(p)
         return result_list
 
@@ -50,29 +54,31 @@ class Denormalize(models.Manager):
     def schemes(self, year=None):
         cursor = connection.cursor()
         result_list = []
-        if year:
-            cursor.execute("""
-              SELECT scheme2_id, scheme_name, year, SUM(total_subsidy) as t, scheme_traffic_light
-              FROM `data_fishdata`
-              WHERE scheme_name !=''
-              AND year = %s
-              GROUP BY scheme2_id;
-            """, (year,))
-        else:
-            cursor.execute("""
-              SELECT scheme2_id, scheme_name, '0', SUM(total_subsidy) as t, scheme_traffic_light
-              FROM `data_fishdata`
-              WHERE scheme_name !=''
-              GROUP BY scheme2_id;
-            """)
+        # if year:
+        #     cursor.execute("""
+        #       SELECT scheme2_id, scheme_name, year, SUM(total_subsidy) as t, scheme_traffic_light
+        #       FROM `data_fishdata`
+        #       WHERE scheme_name !=''
+        #       AND year = %s
+        #       GROUP BY scheme2_id;
+        #     """, (year,))
+        # else:
+        cursor.execute("""
+          SELECT scheme2_id, scheme_name, SUM(total_subsidy) as t, scheme_traffic_light
+          FROM `data_fishdata`
+          WHERE scheme_name !=''
+          GROUP BY scheme2_id;
+        """)
 
         for row in cursor.fetchall():
             p = self.model()
             p.scheme_id = row[0]
             p.name = row[1]
-            p.year = row[2]
-            p.total = row[3]
-            p.traffic_light = row[4]
+            if row[3]:
+                p.total = Decimal(str(row[2]))
+            else:
+                p.total = Decimal(0)
+            p.traffic_light = row[3]
             result_list.append(p)
 
         return result_list
@@ -92,6 +98,10 @@ class Denormalize(models.Manager):
         for row in cursor.fetchall():
             p = self.model()
             item = dict(zip([col[0] for col in desc], row))
+            if item.get('amount'):
+                item['amount'] = Decimal(str(item['amount']))
+            else:
+                item['amount'] = Decimal(0)
             p.__dict__.update(item)
             result_list.append(p)
         return result_list
@@ -111,6 +121,10 @@ class Denormalize(models.Manager):
         for row in cursor.fetchall():
             p = self.model()
             item = dict(zip([col[0] for col in desc], row))
+            if item['total']:
+                item['total'] = Decimal(str(item['total']))
+            else:
+                item['total'] = 0
             p.__dict__.update(item)
             result_list.append(p)
         return result_list

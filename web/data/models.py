@@ -6,6 +6,8 @@ from managers.denormalization import Denormalize
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from listmaker.models import ListItem
+import multilingual
+
 
 class FishData(models.Model):
   """(Data description)"""  
@@ -59,6 +61,8 @@ class FishData(models.Model):
   def __unicode__(self):
     return "%s" % self.pk
 
+  class Meta():
+      managed = False
 
 class Recipient(models.Model):
   """
@@ -74,7 +78,7 @@ class Recipient(models.Model):
   name = models.CharField(blank=True, max_length=255, null=True)
   country = models.CharField(blank=True, max_length=100, db_index=True)
   port = models.ForeignKey('Port', null=True)
-  amount = models.FloatField(db_index=True, null=True, default=0)
+  amount = models.DecimalField(max_digits=40, decimal_places=2, null=True, default=0)
   geo1 = models.CharField(blank=True, max_length=255, null=True)
   geo2 = models.CharField(blank=True, max_length=255, null=True)
   
@@ -87,19 +91,18 @@ class Recipient(models.Model):
   def __unicode__(self):
     return u"%s" % self.name
 
-
-
 class Scheme(models.Model):
-    scheme_id = models.IntegerField(blank=True, null=True, db_index=True)
-    name = models.CharField(blank=True, max_length=255, db_index=True)
-    total = models.FloatField(null=True, default=0)
-    year = models.IntegerField(blank=True, null=True)
+    scheme_id = models.IntegerField(blank=True, null=True, primary_key=True)
+    total = models.DecimalField(max_digits=40, decimal_places=2, null=True, default=0)
     traffic_light = models.IntegerField(blank=True, null=True)
     
     objects = SchemeManager()
     
+    class Translation(multilingual.Translation):
+        name = models.CharField(max_length=250)
+    
     def __unicode__(self):
-        return "%s (%s)" % (self.name, self.year,)
+        return "%s" % (self.name)
 
 class Payment(models.Model):
   """
@@ -107,10 +110,10 @@ class Payment(models.Model):
   """
   payment_id = models.IntegerField(primary_key=True, db_index=True)
   recipient_id = models.ForeignKey(Recipient, db_index=True)
-  amount = models.FloatField()
+  amount = models.DecimalField(max_digits=40, decimal_places=2, null=True, default=0)
   year = models.IntegerField(blank=True, null=True, db_index=True)
   port = models.ForeignKey('Port', null=True) # Only here as an optimization
-  scheme = models.ForeignKey(Scheme)
+  scheme = models.ForeignKey(Scheme, to_field='scheme_id')
   country = models.CharField(blank=True, max_length=4, db_index=True)
   
   def __unicode__(self):
@@ -125,7 +128,7 @@ class Port(models.Model):
     """
     name = models.CharField(blank=True, max_length=255)
     country = models.CharField(blank=True, max_length=4)
-    total = models.FloatField()
+    total = models.DecimalField(max_digits=40, decimal_places=2, null=True, default=0)
     geo1 = models.CharField(blank=True, max_length=255)
     geo2 = models.CharField(blank=True, max_length=255)
 

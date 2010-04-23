@@ -1,11 +1,12 @@
 {% extends "base.html" %}
+{% load babel %}
 {% load humanize traffic_lights i18n %}
 
 {% block title %}{{ scheme.0.scheme_name }}{% endblock %}
 
 {% block page_title %}
 {% if country.code %}
-    <a href="{{ country.code }}">{{ country.name }}</a> &mdash; {% ifnotequal year 0 %} {{ year }}{% else %} {% trans "All years" %}{% endifnotequal %}
+    <a href="{% url country country.code %}">{{ country.name }}</a> &mdash; {% ifnotequal year 0 %} {{ year }}{% else %} {% trans "All years" %}{% endifnotequal %}
 {% endif %}
 <br />{% trans "Scheme" %}: {{ scheme.0.scheme_name }}
 {% endblock %}
@@ -34,16 +35,57 @@
   </div>
 
 
-  
-  {% if top_vessels.0.vessel_name %}
+
+  {% if top_vessels %}
     <div class="section">
-      <h2>{% trans "Top vessels" %}</h2>
-      {% load list_data %}
-      {% list_vessels top_vessels 1 0 1 %}    
+      <h2>{% trans "Top Vessels" %}</h2>
+    
+      <table>
+        <thead>
+          <th>{% trans "Name" %}</th>
+          <th>{% trans "Amount" %}</th>
+        </thead>
+        {% for vessel in top_vessels %}
+        <tr>{% url vessel country=country.code cfr=vessel.pk name=vessel.name|slugify as vessel_url %}
+          <td><a href="{{ vessel_url }}">{{ vessel.name|title }} ({{ vessel.pk }})</a></td>
+          <td>{{ vessel.payment_total|currencyfmt:"EUR" }}</td>
+        </tr>
+        {% endfor %}
+    
+      </table>    
     </div>
   {% endif %}
 
-  
+
+  {% if top_nonvessels %}
+    <div class="section">
+      <h2>{% trans "Top Non-vessel" %}</h2>
+    
+      <table>
+        <thead>
+          <th>{% trans "Name" %}</th>
+          <th>{% trans "Amount" %}</th>
+        </thead>
+        {% for beneficiary in top_nonvessels %}
+        <tr>{% url nonvessel country=beneficiary.country project_no=beneficiary.pk as vessel_url %}
+          <td><a href="{{ vessel_url }}">
+            
+            {% if beneficiary.name %}
+              {{ beneficiary.name|title }} 
+            {% else %}
+              {% trans "Unknown beneficiary" %} ({{ beneficiary.pk }})
+            {% endif %}
+            
+            </a></td>
+          <td>{{ beneficiary.payment_total|currencyfmt:"EUR" }}</td>
+        </tr>
+        {% endfor %}
+    
+      </table>    
+    </div>
+  {% endif %}
+
+
 
   {% if top_ports.0.port_name %}
     <div class="section {% if col %}col{% endif %}">  
@@ -57,7 +99,7 @@
         {% url data.views.port country=country.code port=port.port_name as port_url %}
         <tr>
         <td><a href="{{ port_url }}">{{ port.port_name|title }}</a></td>
-        <td>&euro;{{ port.total|floatformat|intcomma }}</td>
+        <td>{{ port.total|currencyfmt:"EUR" }}</td>
         </tr>
       {% endfor %}
       <tr><td><a href="/{{ country.code }}/ports/browse/0">See All</a></td></tr>
@@ -77,7 +119,7 @@
       {% url browse_geo2 country=m.iso_country geo1=m.geo1 as municipality_url %}
       <tr>
       <td><a href="{{ municipality_url }}">{{ m.geo1|title }}</a></td>
-      <td>&euro;{{ m.total_subsidy|floatformat|intcomma }}</td>
+      <td>{{ m.total_subsidy|currencyfmt:"EUR" }}</td>
       </tr>
     {% endfor %}
     <tr><td><a href="/{{ country.code }}/municipalities">{% trans "See All" %}</a></td></tr>

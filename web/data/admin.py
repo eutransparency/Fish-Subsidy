@@ -1,4 +1,5 @@
 import data.models
+import multilingual
 from django.contrib import admin
 
 
@@ -17,9 +18,9 @@ class RecipientAdmin(admin.ModelAdmin):
 class PaymentAdmin(admin.ModelAdmin):
     list_display = ['payment_id', 'amount',]
 
-class SchemeAdmin(admin.ModelAdmin):
-    list_display = ['name', 'year','total', 'traffic_light']
-    list_filter = ['name', 'year', 'traffic_light']
+class SchemeAdmin(multilingual.ModelAdmin):
+    list_display = ['name','total', 'traffic_light']
+    list_filter = ['traffic_light']
 
 admin.site.register(data.models.illegalFishing, IllegalAdmin)
 admin.site.register(data.models.DataDownload)

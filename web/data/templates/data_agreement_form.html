@@ -1,30 +1,37 @@
 {% extends "base.html" %}
-
+{% block title %}Thanks for downloading data from fishsubsidy.org.{% endblock %}
+{% block page_title %}Thanks for downloading data from fishsubsidy.org.{% endblock %}
 {% block content %}
-<h3>The fishsubsidy.org database is made available under the<br /> <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open Database License</a>.</h3>
 
- <h3>You are free:</h3>
- <dl>
-	<dt>To Share:</dt> 
-	<dd>To copy, distribute and use the database.</dd>
-	<dt>To Create:</dt> 
-	<dd>To produce works from the database.</dd>
-	<dt>To Adapt:</dt> 
-	<dd>To modify, transform and build upon the database.</dd>
- </dl>
+<p>We worked really hard to create this database, and this site represents many
+hundreds of hours of work by our team. Getting data out of governments is often
+not an easy task. We often have to fight with governments through freedom of
+information requests to get access to the data. Sometimes we get data in
+strange formats. Sometimes we have to build web robots to extract it. Once we
+have it, it takes yet more work to turn it into a useful database.</p>
 
-<h3>As long as you:</h3>
+<p>All of the many hundreds of hours of work requires funding and support,
+which we are grateful to receive from our kind funders. We depend on you to
+demonstrate the value of our work by attributing us as the source. By
+attributing us or citing us in your news story, article, research report, radio
+or TV show, website, and so on, you are, in a very direct way, helping us to
+continue providing you data.</p>
 
-<dl>
-<dt>Attribute:</dt>
-<dd>You must attribute any public use of the database, or works produced from the database, by referencing farmsubsidy.org or 'data derived from the farmsubsidy.org database of farm subsidy payments'. For any use or redistribution of the database, or works produced from it, you must make clear to others the license of the database and keep intact any notices on the original database.</dd>
+<p>We make our database available under the Open Database License, which means
+you should:</p>
 
-<dt>Share-Alike:</dt> 
-<dd>If you publicly use any adapted version of this database, or works produced from an adapted database, you must also offer that adapted database under the ODbL.</dd>
+<ul> <li>Attribute your use of this database to us, and</li> <li>Share your
+changes back with everyone else.</li> </ul>
 
-<dt>Keep open:</dt>
-<dd>If you redistribute the database, or an adapted version of it, then you may use technological measures that restrict the work (such as DRM) as long as you also redistribute a version without such measures.</dd>
-</dl>
+<p>For more on how to do both of these and the specifics, please see our <a
+href="/about/legal/">legal policy</a>, the ODbL text or <a href="/faqs/">our
+FAQ</a> for details.</p>
+
+<p>Have fun, and if there are any questions, <a href="/about/">please get in
+touch</a>.</p>
+
+
+
 
 <form method="POST">
   {{ form.as_p }}

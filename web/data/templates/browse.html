@@ -2,6 +2,7 @@
 {% load pagination_tags %}
 {% load parse_qs %}
 {% load humanize i18n %}
+{% load babel %}
 {% load lists %}
 {% block page_title%}{% trans "Browse" %}{% endblock %}
 {% block title%}{% trans "Browse Vessels" %}{% endblock %}
@@ -34,7 +35,7 @@
           {% endif %}
           ({{ beneficiary.pk }})
           </a></td> 
-        <td>&euro;{{ beneficiary.amount|floatformat|intcomma }}</td>
+        <td>{{ beneficiary.amount|currencyfmt:"EUR" }}</td>
         <td>
           {% if beneficiary.port.name %}
           <a href="{{ port_url }}">{{ beneficiary.port.name|title }}</a>

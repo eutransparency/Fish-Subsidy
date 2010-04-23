@@ -46,6 +46,7 @@ MIDDLEWARE_CLASSES = [
     'johnny.middleware.QueryCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+    'babeldjango.middleware.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',    
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -84,6 +85,7 @@ INSTALLED_APPS = [
     'rosetta',
     'multilingual',
     'multilingual.flatpages',
+    'babeldjango',
     
 ]
 
@@ -112,7 +114,7 @@ LANGUAGES = (
   ('en', ugettext('English')),
   ('es', ugettext('Español')),
 )
-
+MULTILINGUAL_FALLBACK_LANGUAGES = ['en', 'es']
 LANGUAGE_CODE = 'en'
 DEFAULT_LANGUAGE = 1
 

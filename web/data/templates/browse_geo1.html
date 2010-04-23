@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load babel %}
 {% load humanize %}
 {% block title%}Browse{% endblock %}
 {% block page_title%}Municipalities in <a href="/{{ country.code }}">{{ country.name }}</a>{% ifequal 0 year %}, All Years{% else %}, {{ year }}{% endifequal %}{% endblock %}
@@ -26,7 +27,7 @@
       {% url browse_geo2 country=country.code geo1=m.geo1 as municipality_url %}
       <tr>
         <td><a href="{{ municipality_url }}">{{ m.geo1|title }}</a></td> 
-        <td>&euro;{{ m.total_subsidy|floatformat|intcomma }}</td>
+        <td>{{ m.total_subsidy|currencyfmt:"EUR" }}</td>
       </tr>
     {% endfor %}
   </table>

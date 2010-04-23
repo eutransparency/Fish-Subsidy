@@ -3,7 +3,12 @@ import re
 from django.db import models
 from django.db import connection, backend, models
 from django.db.models import Sum, Max
+from django.db.models.query import QuerySet, Q
 import conf
+
+
+from django.utils.translation import get_language
+import multilingual
 
 class illegalFishingManager(models.Manager):
   
@@ -58,6 +63,9 @@ class VesselsManager(models.Manager):
             kwargs['payment__year__exact'] = year
         if port:
             kwargs['port__name'] = port
+        if scheme_id:
+            kwargs['payment__scheme__exact'] = scheme_id
+
         vessels = vessels.filter(port__country=country, **kwargs)
         vessels = vessels.annotate(payment_total=Sum('payment__amount'))
         vessels = vessels.order_by('-payment_total')
@@ -71,8 +79,30 @@ class NonVesselsManager(models.Manager):
         return super(NonVesselsManager, self).get_query_set().filter(
                                                     recipient_type='nonvessel'
                                                     )
+
+
+    def top_beneficiaries(self, country=None, port=None, scheme_id=None, year=0):
+        beneficiaries = self.all()
+        kwargs = {}
+        if country and country!='EU':
+            kwargs['country'] = country
+            kwargs['payment__country'] = country
+        if int(year) != 0:
+            kwargs['payment__year__exact'] = year
+        if port:
+            kwargs['port__name'] = port
+        if scheme_id:
+            kwargs['payment__scheme__exact'] = scheme_id
+
+        beneficiaries = beneficiaries.filter(**kwargs)
+        beneficiaries = beneficiaries.annotate(payment_total=Sum('payment__amount'))
+        beneficiaries = beneficiaries.order_by('-payment_total')
+        beneficiaries = beneficiaries.select_related('port__name')
+        return beneficiaries
+
+
     
-class SchemeManager(models.Manager):
+class SchemeManager(multilingual.Manager):
     
     def top_schemes(self, country=None, year=0, limit=10):
         """
@@ -80,27 +110,28 @@ class SchemeManager(models.Manager):
         
         Because of this, we can get a total for all countries easier than we
         can get a total for one country.
-    
+
         """
-        if country:
-            top_schemes = self.values("scheme_id")
-            kwargs = {}
-            if country:
-                kwargs['payment__country__exact'] = country
-            if year != 0:
-                kwargs['payment__year__exact'] = year
-            top_schemes = top_schemes.filter(**kwargs)
-            top_schemes = top_schemes.annotate(total=Sum('payment__amount'))
-            top_schemes = top_schemes.values("name", "traffic_light", "total", "scheme_id")
-            top_schemes = top_schemes.order_by('-total')
+
+        name_value = "name_%s" % get_language()
+
+        top_schemes = self.values("scheme_id", name_value)
+        kwargs = {}
+
+        if country and country != "EU":
+            kwargs['payment__country__exact'] = country
+
+        if int(year) != 0:
+            kwargs['payment__year__exact'] = year
+        top_schemes = top_schemes.filter(**kwargs)
+        top_schemes = top_schemes.annotate(total=Sum('payment__amount'))
+        top_schemes = top_schemes.values(name_value, "traffic_light", "total", "scheme_id")
+        top_schemes = top_schemes.order_by('-total')
+        
+        if limit:
+            return top_schemes[:limit]
         else:
-            top_schemes = self.all()
-            if year != 0:
-                top_schemes = self.filter(year=year)
-            top_schemes = top_schemes.order_by('-total')
-            
-            
-        return top_schemes[:limit]
+            return top_schemes
 
     
     
