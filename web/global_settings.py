@@ -87,6 +87,7 @@ INSTALLED_APPS = [
     'multilingual',
     'multilingual.flatpages',
     'babeldjango',
+    'djapian',
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -129,4 +130,10 @@ SESSION_TIMEOUT = 1209600
 REGISTRATION_BACKEND = "registration.backends.default.DefaultBackend"
 ACCOUNT_ACTIVATION_DAYS = 15
 
+<<<<<<< HEAD:web/global_settings.py
 DEFAULT_FROM_EMAIL = "team@fishsubsidy.org"
+=======
+
+DJAPIAN_DATABASE_PATH = "xapian.db"
+DJAPIAN_STEMMING_LANG = "multi"
+>>>>>>> e4c7984d0cb3a2d00fb7e72edbde98476e64e6cd:web/global_settings.py

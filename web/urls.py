@@ -6,6 +6,10 @@ from web.data.models import FishData
 import misc.views
 import features
 
+import djapian
+
+djapian.load_indexes()
+
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
