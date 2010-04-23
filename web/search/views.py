@@ -31,34 +31,10 @@ def search(request):
                     | xapian.QueryParser.FLAG_LOVEHATE                                    
                     | xapian.QueryParser.FLAG_WILDCARD                                    
                     )[:15]                                                                
-
-    size = 0
-    # size += ports['size']
-    # size += vessels['size']
-    # size += countries['size']
-    # size += schemes['size']
-    
-    # if size <= 1:
-      # if ports['size'] > 0:
-      #   return HttpResponseRedirect(reverse('port', 
-      #     kwargs={'country' : ports['documents'][0]['iso_country'], 
-      #             'port' : ports['documents'][0]['port_name']})
-      #             )
-      # if len(recipients) == 1:
-      #   return HttpResponseRedirect(reverse('vessel', 
-      #     kwargs={
-      #     'country' : vessels['documents'][0]['iso_country'],
-      #     'cfr' : vessels['documents'][0]['cfr'],
-      #     'name' : vessels['documents'][0]['vessel_name']
-      #     }))
-      # if countries['size'] > 0:
-      #   return HttpResponseRedirect(reverse('country', kwargs={'country' : countries['documents'][0]['iso_country']}))
-      # if schemes['size'] > 0:
-      #   return HttpResponseRedirect(reverse('scheme_detail', 
-      #     kwargs={
-      #     'scheme_id' : schemes['documents'][0]['scheme2_id'],
-      #     'name' : schemes['documents'][0]['scheme_name']
-      #     }))
+    results_count = 0
+    for r in (vessels, schemes, ports):
+        results_count += r.prefetch().count()
+        
     
     return render_to_response(
       'results.html', 
@@ -66,6 +42,7 @@ def search(request):
         'vessels' : vessels, 
         'schemes' : schemes, 
         'ports' : ports, 
+        'results_count' : results_count,
       }, 
       context_instance=RequestContext(request)
     )  

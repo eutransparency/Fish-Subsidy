@@ -1,4 +1,25 @@
 {% extends "base.html" %}
+{% block body_id%}home{% endblock %}
+{% load i18n %}
 {% block content %}
-  Search Form to go here
+<div class="section">
+  <form action="/search" method="get" accept-charset="utf-8" id="search_form">
+    <h2><label for="search" class="section_title">{% trans "Search" %}</label></h2>
+    <div class="section_content">
+      <input type="text" name="q" value="" id="q" title="{% trans "Enter a vessel name, number, port or place name" %}">
+      <div class="description">
+        {% blocktrans %}
+        e.g. <a href="/search?q=Aurora">Aurora</a>, <a href="/search?q=DEU000300601">DEU000300601</a> or <a href="/search?q=Dieppe">Dieppe</a>
+        {% endblocktrans %}
+        <div class="search_help">
+          {% blocktrans %}
+            Use "AND", "OR" or "NOT" to refine searches.  <br />Use "-" (minus) to remove particular words, for example "Jan  -Looden"<br />
+            If a search that returns only one hit, it will be displayed directly.            
+          {% endblocktrans %}
+          </div></div>
+      <input type="submit" value="Go" class="submit">
+    </div>
+  </form>
+</div>
+
 {% endblock %}

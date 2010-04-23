@@ -15,6 +15,6 @@ class SchemeIndexer(Indexer):
 space.add_index(Scheme, SchemeIndexer, attach_as='indexer')
 
 class PortIndexer(Indexer):
-    fields = ['name',]
+    fields = ['name','geo1', 'geo2', 'country']
 space.add_index(Port, PortIndexer, attach_as='indexer')
 

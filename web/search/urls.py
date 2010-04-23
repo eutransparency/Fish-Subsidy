@@ -2,5 +2,5 @@ from django.conf.urls.defaults import *
 
 
 urlpatterns = patterns('search.views',
-    url(r'^search/$', 'search'),
+    url(r'^search/$', 'search', name='search'),
 )
