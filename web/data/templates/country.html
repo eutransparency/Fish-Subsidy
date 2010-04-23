@@ -83,8 +83,8 @@
       
       <table>
         <thead>
-          <th>Beneficiary Name</th>
-          <th>Amount</th>
+          <th>{% trans "Beneficiary Name" %}</th>
+          <th>{% trans "Amount" %}</th>
         </thead>
         {% for beneficiary in non_vessles %}
           {% url nonvessel country=beneficiary.country project_no=beneficiary.recipient_id as beneficiary_url%}
