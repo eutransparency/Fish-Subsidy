@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load humanize %}
+{% load babel %}
 {% load i18n %}
 {% block title%}{% trans "Tuna Fleet" %}{% endblock %}
 {% block page_title%}{% blocktrans with country.name as country and country.code as code %}
@@ -24,7 +25,7 @@
   
     <tr>
       <td><a href="{{ vessel_url }}">{{ vessel.vessel_name|title }}</a></td> 
-      <td>&euro;{{ vessel.total_subsidy|floatformat|intcomma }}</td>
+      <td>{{ vessel.total_subsidy|currencyfmt:"EUR" }}</td>
       <td><a href="{{ port_url }}">{{ vessel.port_name|title }}</a></td>
     </tr>
   {% endfor %}

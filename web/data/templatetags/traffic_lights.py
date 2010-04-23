@@ -2,6 +2,7 @@ from django.template import Library, Node
 register = Library()
 
 def traffic_light(light, name=None):
+  print light
   style = ""
   name = ""
   light = int(light)

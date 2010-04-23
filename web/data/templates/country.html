@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load humanize %}
+{% load babel %}
 {% load i18n %}
 {% load cache %}
 {% load lists %}
@@ -42,7 +43,7 @@
       {% url data.views.port country=country.code port=port.name as port_url %}
       <tr>
       <td><a href="{{ port_url }}">{{ port.name|title }}</a></td>
-      <td>&euro;{{ port.total|floatformat|intcomma }}</td>
+      <td>{{ port.total|currencyfmt:"EUR" }}</td>
       </tr>
     {% endfor %}
     <tr><td><a href="/{{ country.code }}/ports/browse/0">{% trans "See All" %}</a></td></tr>
@@ -61,7 +62,7 @@
       {% url browse_geo2 country=country.code geo1=m.geo1 as municipality_url %}
       <tr>
       <td><a href="{{ municipality_url }}">{{ m.geo1|title }}</a></td>
-      <td>&euro;{{ m.total_subsidy|floatformat|intcomma }}</td>
+      <td>&euro;{{ m.total_subsidy|currencyfmt:"EUR" }}</td>
       </tr>
     {% endfor %}
     <tr><td><a href="/{{ country.code }}/municipalities/">{% trans "See All" %}</a></td></tr>
@@ -98,7 +99,7 @@
 
                 ({{ beneficiary.pk }})</a>
             </td>
-            <td>{% if beneficiary.amount %} &euro;{{ beneficiary.total|floatformat|intcomma }}{% endif %}</td>
+            <td>{% if beneficiary.amount %} &euro;{{ beneficiary.total|currencyfmt:"EUR" }}{% endif %}</td>
             <td>{% list_item_edit beneficiary %}</td>
           </tr>
         {% endfor %}
@@ -120,7 +121,7 @@
       {% url data.views.scheme_detail scheme_id=scheme.scheme_id name=scheme.name|slugify country=country.code as scheme_url %}
       <tr>  
         <td><a href="{{ scheme_url }}">{{ scheme.name|title }}</a>{% traffic_light scheme.traffic_light %}</td>
-          <td>&euro;{{ scheme.total|floatformat|intcomma }}</td>
+          <td>&euro;{{ scheme.total|currencyfmt:"EUR" }}</td>
       </tr>
     {% endfor %}
     <tr><td><a href="schemes">{% trans "See All" %}</a></td></tr>
@@ -147,7 +148,6 @@
         <ul>
           <li><a href="/{{ country.code }}/browse/?filter=nonvessel&sort=amount">{% trans "By amount received" %}</a>
           <li><a href="/{{ country.code }}/browse/?filter=nonvessel&sort=name">{% trans "A - Z by name" %}</a></li>
-          <li><a href="/{{ country.code }}/tuna-fleet">{% trans "Tuna Fleet" %}</a></li>
         </ul>
       </li>
 
@@ -157,6 +157,7 @@
           <li><a href="/{{ country.code }}/browse/?filter=vessel&sort=name">{% trans "A - Z by name" %}</a></li>
           <li><a href="/{{ country.code }}/browse/?filter=vessel&sort=port">{% trans "A - Z by port" %}</a></li>
           <li><a href="/{{ country.code }}/tuna-fleet">{% trans "Tuna Fleet" %}</a></li>
+          
         </ul>
       </li>
       <li><strong>{% trans "Ports" %}</strong>

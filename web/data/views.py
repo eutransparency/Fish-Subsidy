@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.core.servers.basehttp import FileWrapper
 from django.db.models import Sum, Max
+from django.utils.translation import get_language
 
 import models
 import conf
@@ -22,7 +23,7 @@ def home(request):
     top_nonvessel = Recipient.nonvessels.order_by('-amount')[:5]
     country_top_nonvessels = Recipient.nonvessels.filter(country=ip_country).order_by('-amount')[:5]
     country_top_vessels = Recipient.vessels.filter(country=ip_country).order_by('-amount')[:5]
-    top_schemes = Scheme.objects.top_schemes()
+    top_schemes = Scheme.objects.top_schemes(year=0)
     
     return render_to_response(
         'home.html', 
@@ -68,7 +69,7 @@ def country(request, country=None, year=conf.default_year):
     if year != 0:
         kwargs['payment__year__exact'] = year
     non_vessles = non_vessles.filter(**kwargs)
-    non_vessles = non_vessles.annotate(total=Sum('payment__amount'))        
+    non_vessles = non_vessles.annotate(total=Sum('payment__amount'))
     non_vessles = non_vessles.order_by('-total')
     non_vessles = non_vessles[:5]
         
@@ -81,18 +82,18 @@ def country(request, country=None, year=conf.default_year):
         kwargs['payment__year__exact'] = year
     top_ports = top_ports.filter(**kwargs)
     top_ports = top_ports.annotate(total=Sum('payment__amount'))
-    top_ports = top_ports.order_by('-total')[:10]
+    top_ports = top_ports.order_by('-total')[:5]
     
     top_schemes = Scheme.objects.all()
     top_schemes = top_schemes.values("scheme_id")
     kwargs = {}
     if country:
         kwargs['payment__country__exact'] = country
-    if year != 0:
-        kwargs['payment__year__exact'] = year
+    kwargs['payment__year__exact'] = int(year)
     top_schemes = top_schemes.filter(**kwargs)
     top_schemes = top_schemes.annotate(total=Sum('payment__amount'))
     top_schemes = top_schemes.values("name", "traffic_light", "total", "scheme_id")
+    top_schemes = top_schemes.order_by('-total')    
     
     top_municipalities = FishData.objects.geo(geo=1, country=country, year=year)[0:5]
 
@@ -183,11 +184,13 @@ def vessel(request, country, cfr, name):
         country = country.upper()
 
     recipient = Recipient.objects.select_related().get(recipient_id=cfr)
-    
+    print recipient.payment_set.all()[0].scheme
     full_row = FishData.objects.get_latest_row(cfr)
     
     total = 0
     infringement_record = illegalFishing.objects.select_related().filter(cfr=cfr).order_by('date')
+
+
     return render_to_response(
         'recipient.html', 
         {
@@ -220,15 +223,15 @@ def nonvessel(request, country, project_no):
 
 def schemes(request, country=None, year=conf.default_year):
     if country:
-        country = country.upper()    
-    
-    
-    schemes = FishData.objects.schemes(country, year)
+        country = country.upper()
+
+    top_schemes = Scheme.objects.top_schemes(country=country, year=year, limit=None)
+
     data_years = FishData.objects.country_years(country)
     return render_to_response(
         'schemes.html', 
         {
-            'schemes' : schemes, 
+            'schemes' : top_schemes,
             'year' : int(year), 
             'data_years' : data_years
         },
@@ -255,7 +258,10 @@ def scheme_detail(request, scheme_id, name, country=None, year=conf.default_year
     
     scheme = FishData.objects.scheme_years(scheme_id=scheme_id, country=country, year=year)
     data_years = FishData.objects.country_years(country=country, scheme_id=scheme_id)      
-    top_vessels = FishData.objects.top_vessels_by_scheme(country=country, scheme_id=scheme_id, year=year)
+
+    top_vessels = Recipient.vessels.top_vessels(country=country, scheme_id=scheme_id, year=year)[:10]
+    top_nonvessels = Recipient.nonvessels.top_beneficiaries(country=country, scheme_id=scheme_id, year=year)[:10]
+
     top_ports = FishData.objects.top_ports(scheme_id=scheme_id, country=country, year=year)
     top_municipalities = FishData.objects.geo(country=country, scheme_id=scheme_id, year=year)[0:5]
 
@@ -271,6 +277,7 @@ def scheme_detail(request, scheme_id, name, country=None, year=conf.default_year
             'col' : col, 
             'scheme' : scheme, 
             'top_vessels' : top_vessels, 
+            'top_nonvessels' : top_nonvessels, 
             'top_ports': top_ports,
             'top_municipalities': top_municipalities,
             'data_years' : data_years,

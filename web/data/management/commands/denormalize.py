@@ -53,20 +53,16 @@ class Command(NoArgsCommand):
                 v.save()
 
     def schemes(self):
-        years = [year.year for year in FishData.denormalize.years()]
-        years.append(None)
-        for year in years:
-            for scheme in FishData.denormalize.schemes(year):
-                try:
-                    s = Scheme.objects.get(scheme_id=scheme.scheme_id, year=scheme.year)
-                except Exception, e:
-                    s = Scheme()
-                s.scheme_id = scheme.scheme_id
-                s.name = scheme.name
-                s.year = scheme.year
-                s.total = scheme.total or 0
-                s.traffic_light = scheme.traffic_light
-                s.save()
+        for scheme in FishData.denormalize.schemes():
+            try:
+                s = Scheme.objects.get(scheme_id=scheme.scheme_id)
+            except Exception, e:
+                s = Scheme()
+            s.scheme_id = scheme.scheme_id
+            s.name = scheme.name
+            s.total = scheme.total or 0
+            s.traffic_light = scheme.traffic_light
+            s.save()
 
 
 
@@ -77,7 +73,7 @@ class Command(NoArgsCommand):
 
             try:
                 v = Recipient.objects.get(recipient_id=row.recipient_id)
-                s = Scheme.objects.get(year=row.year, scheme_id=row.scheme2_id)
+                s = Scheme.objects.get(scheme_id=row.scheme2_id)
                 try:
                     p = Payment.objects.get(payment_id=row.id,)
                 except:
@@ -99,15 +95,15 @@ class Command(NoArgsCommand):
                 p.save()
             except Exception, e:
                 print e
-                print row_dict
+                # print row_dict
                 print "no vessel"
 
 
     def handle_noargs(self, **options):
-        print "ports"
-        self.ports()
-        print "recipient"
-        self.recipient()
+        # print "ports"
+        # self.ports()
+        # print "recipient"
+        # self.recipient()
         print "schemes"
         self.schemes()
         print "payments"

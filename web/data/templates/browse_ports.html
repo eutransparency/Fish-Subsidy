@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load humanize %}
+{% load babel %}
 {% load i18n %}
 {% block title%}{% trans "Browse Ports" %}{% endblock %}
 {% block page_title%}{% trans "Browse" %}{% endblock %}
@@ -37,7 +38,7 @@
     
       <tr>
         <td><a href="{{ vessel_url }}">{{ port.port_name|title }}</a></td> 
-        <td>&euro;{{ port.total_subsidy|floatformat|intcomma }}</td>
+        <td>{{ port.total_subsidy|currencyfmt:"EUR" }}</td>
       </tr>
     {% endfor %}
   </table>

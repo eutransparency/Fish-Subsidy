@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% load humanize %}
+{% load multilingual_tags %}
+{% load babel %}
 {% load i18n markup %}
 {% block title %}
   {% if recipient.name %}
@@ -45,14 +47,24 @@
     {% for payment in recipient.payment_set.all %}
       <tr>
         <td>{{ payment.year }}</td>
-        <td><a href="{% url scheme_country_detail recipient.country payment.scheme_id payment.name %}">{{ payment.scheme.name }}</a>{% traffic_light payment.scheme.traffic_light %}</td>
-        <td>&euro;{{ payment.amount|floatformat|intcomma }}</td>
+        <td><a href="{% url scheme_country_detail recipient.country payment.scheme_id payment.name %}">
+          {% get_current_language as LANGUAGE_CODE %}
+          {% ifequal LANGUAGE_CODE "es" %}
+            {{ payment.scheme.name_es }}  
+          {% else %}
+            {{ payment.scheme.name_en }}            
+          {% endifequal %}
+          
+          </a>
+          {# {% traffic_light payment.scheme.traffic_light %} #}
+          </td>
+        <td>{{ payment.amount|currencyfmt:"EUR" }}</td>
       </tr>
     {% endfor %}
     <tr>
       <td></td>
       <td style="text-align:right"><strong>{% trans "Total" %}</strong>:</td>
-      <td>&euro;{{ recipient.amount|floatformat|intcomma }}</td>
+      <td>{{ recipient.amount|currencyfmt:"EUR" }}</td>
     </tr>
   </table>
   {% load comments i18n %}

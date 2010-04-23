@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load countrymenu %}
 {% load humanize %}
+{% load babel %}
 {% load code_to_name %}
 {% load lists %}
 {% load i18n %}
@@ -139,8 +140,8 @@
             
               {% url data.views.scheme_detail country="EU" scheme_id=scheme.scheme_id name=scheme.name|slugify as scheme_url %}
               <tr>  
-                <td><a href="{{ scheme_url }}">{{ scheme.name|title }}</a>{% traffic_light scheme.traffic_light %}</td>
-                  <td>&euro;{{ scheme.total|floatformat|intcomma }}</td>
+                <td><a href="{{ scheme_url }}">{{ scheme.name_es }}{{ scheme.name_en }}</a>{% traffic_light scheme.traffic_light %}</td>
+                  <td>{{ scheme.total|currencyfmt:"EUR" }}</td>
               </tr>
               
             {% endfor %}

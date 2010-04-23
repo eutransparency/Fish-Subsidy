@@ -176,8 +176,10 @@ def stack_graph(request,country='GB'):
   rows = len(data)
 
   for row in xrange(rows):
-    bar(ind, data[row], 0.4, bottom=yoff, color=format_traffic_lights(row+1), linewidth=0,)
-    yoff = yoff + data[row]
+    # neede because mpl can't cope with Decimal objects
+    floated_row = [float(x) for x in data[row]]
+    bar(ind, floated_row, 0.4, bottom=yoff, color=format_traffic_lights(row+1), linewidth=0,)
+    yoff = yoff + floated_row
 
   xticks(arange(0.5, len(years)),
       [('%s' % value) 
