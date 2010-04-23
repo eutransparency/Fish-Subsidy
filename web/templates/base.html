@@ -103,18 +103,22 @@
           <p>{{ featured_items.0.teaser|truncatewords:"25" }}</p>
           </a>
         </li>
-        <li>
-          <a href="{% url feature_detail featured_items.1.slug %}">
-          <strong>{{ featured_items.1.title }}:</strong>
-          <p>{{ featured_items.1.teaser|truncatewords:"25" }}</p>
-          </a>
-        </li>
+        {% if feature.1 %}
+          <li>
+            <a href="{% url feature_detail featured_items.1.slug %}">
+            <strong>{{ featured_items.1.title }}:</strong>
+            <p>{{ featured_items.1.teaser|truncatewords:"25" }}</p>
+            </a>
+          </li>          
+        {% endif %}
+        {% if feature.2 %}        
         <li>
           <a href="{% url feature_detail featured_items.2.slug %}">
           <strong>{{ featured_items.2.title }}:</strong>
           <p>{{ featured_items.2.teaser|truncatewords:"25" }}</p>
           </a>
         </li>
+        {% endif %}        
     </ul>
   {% endif %}
   <div id="content">
