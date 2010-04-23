@@ -86,6 +86,7 @@ INSTALLED_APPS = [
     'multilingual',
     'multilingual.flatpages',
     'babeldjango',
+    'djapian',
     
 ]
 
@@ -128,3 +129,6 @@ SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
 SESSION_TIMEOUT = 1209600
 REGISTRATION_BACKEND = "registration.backends.default.DefaultBackend"
 
+
+DJAPIAN_DATABASE_PATH = "xapian.db"
+DJAPIAN_STEMMING_LANG = "multi"

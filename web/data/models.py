@@ -91,6 +91,9 @@ class Recipient(models.Model):
   def __unicode__(self):
     return u"%s" % self.name
 
+  def get_stemming_lang(self):
+    return self.country
+
 class Scheme(models.Model):
     scheme_id = models.IntegerField(blank=True, null=True, primary_key=True)
     total = models.DecimalField(max_digits=40, decimal_places=2, null=True, default=0)

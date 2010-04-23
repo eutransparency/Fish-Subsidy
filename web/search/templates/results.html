@@ -13,48 +13,33 @@
     <h2>No results</h2>
     <p>Sorry, no results found</p>
   {% endifequal %}
-    
-  {% if countries.documents %}
-  {% load code_to_name %}
-    <h2>Matching countr{{ countries.size|pluralize:"y,ies" }}</h2>
+
+  {% if ports %}
+    <h2>Matching Ports</h2>
     <ul>
-      {% for i,country in countries.documents.items %}
-        <li><a href="/{{ country.iso_country }}">{% code_to_name country.iso_country %}</a></li>
+      {% for port in ports %}
+        {% url port port.instance.country, port.instance.name,  as port_url %}
+        <li><a href="{{ port_url }}">{{ port.instance.name|title }}</a></li>
       {% endfor %}
     </ul>
   {% endif %}
 
+  {% if schemes %}
+    <h2>Matching Schemes</h2>
+    <ul>
+      {% for scheme in schemes %}
+        {% url vessel vessel.instance.country, vessel.instance.pk, vessel.instance.name as vessel_url %}
+        <li><a href="{{ vessel_url }}">{{ scheme.instance.name|title }}</a></li>
+      {% endfor %}
+    </ul>
+  {% endif %}
 
-  {% if ports.documents.0.port_name %}
-    <h2>Matching port{{ ports.size|pluralize }}</h2>
+  {% if vessels %}
+    <h2>Matching Vessels</h2>
     <ul>
-      {% for i,port in ports.documents.items %}
-        {% if port.port_name %}
-          {% url data.views.port country=port.iso_country port=port.port_name as port_url %}
-          <li><a href="{{ port_url }}">{{ port.port_name|title }}</a></li>
-        {% endif %}
-      {% endfor %}
-    </ul>
-  {% endif %}
-  
-  {% if vessels.documents %}
-    <h2>Matching Vessel{{ vessels.size|pluralize }}</h2>
-    <ul>
-      {% for i,vessel in vessels.documents.items %}
-        {% url data.views.vessel country=vessel.iso_country cfr=vessel.cfr, name=vessel.vessel_name as vessel_url %}
-        {# {{ vessel }} #}
-        <li><a href="{{ vessel_url }}">{{ vessel.vessel_name|title }}</a></li>
-      {% endfor %}
-    </ul>
-  {% endif %}
-  
-  {% if schemes.documents %}
-    <h2>Matching Scheme{{ schemes.size|pluralize }}</h2>
-    <ul>
-      {% for i,scheme in schemes.documents.items %}
-        {% url data.views.scheme_detail  scheme_id=scheme.scheme2_id, name=scheme.scheme_name as scheme_url %}
-        {# {{ vessel }} #}
-        <li><a href="{{ scheme_url }}">{{ scheme.scheme_name|title }}</a></li>
+      {% for vessel in vessels %}
+        {% url vessel vessel.instance.country, vessel.instance.pk, vessel.instance.name as vessel_url %}
+        <li><a href="{{ vessel_url }}">{{ vessel.instance.name|title }}</a></li>
       {% endfor %}
     </ul>
   {% endif %}
