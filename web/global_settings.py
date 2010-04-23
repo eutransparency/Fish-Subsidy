@@ -113,7 +113,7 @@ ugettext = lambda s: s
 
 LANGUAGES = (
   ('en', ugettext('English')),
-  ('es', ugettext('Español')),
+  ('es', ugettext('Español'.decode('utf8'))),
 )
 MULTILINGUAL_FALLBACK_LANGUAGES = ['en', 'es']
 LANGUAGE_CODE = 'en'
