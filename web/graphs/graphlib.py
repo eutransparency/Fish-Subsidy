@@ -103,20 +103,18 @@ def make_fig(request, type):
     cache.set(graph_hash, response)
     return response
     
-def stack_graph(request,country='GB'):
-  all_countries = False
-  if country == "0":
-    all_countries = True
+def stack_graph(request,country=None):
   cache_key = "graph_stack_%s" % country
   cached = cache.get(cache_key)
   if cached:
       return cached
-       
-  # sql_data = FishData.objects.country_years_traffic_lights(country)
-  sql_data = Scheme.objects.all()
-  sql_data.values('name', 'year', 'traffic_light')
-  sql_data.exclude(year="0")
-  sql_data.annotate(total=Sum('total'))
+
+  if country and country != "0":
+      all_countries = False
+  else:
+      all_countries = True
+
+  sql_data = Scheme.objects.years_total(country=country)
   
 
   
