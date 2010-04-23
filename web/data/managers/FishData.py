@@ -133,7 +133,30 @@ class SchemeManager(multilingual.Manager):
         else:
             return top_schemes
 
-    
+    def years_total(self, country=None):
+        if country and country != "0":
+            extra_and = "AND p.country='%s'" % country
+        else:
+            extra_and = ""
+
+        cursor = connection.cursor()
+        sql = """
+        SELECT SUM(p.amount) as total, p.year, s.traffic_light FROM data_scheme s
+        JOIN data_payment p ON p.scheme_id=s.scheme_id 
+        WHERE p.year IS NOT NULL
+        %s
+        GROUP BY p.year, s.traffic_light
+        """ % extra_and
+        cursor.execute(sql)
+        result_list = []
+        for row in cursor.fetchall():
+            p = self.model()
+            p.total = row[0]
+            p.year = row[1]
+            p.traffic_light = row[2]
+            result_list.append(p)
+        return result_list
+        
     
     
 class FishDataManager(models.Manager):

@@ -113,7 +113,7 @@ class Payment(models.Model):
   amount = models.DecimalField(max_digits=40, decimal_places=2, null=True, default=0)
   year = models.IntegerField(blank=True, null=True, db_index=True)
   port = models.ForeignKey('Port', null=True) # Only here as an optimization
-  scheme = models.ForeignKey(Scheme, to_field='scheme_id')
+  scheme = models.ForeignKey(Scheme)
   country = models.CharField(blank=True, max_length=4, db_index=True)
   
   def __unicode__(self):

@@ -62,7 +62,7 @@
       {% url browse_geo2 country=country.code geo1=m.geo1 as municipality_url %}
       <tr>
       <td><a href="{{ municipality_url }}">{{ m.geo1|title }}</a></td>
-      <td>&euro;{{ m.total_subsidy|currencyfmt:"EUR" }}</td>
+      <td>{{ m.total_subsidy|currencyfmt:"EUR" }}</td>
       </tr>
     {% endfor %}
     <tr><td><a href="/{{ country.code }}/municipalities/">{% trans "See All" %}</a></td></tr>
@@ -99,7 +99,7 @@
 
                 ({{ beneficiary.pk }})</a>
             </td>
-            <td>{% if beneficiary.amount %} &euro;{{ beneficiary.total|currencyfmt:"EUR" }}{% endif %}</td>
+            <td>{% if beneficiary.amount %} {{ beneficiary.total|currencyfmt:"EUR" }}{% endif %}</td>
             <td>{% list_item_edit beneficiary %}</td>
           </tr>
         {% endfor %}
@@ -120,8 +120,10 @@
     {% for scheme in top_schemes %}
       {% url data.views.scheme_detail scheme_id=scheme.scheme_id name=scheme.name|slugify country=country.code as scheme_url %}
       <tr>  
-        <td><a href="{{ scheme_url }}">{{ scheme.name|title }}</a>{% traffic_light scheme.traffic_light %}</td>
-          <td>&euro;{{ scheme.total|currencyfmt:"EUR" }}</td>
+        <td><a href="{{ scheme_url }}">
+          {{ scheme.name_es }}{{ scheme.name_en }}</a>{% traffic_light scheme.traffic_light %}
+        </td>
+          <td>{{ scheme.total|currencyfmt:"EUR" }}</td>
       </tr>
     {% endfor %}
     <tr><td><a href="schemes">{% trans "See All" %}</a></td></tr>

@@ -84,16 +84,7 @@ def country(request, country=None, year=conf.default_year):
     top_ports = top_ports.annotate(total=Sum('payment__amount'))
     top_ports = top_ports.order_by('-total')[:5]
     
-    top_schemes = Scheme.objects.all()
-    top_schemes = top_schemes.values("scheme_id")
-    kwargs = {}
-    if country:
-        kwargs['payment__country__exact'] = country
-    kwargs['payment__year__exact'] = int(year)
-    top_schemes = top_schemes.filter(**kwargs)
-    top_schemes = top_schemes.annotate(total=Sum('payment__amount'))
-    top_schemes = top_schemes.values("name", "traffic_light", "total", "scheme_id")
-    top_schemes = top_schemes.order_by('-total')    
+    top_schemes = Scheme.objects.top_schemes()
     
     top_municipalities = FishData.objects.geo(geo=1, country=country, year=year)[0:5]
 
@@ -184,7 +175,6 @@ def vessel(request, country, cfr, name):
         country = country.upper()
 
     recipient = Recipient.objects.select_related().get(recipient_id=cfr)
-    print recipient.payment_set.all()[0].scheme
     full_row = FishData.objects.get_latest_row(cfr)
     
     total = 0
