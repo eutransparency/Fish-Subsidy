@@ -5,9 +5,9 @@
 {% if table %}
   <table>
     <thead>
-      <th>Vessel Name</th>
-      {% if port %}<th>Home Port</th>{% endif %}
-      <th>Amount</th>
+      <th>{% trans "Vessel Name" %}</th>
+      {% if port %}<th>{% trans "Home Port" %}</th>{% endif %}
+      <th>{% trans "Amount" %}</th>
     </thead>
     {% for vessel in vessels %}
       {% url vessel country=vessel.country cfr=vessel.pk name=vessel.name|slugify as vessel_url %}
@@ -22,7 +22,7 @@
             {% endif %}
             
             ({{ vessel.pk }})</a>        
-          {% if expand %}({{ vessel.status }} payment{{ vessel.status|pluralize }}) {% endif %}
+          {% if expand %}({{ vessel.status }} {{ vessel.status|pluralize }}) {% endif %}
         </td>
         {% url data.views.port country=vessel.country port=vessel.port_set.name as port_url %}
         {% if port %}<td><a href="{{ port_url }}">{{ vessel.port.name|title }}</a></td>{% endif %}
@@ -38,7 +38,7 @@
           <li>
           <a href="{{ vessel_url }}">{{ vessel.name|title }} ({{ vessel.cfr }})</a>
           {% if amount %} &mdash; {{ vessel.amount|currencyfmt:"EUR" }}{% endif %}
-          {% if expand %}({{ vessel.status }} payment{{ vessel.status|pluralize }}) {% endif %}
+          {% if expand %}({{ vessel.status }} {{ vessel.status|pluralize }}) {% endif %}
           </li>
     {% endfor %}
   
