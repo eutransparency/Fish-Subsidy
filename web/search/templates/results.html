@@ -1,21 +1,21 @@
 {% extends "base.html" %}
-
-{% block title %}Search Results{% endblock %}
-{% block page_title %}Search Results{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Search Results" %}{% endblock %}
+{% block page_title %}{% trans "Search Results" %}{% endblock %}
 
 {% block breadcrumb %}
-  <a href="/">Home</a>
+  <a href="/">{% trans "Home" %}</a>
 {% endblock %}
 
 {% block content %}
-    
-  {% ifequal size 0 %}
-    <h2>No results</h2>
-    <p>Sorry, no results found</p>
+
+  {% ifequal results_count 0  %}
+    Sorry, no results found. Try <a href="{% url home %}">browsing</a> or <a href="{% url search %}">searching again</a>
   {% endifequal %}
 
+
   {% if ports %}
-    <h2>Matching Ports</h2>
+    <h2>{% trans "Matching Ports" %}</h2>
     <ul>
       {% for port in ports %}
         {% url port port.instance.country, port.instance.name,  as port_url %}
@@ -25,7 +25,7 @@
   {% endif %}
 
   {% if schemes %}
-    <h2>Matching Schemes</h2>
+    <h2>{% trans "Matching Schemes" %}</h2>
     <ul>
       {% for scheme in schemes %}
         {% url vessel vessel.instance.country, vessel.instance.pk, vessel.instance.name as vessel_url %}
@@ -35,7 +35,7 @@
   {% endif %}
 
   {% if vessels %}
-    <h2>Matching Vessels</h2>
+    <h2>{% trans "Matching Vessels" %}</h2>
     <ul>
       {% for vessel in vessels %}
         {% url vessel vessel.instance.country, vessel.instance.pk, vessel.instance.name as vessel_url %}
