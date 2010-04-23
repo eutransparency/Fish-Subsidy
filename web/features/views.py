@@ -7,7 +7,8 @@ from django.template import RequestContext
 from models import Feature
 
 def feature_list(request):
-    features = Feature.objects.filter(published=True)
+    lan = request.locale.language
+    features = Feature.objects.filter(published=True).for_language(lan)
     return render_to_response(
         'feature_list.html', 
         {
@@ -17,7 +18,9 @@ def feature_list(request):
     )
 
 def feature_detail(request, slug):
+    lan = request.locale.language
     feature = get_object_or_404(Feature, published=True, slug=slug)
+    print dir(feature)
     return render_to_response(
         'feature_detail.html', 
         {
