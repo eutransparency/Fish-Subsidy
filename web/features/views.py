@@ -20,7 +20,6 @@ def feature_list(request):
 def feature_detail(request, slug):
     lan = request.locale.language
     feature = get_object_or_404(Feature, published=True, slug=slug)
-    print dir(feature)
     return render_to_response(
         'feature_detail.html', 
         {

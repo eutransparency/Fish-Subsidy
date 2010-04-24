@@ -1,11 +1,14 @@
 import csv
 import re
+import codecs
 import conf
+from django.conf import settings
 from django.contrib.humanize.templatetags import humanize
 
-def load_info(country=None, format=True, year=conf.default_year):
-  filepath = "%s/stats.csv" % (conf.paths['stats'])
-  stats = csv.DictReader(open(filepath, "U"))
+
+def load_info(country=None, format=True, year=conf.default_year, locale=settings.LANGUAGE_CODE):
+  filepath = "%s/stats_%s.csv" % (conf.paths['stats'], locale)
+  stats = csv.DictReader(codecs.open(filepath, "U"))
   if country:
     for row in stats:
       if row['Country'] == country:
@@ -17,7 +20,6 @@ def load_info(country=None, format=True, year=conf.default_year):
           # Format elements
           for k,v in info.items():
             try:
-              
               if k.startswith('Top 5'):
                 i,j = v.split('=')
                 top_5[int(k[-4:-3])-1] = (i,humanize.intcomma(j))

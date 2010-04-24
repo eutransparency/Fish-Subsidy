@@ -9,7 +9,6 @@ def top_recipients(number, recipient_type=None, country=None, location=None):
     if country == "EU":
         pass
     else:
-        print country
         recipients = recipients.filter(country__exact=country)
 
     recipients = recipients.order_by('-amount')
