@@ -36,17 +36,14 @@ def login(request):
             login_form = SigninForm(data=request.POST)
             user = auth.authenticate(username=request.POST['username'], password=request.POST['password'])
             if user is not None:
-                print "found user"
                 if user.is_active:
 
                     #Log in
                     auth.login(request, user)
-                    print "logged in"
                     #set session timeout
                     if request.POST.has_key('remember_me'):
                         request.session.set_expiry(settings.SESSION_TIMEOUT)
 
-                    print "going to redirect"
                     if redirect:
                         return HttpResponseRedirect(redirect)
                     else:
