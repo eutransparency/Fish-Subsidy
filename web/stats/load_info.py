@@ -4,6 +4,7 @@ import codecs
 import conf
 from django.conf import settings
 from django.contrib.humanize.templatetags import humanize
+from django.utils.translation import ugettext_lazy as _
 
 
 def load_info(country=None, format=True, year=conf.default_year, locale=settings.LANGUAGE_CODE):
@@ -36,12 +37,12 @@ def load_info(country=None, format=True, year=conf.default_year, locale=settings
               if formatter == "ET":
                 # new_k = re.sub(' \(.*\).*', '',k)
                 new_k = k[:-2].strip()
-                info[new_k] = u"&euro;%s,000" % info[k]
+                info[new_k] = _(u"&euro;%(number)s,000") % {'number' : info[k]}
                 del info[k]
               if formatter == "EM":
                 new_k = re.sub(' \(.*\).*', '',k)
                 new_k = new_k.strip()
-                info[new_k] = u"&euro;%s Million" % info[k]
+                info[new_k] = _(u"&euro;%(number)s Million") % {'number' : info[k]}
                 del info[k]
               if formatter == " %":
                 new_k = re.sub(' \(.*\).*', '',k)
@@ -51,7 +52,7 @@ def load_info(country=None, format=True, year=conf.default_year, locale=settings
               if formatter == " T":
                 # new_k = re.sub(' \(.*\).*', '',k)
                 new_k = k[:-2].strip()
-                info[new_k] = u"%s Tonnes" % info[k]
+                info[new_k] = _(u"%(number)s Tonnes") % {'number' : info[k]}
                 del info[k]
               else:
                 new_k = re.sub(' \(.*\).*', '',k)
