@@ -87,7 +87,7 @@
 
 
 
-  {% if top_ports.0.port_name %}
+  {% if top_ports %}
     <div class="section {% if col %}col{% endif %}">  
       <h2>Top Ports</h2>
       <table>
@@ -98,7 +98,7 @@
       {% for port in top_ports %}
         {% url data.views.port country=country.code port=port.port_name as port_url %}
         <tr>
-        <td><a href="{{ port_url }}">{{ port.port_name|title }}</a></td>
+        <td><a href="{{ port_url }}">{{ port.name|title }}</a></td>
         <td>{{ port.total|currencyfmt:"EUR" }}</td>
         </tr>
       {% endfor %}
@@ -107,7 +107,7 @@
     </div>
   {% endif %}
 
-  {% if top_municipalities.0.geo1 %}
+  {% if top_municipalities %}
   <div class="section {% if col %}col{% endif %}">  
     <h2>{% trans "Top Regions" %}</h2>
     <table>

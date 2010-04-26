@@ -135,6 +135,7 @@ class Port(models.Model):
     geo1 = models.CharField(blank=True, max_length=255)
     geo2 = models.CharField(blank=True, max_length=255)
 
+    objects = PortManager()
 
 class illegalFishing(models.Model):
   

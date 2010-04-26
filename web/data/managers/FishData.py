@@ -1,4 +1,5 @@
 import re
+import decimal
 
 from django.db import models
 from django.db import connection, backend, models
@@ -100,6 +101,23 @@ class NonVesselsManager(models.Manager):
         beneficiaries = beneficiaries.select_related('port__name')
         return beneficiaries
 
+
+class PortManager(models.Manager):
+
+    def top_ports(self, country='EU', year=0, scheme_id=None, limit=10):
+        top_ports = self.select_related().all()
+        kwargs = {}
+        if country and country!='EU':
+            kwargs['country'] = country
+            kwargs['payment__country'] = country
+        if year != 0:
+            kwargs['payment__year__exact'] = year
+        if scheme_id:
+            kwargs['payment__scheme__exact'] = scheme_id
+        top_ports = top_ports.filter(**kwargs)
+        top_ports = top_ports.annotate(total=Sum('payment__amount'))
+        top_ports = top_ports.order_by('-total')[:5]
+        return top_ports
 
     
 class SchemeManager(multilingual.Manager):
@@ -312,19 +330,24 @@ class FishDataManager(models.Manager):
         result_list.append(p)
     return result_list
     
-  def country_years(self, country, port=None, scheme_id=None):
-    where = "WHERE year IS NOT NULL "
+  def country_years(self, country, port=None, scheme_id=None, recipient_type=None):
+    where = "WHERE year IS NOT NULL"
     if port:
       where += " AND port_name = '%s'" % re.escape(port)
     if scheme_id:
       where += " AND scheme2_id = '%s'" % scheme_id
     if country and country != "EU":
-      where += "AND iso_country='%s'" % country
+      where += " AND iso_country='%s'" % country
+    if recipient_type == "vessel":
+        where += " AND cfr IS NOT NULL"
       
     cursor = connection.cursor()
     cursor.execute("""
-      SELECT distinct(year), sum(total_subsidy) 
-      FROM data_fishdata %(where)s GROUP BY year ORDER BY year ASC;  
+      SELECT year, SUM(total_subsidy) 
+      FROM data_fishdata
+      %(where)s 
+      GROUP BY year 
+      ORDER BY year ASC;
     """ % {'country' : country, 'where' : where})
         
     result_list = []
@@ -471,7 +494,7 @@ class FishDataManager(models.Manager):
 
     cursor = connection.cursor()
     cursor.execute("""    
-      SELECT geo1,geo2, sum(total_subsidy) as total_subsidy, iso_country
+      SELECT geo1,geo2, CAST(sum(total_subsidy) AS DECIMAL) as total_subsidy, iso_country
       FROM `data_fishdata`
       WHERE geo%(geo)s IS NOT NULL %(extra_and)s
       GROUP BY geo%(geo)s
@@ -483,7 +506,7 @@ class FishDataManager(models.Manager):
       
     result_list = []
     for row in cursor.fetchall():
-        p = self.model(geo1=row[0], geo2=row[1], total_subsidy=row[2], iso_country=row[3])
+        p = self.model(geo1=row[0], geo2=row[1], total_subsidy=decimal.Decimal(row[2] or 0), iso_country=row[3])
         result_list.append(p)
     return result_list
       
