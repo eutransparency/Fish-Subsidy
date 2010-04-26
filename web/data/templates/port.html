@@ -57,7 +57,7 @@
     {% if data_years %}
     <div class="">
       <ul>
-        <li><a href="0" {% ifequal year 0 %}class="selected"{% endifequal %}>{% trans "All Years" %}</a></li>
+        <li><a href="{% url data.views.port country=country.code port=port.port_name year=0 %}" {% ifequal year 0 %}class="selected"{% endifequal %}>{% trans "All Years" %}</a></li>
         {% for country_year in data_years %}
           {% url data.views.port country=country.code port=port.port_name year=country_year.year as year_url %}
           <li><a href="{{ year_url }}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a></li>

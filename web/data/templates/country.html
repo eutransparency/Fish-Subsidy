@@ -40,7 +40,7 @@
         <th>{% trans "Amount" %}</th>
       </thead>
     {% for port in top_ports %}
-      {% url data.views.port country=country.code port=port.name as port_url %}
+      {% url data.views.port country=port.country port=port.name as port_url %}
       <tr>
       <td><a href="{{ port_url }}">{{ port.name|title }}</a></td>
       <td>{{ port.total|currencyfmt:"EUR" }}</td>

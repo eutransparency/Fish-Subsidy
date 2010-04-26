@@ -152,7 +152,7 @@ class SchemeManager(multilingual.Manager):
             return top_schemes
 
     def years_total(self, country=None):
-        if country and country != "0":
+        if country and country != "EU":
             extra_and = "AND p.country='%s'" % country
         else:
             extra_and = ""
