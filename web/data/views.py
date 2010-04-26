@@ -147,21 +147,31 @@ def port(request, country, port, year=conf.default_year):
         context_instance=RequestContext(request)
     )  
 
-def browse_ports(request, country, sort='amount', year=conf.default_year):
+def browse_ports(request, country, year=conf.default_year):
     if country:
         country = country.upper()
 
-    sort_by = "total_subsidy DESC"
-    if sort == "name":
-        sort_by = "port_name ASC"
+    sort = request.GET.get('sort') or 'amount'
 
-    items = FishData.objects.port_browse(country, sort_by, year=year)
-    data_years = FishData.objects.country_years(country)
+    ports = Payment.objects.all()
+    if int(year) != 0:
+        ports = ports.filter(year__exact=year)
+    if country != 'EU':
+        ports = ports.filter(country=country)
+    ports = ports.exclude(port__name__exact=None)
+    ports = ports.values('country', 'port', 'port__name').annotate(total=Sum('amount'))
+
+    if sort == 'amount':
+        ports = ports.order_by('-total')
+    if sort == 'name':
+        ports = ports.order_by('port__name')
+
+    data_years = FishData.objects.country_years(country, recipient_type='vessel')
 
     return render_to_response(
         'browse_ports.html',
         {
-            'items' : items,
+            'ports' : ports,
             'data_years' : data_years,
             'sort' : sort,
             'year' : int(year)
@@ -228,19 +238,6 @@ def schemes(request, country=None, year=conf.default_year):
         context_instance=RequestContext(request)
     )
 
-def tuna_fleet(request, country):
-    if country:
-        country = country.upper()    
-    
-    
-    vessels = FishData.objects.tuna_fleet(country)
-    return render_to_response(
-        'tuna_fleet.html', 
-        {'vessels' : vessels,}, 
-        context_instance=RequestContext(request)
-    )
-  
-  
 def scheme_detail(request, scheme_id, name, country=None, year=conf.default_year):
     if country:
         country = country.upper()    
@@ -252,7 +249,7 @@ def scheme_detail(request, scheme_id, name, country=None, year=conf.default_year
     top_vessels = Recipient.vessels.top_vessels(country=country, scheme_id=scheme_id, year=year)[:10]
     top_nonvessels = Recipient.nonvessels.top_beneficiaries(country=country, scheme_id=scheme_id, year=year)[:10]
 
-    top_ports = FishData.objects.top_ports(scheme_id=scheme_id, country=country, year=year)
+    top_ports = Port.objects.top_ports(scheme_id=scheme_id, country=country, year=year)
     top_municipalities = FishData.objects.geo(country=country, scheme_id=scheme_id, year=year)[0:5]
 
     if len(top_municipalities) >= 1 and  len(top_ports) >= 1:
@@ -275,7 +272,21 @@ def scheme_detail(request, scheme_id, name, country=None, year=conf.default_year
         }, 
         context_instance=RequestContext(request)
     )
+ 
+def tuna_fleet(request, country):
+    if country:
+        country = country.upper()    
+    
+    
+    vessels = FishData.objects.tuna_fleet(country)
+    return render_to_response(
+        'tuna_fleet.html', 
+        {'vessels' : vessels,}, 
+        context_instance=RequestContext(request)
+    )
   
+  
+ 
   
 def country_browse(request, country, year=conf.default_year):
     if country:
