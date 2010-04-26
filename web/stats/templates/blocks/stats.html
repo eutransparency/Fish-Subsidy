@@ -1,4 +1,7 @@
 {% load i18n %}
+{% if info %}
+  
+
   <h3>{% trans "Current catch data (2006)" %}</h3>
   {% autoescape off %}
   <ul>
@@ -30,3 +33,4 @@
  {% endautoescape  %}
 
  
+{% endif %}
