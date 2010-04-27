@@ -6,8 +6,7 @@ class FeedsAdmin(admin.ModelAdmin):
   list_filter = ('category','is_active',)
 
 class FeedItemsAdmin(admin.ModelAdmin):
-  list_display  = ('title','url', 'tags','feed',)
-
+  list_display  = ('title', 'url', 'tags', 'feed',)
 
 
 admin.site.register(Feeds, FeedsAdmin)
