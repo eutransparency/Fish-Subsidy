@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.comments.models import BaseCommentAbstractModel
 # Create your models here.
 
 class Profile(models.Model):
@@ -18,14 +19,15 @@ class Profile(models.Model):
         return ('profiles_profile_detail', (), { 'username': self.user.username })
     get_absolute_url = models.permalink(get_absolute_url)
 
-
 # Signal Registrations
 # when a user gets registered, we want to generate a profile for them
 from registration.signals import user_registered
 
 def create_user_profile(sender, **kwargs):
+    print kwargs
     user = kwargs['user']
-    profile = Profile(user=user)
+    name = kwargs['request'].POST.get('name')
+    profile = Profile(user=user, name=name)
     profile.save()
 user_registered.connect(create_user_profile)
  

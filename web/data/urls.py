@@ -56,7 +56,7 @@ urlpatterns = patterns('web.data.views',
     
 
     #Tuna fleet
-    country_url(r'tuna-fleet$', 'tuna_fleet', name='tuna_fleet'),
+    country_url(r'tuna-fleet/$', 'tuna_fleet', name='tuna_fleet'),
     
     # Schemes
     country_url(r'schemes/(?P<year>\d+)$', 'schemes', name='schemes'),

@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
-{% block title %}Registration Activated{% endblock %}
+{% block title %}{% trans "Registration Activated" %}{% endblock %}
 {% block content %}
+{% blocktrans %}
   <p>Your registration has been activated. You can log in <a href='/login?next=/'>here</a></p>
+{% endblocktrans %}
 {% endblock %}
 

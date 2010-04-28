@@ -1,7 +1,8 @@
 from models import Feature
 from django.contrib import admin
+import multilingual
 
-class FeatureAdmin(admin.ModelAdmin):
+class FeatureAdmin(multilingual.ModelAdmin):
     list_display = ('title', 'teaser', 'published','featured')
     list_filter = ('published','featured',)
     prepopulated_fields = {

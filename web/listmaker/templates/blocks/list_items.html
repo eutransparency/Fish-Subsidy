@@ -1,11 +1,10 @@
-{% load lists %}
-Editing {% if list_object.name %}<a href="{% url save_list %}">{{ list_object.name }}</a>{% else %}a new list{% endif %}
+{# {% load lists %} #}
 <ul class="list_items">
+  Editing {% if list_object.name %}<a href="{% url save_list %}">{{ list_object.name }}</a>{% else %}a new list{% endif %}
   {% if list_items %}
     {% for item in list_items %}
-      <li><strong>{{ item.content_object.name }}</strong><br />
+      <li><strong><a href="{% url vessel item.content_object.country item.content_object.pk item.content_object.name|slugify %}">{{ item.content_object.name }}</a></strong><br />
           {{ item.content_object.amount }}<br />
-          {{ item.content_object.pk }}<br />
           {% list_item_edit item.content_object %}
           </li>
     {% endfor %}

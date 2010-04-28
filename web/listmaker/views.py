@@ -198,7 +198,7 @@ def add_remove_item(request):
         except:
             pass
     # Create the total for this list
-    list_total = sum([i.content_object.amount for i in list_items])
+    list_total = sum([float(i.content_object.amount) for i in list_items])
     
     
     # Remake the session items

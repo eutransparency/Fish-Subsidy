@@ -254,3 +254,40 @@ a.list_item span {
 a.list_add:hover span { background-position: 0 -40px;}
 a.list_remove span { background-position: 0 -80px;}
 
+
+.lists_footer {
+  position:fixed;
+  bottom:0;
+  display:block;
+  width:100%;
+  height:30px;
+  background:#BBB;
+}
+.lists_footer .list_block {
+  position:fixed;
+  bottom:0;
+  right:10%;
+}
+
+.lists_footer .list_block .list_items {
+
+}
+
+.lists_footer .list_block .list_items {
+  position:fixed;
+  bottom:12px;
+  right:50px;
+  width:200px;
+  background:#DDD;
+  height:250px;
+  overflow-y:scroll;
+  display:none;  
+}
+
+.lists_footer .list_block h3 {
+  margin:0;
+  padding:0;
+  height:22px;
+
+}
+

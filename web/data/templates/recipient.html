@@ -50,11 +50,11 @@
         <td><a href="{% url scheme_country_detail recipient.country payment.scheme_id payment.name %}">
           {% get_current_language as LANGUAGE_CODE %}
           {% ifequal LANGUAGE_CODE "es" %}
-            {{ payment.scheme.name_es }}  
+            {{ payment.scheme.name_es }}
           {% else %}
-            {{ payment.scheme.name_en }}            
+            {{ payment.scheme.name_en }}
           {% endifequal %}
-          
+
           </a>
           {# {% traffic_light payment.scheme.traffic_light %} #}
           </td>
@@ -67,19 +67,18 @@
       <td>{{ recipient.amount|currencyfmt:"EUR" }}</td>
     </tr>
   </table>
-  {% load comments i18n %}
-  {% get_comment_list for recipient as comment_list %}
-  {% if comment_list %}
+
+  {% if comments %}
     <div class="section">
       <h3>Information added by users</h3>
-      {% for comment in comment_list %}
+      {% for comment in comments %}
         <div class="comment">
           <div class="info col">        
-            <h4>{{ comment.user }}</h4>
-            {{ comment.submit_date|date:"H.i" }} {{ comment.submit_date|naturalday|title }}
+            <h4>{{ comment.user.get_profile.name }}</h4>
+            {{ comment.date|date:"H.i" }} {{ comment.date|naturalday|title }}
           </div>    
           <div class="message col">
-            {{ comment.comment|markdown:"safe" }}
+            {{ comment.comment|markdown }}
           </div>
         </div>
       {% endfor %}    
@@ -94,31 +93,15 @@
     {% if user.is_authenticated %}
     
       {# -----------Comment form-----------  #}
-      {% get_comment_form for recipient as form %}
-      <form action="{% comment_form_target %}" method="post">
-        {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
-        {% for field in form %}
-          {% if field.is_hidden %}
-            {{ field }}
-          {% else %}
-            {% if field.errors %}{{ field.errors }}{% endif %}
-            <p
-            {% if field.errors %} class="error"{% endif %}
-            {% ifequal field.name "honeypot" %} style="display:none;"{% endifequal %}>
-              {{ field.label_tag }} {{ field }}
-            </p>
-          {% endif %}
-        {% endfor %}
-        <p class="submit">
-          <input type="submit" name="post" class="submit-post" value="{% trans "Post" %}" />
-          <input type="submit" name="preview" class="submit-preview" value="{% trans "Preview" %}" />
-        </p>
-      </form>
+      <form method="POST">
+        {{ form.as_p }}
+        <input type="submit" name="post" value="{% trans "Post Comment" %}" id="post">
+        </form>
       {# -----------Comment form-----------  #}
     
         
     {% else %}
-        <a href="{% url registration_register %}">Create an account</a> or <a href="{% url auth_login %}">Log in</a> to add information.
+        <a href="{% url login %}">Create an account</a> or <a href="{% url login %}">Log in</a> to add information.
     {% endif %}
   </div>
 {% endblock %}
@@ -145,12 +128,12 @@
       {% if full_row.external_marking %}
         <li>{% trans "External Markings" %}: {{ full_row.external_marking }}</li>
       {% endif %}
-      <li>{% trans "Registration number" %}: {{ vessel.cfr }}</li>
+      <li>{% trans "Registration number" %}: {{ full_row.cfr }}</li>
       {% url data.views.port country=country.code port=full_row.port_name as port_url %}
       <li>{% trans "Home Port" %}: <a href="{{ port_url }}">{{ full_row.port_name|title }}</a></li>
       <li><a href="http://ec.europa.eu/fisheries/fleet/index.cfm?method=Search.ListSearchSimpleOneVessel&COUNTRY_CODE=&CFR_CODE={{ full_row.cfr }}&search_type=advanced" target="_blank">{% trans "Fleet Registry record" %}</a></li>
       <li>{% trans "Country" %}: <a href="/{{ country.code }}">{{ country.name }}</a></li>
-      <li>{% trans "Infringement record" %}: <a href="/faqs#withheld">{% trans "Data Withheld" %}</a></li>
+      <li><a href="{% url infringements %}">{% trans "Infringement record" %}</a>: <a href="/faqs#withheld">{% trans "Data Withheld" %}</a></li>
       <li><a href="/faqs#withheld">{% trans "Quota: Data Witheld" %}</a></li>
       {% if full_row.greenpeace_link %}
         <li><a href="{{ full_row.greenpeace_link }}" target="_blank">{% trans "Greenpeace Blacklist" %}</a></li>
@@ -167,13 +150,14 @@
     <h3>{% trans "Stocks targeted" %}</h3> 
     <ul>
       <li>
+        {% url tuna_fleet 'EU' as link %}
         {% if full_row.tuna_fleet %}
-          {% blocktrans %}
-            Tuna Fleet:  Yes (<a href="/tuna-fleet">view all</a>)
+          {% blocktrans with link as link %}
+            Tuna Fleet:  Yes (<a href="{{ link }}">view all</a>)
           {% endblocktrans %}
         {% else %}
           {% blocktrans %}        
-            Tuna Fleet:  No
+            <a href="{{ link }}">Tuna Fleet</a>:  No
           {% endblocktrans %}            
         {% endif %} 
         </li>
@@ -197,7 +181,7 @@
       </ul>
     {% endfor %}
     <p><a href="/faqs#infringement">{% trans "About infringement records" %}</a><br />
-    <a href="/infringements">{% trans "View more infringements" %}</a></p>
+    <a href="{% url infringements %}">{% trans "View more infringements" %}</a></p>
       
     {% endif %}
     

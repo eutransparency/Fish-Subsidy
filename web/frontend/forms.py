@@ -8,7 +8,6 @@ from registration.forms import RegistrationForm
 
 from models import Profile
 
-
 class UserProfileForm(forms.ModelForm):
     
     class Meta:
@@ -27,8 +26,9 @@ class DataAgreementForm(forms.ModelForm):
 
 
 
-class SigninForm (AuthenticationForm):
+class SigninForm(AuthenticationForm):
     # user_or_email = django.forms.CharField(label=_(u'Username or email'))
+    next = django.forms.CharField(widget=django.forms.HiddenInput())
     remember_me = django.forms.BooleanField(widget=django.forms.CheckboxInput(),
                            label=_(u'Remember me'))
 
@@ -39,7 +39,8 @@ class CreateAccountForm(RegistrationForm):
     for agreeing to a site's Terms of Service and makes sure the email address is unique.
 
     """
-    
+    name = forms.CharField(max_length=100, required=True, label=_("Full Name"))
+
     def clean_email(self):
        """
        Validate that the supplied email address is unique for the

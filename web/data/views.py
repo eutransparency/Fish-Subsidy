@@ -17,6 +17,9 @@ from frontend.models import Profile
 from frontend.forms import UserProfileForm, DataAgreementForm
 from data.models import DataDownload, Recipient, Payment, Port, Scheme
 
+from recipientcomments.forms import RecipientCommentForm
+from recipientcomments.models import RecipientComment
+
 def home(request):
     ip_country = RequestContext(request)['ip_country']
     top_vessels = Recipient.vessels.order_by('-amount')[:5]
@@ -181,6 +184,8 @@ def browse_ports(request, country, year=conf.default_year):
   
   
 def vessel(request, country, cfr, name):
+    
+    
     if country:
         country = country.upper()
 
@@ -190,10 +195,28 @@ def vessel(request, country, cfr, name):
     total = 0
     infringement_record = illegalFishing.objects.select_related().filter(cfr=cfr).order_by('date')
 
+    comments = RecipientComment.public.filter(recipient=recipient)
+    
+    form = RecipientCommentForm()
+    if request.POST:
+        initial_data = {
+            'user' : request.user,
+            'recipient' : recipient,
+        }
+        
+        form = RecipientCommentForm(request.POST, initial=initial_data)
+        save_form = form.save(commit=False)
+        save_form.user = request.user
+        save_form.recipient = recipient
+        save_form.save()
+        return HttpResponseRedirect(reverse('vessel', args=[recipient.country,recipient.pk, recipient.name]))
+
 
     return render_to_response(
         'recipient.html', 
         {
+            'comments' : comments,
+            'form' : form,
             'recipient' : recipient,
             'full_row' : full_row,
             'infringement_record' : infringement_record,

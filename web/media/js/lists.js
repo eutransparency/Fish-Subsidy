@@ -1,4 +1,12 @@
 $(function() {
+
+    $(".list_block").wrap('<div class="lists_footer" />')
+    $('.lists_footer').remove().insertAfter('#footer')    
+    $('.lists_footer .list_block h3').click(function() {
+        $('.lists_footer .list_block .list_items').toggle()
+    });
+    $('.lists_footer .list_block').resizable({ handles: 'n, e, s, w' })
+    
     
     function make_icons(){
         $('.list_form').each(function (i, el){
@@ -15,7 +23,13 @@ $(function() {
     
     function update_list(obj) {
         $('.list_items').html(obj.html)
+        console.debug(obj.html)
+        // $('.list_items').html("eret")
         make_icons()
+    }
+    
+    function animate_add(obj) {
+        $(obj).parent().parent().parent().parent().effect('transfer', { to: $(".lists_footer") }, 10000)
     }
 
     $('.list_item').live('click', function(){  
@@ -25,7 +39,7 @@ $(function() {
         list_item_id = $(this).parent().children('.list_item_id').attr('value');
         action = $(this).parent().children('.action').attr('name');
         form_action = $(this).parent().attr('action');
-
+        animate_add(this)
         form_data = {
             content_type : content_type,
             object_id : object_id,
@@ -38,9 +52,9 @@ $(function() {
             url: form_action,
             data: form_data,
             success: function(obj){
+                console.debug(obj)
                 obj = eval('('+obj+')')
                 update_list(obj)
-                // alert(obj.action)
                 item = $("[value="+obj.list_item_id+"]").parent().children('.list_item')
                 if (obj.action == "add") {
                     item.each(function(i, el) {

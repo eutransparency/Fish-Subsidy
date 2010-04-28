@@ -25,7 +25,7 @@ urlpatterns = patterns('',
        
     url(r'^login/$',frontend_views.login, name='login'),
     url(r'^login/confirm/$', 'django.views.generic.simple.direct_to_template', {'template': 'registration/confirm_account.html'}, name='confirm_account'),
-    url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name="logout"),    
+    url(r'^logout/$', frontend_views.logout, name="logout"),    
 
     url(r'^accounts/password_reset/$', password_reset, {'post_reset_redirect' : '/accounts/password_reset/done/', 'template_name': 'registration/password_reset_form.html'}, name="reset_password"),
     url(r'accounts/password_reset/done/$', password_reset_done, { 'template_name': 'registration/password_reset_done.html'}),
