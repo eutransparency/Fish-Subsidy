@@ -101,7 +101,10 @@
     
         
     {% else %}
-        <a href="{% url login %}">Create an account</a> or <a href="{% url login %}">Log in</a> to add information.
+        {% url login as login_url %}
+        {% blocktrans with login_url as login_url %}
+          <a href="{{ login_url }}">Create an account</a> or <a href="{{ login_url }}">Log in</a> to add information.
+        {% endblocktrans %}
     {% endif %}
   </div>
 {% endblock %}
