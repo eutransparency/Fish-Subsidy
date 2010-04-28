@@ -362,7 +362,7 @@ def browse_geo1(request, country, sort='amount', year=conf.default_year):
 
     m = FishData.objects.geo(country=country, sort=sort_by, year=year)
     data_years = FishData.objects.country_years(country)
-
+    
     return render_to_response(
         'browse_geo1.html', 
         {
@@ -384,10 +384,24 @@ def browse_geo2(request, country, geo1, sort='amount', year=conf.default_year):
         sort_by = "geo2 ASC"
 
 
-    m = FishData.objects.geo(geo="2",country=country, sort=sort_by, year=year, geo1=geo1)
+    m = FishData.objects.geo(geo="2",country=country, sort=sort_by, year=year, geo1=geo1, limit=5)
     data_years = FishData.objects.country_years(country)
-    vessels = FishData.objects.browse(country, sort_by, year=year, geo1=geo1)
+
+    vessels = Recipient.vessels.filter(country=country, geo1=geo1).order_by('-amount')
+
     top_ports = FishData.objects.top_ports(country=country, limit=5, year=year, geo1=geo1 )
+
+
+    top_ports = Port.objects.select_related().all()
+    kwargs = {}
+    if country and country!='EU':
+        kwargs['country'] = country
+        kwargs['payment__country'] = country        
+    kwargs['payment__recipient_id__geo1'] = geo1        
+    top_ports = top_ports.filter(**kwargs)
+    top_ports = top_ports.annotate(total=Sum('payment__amount'))
+    top_ports = top_ports.order_by('-total')[:5]
+    print top_ports.query.as_sql()
 
 
     return render_to_response(

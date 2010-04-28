@@ -481,7 +481,7 @@ class FishDataManager(models.Manager):
         result_list.append(p)
     return result_list
       
-  def geo(self,geo=1,country="EU", sort="total_subsidy DESC", year=conf.default_year, geo1=None, scheme_id=None):
+  def geo(self,geo=1,country="EU", sort="total_subsidy DESC", year=conf.default_year, geo1=None, scheme_id=None, limit=5):
     extra_and = " AND vessel_name IS NULL AND port_name IS NULL "
     if str(year) != "0":
       extra_and += " AND year = '%s' " % year
@@ -492,22 +492,35 @@ class FishDataManager(models.Manager):
     if scheme_id:
       extra_and += " AND scheme2_id='%s'" % scheme_id
       
-
+    if limit:
+        limit = "LIMIT %s" % int(limit)
+    else:
+        limit = ""
     cursor = connection.cursor()
     cursor.execute("""    
-      SELECT geo1,geo2, CAST(sum(total_subsidy) AS DECIMAL) as total_subsidy, iso_country
+      SELECT geo1,geo2, SUM(total_subsidy) as total_subsidy, iso_country
       FROM `data_fishdata`
       WHERE geo%(geo)s IS NOT NULL %(extra_and)s
       GROUP BY geo%(geo)s
       ORDER BY %(sort)s
+      %(limit)s
       """ % {'sort' : sort, 
              'country' : country, 
              'extra_and' : extra_and, 
-             'geo' : geo})
+             'geo' : geo,
+             'limit' : limit,
+             })
       
     result_list = []
     for row in cursor.fetchall():
-        p = self.model(geo1=row[0], geo2=row[1], total_subsidy=decimal.Decimal(row[2] or 0), iso_country=row[3])
+        p = self.model(geo1=row[0], geo2=row[1], iso_country=row[3])
+        if row[2]:
+            p.total_subsidy=decimal.Decimal(str(row[2]))
+        else:
+            p.total_subsidy=float(decimal.Decimal(0))
         result_list.append(p)
     return result_list
       
+
+
+
