@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+#
+#-*- coding: utf-8 -*-
 
 # Django settings for web project.
 from django.utils.translation import ugettext_lazy as _
