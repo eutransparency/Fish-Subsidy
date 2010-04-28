@@ -16,7 +16,7 @@ def search(request):
     vessels = Recipient.indexer.search("%s type:vessel" % query).flags(
                     xapian.QueryParser.FLAG_PHRASE\
                     | xapian.QueryParser.FLAG_BOOLEAN\
-                    | xapian.QueryParser.FLAG_LOVEHATE
+                    | xapian.QueryParser.FLAG_LOVEHATE\
                     | xapian.QueryParser.FLAG_WILDCARD
                     )[:15]
     schemes = Scheme.indexer.search("%s" % query).flags(
@@ -34,7 +34,6 @@ def search(request):
     results_count = 0
     for r in (vessels, schemes, ports):
         results_count += r.prefetch().count()
-        
     
     return render_to_response(
       'results.html', 
