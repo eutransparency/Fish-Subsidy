@@ -66,7 +66,6 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'django.contrib.sessions',
     'django.contrib.sites',
-    'django.contrib.flatpages',
     'django.contrib.markup',
     'data',
     'search',
