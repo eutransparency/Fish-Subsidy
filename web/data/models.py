@@ -62,7 +62,8 @@ class FishData(models.Model):
     return "%s" % self.pk
 
   class Meta():
-      managed = False
+      # managed = False
+      pass
 
 class Recipient(models.Model):
   """
