@@ -1,10 +1,11 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load humanize %}
 {% load babel %}
 {% block title%}{{ items.0.geo1|title }} | {{ country.name }}{% endblock %}
-{% block page_title%}Browse{% endblock %}
+{% block page_title%}{% trans "Browse" %}{% endblock %}
 {% block content %}
-<h3>{{ items.0.geo1|title }} in <a href="/{{ country.code }}">{{ country.name }}</a>{% ifequal 0 year %}, All Years{% else %}, {{ year }}{% endifequal %}</h3>
+<h3>{{ items.0.geo1|title }} in <a href="/{{ country.code }}">{{ country.name }}</a>{% ifequal 0 year %}, {% trans "All Years" %}{% else %}, {{ year }}{% endifequal %}</h3>
 
 
 {# <div class="year_selector"> #}
@@ -19,11 +20,11 @@
 
 
 <div class="section col">
-  <h2>Top Municipalities</h2>
+  <h2>{% trans "Top Municipalities" %}</h2>
   <table>
     <thead>
-      <th>Municipality Name</th>
-      <th>Amount</th>
+      <th>{% trans "Municipality Name" %}</th>
+      <th>{% trans "Amount" %}</th>
     </thead>
     {% for m in items %}
       {% url browse_geo1 country=country.code geo2=m.geo2 as municipality_url %}
@@ -39,27 +40,29 @@
   
 
 <div class="section col">  
-  <h2>Top Ports</h2>
+  <h2>{% trans "Top Ports" %}</h2>
   <table>
     <thead>
-      <th>Port</th>
-      <th>Amount</th>
+      <th>{% trans "Port" %}</th>
+      <th>{% trans "Amount" %}</th>
     </thead>
   {% for port in top_ports %}
     {% url data.views.port country=country.code port=port.port_name as port_url %}
     <tr>
-    <td><a href="{{ port_url }}">{{ port.port_name|title }}</a></td>
+    <td><a href="{{ port_url }}">{{ port.name|title }}</a></td>
     <td>{{ port.total|currencyfmt:"EUR" }}</td>
     </tr>
   {% endfor %}
-  <tr><td><a href="/{{ country.code }}/ports/browse/0">See All</a></td></tr>
+  <tr><td><a href="/{{ country.code }}/ports/browse/0">{% trans "See All" %}</a></td></tr>
   </table>
 </div>
 
 {% endif %}
-{% if vessels.0.vessel_name %}
+{% if vessels %}
   <div class="section">
-    <h2>Vessels in {{ items.0.geo1|title }}</h2>
+    {% blocktrans with items.0.geo1|title as name  %}
+      <h2>Vessels in {{ name }}</h2>
+    {% endblocktrans %}
     {% load pagination_tags %}
     {% autopaginate vessels 10 %}
     {% load list_data %}

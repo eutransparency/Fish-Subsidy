@@ -26,7 +26,7 @@
         </td>
         {% url data.views.port country=vessel.country port=vessel.port_set.name as port_url %}
         {% if port %}<td><a href="{{ port_url }}">{{ vessel.port.name|title }}</a></td>{% endif %}
-        <td>{% if amount %}{{ vessel.total|currencyfmt:"EUR" }}{% endif %}</td>
+        <td>{% if amount %}{{ vessel.amount|currencyfmt:"EUR" }}{% endif %}</td>
         {# <td>{% list_item_edit vessel %}</td>                   #}
       </tr>
     {% endfor %}

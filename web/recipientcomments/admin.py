@@ -9,4 +9,3 @@ class RecipientCommentAdmin(admin.ModelAdmin):
     raw_id_fields = ("recipient",)
 
 admin.site.register(RecipientComment, RecipientCommentAdmin)
-# admin.site.register(ListItem)
