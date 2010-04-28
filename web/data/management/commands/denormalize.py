@@ -100,10 +100,10 @@ class Command(NoArgsCommand):
 
 
     def handle_noargs(self, **options):
-        # print "ports"
-        # self.ports()
-        # print "recipient"
-        # self.recipient()
+        print "ports"
+        self.ports()
+        print "recipient"
+        self.recipient()
         print "schemes"
         self.schemes()
         print "payments"

@@ -1,0 +1,758 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-03-31 13:04+0100\n"
+"PO-Revision-Date: 2010-04-13 12:45\n"
+"Last-Translator: <meche_rafa@hotmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Translated-Using: django-rosetta 0.5.3\n"
+
+#: global_settings.py:101
+msgid "Spanish"
+msgstr "Español"
+
+#: global_settings.py:102
+msgid "English"
+msgstr "Inglés"
+
+#: data/forms.py:18 frontend/forms.py:20
+msgid "I Agree to the terms above"
+msgstr "Estoy de acuerdo con las condiciones expuestas"
+
+#: data/forms.py:19 frontend/forms.py:21
+msgid "Tell us something about what you plan to do with the data"
+msgstr "Explique por favor qué uso va a hacer de estos datos"
+
+#: data/templates/browse.html:23 data/templates/port.html:44
+#: data/templates/tuna_fleet.html:16
+#: templates/comments/moderation_queue.html:34
+msgid "Name"
+msgstr "Nombre"
+
+#: data/templates/browse.html:24 data/templates/browse_ports.html:33
+#: data/templates/country.html:35 data/templates/country.html.py:54
+#: data/templates/country.html:82 data/templates/port.html:45
+#: data/templates/scheme_detail.html:54 data/templates/scheme_detail.html:74
+#: data/templates/schemes.html:42 data/templates/tuna_fleet.html:17
+#: data/templates/vessel.html:31 templates/home.html:55
+msgid "Amount"
+msgstr "Montante"
+
+#: data/templates/browse.html:25 data/templates/country.html:34
+#: data/templates/scheme_detail.html:53 data/templates/tuna_fleet.html:18
+msgid "Port"
+msgstr "Puerto"
+
+#: data/templates/browse_ports.html:4
+msgid "Browse Ports"
+msgstr "Explorar los puertos"
+
+#: data/templates/browse_ports.html:5 templates/home.html:37
+msgid "Browse"
+msgstr "Explorar"
+
+#: data/templates/browse_ports.html:10
+#, python-format
+msgid ""
+"\n"
+"    Ports in <a href=\"%(country_url)s\">%(country)s</a>, All Years\n"
+"  "
+msgstr ""
+"\n"
+"Puertos de <a href=\"%(country_url)s\">%(country)s</a>, historial completo"
+
+#: data/templates/browse_ports.html:14
+#, python-format
+msgid ""
+"\n"
+"    Ports in <a href=\"%(country_url)s\">%(country)s</a>, %(year)s\n"
+"  "
+msgstr ""
+"\n"
+"Puertos de <a href=\"%(country_url)s\">%(country)s</a>, %(year)s"
+
+#: data/templates/browse_ports.html:24 data/templates/country.html:27
+#: data/templates/port.html:32 data/templates/scheme_detail.html:33
+msgid "All Years"
+msgstr "Historial completo"
+
+#: data/templates/browse_ports.html:32
+msgid "Port Name"
+msgstr "Denominación del puerto"
+
+#: data/templates/country.html:10
+#, python-format
+msgid "EU Fish subsidies for %(country)s in %(year)s"
+msgstr "Ayudas comunitarias a la pesca asignadas a %(country)s en %(year)s"
+
+#: data/templates/country.html:12
+#, python-format
+msgid "EU Fish subsidies for %(country)s, all years"
+msgstr "Ayudas comunitarias a la pesca asignadas a %(country)s, historial completo"
+
+#: data/templates/country.html:31
+msgid "Top Ports"
+msgstr "Principales puertos"
+
+#: data/templates/country.html:44 data/templates/country.html.py:63
+#: data/templates/country.html:72 data/templates/country.html.py:92
+#: data/templates/scheme_detail.html:83 templates/home.html:67
+msgid "See All"
+msgstr "Verlos todos"
+
+#: data/templates/country.html:50 data/templates/scheme_detail.html:70
+msgid "Top Municipalities"
+msgstr "Principales municipios"
+
+#: data/templates/country.html:53 data/templates/scheme_detail.html:73
+msgid "Municipality"
+msgstr "Municipios"
+
+#: data/templates/country.html:69 data/templates/scheme_detail.html:40
+msgid "Top vessels"
+msgstr "Principales pesqueros"
+
+#: data/templates/country.html:78
+msgid "Top schemes"
+msgstr "Principales planes de ayudas"
+
+#: data/templates/country.html:81 data/templates/schemes.html:41
+#: templates/home.html:54
+msgid "Scheme Name"
+msgstr "Denominación del plan de ayudas"
+
+#: data/templates/country.html:108
+#, python-format
+msgid ""
+"\n"
+"      Recipients in %(country)s\n"
+"    "
+msgstr ""
+"\n"
+"Receptores en %(country)s"
+
+#: data/templates/country.html:112 data/templates/port.html:40
+msgid "Vessels"
+msgstr "Pesqueros"
+
+#: data/templates/country.html:114 data/templates/country.html.py:122
+msgid "By amount received"
+msgstr "Por montante asignado"
+
+#: data/templates/country.html:115 data/templates/country.html.py:123
+msgid "A - Z by name"
+msgstr "Nombre por orden alfabético"
+
+#: data/templates/country.html:116
+msgid "A - Z by port"
+msgstr "Puertos por orden alfabético"
+
+#: data/templates/country.html:117 data/templates/tuna_fleet.html:3
+msgid "Tuna Fleet"
+msgstr "Flota atunera"
+
+#: data/templates/country_ports.html:5
+#, python-format
+msgid "%(number)s ports found"
+msgstr ""
+
+#: data/templates/country_ports.html:8
+msgid "vessels"
+msgstr "Pesqueros"
+
+#: data/templates/infringements.html:5 data/templates/infringements.html:6
+msgid "Identified Infringements"
+msgstr "Infracciones detectadas"
+
+#: data/templates/infringements.html:12
+msgid ""
+"\n"
+"<p>Illegal fishing contributes to the overfishing of valuable fish stocks,\n"
+"many of which are at dangerously depleted levels. Very limited data on\n"
+"convictions for serious infringements (illegal fishing) has been compiled from\n"
+"France, Spain and the UK. Unlike data on fisheries subsidies, it is not\n"
+"official data obtained directly from governments but information collected\n"
+"manually from government websites, press reports and court records. It is\n"
+"therefore certain to be incomplete.</p>\n"
+"\n"
+"<p>The table below shows vessels that have received fisheries subsidies and\n"
+"have been convicted of serious infringements.</p>\n"
+msgstr ""
+"\n"
+"La pesca ilegal favorece la sobrepesca de poblaciones de peces de gran valor, que a menudo se encuentran ya gravemente mermadas. Hemos conseguido datos, aunque muy escasos, de Francia, España y el Reino Unido sobre infracciones graves. A diferencia de la información sobre las ayudas a la pesca, no se trata de estadísticas oficiales facilitadas por los gobiernos, sino de información extraída de portales web gubernamentales, medios de comunicación y registros judiciales. Por esta razón esta información está incompleta.\n"
+"\n"
+"La tabla  bajo estas líneas muestra pesqueros receptores de ayudas a la pesca que han sido condenados por infracciones graves\n"
+
+#: data/templates/infringements.html:27 data/templates/vessel.html:160
+msgid "Date"
+msgstr "Fecha"
+
+#: data/templates/infringements.html:28
+msgid "Vessel Name"
+msgstr "Nombre del pesquero"
+
+#: data/templates/infringements.html:29
+msgid "Total Subsidy"
+msgstr "Monto total de la ayuda"
+
+#: data/templates/infringements.html:30 data/templates/vessel.html:121
+msgid "Home Port"
+msgstr "Puerto de matrícula"
+
+#: data/templates/infringements.html:31 data/templates/vessel.html:123
+msgid "Country"
+msgstr "País"
+
+#: data/templates/infringements.html:32
+msgid "Description"
+msgstr "Descripción"
+
+#: data/templates/infringements.html:47 data/templates/vessel.html:163
+msgid "Sanction"
+msgstr "Sanción"
+
+#: data/templates/infringements.html:50
+msgid "Skipper/Owner"
+msgstr "Patrón/Armador"
+
+#: data/templates/port.html:11
+#, python-format
+msgid ""
+"\n"
+"      Vessels in %(port_name)s, <a href=\"/%(country_url)s\">%(country)s</a>, All Years\n"
+"    "
+msgstr ""
+"\n"
+"Pesqueros de %(port_name)s, <a href=\"/%(country_url)s\">%(country)s</a>, historial completo"
+
+#: data/templates/port.html:15
+#, python-format
+msgid ""
+"  \n"
+"      Vessels in %(port_name)s, <a href=\"/%(country_url)s\">%(country)s</a> %(year)s\n"
+"    "
+msgstr "Pesqueros de %(port_name)s, <a href=\"/%(country_url)s\">%(country)s</a>  %(year)s"
+
+#: data/templates/scheme_detail.html:8 data/templates/schemes.html:32
+#: data/templates/schemes.html.py:34
+msgid "All years"
+msgstr "Historial completo"
+
+#: data/templates/scheme_detail.html:10 data/templates/vessel.html:30
+msgid "Scheme"
+msgstr "Línea de ayuda"
+
+#: data/templates/scheme_detail.html:14
+#, python-format
+msgid "All schemes in %(country)s"
+msgstr "Todas las líneas de ayuda en %(country)s"
+
+#: data/templates/scheme_detail.html:19
+msgid "View for all countries"
+msgstr "Ver todos los países"
+
+#: data/templates/schemes.html:5
+#, python-format
+msgid "Schemes %(year)s"
+msgstr "Líneas de ayuda %(year)s"
+
+#: data/templates/schemes.html:7
+msgid "Schemes, All years"
+msgstr "Líneas de ayuda, historial completo"
+
+#: data/templates/schemes.html:14
+#, python-format
+msgid "Schemes in <a href=\"%(country_url)s\">%(country)s</a> in %(year)s"
+msgstr "Líneas de ayuda en <a href=\"%(country_url)s\">%(country)s</a>  en %(year)s"
+
+#: data/templates/schemes.html:16
+#, python-format
+msgid "Schemes in <a href=\"%(country_url)s\">%(country)s</a>, all years"
+msgstr "Líneas de ayuda en <a href=\"%(country_url)s\">%(country)s</a>, historial completo"
+
+#: data/templates/schemes.html:62
+msgid "About Schemes"
+msgstr "Sobre las líneas de ayuda"
+
+#: data/templates/tuna_fleet.html:4
+#, python-format
+msgid ""
+"\n"
+"  <a href=\"/%(code)s\">%(name)s</a>: Tuna Fleet\n"
+msgstr ""
+"\n"
+"<a href=\"/%(code)s\">%(name)s</a>: Flota atunera\n"
+
+#: data/templates/tuna_fleet.html:33
+#, python-format
+msgid ""
+"\n"
+"      %(country.name)s has no vessels in the Tuna Fleet.  <a href=\"/EU/tuna-fleet\">View the full list</a>\n"
+"    "
+msgstr ""
+"\n"
+"%(country.name)s no tiene flota atunera. <a href=\"/EU/tuna-fleet\">Consulte la lista completa</a>"
+
+#: data/templates/vessel.html:9
+msgid "Fish Subsidy payments"
+msgstr "Ayudas asignadas"
+
+#: data/templates/vessel.html:29
+msgid "Year"
+msgstr "Año"
+
+#: data/templates/vessel.html:42
+msgid "Total"
+msgstr "Total"
+
+#: data/templates/vessel.html:104
+msgid "Vessel type"
+msgstr "Tipo de pesquero"
+
+#: data/templates/vessel.html:106
+msgid "Length:"
+msgstr "Eslora"
+
+#: data/templates/vessel.html:107
+msgid "Tonnage:"
+msgstr "Arqueo"
+
+#: data/templates/vessel.html:108
+msgid "Power:"
+msgstr "Potencia"
+
+#: data/templates/vessel.html:111
+msgid "Vessel details"
+msgstr "Datos del pesquero"
+
+#: data/templates/vessel.html:113
+#, python-format
+msgid ""
+"\n"
+"        Constructed %(construction_year)s In %(construction_place)s\n"
+"      "
+msgstr ""
+"\n"
+"Construido en %(construction_year)s en %(construction_place)s"
+
+#: data/templates/vessel.html:117
+msgid "External Markings"
+msgstr "Marcas exteriores"
+
+#: data/templates/vessel.html:119
+msgid "Registration number"
+msgstr "Número de matrícula"
+
+#: data/templates/vessel.html:122
+msgid "Fleet Registry record"
+msgstr "Historial en el Registro de Flota"
+
+#: data/templates/vessel.html:124 data/templates/vessel.html.py:157
+msgid "Infringement record"
+msgstr "Historial de infracciones"
+
+#: data/templates/vessel.html:124
+msgid "Data Withheld"
+msgstr "Datos retenidos"
+
+#: data/templates/vessel.html:125
+msgid "Quota: Data Witheld"
+msgstr "Porcentaje de datos retenidos"
+
+#: data/templates/vessel.html:127
+msgid "Greenpeace Blacklist"
+msgstr "Lista negra de Greenpeace"
+
+#: data/templates/vessel.html:131
+msgid "Owner"
+msgstr "Armador"
+
+#: data/templates/vessel.html:133
+msgid ""
+"\n"
+"        This information has been <a href=\"/faqs#withheld\">Withheld</a>\n"
+"      "
+msgstr ""
+
+#: data/templates/vessel.html:138
+msgid "Stocks targeted"
+msgstr "Poblaciones objetivo"
+
+#: data/templates/vessel.html:142
+msgid ""
+"\n"
+"            Tuna Fleet:  Yes (<a href=\"/tuna-fleet\">view all</a>)\n"
+"          "
+msgstr ""
+"\n"
+"Flota atunera: Sí (<a href=\"/tuna-fleet\">view all</a>)"
+
+#: data/templates/vessel.html:146
+msgid ""
+"        \n"
+"            Tuna Fleet:  No\n"
+"          "
+msgstr "Flota atunera: no"
+
+#: data/templates/vessel.html:151
+msgid ""
+"\n"
+"        Other: <a href=\"/faqs#withheld\">Data Withheld</a></p>\n"
+"      "
+msgstr ""
+"\n"
+"Otras"
+
+#: data/templates/vessel.html:161
+msgid "Offense"
+msgstr "Delito"
+
+#: data/templates/vessel.html:166
+msgid "Skipper"
+msgstr "Patrón"
+
+#: data/templates/vessel.html:170
+msgid "About infringement records"
+msgstr "Sobre el historial de infracciones"
+
+#: data/templates/vessel.html:171
+msgid "View more infringements"
+msgstr "Ver otras infracciones"
+
+#: data/templates/vessel.html:177
+msgid "Google this recipient"
+msgstr "Buscar a este receptor en Google"
+
+#: features/templates/feature_list.html:3
+#: features/templates/feature_list.html:4
+msgid "Features"
+msgstr ""
+
+#: frontend/forms.py:33 misc/forms.py:15
+msgid "Remember me"
+msgstr "Recordar mis datos"
+
+#: frontend/forms.py:56 misc/forms.py:31
+msgid "This email address is already in use. Please supply a different email address."
+msgstr "Esta dirección electrónica ya está registrada en el sistema. Escoja otra, por favor."
+
+#: listmaker/templates/edit.html:3 listmaker/templates/edit.html.py:4
+msgid "Edit List"
+msgstr "Editar lista"
+
+#: listmaker/templates/edit.html:12
+msgid "Create"
+msgstr "Crear"
+
+#: listmaker/templates/mylists.html:3 listmaker/templates/mylists.html.py:4
+msgid "My Lists"
+msgstr "Mis listas"
+
+#: listmaker/templates/mylists.html:8
+msgid "Edit"
+msgstr "Editar"
+
+#: misc/countryCodes.py:7
+msgid "All Countries"
+msgstr "Todos los países"
+
+#: misc/countryCodes.py:8
+msgid "Austria"
+msgstr "Austria"
+
+#: misc/countryCodes.py:9
+msgid "Belgium"
+msgstr "Bélgica"
+
+#: misc/countryCodes.py:10
+msgid "Bulgaria"
+msgstr "Bulgaria"
+
+#: misc/countryCodes.py:11
+msgid "Cyprus"
+msgstr "Chipre"
+
+#: misc/countryCodes.py:12
+msgid "Czech Republic"
+msgstr "República Checa"
+
+#: misc/countryCodes.py:13
+msgid "Denmark"
+msgstr "Dinamarca"
+
+#: misc/countryCodes.py:14
+msgid "Estonia"
+msgstr "Estonia"
+
+#: misc/countryCodes.py:15
+msgid "Finland"
+msgstr "Finlandia"
+
+#: misc/countryCodes.py:16
+msgid "France"
+msgstr "Francia"
+
+#: misc/countryCodes.py:17
+msgid "Germany"
+msgstr "Alemania"
+
+#: misc/countryCodes.py:18
+msgid "Greece"
+msgstr "Grecia"
+
+#: misc/countryCodes.py:19
+msgid "Hungary"
+msgstr "Hungría"
+
+#: misc/countryCodes.py:20
+msgid "Italy"
+msgstr "Italia"
+
+#: misc/countryCodes.py:21
+msgid "Ireland"
+msgstr "Irlanda"
+
+#: misc/countryCodes.py:22
+msgid "Latvia"
+msgstr "Letonia"
+
+#: misc/countryCodes.py:23
+msgid "Lithuania"
+msgstr "Lituania"
+
+#: misc/countryCodes.py:24
+msgid "Luxembourg"
+msgstr "Luxemburgo"
+
+#: misc/countryCodes.py:25
+msgid "Malta"
+msgstr "Malta"
+
+#: misc/countryCodes.py:26
+msgid "Netherlands"
+msgstr "Países Bajos"
+
+#: misc/countryCodes.py:27
+msgid "Poland"
+msgstr "Polonia"
+
+#: misc/countryCodes.py:28
+msgid "Portugal"
+msgstr "Portugal"
+
+#: misc/countryCodes.py:29
+msgid "Romania"
+msgstr "Rumanía"
+
+#: misc/countryCodes.py:30
+msgid "Slovakia"
+msgstr "República Eslovaca"
+
+#: misc/countryCodes.py:31
+msgid "Slovenia"
+msgstr "Eslovenia"
+
+#: misc/countryCodes.py:32
+msgid "Spain"
+msgstr "España"
+
+#: misc/countryCodes.py:33
+msgid "Sweden"
+msgstr "Suecia"
+
+#: misc/countryCodes.py:34
+msgid "United Kingdom"
+msgstr "Reino Unido"
+
+#: misc/forms.py:13
+msgid "Username or email"
+msgstr "Nombre de usuario o correo electrónico"
+
+#: templates/home.html:5
+msgid "Home"
+msgstr "País"
+
+#: templates/home.html:18
+msgid "Search"
+msgstr "Búsqueda"
+
+#: templates/home.html:20
+msgid "Enter a vessel name, number, port or place name"
+msgstr "Introduzca el nombre o la matrícula de un pesquero, o el nombre de un puerto o de un lugar"
+
+#: templates/home.html:22
+msgid ""
+"\n"
+"          e.g. <a href=\"/search?q=Aurora\">Aurora</a>, <a href=\"/search?q=DEU000300601\">DEU000300601</a> or <a href=\"/search?q=Dieppe\">Dieppe</a>\n"
+"          "
+msgstr ""
+"\n"
+"Por ejemplo: <a href=\"/search?q=Aurora\">Aurora</a>, <a href=\"/search?q=DEU000300601\">DEU000300601</a> or <a href=\"/search?q=Dieppe\">Dieppe</a>"
+
+#: templates/home.html:26
+msgid ""
+"\n"
+"              Use \"AND\", \"OR\" or \"NOT\" to refine searches.  <br />Use \"-\" (minus) to remove particular words, for example \"Jan  -Looden\"<br />\n"
+"              If a search that returns only one hit, it will be displayed directly.            \n"
+"            "
+msgstr ""
+
+#: templates/home.html:45
+msgid "Top Schemes"
+msgstr "Principales líneas de ayuda"
+
+#: templates/home.html:78
+msgid "By country"
+msgstr "Por país"
+
+#: templates/comments/approve.html:4
+msgid "Approve a comment"
+msgstr "Aprobar comentario"
+
+#: templates/comments/approve.html:7
+msgid "Really make this comment public?"
+msgstr "¿Está seguro de querer publicar su comentario?"
+
+#: templates/comments/approve.html:12
+#: templates/comments/moderation_queue.html:49
+msgid "Approve"
+msgstr ""
+
+#: templates/comments/approved.html:4
+msgid "Thanks for approving"
+msgstr ""
+
+#: templates/comments/approved.html:7 templates/comments/deleted.html:7
+#: templates/comments/flagged.html:7
+msgid "Thanks for taking the time to improve the quality of discussion on our site"
+msgstr "Gracias por dedicar parte de su tiempo a elevar la calidad del debate en nuestro sitio web"
+
+#: templates/comments/delete.html:4
+msgid "Remove a comment"
+msgstr "Eliminar comentario"
+
+#: templates/comments/delete.html:7
+msgid "Really remove this comment?"
+msgstr "¿Está seguro de querer eliminar su comentario?"
+
+#: templates/comments/delete.html:12
+#: templates/comments/moderation_queue.html:53
+msgid "Remove"
+msgstr "Eliminar"
+
+#: templates/comments/deleted.html:4
+msgid "Thanks for removing"
+msgstr "Gracias por eliminar "
+
+#: templates/comments/flag.html:4
+msgid "Flag this comment"
+msgstr "Marcar este comentario"
+
+#: templates/comments/flag.html:7
+msgid "Really flag this comment?"
+msgstr "¿Está seguro de querer marcar este comentario?"
+
+#: templates/comments/flag.html:12
+msgid "Flag"
+msgstr "Marcar"
+
+#: templates/comments/flagged.html:4
+msgid "Thanks for flagging"
+msgstr "Gracias por haber marcado el comentario"
+
+#: templates/comments/form.html:18 templates/comments/preview.html:34
+msgid "Post"
+msgstr "Enviar"
+
+#: templates/comments/form.html:19 templates/comments/preview.html:35
+msgid "Preview"
+msgstr "Vista previa"
+
+#: templates/comments/moderation_queue.html:4
+#: templates/comments/moderation_queue.html:19
+msgid "Comment moderation queue"
+msgstr ""
+
+#: templates/comments/moderation_queue.html:26
+msgid "No comments to moderate"
+msgstr ""
+
+#: templates/comments/moderation_queue.html:33
+msgid "Action"
+msgstr "Acción"
+
+#: templates/comments/moderation_queue.html:35
+msgid "Comment"
+msgstr "Comentario"
+
+#: templates/comments/moderation_queue.html:36
+msgid "Email"
+msgstr "Correo electrónico"
+
+#: templates/comments/moderation_queue.html:37
+msgid "URL"
+msgstr "Dirección URL"
+
+#: templates/comments/moderation_queue.html:38
+msgid "Authenticated?"
+msgstr "¿Verificado?"
+
+#: templates/comments/moderation_queue.html:39
+msgid "IP Address"
+msgstr "Dirección IP"
+
+#: templates/comments/moderation_queue.html:40
+msgid "Date posted"
+msgstr "Fecha de envío"
+
+#: templates/comments/moderation_queue.html:63
+msgid "yes"
+msgstr "sí"
+
+#: templates/comments/moderation_queue.html:63
+msgid "no"
+msgstr "no"
+
+#: templates/comments/posted.html:4
+msgid "Thanks for commenting"
+msgstr "Gracias por enviar su comentario"
+
+#: templates/comments/posted.html:7
+msgid "Thank you for your comment"
+msgstr "Gracias por su comentario"
+
+#: templates/comments/preview.html:3 templates/comments/preview.html.py:15
+msgid "Preview your comment"
+msgstr "Vista previa del comentario"
+
+#: templates/comments/preview.html:5
+msgid "Please correct the error below"
+msgid_plural "Please correct the errors below"
+msgstr[0] "Corregir"
+msgstr[1] "Corregir"
+
+#: templates/comments/preview.html:18
+msgid "and"
+msgstr "y"
+
+#: templates/comments/preview.html:18
+msgid "Post your comment"
+msgstr "Enviar comentario"
+
+#: templates/comments/preview.html:18
+msgid "or make changes"
+msgstr "o editar"
+
+#: templates/profiles/profile_list.html:3
+#: templates/profiles/profile_list.html:4
+msgid "Fish Subsidy User Profiles"
+msgstr ""
