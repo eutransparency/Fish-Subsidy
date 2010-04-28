@@ -3,7 +3,7 @@
 {% load humanize %}
 {% load babel %}
 {% load code_to_name %}
-{% load lists %}
+{# {% load lists %} #}
 {% load i18n %}
 {% block title %}{% trans "Home" %}{% endblock %}
 {% block body_id%}home{% endblock %}
@@ -50,7 +50,7 @@
               <li>
                 <a href="{% url vessel recipient.country recipient.pk recipient.name %}">
                   {{ recipient.name|title }} ({{ recipient.pk }})
-                  </a>{% list_item_edit recipient %}
+                  </a>{# {% list_item_edit recipient %} #}
               </li>
             {% endfor %}
             </ul>
@@ -71,7 +71,7 @@
                 <a href="{% url vessel recipient.country recipient.pk recipient.name %}">
                   {{ recipient.name|title }} ({{ recipient.pk }})
                   </a>
-                  {% list_item_edit recipient %}
+                  {# {% list_item_edit recipient %} #}
               </li>
             {% endfor %}
             </ul>
@@ -93,7 +93,7 @@
                   {% endif %}
                   ({{ recipient.pk }})
                   </a>
-                  {% list_item_edit recipient %}
+                  {# {% list_item_edit recipient %} #}
               </li>
             {% endfor %}
             </ul>
@@ -116,7 +116,7 @@
                   {% endif %}
                   ({{ recipient.pk }})
                   </a>
-                  {% list_item_edit recipient %}
+                  {# {% list_item_edit recipient %} #}
               </li>
             {% endfor %}
             </ul>

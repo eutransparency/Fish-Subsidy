@@ -60,7 +60,7 @@ ROOT_URLCONF = 'web.urls'
 
 INSTALLED_APPS = [
     'django.contrib.auth',
-    'django.contrib.comments',    
+    # 'django.contrib.comments',    
     'django.contrib.contenttypes',
     'django.contrib.admin',
     'django.contrib.humanize',
@@ -78,7 +78,7 @@ INSTALLED_APPS = [
     'pagination',
     'registration',
     'features',
-    'listmaker',
+    # 'listmaker',
     'profiles',
     'frontend',
     'django_notify',
@@ -88,6 +88,7 @@ INSTALLED_APPS = [
     'multilingual.flatpages',
     'babeldjango',
     'djapian',
+    'recipientcomments'
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = (

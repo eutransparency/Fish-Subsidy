@@ -1,1 +1,2 @@
-Confirm your FishSubsidy account
+{% load i18n %}
+{% trans "Confirm your FishSubsidy account" %}

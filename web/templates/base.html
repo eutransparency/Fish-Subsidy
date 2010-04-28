@@ -16,9 +16,9 @@
 
   <link rel="shortcut icon" href="/media/images/favicon.ico">
 
-  <script src="{{ MEDIA_URL }}/js/jquery.js" type="text/javascript"></script>
+  <script src="{{ MEDIA_URL }}/js/jquery-1.4.2.min.js" type="text/javascript"></script>
   <script src="{{ MEDIA_URL }}/js/jquery.example.min.js"type="text/javascript"></script>
-  <script src="{{ MEDIA_URL }}/js/jquery-ui-1.7.1.custom.min.js" type="text/javascript"></script>
+  <script src="{{ MEDIA_URL }}/js/jquery-ui-1.8.custom.min.js" type="text/javascript"></script>
   <script src="{{ MEDIA_URL }}/js/scripts.js" type="text/javascript" charset="utf-8"></script>
   <script src="{{ MEDIA_URL }}/js/lists.js" type="text/javascript" charset="utf-8"></script>
 
@@ -72,7 +72,7 @@
       <li class="{% active request "^/about/" %}"><a href="/about/">{% trans "About" %}</a></li>
       <li class="{% active request "^/blog/" %}"><a href="/blog/">{% trans "Blog" %}</a></li>
       <li class="{% active request "^/news/" %}"><a href="/news/">{% trans "In The News" %}</a></li>
-      <li class="{% active request "^/lists/" %}"><a href="/lists/">{% trans "Lists" %}</a></li>
+      {# <li class="{% active request "^/lists/" %}"><a href="/lists/">{% trans "Lists" %}</a></li> #}
     </ul>
     
     
@@ -148,7 +148,7 @@
     
   {% endblock %}
   
-    {% include "blocks/list_view.html" %}
+    {# {% include "blocks/list_view.html" %} #}
   </div>
   </div>
   <div id="footer">

@@ -3,7 +3,7 @@
 {% load babel %}
 {% load i18n %}
 {% load cache %}
-{% load lists %}
+{# {% load lists %} #}
 {% block title %}
   {{ country.name }}
 {% endblock %}
@@ -100,7 +100,7 @@
                 ({{ beneficiary.pk }})</a>
             </td>
             <td>{% if beneficiary.amount %} {{ beneficiary.total|currencyfmt:"EUR" }}{% endif %}</td>
-            <td>{% list_item_edit beneficiary %}</td>
+            {# <td>{% list_item_edit beneficiary %}</td> #}
           </tr>
         {% endfor %}
       </table>
