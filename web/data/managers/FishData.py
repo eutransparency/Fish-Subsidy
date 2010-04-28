@@ -39,6 +39,7 @@ class illegalFishingManager(models.Manager):
     
     result_list = []
     for row in cursor.fetchall():
+        print row
         p = self.model(cfr=row[1], date=row[2], sanction=row[3], description=row[4], skipper=row[5])
         p.vesssel_name = row[6] or row[1]
         p.iso_country = row[7]

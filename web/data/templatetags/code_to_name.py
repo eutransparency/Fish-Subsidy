@@ -5,7 +5,7 @@ register = Library()
 
 class CodeToName(Node):
     def __init__(self, code, varname):
-        self.code = code            
+        self.code = code
         self.varname = varname
     
     def render(self, context):
@@ -20,3 +20,8 @@ class CodeToName(Node):
 def code_to_name(parser, token):
     bits = token.contents.split()
     return CodeToName(bits[1], bits[3])
+
+@register.simple_tag
+def code_to_name_dumb(code):
+    return countryCodes.country_codes(code)['name']
+
