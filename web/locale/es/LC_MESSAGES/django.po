@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-28 16:01+0100\n"
-"PO-Revision-Date: 2010-04-28 17:37\n"
+"PO-Revision-Date: 2010-04-28 18:47\n"
 "Last-Translator: <meche_rafa@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -115,7 +115,6 @@ msgid "Top Municipalities"
 msgstr "Principales municipios"
 
 #: data/templates/browse_geo2.html:26
-#, fuzzy
 msgid "Municipality Name"
 msgstr "Municipios"
 
@@ -132,14 +131,14 @@ msgid "See All"
 msgstr "Ver todos"
 
 #: data/templates/browse_geo2.html:63
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "      <h2>Vessels in %(name)s</h2>\n"
 "    "
 msgstr ""
 "\n"
-"<h2>Beneficiarios en %(name)s</h2>"
+"<h2>Pesqueros beneficiarios en %(name)s</h2>"
 
 #: data/templates/browse_ports.html:6
 msgid "Browse Ports"
@@ -443,7 +442,6 @@ msgstr ""
 "<h3>Añadir información sobre este beneficiario</h3><p>¿Qué tipo de pesquero o beneficiario es? ¿Es usted el armador o vive en la misma zona? ¿Qué especies captura? ¿Practica la pesca ilegal? ¿Tiene otros datos que añadir? Por favor facilite si le es posible sus fuentes de información"
 
 #: data/templates/recipient.html:98
-#, fuzzy
 msgid "Post Comment"
 msgstr "Enviar comentario"
 
@@ -533,7 +531,7 @@ msgid "Stocks targeted"
 msgstr "Poblaciones objetivo"
 
 #: data/templates/recipient.html:158
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "            Tuna Fleet:  Yes (<a href=\"%(link)s\">view all</a>)\n"
@@ -543,7 +541,7 @@ msgstr ""
 "Flota atunera: Sí (<a href=\"%(link)s\">ver todos</a>)"
 
 #: data/templates/recipient.html:162
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "        \n"
 "            <a href=\"%(link)s\">Tuna Fleet</a>:  No\n"
@@ -684,7 +682,6 @@ msgid "Remember me"
 msgstr "Recordar mis datos"
 
 #: frontend/forms.py:42
-#, fuzzy
 msgid "Full Name"
 msgstr "Nombre completo"
 
@@ -1261,7 +1258,6 @@ msgid "Fish Subsidy User Profiles"
 msgstr "Perfiles de usuarios de Fish Subsidy"
 
 #: templates/registration/activate.html:3
-#, fuzzy
 msgid "Registration Activated"
 msgstr "Registro activado"
 
@@ -1270,11 +1266,13 @@ msgid ""
 "\n"
 "  <p>Your registration has been activated. You can log in <a href='/login?next=/'>here</a></p>\n"
 msgstr ""
+"\n"
+"<p>Se ha activado el registro. Pulse <a href='/login?next=/'>aquípara iniciar sesión</a></p>\n"
 
 #: templates/registration/activation_complete.html:2
 #: templates/registration/activation_complete.html:3
 msgid "Account Activated"
-msgstr ""
+msgstr "Cuenta activada"
 
 #: templates/registration/activation_complete.html:6
 #, python-format
@@ -1282,10 +1280,13 @@ msgid ""
 "\n"
 "  <p>Your account has now been activated, please <a href=\"%(login_url)s\">log in to continue</a></p>\n"
 msgstr ""
+"\n"
+"<p>Se ha activado su cuenta, inicie sesión <a href=\"%(login_url)s\"> para continuar</a></p>\n"
+"\t\n"
 
 #: templates/registration/activation_email_subject.txt:2
 msgid "Confirm your FishSubsidy account"
-msgstr ""
+msgstr "Confirme su cuenta FishSubsidy"
 
 #: templates/registration/extended_login.html:4
 #: templates/registration/extended_login.html:5
@@ -1321,6 +1322,10 @@ msgid ""
 "\n"
 "  <a href=\"%(login_url)s\">Log in</a>\n"
 msgstr ""
+"\n"
+"<p>Se ha establecido su contraseña. Ya puede iniciar sesión.</p>\n"
+"\n"
+"<a href=\"%(login_url)s\">Iniciar sesión</a>\n"
 
 #: templates/registration/password_reset_confirm.html:3
 #: templates/registration/password_reset_confirm.html:4
@@ -1369,13 +1374,12 @@ msgstr ""
 "<p>Le enviaremos un mensaje de confirmación con el enlace a la página donde podrá cambiar su contraseña.</p>"
 
 #: templates/registration/registration_complete.html:4
-#, fuzzy
 msgid "Registration complete"
-msgstr "Número de matrícula"
+msgstr "Registro completado"
 
 #: templates/registration/registration_complete.html:6
 msgid "Please check your email!"
-msgstr ""
+msgstr "Por favor consulte su correo electrónico"
 
 #: templates/registration/registration_complete.html:8
 msgid ""
@@ -1385,6 +1389,10 @@ msgid ""
 "      <p>If you still haven't received the email check your spam or junk folder or <a href=\"/faq#contact\">contact us</a> for help.</p>\n"
 "  "
 msgstr ""
+"\n"
+"<p>La cuenta ha sido creada, sin embargo es necesario activarla antes de iniciar sesión.</p>\n"
+"<p>Dentro de unos diez minutos recibirá un correo electrónico de activación.</p>\n"
+"<p>Si pasado ese tiempo todavía no lo ha recibido compruebe la bandeja de spam o <a href=\"/faq#contact\">escríbanos</a> pidiendo ayuda"
 
 #~ msgid "Lists"
 #~ msgstr "Listas"
