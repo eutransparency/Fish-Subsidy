@@ -1,0 +1,1399 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-04-28 16:01+0100\n"
+"PO-Revision-Date: 2010-04-28 17:37\n"
+"Last-Translator: <meche_rafa@hotmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Translated-Using: django-rosetta 0.5.3\n"
+
+#: global_settings.py:116
+msgid "English"
+msgstr "Inglés"
+
+#: global_settings.py:117
+msgid "Español"
+msgstr "Español"
+
+#: data/forms.py:18 frontend/forms.py:19
+msgid "I Agree to the terms above"
+msgstr "Estoy de acuerdo con las condiciones expuestas"
+
+#: data/forms.py:19 frontend/forms.py:20
+msgid "Tell us something about what you plan to do with the data"
+msgstr "Explique por favor qué uso va a hacer de estos datos"
+
+#: data/templates/browse.html:7 data/templates/browse_geo2.html:6
+#: data/templates/browse_ports.html:7 templates/home.html:40
+msgid "Browse"
+msgstr "Explorar"
+
+#: data/templates/browse.html:8
+msgid "Browse Vessels"
+msgstr "Explorar pesqueros"
+
+#: data/templates/browse.html:13 data/templates/browse.html.py:79
+#: data/templates/browse_geo2.html:8 data/templates/browse_ports.html:47
+#: data/templates/country.html:32 data/templates/port.html:60
+#: data/templates/scheme_detail.html:34
+msgid "All Years"
+msgstr "Historial completo"
+
+#: data/templates/browse.html:17 data/templates/port.html:35
+#: data/templates/scheme_detail.html:45 data/templates/scheme_detail.html:66
+#: data/templates/tuna_fleet.html:18
+#: templates/comments/moderation_queue.html:34
+msgid "Name"
+msgstr "Nombre"
+
+#: data/templates/browse.html:18 data/templates/browse_geo2.html:27
+#: data/templates/browse_geo2.html.py:47 data/templates/browse_ports.html:28
+#: data/templates/country.html:40 data/templates/country.html.py:59
+#: data/templates/country.html:87 data/templates/country.html.py:118
+#: data/templates/port.html:36 data/templates/recipient.html:45
+#: data/templates/scheme_detail.html:46 data/templates/scheme_detail.html:67
+#: data/templates/scheme_detail.html:96 data/templates/scheme_detail.html:116
+#: data/templates/schemes.html:26 data/templates/tuna_fleet.html:19
+#: data/templates/blocks/list_vessels.html:10 templates/home.html:137
+msgid "Amount"
+msgstr "Cantidad"
+
+#: data/templates/browse.html:19 data/templates/browse_geo2.html:46
+#: data/templates/country.html:39 data/templates/scheme_detail.html:95
+#: data/templates/tuna_fleet.html:20
+msgid "Port"
+msgstr "Puerto"
+
+#: data/templates/browse.html:34 data/templates/country.html:97
+#: data/templates/recipient.html:10 data/templates/recipient.html.py:19
+#: data/templates/scheme_detail.html:76
+#: data/templates/blocks/list_vessels.html:21 templates/home.html:92
+#: templates/home.html.py:115
+msgid "Unknown beneficiary"
+msgstr "Beneficiario desconocido"
+
+#: data/templates/browse.html:43
+msgid "Unknown port"
+msgstr "Puerto desconocido"
+
+#: data/templates/browse.html:57 data/templates/schemes.html:70
+msgid "Filter"
+msgstr "Filtrar"
+
+#: data/templates/browse.html:58
+msgid "Recipient Type"
+msgstr "Tipo de beneficiario"
+
+#: data/templates/browse.html:61 data/templates/browse.html.py:63
+msgid "All"
+msgstr "Todos"
+
+#: data/templates/browse.html:66 data/templates/browse.html.py:68
+#: data/templates/country.html:156 data/templates/port.html:31
+msgid "Vessels"
+msgstr "Pesqueros"
+
+#: data/templates/browse.html:71 data/templates/browse.html.py:73
+msgid "Non-Vessels"
+msgstr "Otros beneficiarios"
+
+#: data/templates/browse.html:76 data/templates/recipient.html:43
+msgid "Year"
+msgstr "Año"
+
+#: data/templates/browse_geo2.html:23
+msgid "Top Municipalities"
+msgstr "Principales municipios"
+
+#: data/templates/browse_geo2.html:26
+#, fuzzy
+msgid "Municipality Name"
+msgstr "Municipios"
+
+#: data/templates/browse_geo2.html:43 data/templates/country.html:36
+msgid "Top Ports"
+msgstr "Principales puertos"
+
+#: data/templates/browse_geo2.html:56 data/templates/country.html:49
+#: data/templates/country.html.py:68 data/templates/country.html:77
+#: data/templates/country.html.py:108 data/templates/country.html:129
+#: data/templates/scheme_detail.html:125 templates/home.html:57
+#: templates/home.html.py:123 templates/home.html:149
+msgid "See All"
+msgstr "Ver todos"
+
+#: data/templates/browse_geo2.html:63
+#, fuzzy, python-format
+msgid ""
+"\n"
+"      <h2>Vessels in %(name)s</h2>\n"
+"    "
+msgstr ""
+"\n"
+"<h2>Beneficiarios en %(name)s</h2>"
+
+#: data/templates/browse_ports.html:6
+msgid "Browse Ports"
+msgstr "Explorar los puertos"
+
+#: data/templates/browse_ports.html:12
+#, python-format
+msgid ""
+"\n"
+"    Ports in <a href=\"%(country_url)s\">%(country)s</a>, All Years\n"
+"  "
+msgstr ""
+"\n"
+"Puertos de <a href=\"%(country_url)s\">%(country)s</a>, historial completo"
+
+#: data/templates/browse_ports.html:16
+#, python-format
+msgid ""
+"\n"
+"    Ports in <a href=\"%(country_url)s\">%(country)s</a>, %(year)s\n"
+"  "
+msgstr ""
+"\n"
+"Puertos de <a href=\"%(country_url)s\">%(country)s</a>, %(year)s"
+
+#: data/templates/browse_ports.html:27
+msgid "Port Name"
+msgstr "Denominación del puerto"
+
+#: data/templates/country.html:13
+#, python-format
+msgid "EU Fish subsidies for %(country)s in %(year)s"
+msgstr "Ayudas UE a %(country)s en %(year)s"
+
+#: data/templates/country.html:15
+#, python-format
+msgid "EU Fish subsidies for %(country)s, all years"
+msgstr "Ayudas UE a %(country)s, historial completo"
+
+#: data/templates/country.html:55 data/templates/scheme_detail.html:112
+msgid "Top Regions"
+msgstr "Principales regiones"
+
+#: data/templates/country.html:58 data/templates/scheme_detail.html:115
+msgid "Region"
+msgstr "Región"
+
+#: data/templates/country.html:74
+msgid "Top vessels"
+msgstr "Principales pesqueros"
+
+#: data/templates/country.html:82
+msgid "Top non-vessel payments"
+msgstr "Principales beneficiarios no pesqueros"
+
+#: data/templates/country.html:86
+msgid "Beneficiary Name"
+msgstr "Nombre del beneficiario"
+
+#: data/templates/country.html:114
+msgid "Top schemes"
+msgstr "Principales planes de ayudas"
+
+#: data/templates/country.html:117 data/templates/schemes.html:25
+#: templates/home.html:136
+msgid "Scheme Name"
+msgstr "Destino de las ayudas"
+
+#: data/templates/country.html:145
+#, python-format
+msgid ""
+"\n"
+"        Recipients in %(country)s\n"
+"    "
+msgstr ""
+"\n"
+"Beneficiarios en %(country)s"
+
+#: data/templates/country.html:149
+msgid "Non Vessels"
+msgstr "Otros beneficiarios"
+
+#: data/templates/country.html:151 data/templates/country.html.py:158
+#: data/templates/country.html:167
+msgid "By amount received"
+msgstr "Por cantidad asignada"
+
+#: data/templates/country.html:152 data/templates/country.html.py:159
+#: data/templates/country.html:168
+msgid "A - Z by name"
+msgstr "Por pesquero, orden alfabético"
+
+#: data/templates/country.html:160
+msgid "A - Z by port"
+msgstr "Por puerto, orden alfabético"
+
+#: data/templates/country.html:161 data/templates/tuna_fleet.html:5
+msgid "Tuna Fleet"
+msgstr "Flota atunera"
+
+#: data/templates/country.html:165
+msgid "Ports"
+msgstr "Puertos"
+
+#: data/templates/country_ports.html:5
+#, python-format
+msgid "%(number)s ports found"
+msgstr "%(number)s puertos encontrados"
+
+#: data/templates/country_ports.html:8
+msgid "vessels"
+msgstr "Pesqueros"
+
+#: data/templates/data_agreement_form.html:3
+#: data/templates/data_agreement_form.html:4
+msgid "Thanks for downloading data from fishsubsidy.org."
+msgstr "Gracias por descargar datos de fishsubsidy.org"
+
+#: data/templates/data_agreement_form.html:7
+msgid ""
+"\n"
+"  <p>We worked really hard to create this database, and this site represents many\n"
+"  hundreds of hours of work by our team. Getting data out of governments is often\n"
+"  not an easy task. We often have to fight with governments through freedom of\n"
+"  information requests to get access to the data. Sometimes we get data in\n"
+"  strange formats. Sometimes we have to build web robots to extract it. Once we\n"
+"  have it, it takes yet more work to turn it into a useful database.</p>\n"
+"\n"
+"  <p>All of the many hundreds of hours of work requires funding and support,\n"
+"  which we are grateful to receive from our kind funders. We depend on you to\n"
+"  demonstrate the value of our work by attributing us as the source. By\n"
+"  attributing us or citing us in your news story, article, research report, radio\n"
+"  or TV show, website, and so on, you are, in a very direct way, helping us to\n"
+"  continue providing you data.</p>\n"
+"\n"
+"  <p>We make our database available under the Open Database License, which means\n"
+"  you should:</p>\n"
+"\n"
+"  <ul> <li>Attribute your use of this database to us, and</li> <li>Share your\n"
+"  changes back with everyone else.</li> </ul>\n"
+"\n"
+"  <p>For more on how to do both of these and the specifics, please see our <a\n"
+"  href=\"/about/legal/\">legal policy</a>, the ODbL text or <a href=\"/faqs/\">our\n"
+"  FAQ</a> for details.</p>\n"
+"\n"
+"  <p>Have fun, and if there are any questions, <a href=\"/about/\">please get in\n"
+"  touch</a>.</p>\n"
+msgstr ""
+"\n"
+"<p>La base de datos representa el fruto de un arduo esfuerzo. Nuestro equipo ha consagrado centenares de horas de trabajo a poner en marcha este sitio web. Obtener datos de los Gobiernos no siempre es tarea fácil. En ocasiones nos hemos visto obligados a invocar la libertad de información ante los Gobiernos para poder acceder a las estadísticas. A veces las recibimos en formatos extraños que nos obligan a crear herramientas informáticas para poder extraerla. Una vez recabada la información, es necesario seguir trabajando para poder convertirla en una base de datos útil.</p>\n"
+"\n"
+"<p>Todas estas horas de trabajo exigen una financiación y un respaldo que queremos agradecer a nuestros amables patrocinadores. Si utiliza nuestros informes es importante que aprecie todo este esfuerzo citándonos como fuente. Al citarnos en su reportaje, artículo, investigación, programa de radio o de televisión, página web, o en cualquier otro medio, nos estará ayudando a seguir facilitando información.</p>\n"
+"\n"
+"<p>Nuestra base de datos se encuentra disponible dentro de una licencia de base de datos abierta, que permite el uso de los datos bajo dos condiciones obligatorias:</p>\n"
+"\n"
+"<ul> <li>-Citarnos como fuente, y\n"
+"</li> <li>-Compartir cualquier uso de los datos a cualquier otro interesado.</li> </ul>\n"
+"\n"
+"<p>Para más información sobre estos dos requisitos consulte nuestros <a\n"
+"href=\"/about/legal/\"> términos jurídicos</a>, el texto de la licencia o nuestras <a href=\"/faqs/\">preguntas más frecuentes</a>.</p>\n"
+"\n"
+"<p>Que se divierta, y si tiene alguna duda, <a href=\"/about/\">contacte con nosotros</a>.</p>\n"
+
+#: data/templates/data_agreement_form.html:45
+#: templates/registration/password_reset_confirm.html:9
+#: templates/registration/password_reset_form.html:15
+msgid "Continue"
+msgstr "Continuar"
+
+#: data/templates/downloads.html:7
+msgid ""
+"\n"
+"<h3>We make our database available under the Open Database License, which means you should:</h3>\n"
+"\n"
+"<ul>\n"
+"  <li>Attribute your use of this database to us, and</li>\n"
+"  <li>Share your changes back with everyone else.</li>\n"
+"</ul>\n"
+msgstr ""
+"\n"
+"<h3>Nuestra base de datos se encuentra disponible dentro de una licencia de base de datos abierta, que permite el uso de los datos bajo dos condiciones obligatorias:</h3>\n"
+"\n"
+"<ul>\n"
+"<li>-Citarnos como fuente, y</li> <li>-Compartir cualquier uso de los datos a cualquier otro interesado.</li> </ul>\n"
+
+#: data/templates/downloads.html:17
+msgid "File Name"
+msgstr "Archivo"
+
+#: data/templates/downloads.html:18
+msgid "File Format"
+msgstr "Formato del archivo"
+
+#: data/templates/downloads.html:19
+msgid "File Description"
+msgstr "Descripción del archivo"
+
+#: data/templates/downloads.html:27
+msgid "Download"
+msgstr "Descargar"
+
+#: data/templates/infringements.html:6 data/templates/infringements.html:7
+msgid "Identified Infringements"
+msgstr "Infracciones detectadas"
+
+#: data/templates/infringements.html:13
+msgid ""
+"\n"
+"<p>Illegal fishing contributes to the overfishing of valuable fish stocks,\n"
+"many of which are at dangerously depleted levels. Very limited data on\n"
+"convictions for serious infringements (illegal fishing) has been compiled from\n"
+"France, Spain and the UK. Unlike data on fisheries subsidies, it is not\n"
+"official data obtained directly from governments but information collected\n"
+"manually from government websites, press reports and court records. It is\n"
+"therefore certain to be incomplete.</p>\n"
+"\n"
+"<p>The table below shows vessels that have received fisheries subsidies and\n"
+"have been convicted of serious infringements.</p>\n"
+msgstr ""
+"\n"
+"La pesca ilegal favorece la sobrepesca de poblaciones de peces de gran valor, que a menudo se encuentran ya gravemente mermadas. Hemos conseguido datos, aunque muy escasos, de Francia, España y el Reino Unido sobre infracciones graves. A diferencia de la información sobre las ayudas a la pesca, no se trata de estadísticas oficiales facilitadas por los gobiernos, sino de información extraída de portales web gubernamentales, medios de comunicación y registros judiciales. Por esta razón esta información está incompleta.\n"
+"\n"
+"La tabla bajo estas líneas muestra pesqueros beneficiarios de ayudas a la pesca que han sido condenados por infracciones graves\n"
+
+#: data/templates/infringements.html:28 data/templates/recipient.html:176
+msgid "Date"
+msgstr "Fecha"
+
+#: data/templates/infringements.html:29
+#: data/templates/blocks/list_vessels.html:8
+msgid "Vessel Name"
+msgstr "Nombre del pesquero"
+
+#: data/templates/infringements.html:30
+msgid "Total Subsidy"
+msgstr "Monto total de la ayuda"
+
+#: data/templates/infringements.html:31 data/templates/recipient.html:136
+#: data/templates/blocks/list_vessels.html:9
+msgid "Home Port"
+msgstr "Puerto de matrícula"
+
+#: data/templates/infringements.html:32 data/templates/recipient.html:138
+msgid "Country"
+msgstr "País"
+
+#: data/templates/infringements.html:33
+msgid "Description"
+msgstr "Descripción"
+
+#: data/templates/infringements.html:48 data/templates/recipient.html:179
+msgid "Sanction"
+msgstr "Sanción"
+
+#: data/templates/infringements.html:51
+msgid "Skipper/Owner"
+msgstr "Patrón/Armador"
+
+#: data/templates/port.html:12
+#, python-format
+msgid ""
+"\n"
+"      Vessels in %(port_name)s, <a href=\"%(country_url)s\">%(country)s</a>, All Years\n"
+"    "
+msgstr ""
+"\n"
+"Pesqueros de %(port_name)s, <a href=\"/%(country_url)s\">%(country)s</a>, historial completo"
+
+#: data/templates/port.html:16
+#, python-format
+msgid ""
+"  \n"
+"      Vessels in %(port_name)s, <a href=\"%(country_url)s\">%(country)s</a> %(year)s\n"
+"    "
+msgstr "Pesqueros de %(port_name)s, <a href=\"/%(country_url)s\">%(country)s</a>  %(year)s"
+
+#: data/templates/recipient.html:21
+msgid "Fish Subsidy payments"
+msgstr "Ayudas asignadas"
+
+#: data/templates/recipient.html:30
+msgid "All schemes"
+msgstr "Todas las líneas de ayuda"
+
+#: data/templates/recipient.html:44 data/templates/scheme_detail.html:11
+msgid "Scheme"
+msgstr "Línea de ayuda"
+
+#: data/templates/recipient.html:66
+msgid "Total"
+msgstr "Total"
+
+#: data/templates/recipient.html:88
+msgid ""
+"\n"
+"      <h3>Add information for this recipient</h3>\n"
+"      <p>What kind of vessel or recipient is it? Are you the owner or do you live nearby? Which fish stocks does it target? Has it been involved in illegal fishing activity? Any other factual information to add? Please provide sources wherever possible.</p>\n"
+"    "
+msgstr ""
+"\n"
+"<h3>Añadir información sobre este beneficiario</h3><p>¿Qué tipo de pesquero o beneficiario es? ¿Es usted el armador o vive en la misma zona? ¿Qué especies captura? ¿Practica la pesca ilegal? ¿Tiene otros datos que añadir? Por favor facilite si le es posible sus fuentes de información"
+
+#: data/templates/recipient.html:98
+#, fuzzy
+msgid "Post Comment"
+msgstr "Enviar comentario"
+
+#: data/templates/recipient.html:105
+#, python-format
+msgid ""
+"\n"
+"          <a href=\"%(login_url)s\">Create an account</a> or <a href=\"%(login_url)s\">Log in</a> to add information.\n"
+"        "
+msgstr ""
+"\n"
+"<a href=\"%(login_url)s\">Crear una cuenta</a> o <a href=\"%(login_url)s\">iniciar sesión</a> para añadir información."
+
+#: data/templates/recipient.html:119
+msgid "Vessel type"
+msgstr "Tipo de pesquero"
+
+#: data/templates/recipient.html:121
+msgid "Length:"
+msgstr "Eslora:"
+
+#: data/templates/recipient.html:122
+msgid "Tonnage:"
+msgstr "Arqueo (en toneladas):"
+
+#: data/templates/recipient.html:123
+msgid "Power:"
+msgstr "Potencia:"
+
+#: data/templates/recipient.html:126
+msgid "Vessel details"
+msgstr "Datos del pesquero"
+
+#: data/templates/recipient.html:128
+#, python-format
+msgid ""
+"\n"
+"        Constructed %(construction_year)s In %(construction_place)s\n"
+"      "
+msgstr ""
+"\n"
+"Construido en %(construction_year)s en %(construction_place)s"
+
+#: data/templates/recipient.html:132
+msgid "External Markings"
+msgstr "Marcas exteriores"
+
+#: data/templates/recipient.html:134
+msgid "Registration number"
+msgstr "Número de matrícula"
+
+#: data/templates/recipient.html:137
+msgid "Fleet Registry record"
+msgstr "Inscripción en el Registro de Flota"
+
+#: data/templates/recipient.html:139 data/templates/recipient.html.py:173
+msgid "Infringement record"
+msgstr "Historial de infracciones"
+
+#: data/templates/recipient.html:139
+msgid "Data Withheld"
+msgstr "Datos denegados"
+
+#: data/templates/recipient.html:140
+msgid "Quota: Data Witheld"
+msgstr "Porcentaje de datos denegados"
+
+#: data/templates/recipient.html:142
+msgid "Greenpeace Blacklist"
+msgstr "Lista negra de Greenpeace"
+
+#: data/templates/recipient.html:146
+msgid "Owner"
+msgstr "Armador"
+
+#: data/templates/recipient.html:148
+msgid ""
+"\n"
+"        This information has been <a href=\"/faqs#withheld\">Withheld</a>\n"
+"      "
+msgstr ""
+"\n"
+"Esta información ha sido <a href=\"/faqs#withheld\">denegada</a>"
+
+#: data/templates/recipient.html:153
+msgid "Stocks targeted"
+msgstr "Poblaciones objetivo"
+
+#: data/templates/recipient.html:158
+#, fuzzy, python-format
+msgid ""
+"\n"
+"            Tuna Fleet:  Yes (<a href=\"%(link)s\">view all</a>)\n"
+"          "
+msgstr ""
+"\n"
+"Flota atunera: Sí (<a href=\"%(link)s\">ver todos</a>)"
+
+#: data/templates/recipient.html:162
+#, fuzzy, python-format
+msgid ""
+"        \n"
+"            <a href=\"%(link)s\">Tuna Fleet</a>:  No\n"
+"          "
+msgstr "<a href=\"%(link)s\">Flota atunera</a>: No"
+
+#: data/templates/recipient.html:167
+msgid ""
+"\n"
+"        Other: <a href=\"/faqs#withheld\">Data Withheld</a></p>\n"
+"      "
+msgstr ""
+"\n"
+"Otras"
+
+#: data/templates/recipient.html:177
+msgid "Offense"
+msgstr "Delito"
+
+#: data/templates/recipient.html:182
+msgid "Skipper"
+msgstr "Patrón"
+
+#: data/templates/recipient.html:186
+msgid "About infringement records"
+msgstr "Sobre el historial de infracciones"
+
+#: data/templates/recipient.html:187
+msgid "View more infringements"
+msgstr "Ver otras infracciones"
+
+#: data/templates/recipient.html:192
+msgid "Google this recipient"
+msgstr "Buscar a este beneficiario en Google"
+
+#: data/templates/scheme_detail.html:9 data/templates/schemes.html:75
+#: data/templates/schemes.html.py:77
+msgid "All years"
+msgstr "Historial completo"
+
+#: data/templates/scheme_detail.html:15
+#, python-format
+msgid "All schemes in %(country)s"
+msgstr "Todas las líneas de ayuda en %(country)s"
+
+#: data/templates/scheme_detail.html:20
+msgid "View for all countries"
+msgstr "Ver todos los países"
+
+#: data/templates/scheme_detail.html:41
+msgid "Top Vessels"
+msgstr "Principales pesqueros"
+
+#: data/templates/scheme_detail.html:62
+msgid "Top Non-vessels"
+msgstr "Principales pesqueros"
+
+#: data/templates/schemes.html:6
+#, python-format
+msgid "Schemes %(year)s"
+msgstr "Líneas de ayuda %(year)s"
+
+#: data/templates/schemes.html:8
+msgid "Schemes, All years"
+msgstr "Líneas de ayuda, historial completo"
+
+#: data/templates/schemes.html:15
+#, python-format
+msgid "Schemes in <a href=\"%(country_url)s\">%(country)s</a> in %(year)s"
+msgstr "Líneas de ayuda en <a href=\"%(country_url)s\">%(country)s</a>  en %(year)s"
+
+#: data/templates/schemes.html:17
+#, python-format
+msgid "Schemes in <a href=\"%(country_url)s\">%(country)s</a>, all years"
+msgstr "Líneas de ayuda en <a href=\"%(country_url)s\">%(country)s</a>, historial completo"
+
+#: data/templates/schemes.html:53
+#, python-format
+msgid ""
+"\n"
+"\n"
+"\n"
+"    <h3>About Schemes</h3>\n"
+"    <p>To help make sense of the various subsidy types we have adopted a classification developed by the Fisheries Centre of the University of British Columbia. \n"
+"    This classification divides subsidy schemes and measures into:</p>\n"
+"    <ul>\n"
+"      <li>Good (green %(good)s)</li>\n"
+"      <li>Bad (red %(bad)s)</li> \n"
+"      <li>Ugly (yellow %(ugly)s)</li>\n"
+"    </ul>\n"
+"    <a href=\"/about/schemes/\">Read More</a>\n"
+"  </div>\n"
+"  \n"
+"  "
+msgstr ""
+"\n"
+"<h3>Tipos de ayudas</h3><p>A fin de entender mejor los tipos de ayudas hemos adoptado la clasificación establecida por el Centro de Investigación Pesquera de la Universidad de la Columbia Británica (Canadá). Según este método las líneas de ayuda se clasifican en tres categorías: </p><ul><li>buenas (color verde%(good)s),</li>\n"
+"<li>malas (rojo%(bad)s)</li>\n"
+"<li> y regulares (amarillo%(ugly)s)</li>\n"
+"</ul>.\n"
+"<a href=\"/about/schemes/\">Más información</a>\n"
+"</div>"
+
+#: data/templates/schemes.html:71
+msgid "Years"
+msgstr "Año"
+
+#: data/templates/tuna_fleet.html:6
+#, python-format
+msgid ""
+"\n"
+"  <a href=\"/%(code)s\">%(country)s</a>: Tuna Fleet\n"
+msgstr ""
+"\n"
+" <a href=\"/%(code)s\">%(country)s</a>: Flota atunera\n"
+
+#: data/templates/tuna_fleet.html:35
+#, python-format
+msgid ""
+"\n"
+"      %(country)s has no vessels in the Tuna Fleet.  <a href=\"/EU/tuna-fleet\">View the full list</a>\n"
+"    "
+msgstr ""
+"\n"
+"%(country.name)s no tiene flota atunera. <a href=\"/EU/tuna-fleet\">Consulte la lista completa</a>"
+
+#: data/templates/blocks/map.html:5
+msgid "Map"
+msgstr "Mapa"
+
+#: features/templates/feature_list.html:3
+#: features/templates/feature_list.html:4
+msgid "Features"
+msgstr "En portada"
+
+#: frontend/forms.py:33 misc/forms.py:15
+msgid "Remember me"
+msgstr "Recordar mis datos"
+
+#: frontend/forms.py:42
+#, fuzzy
+msgid "Full Name"
+msgstr "Nombre completo"
+
+#: frontend/forms.py:51 misc/forms.py:31
+msgid "This email address is already in use. Please supply a different email address."
+msgstr "Esta dirección electrónica ya está registrada en el sistema. Escoja otra, por favor."
+
+#: listmaker/templates/deactivate_warming.html:6
+#: listmaker/templates/deactivate_warming.html:7
+msgid "Deactivate List"
+msgstr "Desactivar la lista"
+
+#: listmaker/templates/deactivate_warming.html:10
+msgid ""
+"\n"
+"  <h3>Are you sure you want to deactivate your list?</h3>\n"
+"\n"
+msgstr ""
+"\n"
+"¿Está seguro de querer desactivar la lista?\n"
+
+#: listmaker/templates/deactivate_warming.html:18
+msgid "Deactivate"
+msgstr "Desactivar"
+
+#: listmaker/templates/deactivate_warming.html:24
+#: listmaker/templates/edit.html:12
+msgid "Save"
+msgstr "Guardar"
+
+#: listmaker/templates/edit.html:3 listmaker/templates/edit.html.py:4
+msgid "Save List"
+msgstr "Guardar lista"
+
+#: listmaker/templates/lists_home.html:33
+#, python-format
+msgid ""
+"\n"
+"        <p>There are no items in your list yet.</p>\n"
+"        <p>To add items, <a href=\"%(home_url)s\">browse or search</a> the site and click on the icon next to a recipient.</p>\n"
+"      "
+msgstr ""
+"\n"
+"<p>Su lista sigue vacía.</p><p>Para añadir elementos a la lista, <a href=\"%(home_url)s\">explore</a> el portal y pinche el beneficiario que desee.</p> "
+
+#: listmaker/templates/mylists.html:3 listmaker/templates/mylists.html.py:4
+msgid "My Lists"
+msgstr "Mis listas"
+
+#: listmaker/templates/mylists.html:8
+msgid "Edit"
+msgstr "Editar"
+
+#: misc/countryCodes.py:7
+msgid "All Countries"
+msgstr "Todos los países"
+
+#: misc/countryCodes.py:9
+msgid "Austria"
+msgstr "Austria"
+
+#: misc/countryCodes.py:10
+msgid "Belgium"
+msgstr "Bélgica"
+
+#: misc/countryCodes.py:11
+msgid "Bulgaria"
+msgstr "Bulgaria"
+
+#: misc/countryCodes.py:12
+msgid "Cyprus"
+msgstr "Chipre"
+
+#: misc/countryCodes.py:13
+msgid "Czech Republic"
+msgstr "República Checa"
+
+#: misc/countryCodes.py:14
+msgid "Denmark"
+msgstr "Dinamarca"
+
+#: misc/countryCodes.py:15
+msgid "Estonia"
+msgstr "Estonia"
+
+#: misc/countryCodes.py:16
+msgid "Finland"
+msgstr "Finlandia"
+
+#: misc/countryCodes.py:17
+msgid "France"
+msgstr "Francia"
+
+#: misc/countryCodes.py:18
+msgid "Germany"
+msgstr "Alemania"
+
+#: misc/countryCodes.py:19
+msgid "Greece"
+msgstr "Grecia"
+
+#: misc/countryCodes.py:20
+msgid "Hungary"
+msgstr "Hungría"
+
+#: misc/countryCodes.py:21
+msgid "Ireland"
+msgstr "Irlanda"
+
+#: misc/countryCodes.py:22
+msgid "Italy"
+msgstr "Italia"
+
+#: misc/countryCodes.py:23
+msgid "Latvia"
+msgstr "Letonia"
+
+#: misc/countryCodes.py:24
+msgid "Lithuania"
+msgstr "Lituania"
+
+#: misc/countryCodes.py:25
+msgid "Luxembourg"
+msgstr "Luxemburgo"
+
+#: misc/countryCodes.py:26
+msgid "Malta"
+msgstr "Malta"
+
+#: misc/countryCodes.py:27
+msgid "Netherlands"
+msgstr "Países Bajos"
+
+#: misc/countryCodes.py:28
+msgid "Poland"
+msgstr "Polonia"
+
+#: misc/countryCodes.py:29
+msgid "Portugal"
+msgstr "Portugal"
+
+#: misc/countryCodes.py:30
+msgid "Romania"
+msgstr "Rumanía"
+
+#: misc/countryCodes.py:31
+msgid "Slovakia"
+msgstr "Eslovaquia"
+
+#: misc/countryCodes.py:32
+msgid "Slovenia"
+msgstr "Eslovenia"
+
+#: misc/countryCodes.py:33
+msgid "Spain"
+msgstr "España"
+
+#: misc/countryCodes.py:34
+msgid "Sweden"
+msgstr "Suecia"
+
+#: misc/countryCodes.py:35
+msgid "United Kingdom"
+msgstr "Reino Unido"
+
+#: misc/forms.py:13
+msgid "Username or email"
+msgstr "Nombre de usuario o correo electrónico"
+
+#: recipientcomments/forms.py:6
+msgid ""
+"\n"
+"        <p>\n"
+"        Comments will be formatted using <a\n"
+"        href=\"http://en.wikipedia.org/wiki/Markdown\">markdown</a> and\n"
+"        HTML is allowed.\n"
+"        </p>\n"
+"    "
+msgstr ""
+"\n"
+"<p>\n"
+"Los comentarios se formatearán en lenguaje <a\n"
+"href=\"http://en.wikipedia.org/wiki/Markdown\">markdown</a> , permitiéndose también HTML.\n"
+"</p>"
+
+#: recipientcomments/models.py:15
+msgid ""
+"\n"
+"                Comments will be formatted using <a\n"
+"                href=\"http://en.wikipedia.org/wiki/Markdown\">markdown</a> and\n"
+"                HTML is allowed.\n"
+"            "
+msgstr ""
+"\n"
+"Los comentarios se formatearán en lenguaje <a\n"
+"href=\"http://en.wikipedia.org/wiki/Markdown\">markdown</a> , permitiéndose también HTML."
+
+#: search/templates/results.html:3 search/templates/results.html.py:4
+msgid "Search Results"
+msgstr "Resultados de la búsqueda"
+
+#: search/templates/results.html:7 templates/home.html:8
+msgid "Home"
+msgstr "Inicio"
+
+#: search/templates/results.html:18
+msgid "Matching Ports"
+msgstr "Puertos encontrados"
+
+#: search/templates/results.html:28
+msgid "Matching Schemes"
+msgstr "Sobre las líneas de ayuda"
+
+#: search/templates/results.html:38
+msgid "Matching Vessels"
+msgstr "Otros beneficiarios"
+
+#: search/templates/search.html:7 templates/home.html:21
+msgid "Search"
+msgstr "Búsqueda"
+
+#: search/templates/search.html:9 templates/home.html:23
+msgid "Enter a vessel name, number, port or place name"
+msgstr "Introducir nombre o matrícula del pesquero, puerto o lugar"
+
+#: search/templates/search.html:11
+msgid ""
+"\n"
+"        e.g. <a href=\"/search?q=Aurora\">Aurora</a>, <a href=\"/search?q=DEU000300601\">DEU000300601</a> or <a href=\"/search?q=Dieppe\">Dieppe</a>\n"
+"        "
+msgstr ""
+"\n"
+"Por ejemplo: <a href=\"/search?q=Aurora\">Aurora</a>, <a href=\"/search?q=DEU000300601\">DEU000300601</a> o <a href=\"/search?q=Dieppe\">Dieppe</a>"
+
+#: search/templates/search.html:15
+msgid ""
+"\n"
+"            Use \"AND\", \"OR\" or \"NOT\" to refine searches.  <br />Use \"-\" (minus) to remove particular words, for example \"Jan  -Looden\"<br />\n"
+"            If a search that returns only one hit, it will be displayed directly.            \n"
+"          "
+msgstr ""
+"\n"
+"Utilice \"AND\", \"OR\" y \"NOT\" para refinar la búsqueda. <br />Utilice \"-\" (menos) para descartar una palabra, por ejemplo \"Jan-Looden\"<br />\n"
+"Si la búsqueda encuentra un único resultado, se mostrará directamente."
+
+#: stats/load_info.py:40
+#, python-format
+msgid "&euro;%(number)s,000"
+msgstr "&euro;%(number)s.000"
+
+#: stats/load_info.py:45
+#, python-format
+msgid "&euro;%(number)s Million"
+msgstr "%(number)s millones de euros"
+
+#: stats/load_info.py:55
+#, python-format
+msgid "%(number)s Tonnes"
+msgstr "%(number)s toneladas"
+
+#: stats/templates/blocks/stats.html:5
+msgid "Current catch data (2006)"
+msgstr "Últimos datos sobre capturas (2006)"
+
+#: stats/templates/blocks/stats.html:8
+msgid "Total Landings (volume)"
+msgstr "Desembarcos totales (volumen)"
+
+#: stats/templates/blocks/stats.html:9
+msgid "Total Landings (value)"
+msgstr "Desembarcos totales (valor)"
+
+#: stats/templates/blocks/stats.html:10
+msgid "Top 5 Species"
+msgstr "Cinco especies principales"
+
+#: stats/templates/blocks/stats.html:13
+msgid "Tonnes"
+msgstr "Toneladas"
+
+#: stats/templates/blocks/stats.html:16
+msgid "Consumer guides to sustainable seafood"
+msgstr "Guías de consumo responsable"
+
+#: stats/templates/blocks/stats.html:21
+msgid "Current fleet data (2007)"
+msgstr "Últimos datos sobre flota (2007)"
+
+#: stats/templates/blocks/stats.html:23
+msgid "Number of vessels"
+msgstr "Número de pesqueros"
+
+#: stats/templates/blocks/stats.html:24
+msgid "of which:"
+msgstr "de los cuales:"
+
+#: stats/templates/blocks/stats.html:26
+msgid "Number of trawlers"
+msgstr "Número de arrastreros"
+
+#: stats/templates/blocks/stats.html:27
+msgid "Number of non-trawlers"
+msgstr "No arrastreros"
+
+#: stats/templates/blocks/stats.html:30
+msgid "Tonnage in GT"
+msgstr "Arqueo (en toneladas)"
+
+#: stats/templates/blocks/stats.html:31
+msgid "Engine power in kW"
+msgstr "Potencia motriz (en kw)"
+
+#: templates/base.html:49
+msgid "Sign up to our newsletter. Email:"
+msgstr "Suscripción al boletín. Correo electrónico:"
+
+#: templates/base.html:51
+msgid "Submit"
+msgstr "Enviar"
+
+#: templates/base.html:66
+msgid "Discover who gets what from European Fish Subsidies"
+msgstr "Descubra adónde van las ayudas a la pesca de la Unión Europea"
+
+#: templates/base.html:70
+msgid "Search / Browse"
+msgstr "Buscar / Explorar"
+
+#: templates/base.html:71 templates/base.html.py:160
+msgid "FAQs"
+msgstr "Preguntas frecuentes"
+
+#: templates/base.html:72 templates/base.html.py:156
+msgid "About"
+msgstr "Quiénes somos"
+
+#: templates/base.html:73
+msgid "Blog"
+msgstr "Blog"
+
+#: templates/base.html:74
+msgid "In The News"
+msgstr "Es noticia"
+
+#: templates/base.html:86
+msgid "Go"
+msgstr "Ir"
+
+#: templates/base.html:90
+msgid "Logged in"
+msgstr "Sesión iniciada"
+
+#: templates/base.html:90
+msgid "Log out"
+msgstr "Salir"
+
+#: templates/base.html:92
+msgid "Create an account or Log in"
+msgstr "Crear cuenta o iniciar sesión"
+
+#: templates/base.html:157
+msgid "Legal / Privacy"
+msgstr "Términos legales / Privacidad"
+
+#: templates/base.html:161
+msgid "Get the Data"
+msgstr "Obtener datos"
+
+#: templates/home.html:25
+msgid ""
+"\n"
+"          e.g. <a href=\"/search?q=Aurora\">Aurora</a>, <a href=\"/search?q=DEU000300601\">DEU000300601</a> or <a href=\"/search?q=Dieppe\">Dieppe</a>\n"
+"          "
+msgstr ""
+"\n"
+"Por ejemplo: <a href=\"/search?q=Aurora\">Aurora</a>, <a href=\"/search?q=DEU000300601\">DEU000300601</a> o <a href=\"/search?q=Dieppe\">Dieppe</a>"
+
+#: templates/home.html:29
+msgid ""
+"\n"
+"              Use \"AND\", \"OR\" or \"NOT\" to refine searches.  <br />Use \"-\" (minus) to remove particular words, for example \"Jan  -Looden\"<br />\n"
+"              If a search that returns only one hit, it will be displayed directly.            \n"
+"            "
+msgstr ""
+"\n"
+"Utilice \"AND\", \"OR\" y \"NOT\" para refinar la búsqueda. <br />Utilice \"-\" (menos) para descartar una palabra, por ejemplo \"Jan-Looden\"<br />\n"
+"Si la búsqueda encuentra un único resultado, se mostrará directamente."
+
+#: templates/home.html:46
+msgid "Top Recipient Vessels <br />in Europe"
+msgstr "Principales pesqueros beneficiarios <br />en Europa"
+
+#: templates/home.html:63
+#, python-format
+msgid ""
+"\n"
+"              Top Recipient Vessels <br />in %(ip_country_name)s\n"
+"              "
+msgstr ""
+"\n"
+"Principales pesqueros beneficiarios <br />en %(ip_country_name)s"
+
+#: templates/home.html:83
+msgid "Top Non-vessel Payments <br />in Europe"
+msgstr "Principales beneficiarios no pesqueros <br />en Europa"
+
+#: templates/home.html:104
+msgid ""
+"\n"
+"              <h3>Top Non-vessel Payments <br />in </h3>\n"
+"            "
+msgstr ""
+"\n"
+"<h3>Principales beneficiarios no pesqueros <br />en </h3>"
+
+#: templates/home.html:129
+msgid "Top Schemes"
+msgstr "Principales líneas de ayuda"
+
+#: templates/home.html:156
+msgid "By country"
+msgstr "Por país"
+
+#: templates/home.html:159
+msgid ""
+"\n"
+"              Follow <a href=\"http://twitter.com/fishsubsidy\">fishsubsidy.org</a> on Twitter</h3>\n"
+"              "
+msgstr ""
+"\n"
+"Ir a <a href=\"http://twitter.com/fishsubsidy\">fishsubsidy.org</a> en Twitter</h3>"
+
+#: templates/comments/approve.html:4
+msgid "Approve a comment"
+msgstr "Aprobar comentario"
+
+#: templates/comments/approve.html:7
+msgid "Really make this comment public?"
+msgstr "¿Está seguro de querer publicar su comentario?"
+
+#: templates/comments/approve.html:12
+#: templates/comments/moderation_queue.html:49
+msgid "Approve"
+msgstr "Aprobar"
+
+#: templates/comments/approved.html:4
+msgid "Thanks for approving"
+msgstr "Gracias por su aprobación"
+
+#: templates/comments/approved.html:7 templates/comments/deleted.html:7
+#: templates/comments/flagged.html:7
+msgid "Thanks for taking the time to improve the quality of discussion on our site"
+msgstr "Gracias por dedicar parte de su tiempo a elevar la calidad del debate en nuestro sitio web"
+
+#: templates/comments/delete.html:4
+msgid "Remove a comment"
+msgstr "Eliminar comentario"
+
+#: templates/comments/delete.html:7
+msgid "Really remove this comment?"
+msgstr "¿Está seguro de querer eliminar su comentario?"
+
+#: templates/comments/delete.html:12
+#: templates/comments/moderation_queue.html:53
+msgid "Remove"
+msgstr "Eliminar"
+
+#: templates/comments/deleted.html:4
+msgid "Thanks for removing"
+msgstr "Gracias por eliminar "
+
+#: templates/comments/flag.html:4
+msgid "Flag this comment"
+msgstr "Destacar este comentario"
+
+#: templates/comments/flag.html:7
+msgid "Really flag this comment?"
+msgstr "¿Está seguro de querer destacar este comentario?"
+
+#: templates/comments/flag.html:12
+msgid "Flag"
+msgstr "Destacar"
+
+#: templates/comments/flagged.html:4
+msgid "Thanks for flagging"
+msgstr "Gracias por haber destacado el comentario"
+
+#: templates/comments/form.html:18 templates/comments/preview.html:34
+msgid "Post"
+msgstr "Enviar"
+
+#: templates/comments/form.html:19 templates/comments/preview.html:35
+msgid "Preview"
+msgstr "Vista previa"
+
+#: templates/comments/moderation_queue.html:4
+#: templates/comments/moderation_queue.html:19
+msgid "Comment moderation queue"
+msgstr "Filtrando comentarios"
+
+#: templates/comments/moderation_queue.html:26
+msgid "No comments to moderate"
+msgstr "No hay comentarios para filtrar"
+
+#: templates/comments/moderation_queue.html:33
+msgid "Action"
+msgstr "Acción"
+
+#: templates/comments/moderation_queue.html:35
+msgid "Comment"
+msgstr "Comentario"
+
+#: templates/comments/moderation_queue.html:36
+msgid "Email"
+msgstr "Correo electrónico"
+
+#: templates/comments/moderation_queue.html:37
+msgid "URL"
+msgstr "Dirección URL"
+
+#: templates/comments/moderation_queue.html:38
+msgid "Authenticated?"
+msgstr "¿Verificado?"
+
+#: templates/comments/moderation_queue.html:39
+msgid "IP Address"
+msgstr "Dirección IP"
+
+#: templates/comments/moderation_queue.html:40
+msgid "Date posted"
+msgstr "Fecha de envío"
+
+#: templates/comments/moderation_queue.html:63
+msgid "yes"
+msgstr "sí"
+
+#: templates/comments/moderation_queue.html:63
+msgid "no"
+msgstr "no"
+
+#: templates/comments/posted.html:4
+msgid "Thanks for commenting"
+msgstr "Gracias por enviar su comentario"
+
+#: templates/comments/posted.html:7
+msgid "Thank you for your comment"
+msgstr "Gracias por su comentario"
+
+#: templates/comments/preview.html:3 templates/comments/preview.html.py:15
+msgid "Preview your comment"
+msgstr "Vista previa del comentario"
+
+#: templates/comments/preview.html:5
+msgid "Please correct the error below"
+msgid_plural "Please correct the errors below"
+msgstr[0] "Corregir"
+msgstr[1] "Corregir"
+
+#: templates/comments/preview.html:18
+msgid "and"
+msgstr "y"
+
+#: templates/comments/preview.html:18
+msgid "Post your comment"
+msgstr "Enviar comentario"
+
+#: templates/comments/preview.html:18
+msgid "or make changes"
+msgstr "o editar"
+
+#: templates/profiles/profile_list.html:3
+#: templates/profiles/profile_list.html:4
+msgid "Fish Subsidy User Profiles"
+msgstr "Perfiles de usuarios de Fish Subsidy"
+
+#: templates/registration/activate.html:3
+#, fuzzy
+msgid "Registration Activated"
+msgstr "Registro activado"
+
+#: templates/registration/activate.html:5
+msgid ""
+"\n"
+"  <p>Your registration has been activated. You can log in <a href='/login?next=/'>here</a></p>\n"
+msgstr ""
+
+#: templates/registration/activation_complete.html:2
+#: templates/registration/activation_complete.html:3
+msgid "Account Activated"
+msgstr ""
+
+#: templates/registration/activation_complete.html:6
+#, python-format
+msgid ""
+"\n"
+"  <p>Your account has now been activated, please <a href=\"%(login_url)s\">log in to continue</a></p>\n"
+msgstr ""
+
+#: templates/registration/activation_email_subject.txt:2
+msgid "Confirm your FishSubsidy account"
+msgstr ""
+
+#: templates/registration/extended_login.html:4
+#: templates/registration/extended_login.html:5
+msgid "Log in or create an account"
+msgstr "Iniciar sesión o crear una cuenta"
+
+#: templates/registration/extended_login.html:9
+msgid "Create an account"
+msgstr "Crear una cuenta"
+
+#: templates/registration/extended_login.html:32
+msgid "Create your account"
+msgstr "Cree su propia cuenta"
+
+#: templates/registration/extended_login.html:40
+msgid "Sign in"
+msgstr "Entrar"
+
+#: templates/registration/extended_login.html:41
+msgid "Forgotten your password?"
+msgstr "¿Olvidó su contraseña?"
+
+#: templates/registration/password_reset_complete.html:3
+#: templates/registration/password_reset_complete.html:4
+msgid "Password reset complete"
+msgstr "Ha terminado el cambio de contraseña"
+
+#: templates/registration/password_reset_complete.html:8
+#, python-format
+msgid ""
+"\n"
+"  <p>Your password has been set. You may go ahead and log in now.</p>\n"
+"\n"
+"  <a href=\"%(login_url)s\">Log in</a>\n"
+msgstr ""
+
+#: templates/registration/password_reset_confirm.html:3
+#: templates/registration/password_reset_confirm.html:4
+#: templates/registration/password_reset_form.html:3
+#: templates/registration/password_reset_form.html:4
+msgid "Reset Password"
+msgstr "Cambiar contraseña"
+
+#: templates/registration/password_reset_done.html:5
+#: templates/registration/password_reset_done.html:9
+msgid "Password reset successful"
+msgstr "La contraseña se ha cambiado con éxito"
+
+#: templates/registration/password_reset_done.html:11
+msgid "We've e-mailed you instructions for setting your password to the e-mail address you submitted. You should be receiving it shortly."
+msgstr "Próximamente recibirá en el correo electrónico que nos ha facilitado las instrucciones para fijar la contraseña."
+
+#: templates/registration/password_reset_email.html:2
+msgid "You're receiving this e-mail because you requested a password reset"
+msgstr "Le enviamos este mensaje porque ha pedido cambiar de contraseña"
+
+#: templates/registration/password_reset_email.html:3
+#, python-format
+msgid "for your user account at %(site_name)s"
+msgstr "para su cuenta de usuario en %(site_name)s"
+
+#: templates/registration/password_reset_email.html:5
+msgid "Please go to the following page and choose a new password:"
+msgstr "Entre en esta página y seleccione una contraseña nueva:"
+
+#: templates/registration/password_reset_email.html:9
+msgid "Your username, in case you've forgotten:"
+msgstr "Por si acaso lo ha olvidado, su nombre de usuario es:"
+
+#: templates/registration/password_reset_form.html:8
+msgid ""
+"\n"
+"      <p>Please enter the email address you used to register in the form below.</p>\n"
+"      \n"
+"      <p>You will then be emailed a confirmation email, with a link to a form that will allow you to reset your password.</p>\n"
+"    "
+msgstr ""
+"\n"
+"<p>Por favor escriba la dirección electrónica que utilizó para registrarse en el espacio bajo estas líneas.</p>\n"
+"\n"
+"<p>Le enviaremos un mensaje de confirmación con el enlace a la página donde podrá cambiar su contraseña.</p>"
+
+#: templates/registration/registration_complete.html:4
+#, fuzzy
+msgid "Registration complete"
+msgstr "Número de matrícula"
+
+#: templates/registration/registration_complete.html:6
+msgid "Please check your email!"
+msgstr ""
+
+#: templates/registration/registration_complete.html:8
+msgid ""
+"\n"
+"      <p>Your account has been created, however you need to activate it before you can log in.</p>\n"
+"      <p>Please allow up to 10 minutes for your email to arrive before trying to register again.</p>\n"
+"      <p>If you still haven't received the email check your spam or junk folder or <a href=\"/faq#contact\">contact us</a> for help.</p>\n"
+"  "
+msgstr ""
+
+#~ msgid "Lists"
+#~ msgstr "Listas"
+
+#~ msgid "Spanish"
+#~ msgstr "Español"
+
+#~ msgid "Edit List"
+#~ msgstr "Editar lista"
+
+#~ msgid "Create"
+#~ msgstr "Crear"

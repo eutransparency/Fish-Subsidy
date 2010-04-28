@@ -24,7 +24,7 @@ USE_I18N = True
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = 'media'
+MEDIA_URL = '/media'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -83,12 +83,12 @@ INSTALLED_APPS = [
     'frontend',
     'django_notify',
     'rosetta',
+    'johnny',
     'multilingual',
     'multilingual.flatpages',
     'babeldjango',
     'djapian',
     'recipientcomments'
-    
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -129,7 +129,9 @@ LOGIN_URL = '/login/'
 SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
 SESSION_TIMEOUT = 1209600
 REGISTRATION_BACKEND = "registration.backends.default.DefaultBackend"
+ACCOUNT_ACTIVATION_DAYS = 15
 
+DEFAULT_FROM_EMAIL = "team@fishsubsidy.org"
 
 DJAPIAN_DATABASE_PATH = "xapian.db"
 DJAPIAN_STEMMING_LANG = "multi"
