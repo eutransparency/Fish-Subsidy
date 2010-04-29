@@ -28,7 +28,7 @@ urlpatterns = patterns('web.data.views',
 
     
     # Ports
-    country_url(r'ports/$', 'country_ports'),
+    country_url(r'ports/$', 'browse_ports'),
     country_url(r'ports/browse/$', 'browse_ports', name='browse_ports'),
     country_url(r'ports/browse/(?P<year>\d+)/$', 'browse_ports', name='browse_ports'),
     

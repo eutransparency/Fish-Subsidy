@@ -116,13 +116,15 @@ def country(request, country=None, year=conf.default_year):
   
 def country_ports(request, country):
     if country:
-        country = country.upper()    
+        country = country.upper()
 
     return render_to_response(
-        'country_ports.html', 
-        {'ports' : ports}, 
+        'country_ports.html',
+        {
+            'ports' : ports
+        },
         context_instance=RequestContext(request)
-    )  
+    )
 
 
 def port(request, country, port, year=conf.default_year):
