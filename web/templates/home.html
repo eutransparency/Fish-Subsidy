@@ -85,7 +85,7 @@
             <ul>
             {% for recipient in top_nonvessel %}
               <li>
-                <a href="{% url vessel recipient.country recipient.pk recipient.name %}">
+                <a href="{% url nonvessel recipient.country recipient.pk %}">
                   {% if vessel.name %}
                     {{ vessel.name|title }} 
                   {% else %}
@@ -108,7 +108,7 @@
             <ul>
             {% for recipient in country_top_nonvessels %}
               <li>
-                <a href="{% url vessel recipient.country recipient.pk recipient.name %}">
+                <a href="{% url nonvessel recipient.country recipient.pk %}">
                   {% if vessel.name %}
                     {{ vessel.name|title }} 
                   {% else %}
