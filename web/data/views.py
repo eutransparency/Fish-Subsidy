@@ -234,11 +234,29 @@ def nonvessel(request, country, project_no):
     recipient = Recipient.objects.select_related().get(recipient_id=project_no)
     
     full_row = FishData.objects.get_latest_row(project_no)
+
+    comments = RecipientComment.public.filter(recipient=recipient)
     
+    form = RecipientCommentForm()
+    if request.POST:
+        initial_data = {
+            'user' : request.user,
+            'recipient' : recipient,
+        }
+        
+        form = RecipientCommentForm(request.POST, initial=initial_data)
+        save_form = form.save(commit=False)
+        save_form.user = request.user
+        save_form.recipient = recipient
+        save_form.save()
+        return HttpResponseRedirect(reverse('vessel', args=[recipient.country,recipient.pk, recipient.name]))
+
+
     total = 0
     return render_to_response(
         'recipient.html', 
         {
+            'form' : form,
             'recipient' : recipient,
             'total' : total,
         }, 
