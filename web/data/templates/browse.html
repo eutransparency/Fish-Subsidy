@@ -19,7 +19,7 @@
       <th>{% ifequal sort "port"  %}<strong>Port</strong>{% else %}<a href="{% parse_qs request.GET "sort" "port" %}">{% trans "Port" %}</a>{% endifequal %}</th>
     </thead>
     {% for beneficiary in items %}
-    {% ifequal beneficiary.recipient_type "vessel "%}
+    {% ifequal beneficiary.recipient_type "vessel" %}
       {% url vessel country=beneficiary.country cfr=beneficiary.pk name=beneficiary.name|slugify as vessel_url %}
     {% else %}
       {% url nonvessel country=beneficiary.country project_no=beneficiary.pk as vessel_url %}
