@@ -28,8 +28,8 @@
     <h2>{% trans "Matching Schemes" %}</h2>
     <ul>
       {% for scheme in schemes %}
-        {% url vessel vessel.instance.country, vessel.instance.pk, vessel.instance.name as vessel_url %}
-        <li><a href="{{ vessel_url }}">{{ scheme.instance.name|title }}</a></li>
+        {% url scheme_country_detail 'EU', scheme.instance.scheme_id, scheme.instance.name as scheme_url %}
+        <li><a href="{{ scheme_url }}">{{ scheme.instance.name|title }}</a></li>
       {% endfor %}
     </ul>
   {% endif %}
