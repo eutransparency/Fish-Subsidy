@@ -244,7 +244,10 @@ class FishDataManager(models.Manager):
     result_list = []
     for row in cursor.fetchall():
         p = self.model(vessel_name=row[0], cfr=row[1], total_subsidy=row[2], iso_country=row[3], status=row[4], port_name=row[5])
-        p.total = row[2]
+        if row[2]:
+            p.total_subsidy = row[2]
+        else:
+            p.total_subsidy = 0
         result_list.append(p)
     return result_list
     
