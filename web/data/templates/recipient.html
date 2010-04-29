@@ -16,7 +16,7 @@
   {% if recipient.name %}
     {{ recipient.name|title }} 
   {% else %}
-    {% trans "Unknown beneficiary" %}
+    {% trans "Unknown beneficiary" %} ({{ recipient.pk }})
   {% endif %}
   &mdash; {% trans "Fish Subsidy payments" %}  
 {% endblock %}
