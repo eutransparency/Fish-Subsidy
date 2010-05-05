@@ -4,6 +4,7 @@ register = Library()
 import settings
 
 def get_map(port):
+  try:
     if port.port_lng and port.port_lat:
         lat = port.port_lat
         lon = port.port_lng
@@ -15,4 +16,6 @@ def get_map(port):
         fail = True
     api_key = settings.GOOGLE_MAPS_API_KEY
     return locals()
+  except:
+    pass
 register.inclusion_tag('blocks/map.html')(get_map)
