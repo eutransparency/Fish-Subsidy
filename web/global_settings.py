@@ -53,6 +53,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'pagination.middleware.PaginationMiddleware',    
     'django_notify.middleware.NotificationsMiddleware',
+    'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
     'multilingual.flatpages.middleware.FlatpageFallbackMiddleware'
 ]
 
@@ -68,6 +69,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.markup',
+    'django.contrib.redirects',
     'data',
     'search',
     'stats',

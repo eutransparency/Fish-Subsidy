@@ -49,10 +49,10 @@
       <label for="fields_email">{% trans "Sign up to our newsletter. Email:" %}</label>
       &nbsp;<input type="text" name="fields_email" value="" id="fields_email" size="30">
       <input name="Submit" value="{% trans "Submit" %}" type="submit">
-        <input name="listid" value="3290" type="hidden">
-        <input name="specialid:3290" value="OMN5" type="hidden">
+        <input name="listid" value="32409" type="hidden">
+        <input name="specialid:32409" value="8LDW" type="hidden">
         <input name="clientid" value="161514" type="hidden">
-        <input name="formid" value="278" type="hidden">
+        <input name="formid" value="3213" type="hidden">
         <input name="reallistid" value="1" type="hidden">
         <input name="doubleopt" value="1" type="hidden">
     </div>
@@ -103,7 +103,7 @@
           <p>{{ featured_items.0.teaser|truncatewords:"25" }}</p>
           </a>
         </li>
-        {% if feature.1 %}
+        {% if featured_items.1 %}
           <li>
             <a href="{% url feature_detail featured_items.1.slug %}">
             <strong>{{ featured_items.1.title }}:</strong>
@@ -111,7 +111,7 @@
             </a>
           </li>          
         {% endif %}
-        {% if feature.2 %}        
+        {% if featured_items.2 %}        
         <li>
           <a href="{% url feature_detail featured_items.2.slug %}">
           <strong>{{ featured_items.2.title }}:</strong>
