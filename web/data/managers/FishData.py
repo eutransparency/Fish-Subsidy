@@ -68,7 +68,7 @@ class VesselsManager(models.Manager):
         if scheme_id:
             kwargs['payment__scheme__exact'] = scheme_id
 
-        vessels = vessels.filter(port__country=country, **kwargs)
+        vessels = vessels.filter(**kwargs)
         vessels = vessels.annotate(payment_total=Sum('payment__amount'))
         vessels = vessels.order_by('-payment_total')
         vessels = vessels[:20]
