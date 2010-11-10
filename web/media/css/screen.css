@@ -292,3 +292,6 @@ a.list_remove span { background-position: 0 -80px;}
 
 }
 
+
+#mainmenu sup { color:#FF0000;}
+#mainmenu .selected sup { color:#FFF}

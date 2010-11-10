@@ -43,8 +43,6 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = [
-    'johnny.middleware.LocalStoreClearMiddleware',
-    'johnny.middleware.QueryCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'babeldjango.middleware.LocaleMiddleware',

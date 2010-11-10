@@ -67,7 +67,8 @@
 
     <ul id="mainmenu">
       {% load active_url %}
-      <li class="{% active request "^/(?!faqs|about|blog|news|lists)" %}"><a href="/" >{% trans "Search / Browse" %}</a></li>
+      <li class="{% active request "^/(?!faqs|map|about|blog|news|lists)" %}"><a href="/" >{% trans "Search / Browse" %}</a></li>
+      <li class="{% active request "^/map/" %}"><a href="/map/">{% trans "Map <sup>New!</sup>" %}</a></li>
       <li class="{% active request "^/faqs/" %}"><a href="/faqs/">{% trans "FAQs" %}</a></li>
       <li class="{% active request "^/about/" %}"><a href="/about/">{% trans "About" %}</a></li>
       <li class="{% active request "^/blog/" %}"><a href="/blog/">{% trans "Blog" %}</a></li>
