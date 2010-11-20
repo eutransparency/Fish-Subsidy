@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+{% load multilingual_tags %}
+
+{% block body_class%}wide{% endblock %}
+
+{% block page_title %}
+    {{ flatpage.title }}
+{% endblock%}
+{% block title %}
+    {{ flatpage.title }}
+{% endblock%}
+
+
+{% block content %}
+{% load markup %}
+
+  {{ flatpage.content|markdown }}
+
+{% endblock%}
+
+
+{% block right %}
+{% endblock %}
