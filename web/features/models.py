@@ -2,7 +2,7 @@ from django.db import models
 from django.core.cache import cache
 import multilingual
 
-import johnny
+from johnny import cache as jc
 from django.conf import settings
 
 
@@ -20,8 +20,8 @@ class Feature(models.Model):
         # After save, clear the cached items
         for code, name in settings.LANGUAGES:
             cache.delete('featured_items_%s' % code)
-            johnny.cache.invalidate('features_feature_translation')
-        johnny.cache.invalidate('Feature')
+            jc.invalidate('features_feature_translation')
+        jc.invalidate('Feature')
 
        
     published = models.BooleanField(default=True)
