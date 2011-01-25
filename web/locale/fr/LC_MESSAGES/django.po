@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-12-01 22:00+0000\n"
-"PO-Revision-Date: 2010-12-07 13:49\n"
+"PO-Revision-Date: 2010-12-19 16:53\n"
 "Last-Translator: <anne.lemoine.fr@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -156,7 +156,7 @@ msgid ""
 "  "
 msgstr ""
 "\n"
-"Ports en <a href=\"%(country_url)s\">%(country)s</a>, toutes les années"
+"Ports, <a href=\"%(country_url)s\">%(country)s</a>, toutes les années"
 
 #: data/templates/browse_ports.html:16
 #, python-format
@@ -166,7 +166,7 @@ msgid ""
 "  "
 msgstr ""
 "\n"
-"Ports en <a href=\"%(country_url)s\">%(country)s</a>, %(year)s"
+"Ports, <a href=\"%(country_url)s\">%(country)s</a>, %(year)s"
 
 #: data/templates/browse_ports.html:27
 msgid "Port Name"
@@ -175,12 +175,12 @@ msgstr "Nom du port"
 #: data/templates/country.html:13
 #, python-format
 msgid "EU Fish subsidies for %(country)s in %(year)s"
-msgstr "Subventions à la pêche de l'UE pour %(country)s en %(year)s"
+msgstr "Subventions à la pêche de l'UE, %(country)s, %(year)s"
 
 #: data/templates/country.html:15
 #, python-format
 msgid "EU Fish subsidies for %(country)s, all years"
-msgstr "Subventions à la pêche de l'UE pour %(country)s, toutes les années"
+msgstr "Subventions à la pêche de l'UE, %(country)s, toutes les années"
 
 #: data/templates/country.html:55 data/templates/scheme_detail.html:112
 msgid "Top Regions"
@@ -204,12 +204,12 @@ msgstr "Nom du bénéficiaire"
 
 #: data/templates/country.html:114
 msgid "Top schemes"
-msgstr "Principaux projets"
+msgstr "Principaux programmes de subvention"
 
 #: data/templates/country.html:117 data/templates/schemes.html:25
 #: templates/home.html:136
 msgid "Scheme Name"
-msgstr "Nom du projet"
+msgstr "Nom du programme de subvention"
 
 #: data/templates/country.html:145
 #, python-format
@@ -219,7 +219,7 @@ msgid ""
 "    "
 msgstr ""
 "\n"
-"Bénéficiaires en %(country)s"
+"Bénéficiaires, %(country)s"
 
 #: data/templates/country.html:149
 msgid "Non Vessels"
@@ -294,7 +294,7 @@ msgstr ""
 "\n"
 "<p>Nous avons travaillé très dur pour créer cette base de données, et ce site représente de nombreuses heures de travail pour notre équipe. Obtenir les données des gouvernements est rarement une tâche facile. Nous devons souvent nous battre avec les gouvernements dans le cadre de la liberté de demande de renseignements pour avoir accès aux données. Parfois, nous recevons les données dans des formats inhabituels. Parfois, nous devons construire des robots informatiques pour les extraire. Une fois que nous les avons, il reste encore beaucoup de travail pour en faire une base de données utile.</p>\n"
 "\n"
-"<p>Cette base de données, qui demande des centaines et des centaines d'heures de travail, nécessite le financement et le soutien que nous avons la chance de recevoir de nos aimables bailleurs de fonds. Nous dépendons de vous pour faire la preuve de la valeur de notre travail en nous mentionnant comme source. En nous mentionnant ou en nous citant dans vos papiers, articles, rapports de recherche, magazine TV ou radio, site web, etc., vous nous aidez de manière très directe à vous fournir des données.\n"
+"<p>Cette base de données, qui demande des centaines et des centaines d'heures de travail, nécessite le financement et le soutien que nous avons la chance de recevoir de nos aimables bailleurs de fonds. Nous dépendons de vous pour faire la preuve de la valeur de notre travail en nous mentionnant comme source. En nous mentionnant ou en nous citant dans vos papiers, articles, rapports de recherche, magazine TV ou radio, site web, etc., vous nous aidez de manière très directe à vous fournir des données.</p>\n"
 "\n"
 "<p>Nous mettons notre base de données à votre disposition sous licence Open Database License, ce qui implique que vous devez:</p>\n"
 "\n"
@@ -418,7 +418,7 @@ msgid ""
 "      Vessels in %(port_name)s, <a href=\"%(country_url)s\">%(country)s</a> %(year)s\n"
 "    "
 msgstr ""
-"Navires à %(port_name)s, <a href=\"%(country_url)s\">%(country)s</a> %(year)s\n"
+"Navires à %(port_name)s, <a href=\"%(country_url)s\">%(country)s</a>, %(year)s\n"
 "\t"
 
 #: data/templates/recipient.html:21
@@ -427,11 +427,11 @@ msgstr "Versements de la subvention à la pêche"
 
 #: data/templates/recipient.html:30
 msgid "All schemes"
-msgstr "Tous les projets"
+msgstr "Tous les programmes de subvention"
 
 #: data/templates/recipient.html:44 data/templates/scheme_detail.html:11
 msgid "Scheme"
-msgstr "Projet"
+msgstr "Programme de subvention"
 
 #: data/templates/recipient.html:66
 msgid "Total"
@@ -592,7 +592,7 @@ msgstr "Toutes les années"
 #: data/templates/scheme_detail.html:15
 #, python-format
 msgid "All schemes in %(country)s"
-msgstr "Tous les projets en %(country)s"
+msgstr "Tous les programmes de subvention, %(country)s"
 
 #: data/templates/scheme_detail.html:20
 msgid "View for all countries"
@@ -609,21 +609,21 @@ msgstr "Autres bénéficiaires principaux"
 #: data/templates/schemes.html:6
 #, python-format
 msgid "Schemes %(year)s"
-msgstr "Projets en %(year)s"
+msgstr "Programmes de subvention, %(year)s"
 
 #: data/templates/schemes.html:8
 msgid "Schemes, All years"
-msgstr "Projets, toutes les années"
+msgstr "Programmes de subvention, toutes les années"
 
 #: data/templates/schemes.html:15
 #, python-format
 msgid "Schemes in <a href=\"%(country_url)s\">%(country)s</a> in %(year)s"
-msgstr "Projets en <a href=\"%(country_url)s\">%(country)s</a> en %(year)s"
+msgstr "Programmes de subvention, <a href=\"%(country_url)s\">%(country)s</a>, %(year)s"
 
 #: data/templates/schemes.html:17
 #, python-format
 msgid "Schemes in <a href=\"%(country_url)s\">%(country)s</a>, all years"
-msgstr "Projets en <a href=\"%(country_url)s\">%(country)s</a>, toutes les années"
+msgstr "Programmes de subvention, <a href=\"%(country_url)s\">%(country)s</a>, toutes les années"
 
 #: data/templates/schemes.html:53
 #, python-format
@@ -645,13 +645,13 @@ msgid ""
 "  "
 msgstr ""
 "\n"
-"<h3>À propos des projets</h3>\n"
+"<h3>À propos des programmes de subvention</h3>\n"
 "<p> Pour donner un sens aux différents types de subventions, nous avons adopté une classification élaborée par le Centre des pêches de l'Université de Colombie-Britannique. \n"
-"Cette classification répartit les projets et mesures subventionnés en: </p>\n"
+"Cette classification répartit les mesures et programmes de subvention en: </p>\n"
 "<ul>\n"
-"<li> Bons (vert %(good)s)</li>\n"
-"<li> Mauvais (rouge %(bad)s)</li>\n"
-"<li> Dangereux (jaune %(ugly)s)</li>\n"
+"<li> bons (vert %(good)s)</li>\n"
+"<li> mauvais (rouge %(bad)s)</li>\n"
+"<li> dangereux (jaune %(ugly)s)</li>\n"
 "</ul> \n"
 "<a href=\"/about/schemes/\">Lire la suite</a> \n"
 "</div>"
@@ -677,7 +677,7 @@ msgid ""
 "    "
 msgstr ""
 "\n"
-"%(country)s n'a pas de navires dans la flotte thonière. <a href=\"/EU/tuna-fleet\">Voir la liste complète</a>"
+"%(country)s: pas de navires dans la flotte thonière. <a href=\"/EU/tuna-fleet\">Voir la liste complète</a>"
 
 #: data/templates/blocks/map.html:5
 msgid "Map"
@@ -933,7 +933,7 @@ msgid ""
 "          "
 msgstr ""
 "\n"
-"Utilisez \"ET\", \"OU\" ou \"SAUF\" pour affiner vos recherches. <br />Utilisez \"-\" (moins) pour éliminer certains mots, par exemple \"Jan -Looden\"<br />\n"
+"Utilisez \"AND\" (et), \"OR\" (ou) ou \"NOT\" (sauf) pour affiner vos recherches. <br />Utilisez \"-\" (moins) pour éliminer certains mots, par exemple \"Jan -Looden\"<br />\n"
 "Si une recherche ne donne qu'un résultat, celui-ci sera affiché directement."
 
 #: stats/load_info.py:40
@@ -1005,7 +1005,7 @@ msgstr "Puissance du moteur en kW"
 
 #: templates/base.html:49
 msgid "Sign up to our newsletter. Email:"
-msgstr "Inscrivez-vous à notre newsletter. Email:"
+msgstr "Inscrivez-vous à la newsletter! Email:"
 
 #: templates/base.html:51
 msgid "Submit"
@@ -1029,7 +1029,7 @@ msgstr "FAQ"
 
 #: templates/base.html:73 templates/base.html.py:157
 msgid "About"
-msgstr "À propos"
+msgstr "Qui sommes-nous"
 
 #: templates/base.html:74
 msgid "Blog"
@@ -1080,7 +1080,7 @@ msgid ""
 "            "
 msgstr ""
 "\n"
-"Utilisez \"ET\", \"OU\" ou \"SAUF\" pour affiner vos recherches. <br />Utilisez \"-\" (moins) pour éliminer certains mots, par exemple \"Jan -Looden\"<br />\n"
+"Utilisez \"AND\" (et), \"OR\" (ou) ou \"NOT\" (sauf) pour affiner vos recherches. <br />Utilisez \"-\" (moins) pour éliminer certains mots, par exemple \"Jan -Looden\"<br />\n"
 "Si une recherche ne donne qu'un résultat, celui-ci sera affiché directement."
 
 #: templates/home.html:46
@@ -1095,7 +1095,7 @@ msgid ""
 "              "
 msgstr ""
 "\n"
-"Principaux navires bénéficiaires <br />en %(ip_country_name)s"
+"Principaux navires bénéficiaires, <br /> %(ip_country_name)s"
 
 #: templates/home.html:83
 msgid "Top Non-vessel Payments <br />in Europe"
@@ -1109,7 +1109,7 @@ msgid ""
 "            "
 msgstr ""
 "\n"
-"<h3>Principaux versements à d'autres bénéficiaires <br />en %(ip_country_name)s</h3>"
+"<h3>Principaux versements à d'autres bénéficiaires, <br /> %(ip_country_name)s</h3>"
 
 #: templates/home.html:129
 msgid "Top Schemes"

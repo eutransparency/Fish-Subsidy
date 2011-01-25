@@ -5,9 +5,15 @@
 {% block title %}
 {% ifequal LANGUAGE_CODE "es" %}
   {{ feature.title_es }}  
-{% else %}
+{% endifequal %}
+{% ifequal LANGUAGE_CODE "en" %}
   {{ feature.title_en }}            
 {% endifequal %}
+
+{% ifequal LANGUAGE_CODE "fr" %}
+  {{ feature.title_fr }}            
+{% endifequal %}
+
 
 {% endblock %}
 {% block page_title %}
@@ -15,19 +21,34 @@
 
 {% ifequal LANGUAGE_CODE "es" %}
   {{ feature.title_es }}  
-{% else %}
+{% endifequal %}
+
+{% ifequal LANGUAGE_CODE "en" %}
   {{ feature.title_en }}            
 {% endifequal %}
+
+{% ifequal LANGUAGE_CODE "fr" %}
+  {{ feature.title_fr }}            
+{% endifequal %}
+
 
 
 {% endblock %}
 {% block breadcrumb %}
   <a href="{% url home %}">Home</a> | <a href="{% url feature_list %}">Previous features</a>
 {% endblock %}
+
 {% block content %}
   {% ifequal LANGUAGE_CODE "es" %}
     {{ feature.body_es|markdown }}  
-  {% else %}
+  {% endifequal %}
+
+{% ifequal LANGUAGE_CODE "en" %}
     {{ feature.body_en|markdown }}            
   {% endifequal %}
+
+{% ifequal LANGUAGE_CODE "fr" %}
+    {{ feature.body_fr|markdown }}            
+  {% endifequal %}
+
 {% endblock %}

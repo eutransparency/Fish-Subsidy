@@ -9,6 +9,7 @@ from django.core.urlresolvers import reverse
 from django.core.servers.basehttp import FileWrapper
 from django.db.models import Sum, Max
 from django.utils.translation import get_language
+from django.utils.translation import ugettext as _
 
 import models
 import conf
@@ -461,7 +462,7 @@ def download(request, data_file=None):
         return HttpResponseRedirect(reverse('profiles_create_profile'))
 
     if profile.data_agreement == False:
-        request.notifications.add("Please agree to the following licence before downloading the data")
+        request.notifications.add(_("Please agree to the following licence before downloading the data"))
         return HttpResponseRedirect(reverse('data_agreement_form'))
     
     if data_file:
