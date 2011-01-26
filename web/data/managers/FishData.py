@@ -1,11 +1,11 @@
 import re
 import decimal
 
+from django.conf import settings
 from django.db import models
 from django.db import connection, backend, models
 from django.db.models import Sum, Max
 from django.db.models.query import QuerySet, Q
-import conf
 
 
 from django.utils.translation import get_language
@@ -201,7 +201,7 @@ class FishDataManager(models.Manager):
     return result_list[0]
       
 
-  def top_vessels(self, country=None, limit=20, year=conf.default_year, port=None):
+  def top_vessels(self, country=None, limit=20, year=settings.DEFAULT_YEAR, port=None):
     extra_and = ""
     if port:
       extra_and += " AND port_name = '%s'" % re.escape(port)
@@ -253,7 +253,7 @@ class FishDataManager(models.Manager):
     
   
     
-  def top_vessels_by_scheme(self, scheme_id, country=None, limit=10, year=conf.default_year):
+  def top_vessels_by_scheme(self, scheme_id, country=None, limit=10, year=settings.DEFAULT_YEAR):
 
     extra_and = ""    
     if year and str(year) != "0":
@@ -281,7 +281,7 @@ class FishDataManager(models.Manager):
     return result_list
     
     
-  def top_schemes(self, country=None, limit=10, year=conf.default_year, port=None):
+  def top_schemes(self, country=None, limit=10, year=settings.DEFAULT_YEAR, port=None):
     extra_and = ""
     if port:
       extra_and = "AND port_name = '%s'" % re.escape(port)
@@ -307,7 +307,7 @@ class FishDataManager(models.Manager):
         result_list.append(p)
     return result_list
     
-  def top_ports(self, country=None, limit=10, year=conf.default_year, geo1=None, scheme_id=None):
+  def top_ports(self, country=None, limit=10, year=settings.DEFAULT_YEAR, geo1=None, scheme_id=None):
     extra_and = ""
     if str(year) != "0":
       extra_and += " AND year = '%s' " % year
@@ -381,7 +381,7 @@ class FishDataManager(models.Manager):
         result_list.append(p)
     return result_list
     
-  def scheme_years(self, scheme_id, country='EU', year=conf.default_year):
+  def scheme_years(self, scheme_id, country='EU', year=settings.DEFAULT_YEAR):
     cursor = connection.cursor()
     extra_and = ""
     if country and country != "EU" :
@@ -402,7 +402,7 @@ class FishDataManager(models.Manager):
         result_list.append(p)
     return result_list
 
-  def schemes(self, country=None, year=conf.default_year):
+  def schemes(self, country=None, year=settings.DEFAULT_YEAR):
     cursor = connection.cursor()
     
     extra_and = ""    
@@ -438,7 +438,7 @@ class FishDataManager(models.Manager):
     return result_list
     
 
-  def browse(self, country, sort='total_subsidy', year=conf.default_year, geo1=None):
+  def browse(self, country, sort='total_subsidy', year=settings.DEFAULT_YEAR, geo1=None):
     extra_and = ""
     if str(year) != "0":
       extra_and += " AND year = '%s' " % year
@@ -463,7 +463,7 @@ class FishDataManager(models.Manager):
     return result_list
 
 
-  def port_browse(self, country, sort='total_subsidy', year=conf.default_year):
+  def port_browse(self, country, sort='total_subsidy', year=settings.DEFAULT_YEAR):
     extra_and = ""
     if str(year) != "0":
       extra_and += " AND year = '%s' " % year
@@ -485,7 +485,7 @@ class FishDataManager(models.Manager):
         result_list.append(p)
     return result_list
       
-  def geo(self,geo=1,country="EU", sort="total_subsidy DESC", year=conf.default_year, geo1=None, scheme_id=None, limit=5):
+  def geo(self,geo=1,country="EU", sort="total_subsidy DESC", year=settings.DEFAULT_YEAR, geo1=None, scheme_id=None, limit=5):
     extra_and = " AND vessel_name IS NULL AND port_name IS NULL "
     if str(year) != "0":
       extra_and += " AND year = '%s' " % year

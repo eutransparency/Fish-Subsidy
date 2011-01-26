@@ -1,6 +1,5 @@
 from django.db import models
 from django.db import connection, backend, models
-import conf
 from managers.FishData import *
 from managers.denormalization import Denormalize
 from django.contrib.contenttypes.models import ContentType

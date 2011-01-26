@@ -1,14 +1,13 @@
 import csv
 import re
 import codecs
-import conf
 from django.conf import settings
 from django.contrib.humanize.templatetags import humanize
 from django.utils.translation import ugettext_lazy as _
 
 
-def load_info(country=None, format=True, year=conf.default_year, locale=settings.LANGUAGE_CODE):
-  filepath = "%s/stats_%s.csv" % (conf.paths['stats'], locale)
+def load_info(country=None, format=True, year=settings.DEFAULT_YEAR, locale=settings.LANGUAGE_CODE):
+  filepath = "%s/stats_%s.csv" % (settings.STATS_PATH, locale)
   stats = csv.DictReader(codecs.open(filepath, "U"))
   if country:
     for row in stats:

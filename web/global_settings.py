@@ -1,5 +1,8 @@
-#
 #-*- coding: utf-8 -*-
+
+import os
+PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
+ROOT_PATH = os.path.split(PROJECT_PATH)[0]
 
 # Django settings for web project.
 from django.utils.translation import ugettext_lazy as _
@@ -139,3 +142,7 @@ DJAPIAN_STEMMING_LANG = "multi"
 
 
 CACHE_MIDDLEWARE_SECONDS = 30
+
+
+STATS_PATH = PROJECT_PATH + '/data/stats'
+DEFAULT_YEAR = 0

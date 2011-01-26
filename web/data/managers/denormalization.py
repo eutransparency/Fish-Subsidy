@@ -6,7 +6,6 @@ from decimal import *
 
 from django.db import models
 from django.db import connection, backend, models
-import conf
 
 class Denormalize(models.Manager):
 

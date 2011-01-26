@@ -1,6 +1,7 @@
-import simplejson
+import json
 import mimetypes
 
+from django.conf import settings
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
@@ -12,7 +13,6 @@ from django.utils.translation import get_language
 from django.utils.translation import ugettext as _
 
 import models
-import conf
 from data.models import FishData, illegalFishing
 from frontend.models import Profile
 from frontend.forms import UserProfileForm, DataAgreementForm
@@ -43,7 +43,7 @@ def home(request):
     
 
 
-def country(request, country=None, year=conf.default_year):
+def country(request, country=None, year=settings.DEFAULT_YEAR):
     if country:
         country = country.upper()    
     year = int(year)
@@ -128,7 +128,7 @@ def country_ports(request, country):
     )
 
 
-def port(request, country, port, year=conf.default_year):
+def port(request, country, port, year=settings.DEFAULT_YEAR):
     if country:
         country = country.upper()
     
@@ -153,7 +153,7 @@ def port(request, country, port, year=conf.default_year):
         context_instance=RequestContext(request)
     )  
 
-def browse_ports(request, country, year=conf.default_year):
+def browse_ports(request, country, year=settings.DEFAULT_YEAR):
     if country:
         country = country.upper()
 
@@ -265,7 +265,7 @@ def nonvessel(request, country, project_no):
     )
 
 
-def schemes(request, country=None, year=conf.default_year):
+def schemes(request, country=None, year=settings.DEFAULT_YEAR):
     if country:
         country = country.upper()
 
@@ -282,7 +282,7 @@ def schemes(request, country=None, year=conf.default_year):
         context_instance=RequestContext(request)
     )
 
-def scheme_detail(request, scheme_id, name, country=None, year=conf.default_year):
+def scheme_detail(request, scheme_id, name, country=None, year=settings.DEFAULT_YEAR):
     if country:
         country = country.upper()    
     
@@ -332,7 +332,7 @@ def tuna_fleet(request, country):
   
  
   
-def country_browse(request, country, year=conf.default_year):
+def country_browse(request, country, year=settings.DEFAULT_YEAR):
     if country:
         country = country.upper()
 
@@ -373,7 +373,7 @@ def country_browse(request, country, year=conf.default_year):
     )
   
   
-def browse_geo1(request, country, sort='amount', year=conf.default_year):
+def browse_geo1(request, country, sort='amount', year=settings.DEFAULT_YEAR):
     if country:
         country = country.upper()
 
@@ -396,7 +396,7 @@ def browse_geo1(request, country, sort='amount', year=conf.default_year):
     )
 
   
-def browse_geo2(request, country, geo1, sort='amount', year=conf.default_year):
+def browse_geo2(request, country, geo1, sort='amount', year=settings.DEFAULT_YEAR):
     if country:
         country = country.upper()
 
