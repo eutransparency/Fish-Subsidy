@@ -5,7 +5,7 @@ from managers.denormalization import Denormalize
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from listmaker.models import ListItem
-import multilingual
+from multilingual.translation import TranslationModel
 
 
 class FishData(models.Model):
@@ -52,7 +52,7 @@ class FishData(models.Model):
   recipient_name = models.TextField(blank=True, null=True)
   greenpeace_link = models.TextField(blank=True, null=True)
   lenght_code = models.TextField(blank=True, null=True)
-  total_subsidy = models.TextField(blank=True, null=True)
+  total_subsidy = models.FloatField(blank=True, null=True)
     
   objects = FishDataManager()
   denormalize = Denormalize()
@@ -101,11 +101,12 @@ class Scheme(models.Model):
     
     objects = SchemeManager()
     
-    class Translation(multilingual.Translation):
+    class Translation(TranslationModel):
         name = models.CharField(max_length=250)
     
     def __unicode__(self):
         return "%s" % (self.name)
+
 
 class Payment(models.Model):
   """

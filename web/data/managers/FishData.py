@@ -142,6 +142,7 @@ class SchemeManager(multilingual.Manager):
 
         if int(year) != 0:
             kwargs['payment__year__exact'] = year
+
         top_schemes = top_schemes.filter(**kwargs)
         top_schemes = top_schemes.annotate(total=Sum('payment__amount'))
         top_schemes = top_schemes.values(name_value, "traffic_light", "total", "scheme_id")
@@ -212,7 +213,7 @@ class FishDataManager(models.Manager):
       
     cursor = connection.cursor()
     cursor.execute("""
-      SELECT vessel_name, cfr, sum(total_subsidy) as t, iso_country, count(cfr), port_name 
+      SELECT vessel_name, cfr, sum(total_subsidy_subsidy) as t, iso_country, count(cfr), port_name 
       FROM `data_fishdata` 
       WHERE vessel_name IS NOT NULL  %(extra_and)s
       GROUP BY cfr
@@ -502,10 +503,10 @@ class FishDataManager(models.Manager):
         limit = ""
     cursor = connection.cursor()
     cursor.execute("""    
-      SELECT geo1,geo2, SUM(total_subsidy) as total_subsidy, iso_country
-      FROM `data_fishdata`
+      SELECT geo1, geo2, SUM(total_subsidy) as total_subsidy, iso_country
+      FROM data_fishdata
       WHERE geo%(geo)s IS NOT NULL %(extra_and)s
-      GROUP BY geo%(geo)s
+      GROUP BY iso_country, geo1, geo2
       ORDER BY %(sort)s
       %(limit)s
       """ % {'sort' : sort, 

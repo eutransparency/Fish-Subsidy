@@ -85,7 +85,7 @@ def country(request, country=None, year=settings.DEFAULT_YEAR):
     if year != 0:
         kwargs['payment__year__exact'] = year
     top_ports = top_ports.filter(**kwargs)
-    top_ports = top_ports.annotate(total=Sum('payment__amount'))
+    # top_ports = top_ports.annotate(total=Sum('payment__amount'))
     top_ports = top_ports.order_by('-total')[:5]
     
     top_schemes = Scheme.objects.top_schemes()
@@ -98,7 +98,7 @@ def country(request, country=None, year=settings.DEFAULT_YEAR):
     if country:
         kwargs['country'] = country
     years = years.filter(**kwargs)
-    years = years.values('year').annotate(total=Sum('amount'))
+    # years = years.values('year').annotate(total=Sum('amount'))
 
     return render_to_response(
     'country.html', 
