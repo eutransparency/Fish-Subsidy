@@ -5,6 +5,7 @@ Thin wrapper around managers.denormalize
 import django
 from django.core.management.base import NoArgsCommand, CommandError
 from django.contrib.contenttypes.models import ContentType
+from django.utils import translation
 
 from data.models import Recipient, Payment, Scheme, Port, FishData
 
@@ -60,7 +61,9 @@ class Command(NoArgsCommand):
                 s = Scheme()
             s.scheme_id = scheme.scheme_id
             s.name = scheme.name
-            s.total = scheme.total or 0
+            if not scheme.total:
+                scheme.total = 0
+            s.total = scheme.total
             s.traffic_light = scheme.traffic_light
             s.save()
 
@@ -100,10 +103,12 @@ class Command(NoArgsCommand):
 
 
     def handle_noargs(self, **options):
-        print "ports"
-        self.ports()
-        print "recipient"
-        self.recipient()
+        translation.activate('en')
+        
+        # print "ports"
+        # self.ports()
+        # print "recipient"
+        # self.recipient()
         print "schemes"
         self.schemes()
         print "payments"

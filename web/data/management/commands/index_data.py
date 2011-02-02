@@ -1,4 +1,5 @@
 import django
+from django.conf import settings
 from django.core.management.base import NoArgsCommand, CommandError
 from data.models import Recipient, FishData
 import csv
