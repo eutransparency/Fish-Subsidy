@@ -43,7 +43,7 @@
       {% url data.views.port country=port.country port=port.name as port_url %}
       <tr>
       <td><a href="{{ port_url }}">{{ port.name|title }}</a></td>
-      <td>{{ port.total|currencyfmt:"EUR" }}</td>
+      <td>{{ port.totalscheme|currencyfmt:"EUR" }}</td>
       </tr>
     {% endfor %}
     <tr><td><a href="/{{ country.code }}/ports/browse/0">{% trans "See All" %}</a></td></tr>
@@ -121,9 +121,9 @@
       {% url data.views.scheme_detail scheme_id=scheme.scheme_id name=scheme.name|slugify country=country.code as scheme_url %}
       <tr>  
         <td><a href="{{ scheme_url }}">
-          {{ scheme.name_es }}{{ scheme.name_en }}</a>{% traffic_light scheme.traffic_light %}
+          {{ scheme.name }}</a>{% traffic_light scheme.traffic_light %}
         </td>
-          <td>{{ scheme.total|currencyfmt:"EUR" }}</td>
+          <td>{{ scheme.schemetotal|currencyfmt:"EUR" }}</td>
       </tr>
     {% endfor %}
     <tr><td><a href="schemes">{% trans "See All" %}</a></td></tr>

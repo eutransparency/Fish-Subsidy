@@ -140,8 +140,8 @@
             
               {% url data.views.scheme_detail country="EU" scheme_id=scheme.scheme_id name=scheme.name|slugify as scheme_url %}
               <tr>  
-                <td><a href="{{ scheme_url }}">{{ scheme.name_es }}{{ scheme.name_en }}</a>{% traffic_light scheme.traffic_light %}</td>
-                  <td>{{ scheme.total|currencyfmt:"EUR" }}</td>
+                <td><a href="{{ scheme_url }}">{{ scheme.name }}</a>{% traffic_light scheme.traffic_light %}</td>
+                  <td>{{ scheme.schemetotal|currencyfmt:"EUR" }}</td>
               </tr>
               
             {% endfor %}

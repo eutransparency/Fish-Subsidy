@@ -60,8 +60,8 @@ def country(request, country=None, year=settings.DEFAULT_YEAR):
     if year != 0:
         kwargs['payment__year__exact'] = year
     top_vessels = top_vessels.filter(port__country=country, **kwargs)
-    top_vessels = top_vessels.annotate(total=Sum('payment__amount'))        
-    top_vessels = top_vessels.order_by('-total')
+    top_vessels = top_vessels.annotate(totalscheme=Sum('payment__amount'))        
+    top_vessels = top_vessels.order_by('-totalscheme')
     top_vessels = top_vessels[:5]
     top_vessels = top_vessels.select_related('port__name')
     
@@ -85,10 +85,10 @@ def country(request, country=None, year=settings.DEFAULT_YEAR):
     if year != 0:
         kwargs['payment__year__exact'] = year
     top_ports = top_ports.filter(**kwargs)
-    # top_ports = top_ports.annotate(total=Sum('payment__amount'))
-    top_ports = top_ports.order_by('-total')[:5]
+    top_ports = top_ports.annotate(totalscheme=Sum('payment__amount'))
+    top_ports = top_ports.order_by('-totalscheme')[:5]
     
-    top_schemes = Scheme.objects.top_schemes()
+    top_schemes = Scheme.objects.top_schemes(country=country)
     
     top_municipalities = FishData.objects.geo(geo=1, country=country, year=year)[0:5]
 
@@ -98,7 +98,7 @@ def country(request, country=None, year=settings.DEFAULT_YEAR):
     if country:
         kwargs['country'] = country
     years = years.filter(**kwargs)
-    # years = years.values('year').annotate(total=Sum('amount'))
+    years = years.values('year').annotate(total=Sum('amount'))
 
     return render_to_response(
     'country.html', 
@@ -420,9 +420,8 @@ def browse_geo2(request, country, geo1, sort='amount', year=settings.DEFAULT_YEA
         kwargs['payment__country'] = country        
     kwargs['payment__recipient_id__geo1'] = geo1        
     top_ports = top_ports.filter(**kwargs)
-    top_ports = top_ports.annotate(total=Sum('payment__amount'))
-    top_ports = top_ports.order_by('-total')[:5]
-    print top_ports.query.as_sql()
+    top_ports = top_ports.annotate(totalsubsidy=Sum('payment__amount'))
+    top_ports = top_ports.order_by('-totalsubsidy')[:5]
 
 
     return render_to_response(

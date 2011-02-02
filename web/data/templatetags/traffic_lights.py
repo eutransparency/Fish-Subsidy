@@ -5,7 +5,7 @@ def traffic_light(light, name=None):
   style = ""
   name = ""
   light = int(light)
-  if light == 1:
+  if light <= 1:
     style = "green-light"  
     name = "green"
   if light == 2:

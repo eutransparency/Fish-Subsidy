@@ -13,9 +13,11 @@ class Denormalize(models.Manager):
         
         cursor = connection.cursor()
         cursor.execute("""
-          SELECT *, SUM(f.total_subsidy) as t, COALESCE(cfr, project_no) as recipient_id_fixed
-          FROM `data_fishdata` f
-          GROUP BY recipient_id_fixed;
+          SELECT 
+          id, cci, description, project_no, iso_country, country_name, nuts, geo1, geo2, municipality_x_cord, municipality_y_cord, scheme1_id, scheme2_id, scheme_name, scheme_traffic_light, status, status_code_status, approval_date, "year", total_cost, member_state, fifg, vessel_name, cfr, cfr_link, external_marking, overall_length, main_power, tonnage, port_name, port_country, source, period, port_lng, port_lat, recipient_id, tuna_fleet, construction_year, construction_place, recipient_name, greenpeace_link, lenght_code, 
+          SUM(f.total_subsidy) as t, COALESCE(cfr, project_no) as recipient_id_fixed
+          FROM data_fishdata f
+          GROUP BY recipient_id_fixed, id, cci, description, project_no, iso_country, country_name, nuts, geo1, geo2, municipality_x_cord, municipality_y_cord, scheme1_id, scheme2_id, scheme_name, scheme_traffic_light, status, status_code_status, approval_date, "year", total_cost, member_state, fifg, vessel_name, cfr, cfr_link, external_marking, overall_length, main_power, tonnage, port_name, port_country, source, period, port_lng, port_lat, recipient_id, tuna_fleet, construction_year, construction_place, recipient_name, greenpeace_link, lenght_code;
         """ % locals())
     
         desc = cursor.description
@@ -31,14 +33,12 @@ class Denormalize(models.Manager):
             result_list.append(p)
         return result_list
 
-    # def non_vessel_recipient(self):
-
     def years(self):
         cursor = connection.cursor()
         
         cursor.execute("""
           SELECT year
-          FROM `data_fishdata` f
+          FROM data_fishdata f
           WHERE f.year !=''
           GROUP BY year;
         """)
@@ -64,16 +64,16 @@ class Denormalize(models.Manager):
         # else:
         cursor.execute("""
           SELECT scheme2_id, scheme_name, SUM(total_subsidy) as t, scheme_traffic_light
-          FROM `data_fishdata`
+          FROM data_fishdata
           WHERE scheme_name !=''
-          GROUP BY scheme2_id;
+          GROUP BY scheme2_id, scheme_name, scheme_traffic_light;
         """)
 
         for row in cursor.fetchall():
             p = self.model()
             p.scheme_id = row[0]
             p.name = row[1]
-            if row[3]:
+            if row[2]:
                 p.total = Decimal(str(row[2]))
             else:
                 p.total = Decimal(0)
@@ -88,7 +88,7 @@ class Denormalize(models.Manager):
         cursor = connection.cursor()
         cursor.execute("""
           SELECT *, COALESCE(cfr, project_no) as recipient_id
-          FROM `data_fishdata` f
+          FROM data_fishdata f
           WHERE recipient_id IS NOT NULL;
         """ % locals())
 
@@ -109,10 +109,12 @@ class Denormalize(models.Manager):
     def ports(self):
         cursor = connection.cursor()
         cursor.execute("""
-          SELECT *, SUM(total_subsidy) as total
-          FROM `data_fishdata` f
+          SELECT 
+          id, cci, description, project_no, iso_country, country_name, nuts, geo1, geo2, municipality_x_cord, municipality_y_cord, scheme1_id, scheme2_id, scheme_name, scheme_traffic_light, status, status_code_status, approval_date, "year", total_cost, member_state, fifg, vessel_name, cfr, cfr_link, external_marking, overall_length, main_power, tonnage, port_name, port_country, source, period, port_lng, port_lat, recipient_id, tuna_fleet, construction_year, construction_place, recipient_name, greenpeace_link, lenght_code, 
+          SUM(total_subsidy) as total
+          FROM data_fishdata f
           WHERE port_name IS NOT NULL
-          GROUP BY port_name
+          GROUP BY port_name, id, cci, description, project_no, iso_country, country_name, nuts, geo1, geo2, municipality_x_cord, municipality_y_cord, scheme1_id, scheme2_id, scheme_name, scheme_traffic_light, status, status_code_status, approval_date, "year", total_cost, member_state, fifg, vessel_name, cfr, cfr_link, external_marking, overall_length, main_power, tonnage, port_name, port_country, source, period, port_lng, port_lat, recipient_id, tuna_fleet, construction_year, construction_place, recipient_name, greenpeace_link, lenght_code;
         """)
 
         desc = cursor.description

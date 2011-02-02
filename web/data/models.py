@@ -107,6 +107,12 @@ class Scheme(models.Model):
     def __unicode__(self):
         return "%s" % (self.name)
 
+class SchemeYear(models.Model):
+    scheme = models.ForeignKey(Scheme)
+    year = models.IntegerField(blank=True, null=True)
+    country = models.CharField(blank=True, max_length=2)
+    total = models.DecimalField(max_digits=40, decimal_places=2, null=True, default=0)
+
 
 class Payment(models.Model):
   """
