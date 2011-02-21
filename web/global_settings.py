@@ -107,7 +107,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'misc.context_processors.latest_tweet',
     'features.context_processors.featured_items',
     'listmaker.context_processors.list_items',
-    'django_notify.context_processors.notifications',  
+    'django_notify.context_processors.notifications',
+    'misc.context_processors.header_class',
 )
 
 

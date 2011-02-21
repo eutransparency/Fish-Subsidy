@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 import mimetypes
 
@@ -42,6 +43,13 @@ def home(request):
     )  
     
 
+def countries(request):
+    """
+    Home page for countries – just shows a list of countries as defined in the 
+    menu template tag.
+    """
+    return render_to_response('countries.html', {}, context_instance=RequestContext(request))
+    
 
 def country(request, country=None, year=settings.DEFAULT_YEAR):
     if country:

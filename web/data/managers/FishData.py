@@ -39,7 +39,6 @@ class illegalFishingManager(models.Manager):
     
     result_list = []
     for row in cursor.fetchall():
-        print row
         p = self.model(cfr=row[1], date=row[2], sanction=row[3], description=row[4], skipper=row[5])
         p.vesssel_name = row[6] or row[1]
         p.iso_country = row[7]
@@ -151,7 +150,6 @@ class SchemeManager(multilingual.Manager):
             return top_schemes
 
     def years_total(self, country=None):
-        print repr(country)
         if country and country != "EU" and country != "0":
             extra_and = "AND p.country='%s'" % country
         else:
@@ -379,7 +377,7 @@ class FishDataManager(models.Manager):
         result_list.append(p)
     return result_list
     
-  def scheme_years(self, scheme_id, country='EU', year=settings.DEFAULT_YEAR):
+    def scheme_years(self, scheme_id, country='EU', year=settings.DEFAULT_YEAR):
     cursor = connection.cursor()
     extra_and = ""
     if country and country != "EU" :
