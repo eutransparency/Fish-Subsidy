@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load countrymenu %}
+{% load i18n %}
+{% load humanize markup %}
+{% block title %}
+ Countries
+{% endblock %}
+
+{% block page_title %}
+ {% trans "Browse data by country" %}
+{% endblock %}
+
+{% block content %}
+    {% menu %}
+{% endblock %}
