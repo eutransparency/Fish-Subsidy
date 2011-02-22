@@ -39,7 +39,6 @@ class illegalFishingManager(models.Manager):
     
     result_list = []
     for row in cursor.fetchall():
-        print row
         p = self.model(cfr=row[1], date=row[2], sanction=row[3], description=row[4], skipper=row[5])
         p.vesssel_name = row[6] or row[1]
         p.iso_country = row[7]
@@ -116,7 +115,7 @@ class PortManager(models.Manager):
         if scheme_id:
             kwargs['payment__scheme__exact'] = scheme_id
         top_ports = top_ports.filter(**kwargs)
-        top_ports = top_ports.annotate(total=Sum('payment__amount'))
+        top_ports = top_ports.annotate(totalsubsidy=Sum('payment__amount'))
         top_ports = top_ports.order_by('-total')[:5]
         return top_ports
 
@@ -151,7 +150,6 @@ class SchemeManager(multilingual.Manager):
             return top_schemes
 
     def years_total(self, country=None):
-        print repr(country)
         if country and country != "EU" and country != "0":
             extra_and = "AND p.country='%s'" % country
         else:
@@ -391,7 +389,7 @@ class FishDataManager(models.Manager):
       SELECT year, sum(total_subsidy), scheme_traffic_light, scheme_name, scheme2_id 
       FROM data_fishdata 
       WHERE scheme2_id=%(scheme_id)s %(extra_and)s 
-      GROUP BY year
+      GROUP BY year, scheme_traffic_light, scheme_name, scheme2_id
     """ % {'scheme_id' : scheme_id, 'extra_and' : extra_and})
     
     result_list = []

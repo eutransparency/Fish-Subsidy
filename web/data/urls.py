@@ -23,6 +23,7 @@ urlpatterns = patterns('web.data.views',
     url(r'^$', 'home', name='home'),
     
     # Country Home page
+    url(r'countries/', 'countries', name='countries' ),
     country_url(r'$', 'country', name='country'),
     country_url(r'(?P<year>\d+)$', 'country'),
 

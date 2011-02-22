@@ -12,6 +12,13 @@ class ViewsTest(TestCase):
         view = reverse('home',)
         self.viewtester(view)
     
+    def test_countries(self):
+        """
+        List of all countries page.
+        """
+        view = reverse('countries')
+        self.viewtester(view)
+
     def test_country(self):
         view = reverse('country', kwargs={'country': 'EU'})
         self.viewtester(view)

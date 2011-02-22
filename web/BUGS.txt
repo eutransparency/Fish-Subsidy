@@ -1,0 +1,2 @@
+### Known bugs ###
+* scheme_detail view is a mess.  Denormalize properly and fix stupid query in 'scheme_years'

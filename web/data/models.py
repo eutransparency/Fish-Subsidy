@@ -22,7 +22,7 @@ class FishData(models.Model):
   municipality_x_cord = models.TextField(blank=True, null=True)
   municipality_y_cord = models.TextField(blank=True, null=True)
   scheme1_id = models.TextField(blank=True, null=True)
-  scheme2_id = models.TextField(blank=True, null=True)
+  scheme2_id = models.IntegerField(blank=True, null=True)
   scheme_name = models.TextField(blank=True, null=True)
   scheme_traffic_light = models.TextField(blank=True, null=True)
   status = models.TextField(blank=True, null=True)
