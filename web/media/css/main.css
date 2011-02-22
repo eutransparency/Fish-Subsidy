@@ -72,6 +72,13 @@ label {font-weight:bold;}
 
 p.hint {color:#808080;font-size:0.8em; line-height:1.5em; padding:0.4em; margin-bottom:1em;}
 
+.traffic_light { text-decoration:none; padding-right:0.5em;}
+.green-light { background:url('/media/images/traffic_lights.png') no-repeat right 4px;}
+.orange-light { background:url('/media/images/traffic_lights.png') no-repeat right -40px;}
+.red-light { background:url('/media/images/traffic_lights.png') no-repeat right -87px;}
+
+.col { float:left; width:49%; padding-bottom:2em; clear:none;}
+
 /* features */
 div.features {border-bottom:solid 1px #ccc;background:url(../images/featurebar.png);
     display:none;padding-top:1em;}

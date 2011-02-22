@@ -115,7 +115,7 @@ class PortManager(models.Manager):
         if scheme_id:
             kwargs['payment__scheme__exact'] = scheme_id
         top_ports = top_ports.filter(**kwargs)
-        top_ports = top_ports.annotate(total=Sum('payment__amount'))
+        top_ports = top_ports.annotate(totalsubsidy=Sum('payment__amount'))
         top_ports = top_ports.order_by('-total')[:5]
         return top_ports
 
@@ -377,7 +377,7 @@ class FishDataManager(models.Manager):
         result_list.append(p)
     return result_list
     
-    def scheme_years(self, scheme_id, country='EU', year=settings.DEFAULT_YEAR):
+  def scheme_years(self, scheme_id, country='EU', year=settings.DEFAULT_YEAR):
     cursor = connection.cursor()
     extra_and = ""
     if country and country != "EU" :
@@ -389,7 +389,7 @@ class FishDataManager(models.Manager):
       SELECT year, sum(total_subsidy), scheme_traffic_light, scheme_name, scheme2_id 
       FROM data_fishdata 
       WHERE scheme2_id=%(scheme_id)s %(extra_and)s 
-      GROUP BY year
+      GROUP BY year, scheme_traffic_light, scheme_name, scheme2_id
     """ % {'scheme_id' : scheme_id, 'extra_and' : extra_and})
     
     result_list = []

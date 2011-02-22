@@ -85,16 +85,20 @@ def country(request, country=None, year=settings.DEFAULT_YEAR):
     non_vessles = non_vessles.order_by('-total')
     non_vessles = non_vessles[:5]
         
-    top_ports = Port.objects.select_related().all()
+    top_ports = Port.objects.all()
     kwargs = {}
     if country and country!='EU':
         kwargs['country'] = country
-        kwargs['payment__country'] = country        
+        kwargs['payment__country'] = country
     if year != 0:
         kwargs['payment__year__exact'] = year
     top_ports = top_ports.filter(**kwargs)
-    top_ports = top_ports.annotate(totalscheme=Sum('payment__amount'))
-    top_ports = top_ports.order_by('-totalscheme')[:5]
+    top_ports = top_ports.annotate(totalsscheme=Sum('payment__amount'))
+    top_ports = top_ports.order_by('-totalsscheme')[:5]
+    
+    print top_ports.query
+    print [p.total for p in top_ports]
+    
     
     top_schemes = Scheme.objects.top_schemes(country=country)
     

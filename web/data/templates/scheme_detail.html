@@ -28,7 +28,7 @@
 
   <div class="year_selector">
   {% for country_year in data_years %}
-    {% url data.views.scheme_detail country=country.code year=country_year.year, scheme_id=scheme.0.scheme2_id, name=scheme.0.scheme_name|slugify as year_url %}
+    {% url data.views.scheme_detail country=country.code year=country_year.year scheme_id=scheme.0.scheme2_id name=scheme.0.scheme_name|slugify as year_url %}
     <a href="{{ year_url }}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a>
   {% endfor %}
   <br /><a href="0" {% ifequal year 0 %}class="selected"{% endifequal %}>{% trans "All Years" %}</a>

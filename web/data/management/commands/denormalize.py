@@ -106,9 +106,9 @@ class Command(NoArgsCommand):
         translation.activate('en')
         
         # print "ports"
-        # self.ports()
+        self.ports()
         # print "recipient"
-        # self.recipient()
+        self.recipient()
         print "schemes"
         self.schemes()
         print "payments"
