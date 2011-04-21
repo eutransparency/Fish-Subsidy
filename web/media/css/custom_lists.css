@@ -1,0 +1,90 @@
+/* First define what a list without JS should look like */
+
+.lists_footer {
+  height:40px;
+/*  width:100%;*/
+  position:fixed;  
+  height:40px;
+  bottom:0;
+  left:0;
+  right:0;
+  border-top:1px solid #808080;
+  text-align:center;      
+  background:#ffffd7;
+  margin:0 auto;  
+  text-align:left;
+/*  padding: 5px 5px 5px 15px;*/
+}
+
+.list_block { padding: 10px 0.5em;}
+.list_block a { font-size:0.8em; padding-right:2em;}
+.list_block .list_items {
+  padding:0px 35px 10px 0;
+  margin:0;
+  width:279px;
+  float:right;
+  height:40px;
+  text-align:right;
+  cursor:pointer;
+}
+
+.list_block .list_items #box_content {
+  display:none;
+  width:239px;
+  position:absolute;
+  bottom:40px;
+  right:0;
+  height:300px;
+  overflow:auto;
+  border-top:1px solid #808080;
+  border-left:1px solid #808080;
+  padding:20px;
+  text-align:left;
+  background:#ffffd7;
+  
+  cursor:default;
+}
+
+#list_arrow {
+  background:url('../images/arrows.png');
+  position:absolute;
+  right:8px;
+  top:12px;
+  height:15px;
+  width:18px;
+  display:block;
+}
+
+#list_arrow.list_on_display { background:url('../images/arrows.png') right; }
+
+a.list_item span {
+  display:block;
+  background:url('/media/images/list_sprite.png') no-repeat;
+  height:1.8em;
+/*  float:right;*/
+  text-align:left;
+  cursor:pointer;
+  font-size:0.8em;
+  background-position:bottom left;
+  padding-left:30px;
+}
+
+a.list_item span { background:url('/media/images/list_sprite.png') no-repeat left -72px;}
+
+a.list_remove span {
+  color:red;
+  background:url('/media/images/list_sprite.png') no-repeat left -39px;
+}
+
+
+
+.list_block h4, .list_block h4 a {
+/*  color:#FFF;*/
+  padding:5px 1em;
+  margin:0;
+  display:inline;
+}
+
+.list_head {
+  width:9em;
+}

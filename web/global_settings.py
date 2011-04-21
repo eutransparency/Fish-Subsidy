@@ -82,7 +82,7 @@ INSTALLED_APPS = [
     'pagination',
     'registration',
     'features',
-    # 'listmaker',
+    'listmaker',
     'profiles',
     'frontend',
     'django_notify',

@@ -30,6 +30,9 @@ def home(request):
     country_top_vessels = Recipient.vessels.filter(country=ip_country).order_by('-amount')[:5]
     top_schemes = Scheme.objects.top_schemes(year=0)
     
+    latest_annotations = RecipientComment.objects.all().order_by('-date')[:5]
+    print latest_annotations
+
     return render_to_response(
         'home.html', 
         {
@@ -38,6 +41,7 @@ def home(request):
             'country_top_vessels' : country_top_vessels,
             'country_top_nonvessels' : country_top_nonvessels,
             'top_schemes' : top_schemes,
+            'latest_annotations' : latest_annotations,
         },
         context_instance=RequestContext(request)
     )  

@@ -39,7 +39,7 @@ urlpatterns += patterns('',
     url(r'^features/', include('features.urls')),
 
     # Lists
-    url(r'', include('listmaker.urls')),
+    url(r'lists/', include('listmaker.urls')),
     
     # Frontend, including profiles
     (r'', include('frontend.urls')),

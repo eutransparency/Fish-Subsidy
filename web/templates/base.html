@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 {% load i18n %}
+{% load list_tags %}
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -16,7 +17,12 @@
   <script src="{{ MEDIA_URL }}/js/jquery.example.min.js"type="text/javascript"></script>
   <script src="{{ MEDIA_URL }}/js/jquery-ui-1.8.custom.min.js" type="text/javascript"></script>
   <script src="{{ MEDIA_URL }}/js/scripts.js" type="text/javascript" charset="utf-8"></script>
-  <script src="{{ MEDIA_URL }}/js/lists.js" type="text/javascript" charset="utf-8"></script>
+  {% if list_enabled %}
+      <link rel="stylesheet" href="/media/css/custom_lists.css" type="text/css" media="screen, projection">
+      <script src="{{ MEDIA_URL }}/js/custom_lists.js" type="text/javascript" charset="utf-8"></script>
+      <script src="{{ MEDIA_URL }}/js/lists.js" type="text/javascript" charset="utf-8"></script>    
+  {% endif %}    
+
 
 </head>
 <body id="{% block body_id%}{% endblock %}" class="{% block body_class%}{% endblock %}{% if list_enabled %} list_enabled{% endif %}">
@@ -101,7 +107,7 @@
                 <li><a href="/" >{% trans "Home" %}</a></li>
                 <li><a href="{% url countries %}" >{% trans "Countries" %}</a></li>
                 <li><a href="/EU/schemes" >{% trans "Schemes" %}</a></li>                
-                {# <li><a href="/lists/">{% trans "Custom lists" %}</a></li> #}                
+                <li><a href="/lists/">{% trans "Lists" %}</a></li>                
                 <li><a href="/news/">{% trans "News &amp; reports" %}</a></li>                
                 <li class="last"><a href="/faqs/">{% trans "FAQs" %}</a></li>                
             </ul>
@@ -147,43 +153,41 @@
                 {% if featured_items %}
                     <h5>Latest news</h5>
                     <ul>
-                      {% if featured_items.0 %}                  
-                      <li>
-                          <h5><a href="{{ featured_items.0.get_absolute_url }}">{{ featured_items.0.title }}</a></h5>
-                        <p>{{ featured_items.0.teaser|truncatewords:"25" }}</p>
-                      </li>
-                      {% endif %}                  
-                      {% if featured_items.1 %}
-                        <li>
-                          <h5><a href="{{ featured_items.1.get_absolute_url }}">{{ featured_items.1.title }}</a></h5>
-                          <p>{{ featured_items.1.teaser|truncatewords:"25" }}</p>
-                        </li>          
-                      {% endif %}
-                      {% if featured_items.2 %}        
-                      <li>
-                        <h5><a href="{{ featured_items.2.get_absolute_url }}">
-                    {{ featured_items.2.title }}</a></h5>
-                        <p>{{ featured_items.2.teaser|truncatewords:"25" }}</p>
-                      </li>
-                      {% endif %}        
+                        {% if featured_items.0 %}                  
+                            <li>
+                                <h5><a href="{{ featured_items.0.get_absolute_url }}">{{ featured_items.0.title }}</a></h5>
+                                <p>{{ featured_items.0.teaser|truncatewords:"25" }}</p>
+                            </li>
+                        {% endif %}                  
+                        {% if featured_items.1 %}
+                            <li>
+                                <h5><a href="{{ featured_items.1.get_absolute_url }}">{{ featured_items.1.title }}</a></h5>
+                                <p>{{ featured_items.1.teaser|truncatewords:"25" }}</p>
+                            </li>          
+                        {% endif %}
+                        {% if featured_items.2 %}        
+                            <li>
+                                <h5><a href="{{ featured_items.2.get_absolute_url }}">{{ featured_items.2.title }}</a></h5>
+                                <p>{{ featured_items.2.teaser|truncatewords:"25" }}</p>
+                            </li>
+                        {% endif %}        
                     </ul>
                 {% endif %}
             {% endblock %}
+            {% include "blocks/list_view.html" %}
         </div>
         
         {# Content #}
         <div id="content">
             <div class="heading">
-                <p class="breadcrumbs">
-                    {% block breadcrumb %}{% endblock %}
-                </p>
+                <p class="breadcrumbs">{% block breadcrumb %}{% endblock %}</p>
                 <h2>{% block page_title %}{% endblock %}</h2>
             </div>
             {% if notifications %}
             <ul>
-
+            
                 {% for message in notifications %}
-            	{% if forloop.first %} {% comment %} Just get the first notification - otherwise login message displays twice, strange bug {% endcomment %}
+             {% if forloop.first %} {% comment %} Just get the first notification - otherwise login message displays twice, strange bug {% endcomment %}
                    <li {% if message.tags %}class="{{ message.tags }}"{% endif %}>{{ message }}</li>
                    {% endif %}
                 {% endfor %}
