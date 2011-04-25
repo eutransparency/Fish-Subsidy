@@ -87,6 +87,9 @@ class Recipient(models.Model):
   nonvessels = NonVesselsManager()
   
   LIST_ENABLED = True
+  list_hash_fields = ('name', 'country', 'amount')
+  list_total_field = 'amount'
+
 
   def __unicode__(self):
     return u"%s" % self.name

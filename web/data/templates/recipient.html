@@ -15,11 +15,11 @@
 
 {% block page_title %}
   {% if recipient.name %}
-    {{ recipient.name|title }} 
+    {{ recipient.name|title }}
   {% else %}
     {% trans "Unknown beneficiary" %} ({{ recipient.pk }})
   {% endif %}
-  &mdash; {% trans "Fish Subsidy payments" %}  
+  &mdash; {% trans "Fish Subsidy payments" %}     {% list_item_edit recipient %}
 {% endblock %}
 {% block breadcrumb %}
   {% if country %}

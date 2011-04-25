@@ -49,14 +49,15 @@ def delete_list(request):
 def get_total(list_name):
     try:
         return float(r.get('%s:total' % list_name))
-    except:
+    except Exception, e:
         return float(0)
 
 def make_total(list_name, method, total=None):
 
     tmp_total = 0
     for obj in r.keys('%s:hashes:*' % list_name):
-        t =  r.hget(obj, 'total')
+        t =  r.hget(obj, 'amount')
+        print t
         try:
             tmp_total += float(t)
         except:

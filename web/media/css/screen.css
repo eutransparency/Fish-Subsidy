@@ -239,12 +239,14 @@ form p label {
 .list_form {
   display:inline;
 }
+
 a.list_item span { 
   display:block; 
   height:25px; 
   width:25px; 
   overflow:hidden;
   background:url('/media/images/list_toggle.png') 0px 0px no-repeat;
+  font-size:10px;
 }
 a.list_add:hover span { background-position: 0 -40px;}
 a.list_remove span { background-position: 0 -80px;}

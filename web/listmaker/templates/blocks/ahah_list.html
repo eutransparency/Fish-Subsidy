@@ -11,7 +11,7 @@
             <ul>
             {% for item in list_items %}
                 <li><strong><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></strong><br />
-                &euro;{{ item.total|floatformat:"2"|intcomma }}<br />
+                &euro;{{ item.amount|floatformat:"2"|intcomma }}<br />
                 {% list_item_edit item %}
                 </li>
             {% endfor %}
