@@ -452,8 +452,17 @@ def browse_geo2(request, country, geo1, sort='amount', year=settings.DEFAULT_YEA
 
 def infringements(request):
     sort = request.GET.get('sort','date')
-    infringements = illegalFishing.objects.all_infringements(sort=sort)
-
+    infringements = illegalFishing.objects.all()
+    
+    if sort == "vessel":
+        infringements = infringements.order_by('recipient__name')
+    if sort == "cfr":
+        infringements = infringements.order_by('recipient__pk')
+    if sort == "amount":
+        infringements = infringements.order_by('-recipient__amount')
+    if sort == "before":
+        infringements = infringements.order_by('-before_subsidy')
+    
     return render_to_response(
         'infringements.html', 
         {

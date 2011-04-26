@@ -66,7 +66,7 @@ urlpatterns = patterns('web.data.views',
     country_url(r'schemes/(?P<scheme_id>\d+)/(?P<name>.*)$', 'scheme_detail', name='scheme_country_detail'),
         
     # infringements
-    url(r'^infringements$', 'infringements', name='infringements'),    
+    url(r'^infringements/$', 'infringements', name='infringements'),    
 
     # downloads
     url(r'^getthedata/download$', 'download', name='download'),
