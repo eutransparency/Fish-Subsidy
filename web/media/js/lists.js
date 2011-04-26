@@ -9,11 +9,13 @@ $(document).ready(function() {
         
         // Move the list block to the footer
         $('.lists_footer').remove().insertAfter('#outer');
+
+        $('#footer').css({'margin-bottom': '40px'})
         
         // Hide the list items by default
         $('.list_block .list_items #box_content').addClass('hide');
         
-        $('#footer').css({'margin-bottom': '40px'})
+
         
         // Open the list box when the total is pressed
         $('.list_block .list_items .list_total').live('click', function() {

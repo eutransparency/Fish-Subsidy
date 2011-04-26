@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load babel %}
 {% load humanize traffic_lights i18n %}
+{% load list_tags %}
 
 {% block title %}{{ scheme.0.scheme_name }}{% endblock %}
 
@@ -45,9 +46,10 @@
         <tr>{% url vessel country=country.code cfr=vessel.pk name=vessel.name|slugify as vessel_url %}
           <td><a href="{{ vessel_url }}">{{ vessel.name|title }} ({{ vessel.pk }})</a></td>
           <td>{{ vessel.payment_total|currencyfmt:"EUR" }}</td>
+          <td>{% list_item_edit vessel %}</td>
         </tr>
         {% endfor %}
-    
+        
       </table>    
     </div>
   {% endif %}
@@ -74,6 +76,7 @@
             
             </a></td>
           <td>{{ beneficiary.payment_total|currencyfmt:"EUR" }}</td>
+          <td>{% list_item_edit beneficiary %}</td>
         </tr>
         {% endfor %}
     
