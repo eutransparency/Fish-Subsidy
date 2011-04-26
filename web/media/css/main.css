@@ -18,7 +18,7 @@ body {font-family:Helvetica, Arial, sans-serif; text-align:center;color:#141618;
 
 /* header */
 #header {background:#fff; position:relative;}
-#header #mainmenu {background:#084a7e;text-align:right; padding:0.5em 20px;}
+#header #mainmenu {background:#084a7e;text-align:right; padding:0.5em 20px 0.5em 400px;;}
 #header #mainmenu li {display:inline;font-size:0.9em; font-weight:bold;}
 #header #mainmenu a {color:#fff;border-right:solid 2px #fff; padding-right:0.8em;padding-left:0.8em;}
 #header #mainmenu li.last a {border-right:none;padding-right:0;}

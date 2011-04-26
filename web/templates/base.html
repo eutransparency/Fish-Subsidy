@@ -106,16 +106,17 @@
                 {% load active_url %}
                 <li><a href="/" >{% trans "Home" %}</a></li>
                 <li><a href="{% url countries %}" >{% trans "Countries" %}</a></li>
-                <li><a href="/EU/schemes" >{% trans "Schemes" %}</a></li>                
-                <li><a href="/lists/">{% trans "Lists" %}</a></li>                
-                <li><a href="/news/">{% trans "News &amp; reports" %}</a></li>                
-                <li class="last"><a href="/faqs/">{% trans "FAQs" %}</a></li>                
+                <li><a href="/EU/schemes" >{% trans "Schemes" %}</a></li>
+                <li><a href="/infringements/" >{% trans "Infringements" %}</a></li>
+                <li><a href="/lists/">{% trans "Lists" %}</a></li>
+                <li><a href="/news/">{% trans "News &amp; reports" %}</a></li>
+                <li class="last"><a href="/faqs/">{% trans "FAQs" %}</a></li>
             </ul>
             
         </div>
         {% if not is_home %}
             {% if featured_items %}
-                <div class="features">            
+                <div class="features">
                     <ul id="features">
                         <li>
                           <a href="{% url feature_detail featured_items.0.slug %}">

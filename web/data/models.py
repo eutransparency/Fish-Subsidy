@@ -150,16 +150,19 @@ class Port(models.Model):
 class illegalFishing(models.Model):
   
   def __unicode__(self):
-    return "%s" % self.cfr
+    return u"%s - %s" % (self.recipient, self.dates)
 
   objects = illegalFishingManager()
   
-  cfr = models.CharField(blank=True, max_length=100)
-  date = models.DateField(blank=True, null=True)
+  recipient = models.ForeignKey(Recipient)
+  dates = models.CharField(blank=True, max_length=255)
   sanction = models.TextField(blank=True)
   description = models.TextField(blank=True)
   skipper = models.TextField(blank=True)
+  before_subsidy = models.NullBooleanField(default=False, null=True)
 
+  def date_list(self):
+      return self.dates.split(',')
 
 class DataDownload(models.Model):
     

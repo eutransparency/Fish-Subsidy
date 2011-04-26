@@ -4,8 +4,7 @@ from django.contrib import admin
 
 
 class IllegalAdmin(admin.ModelAdmin):
-    list_display = ('cfr', 'date', 'sanction')
-    list_filter = ('date',)    
+    list_display = ('recipient', 'dates', 'sanction')
 
 class PaymentInline(admin.TabularInline):
     model = data.models.Payment
