@@ -31,7 +31,6 @@ urlpatterns = patterns('',
 urlpatterns += patterns('',
     (r'', include('data.urls')),
     (r'', include('search.urls')),
-    (r'', include('graphs.urls')),
     (r'', include('web.feeds.urls')),    
     (r'^i18n/', include('django.conf.urls.i18n')),
     

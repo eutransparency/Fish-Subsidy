@@ -77,7 +77,6 @@ INSTALLED_APPS = [
     'stats',
     'feeds',
     'misc',
-    'graphs',
     'tagging',
     'pagination',
     'registration',

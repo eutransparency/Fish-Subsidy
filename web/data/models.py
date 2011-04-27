@@ -8,7 +8,6 @@ from django.contrib.contenttypes import generic
 from listmaker.models import ListItem
 from multilingual.translation import TranslationModel
 
-
 class FishData(models.Model):
   """(Data description)"""  
   
