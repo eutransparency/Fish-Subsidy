@@ -39,14 +39,20 @@
     
       <table>
         <thead>
-          <th>{% trans "Name" %}</th>
+          <th class="recipient_name">{% trans "Name" %}</th>
           <th>{% trans "Amount" %}</th>
+          {% if list_enabled %}
+            <th></th>
+          {% endif %}
         </thead>
         {% for vessel in top_vessels %}
         <tr>{% url vessel country=country.code cfr=vessel.pk name=vessel.name|slugify as vessel_url %}
           <td><a href="{{ vessel_url }}">{{ vessel.name|title }} ({{ vessel.pk }})</a></td>
           <td>{{ vessel.payment_total|currencyfmt:"EUR" }}</td>
-          <td>{% list_item_edit vessel %}</td>
+          {% if list_enabled %}
+              <td>{% list_item_edit vessel %}</td>
+          {% endif %}
+          
         </tr>
         {% endfor %}
         
@@ -61,8 +67,12 @@
     
       <table>
         <thead>
-          <th>{% trans "Name" %}</th>
+          <th class="recipient_name">{% trans "Name" %}</th>
           <th>{% trans "Amount" %}</th>
+          {% if list_enabled %}
+            <th></th>
+          {% endif %}
+
         </thead>
         {% for beneficiary in top_nonvessels %}
         <tr>{% url nonvessel country=beneficiary.country project_no=beneficiary.pk as vessel_url %}
@@ -76,7 +86,10 @@
             
             </a></td>
           <td>{{ beneficiary.payment_total|currencyfmt:"EUR" }}</td>
-          <td>{% list_item_edit beneficiary %}</td>
+          {% if list_enabled %}
+              <td>{% list_item_edit beneficiary %}</td>
+          {% endif %}
+          
         </tr>
         {% endfor %}
     
@@ -91,7 +104,7 @@
       <h2>Top Ports</h2>
       <table>
         <thead>
-          <th>{% trans "Port" %}</th>
+          <th class="recipient_name">{% trans "Port" %}</th>
           <th>{% trans "Amount" %}</th>
         </thead>
       {% for port in top_ports %}
@@ -111,7 +124,7 @@
     <h2>{% trans "Top Regions" %}</h2>
     <table>
       <thead>
-        <th>{% trans "Region" %}</th>
+        <th class="recipient_name">{% trans "Region" %}</th>
         <th>{% trans "Amount" %}</th>
       </thead>
     {% for m in top_municipalities %}

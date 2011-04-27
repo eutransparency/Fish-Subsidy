@@ -40,7 +40,7 @@ have been convicted of serious infringements.</p>
     </thead>
     {% for record in infringements %}
       <tr class="{% cycle 'odd' 'even' %}">
-        <td><a href="{{ link_to_vessel }}">{{ record.recipient.name }} ({{ record.recipient.pk }})</a></td>
+        <td><a href="{{ record.recipient.get_absolute_url }}">{{ record.recipient.name }} ({{ record.recipient.pk }})</a></td>
         <td>{{ record.date_list|join:"<br>" }}</td>
         <td>{{ record.description }}
         {% if record.sanction %}

@@ -212,7 +212,7 @@ def vessel(request, country, cfr, name):
     full_row = FishData.objects.get_latest_row(cfr)
     
     total = 0
-    infringement_record = illegalFishing.objects.select_related().filter(cfr=cfr).order_by('date')
+    infringement_record = illegalFishing.objects.select_related().filter(recipient=cfr)
 
     comments = RecipientComment.public.filter(recipient=recipient)
     
@@ -476,6 +476,9 @@ def infringements(request):
         context_instance=RequestContext(request)
     )
 
+
+def greenpeace_blacklist(request):
+    pass
 
 @login_required
 def download(request, data_file=None):

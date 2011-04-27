@@ -154,10 +154,12 @@
             <li>{% trans "Home Port" %}: <a href="{{ port_url }}">{{ full_row.port_name|title }}</a></li>
             <li><a href="http://ec.europa.eu/fisheries/fleet/index.cfm?method=Search.ListSearchSimpleOneVessel&COUNTRY_CODE=&CFR_CODE={{ full_row.cfr }}&search_type=advanced" target="_blank">{% trans "Fleet Registry record" %}</a></li>
             <li>{% trans "Country" %}: <a href="/{{ country.code }}">{{ country.name }}</a></li>
-            <li><a href="{% url infringements %}">{% trans "Infringement record" %}</a>: <a href="/faqs#withheld">{% trans "Data Withheld" %}</a></li>
+            {% if not infringement_record %}<li><a href="{% url infringements %}">{% trans "Infringement record" %}</a>: <a href="/faqs#withheld">{% trans "Data Withheld" %}</a></li>{% endif %}
             <li><a href="/faqs#withheld">{% trans "Quota: Data Witheld" %}</a></li>
             {% if full_row.greenpeace_link %}
-                <li><a href="{{ full_row.greenpeace_link }}" target="_blank">{% trans "Greenpeace Blacklist" %}</a></li>
+                <li>{% trans "Greenpeace Blacklist" %}:<a href="{{ full_row.greenpeace_link }}" target="_blank">{% trans "Yes" %}</a></li>
+            {% else %}
+                <li>{% trans "Greenpeace Blacklist" %}: {% trans "Unknown" %}</li>
             {% endif %}
         </ul>
         
