@@ -1,4 +1,5 @@
 from django.db import models
+from django.template.defaultfilters import slugify
 from django.db import connection, backend, models
 from managers.FishData import *
 from managers.denormalization import Denormalize
@@ -96,7 +97,14 @@ class Recipient(models.Model):
 
   def get_stemming_lang(self):
     return self.country
-
+  
+  @models.permalink
+  def get_absolute_url(self):
+      if self.recipient_type == "vessel":
+          return ('vessel', [self.country, str(self.pk), slugify(self.name)]) 
+      else:
+          return ('nonvessel', [self.country, str(self.pk), slugify(self.name)]) 
+      
 class Scheme(models.Model):
     scheme_id = models.IntegerField(blank=True, null=True, primary_key=True)
     total = models.DecimalField(max_digits=40, decimal_places=2, null=True, default=0)
