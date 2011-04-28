@@ -90,7 +90,7 @@ class Command(NoArgsCommand):
                 row_dict = row.__dict__
                 row_dict['port'] = row_dict.get('port') or ''
 
-                p.amount = row_dict['total_subsidy'] or 0
+                p.amount = str(row_dict['total_subsidy'] or 0)
                 if po: p.port = po
                 p.year = row_dict['year']
                 p.country = row_dict['iso_country']

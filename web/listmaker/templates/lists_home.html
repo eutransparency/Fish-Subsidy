@@ -5,7 +5,7 @@
 {% block title %}Lists{% endblock %}
 
 {% block content %}  
-  <div class="col">
+  <div class="">
       <div class="highlight">Lists is a new feature that we're really excited about. But it's a little experimental right now. Please be patient if you encounter problems. If you really want to help us, let us know how you get on. What worked, what didn't, how can it be improved? <a href="/about#contactus">Send us your thoughts</a></div>
       <br />
     <h3>What are lists?</h3>
@@ -15,7 +15,7 @@
     <p>You can make any kind of list you like. You could make a list of vessels owned by the same company, vessels targeting a particular fish stock, or vessels in your local area.  We hope lists will be a way for people to make more sense of the data presented on the website. <a href="{% url all_lists %}">Here are the latest lists that have been made</a>.</p>
 
   </div>
-  <div class="col">
+  <div class="">
     {% if list_enabled %}
     {% include "blocks/list_items.html" %}
     {% else %}
