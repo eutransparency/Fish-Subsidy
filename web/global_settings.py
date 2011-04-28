@@ -109,6 +109,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'listmaker.context_processors.list_items',
     'django_notify.context_processors.notifications',
     'misc.context_processors.header_class',
+    'features.context_processors.featured_items'
 )
 
 
