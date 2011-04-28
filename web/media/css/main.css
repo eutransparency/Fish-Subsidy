@@ -40,7 +40,7 @@ body {font-family:Helvetica, Arial, sans-serif; text-align:center;color:#141618;
 
 #header #search_form {position:absolute; top:15px; right:0; background:url(../images/trans.png);
     padding:0.6em;}
-#header #search_form #q {width:15em; color:#808080;}
+#header #search_form #q {width:22em; color:#808080; font-size:1.1em}
 #header #search_form small {display:block; padding-top:0.4em;}    
 
 /* content */
