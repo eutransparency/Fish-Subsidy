@@ -74,6 +74,16 @@
             </select>
             <input type="submit" value="{% trans "Go" %}" />
         </form>
+        <div class="loginbar">
+        
+        {% if request.user.is_authenticated %}
+            Logged in as {{ request.user.username }} | <a href="/logout/">Sign out</a>
+        {% else %}
+            <a href="{% url login %}">Create an account</a> or <a href="{% url login %}">Sign in</a>
+        {% endif %}
+        </div>
+        
+        
     </div>
 
     {# Outer #}

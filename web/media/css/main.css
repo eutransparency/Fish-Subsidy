@@ -8,7 +8,9 @@ body {font-family:Helvetica, Arial, sans-serif; text-align:center;color:#141618;
 #topbar form, #topbar fieldset {display:inline;position:relative; top:-2px;}
 #topbar form input {color:#808080;}
 #topbar img{vertical-align:bottom;}
-#topbar #language_picker {position:absolute; top:30%; right:5px;}
+#topbar #language_picker {position:absolute; top:15%; right:20em;}
+
+#topbar .loginbar {float:right; font-size:1em; text-align:right; margin-top:5px}
 
 /* outer */
 #outer {width:90%; background: #fff url(../images/background.png) top right repeat-y; margin:0 auto; text-align:left;border:solid 1px #ccc;}
