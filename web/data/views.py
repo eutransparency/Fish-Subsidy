@@ -22,6 +22,8 @@ from data.models import DataDownload, Recipient, Payment, Port, Scheme
 from recipientcomments.forms import RecipientCommentForm
 from recipientcomments.models import RecipientComment
 
+from misc import countryCodes
+
 def home(request):
     ip_country = RequestContext(request)['ip_country']
     top_vessels = Recipient.vessels.order_by('-amount')[:5]
@@ -286,14 +288,18 @@ def schemes(request, country=None, year=settings.DEFAULT_YEAR):
         country = country.upper()
 
     top_schemes = Scheme.objects.top_schemes(country=country, year=year, limit=None)
-
+    
+    countries = countryCodes.country_codes()
+    
     data_years = FishData.objects.country_years(country)
     return render_to_response(
         'schemes.html', 
         {
             'schemes' : top_schemes,
             'year' : int(year), 
-            'data_years' : data_years
+            'data_years' : data_years,
+            'countries' : countries,
+            'country' : country,
         },
         context_instance=RequestContext(request)
     )
