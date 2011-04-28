@@ -15,3 +15,4 @@ virtualenv==1.5.1
 wsgiref==0.1.2
 xapian-haystack==1.1.5beta
 markdown
+typogrify

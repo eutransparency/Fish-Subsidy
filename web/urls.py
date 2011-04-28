@@ -31,11 +31,12 @@ urlpatterns = patterns('',
 urlpatterns += patterns('',
     (r'', include('data.urls')),
     (r'', include('search.urls')),
-    (r'', include('web.feeds.urls')),    
+    # (r'', include('web.feeds.urls')),    
     (r'^i18n/', include('django.conf.urls.i18n')),
     
     # Features
     url(r'^features/', include('features.urls')),
+    url(r'^news/', include('features.urls')),
 
     # Lists
     url(r'lists/', include('listmaker.urls')),

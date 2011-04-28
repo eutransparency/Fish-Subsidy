@@ -1,11 +1,16 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% block title %}{% trans "Features" %}{% endblock %}
-{% block page_title %}{% trans "Features" %}{% endblock %}
+{% load inthenews %}
+{% load typogrify %}
+{% load markup %}
+
+{% block title %}{% trans "News &amp; reports from the farmsubsidy.org network" %}{% endblock %}
+{% block page_title %}{% trans "News &amp; reports from the farmsubsidy.org network" %}{% endblock %}
 
 {% block content %}
   {% for feature in features %}
-    <h3><a href="{% url feature_detail feature.slug %}">{{ feature.title }}</a></h3>
-    <p>{{ feature.teaser }}</p>
+    <h4><a href="{{ feature.get_absolute_url }}">{{ feature.title|typogrify }}</a> </h4>
+    {{ feature.date|date }}.
+    {{ feature.teaser|markdown|typogrify }}
   {% endfor %}
 {% endblock %}
