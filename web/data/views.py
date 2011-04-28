@@ -299,7 +299,7 @@ def schemes(request, country=None, year=settings.DEFAULT_YEAR):
             'year' : int(year), 
             'data_years' : data_years,
             'countries' : countries,
-            'country' : country,
+            # 'country' : country,
         },
         context_instance=RequestContext(request)
     )
