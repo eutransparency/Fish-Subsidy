@@ -24,7 +24,7 @@
     {% url data.views.country country=country.code year=country_year.year as year_url %}
     <a href="{{ year_url }}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a>
   {% endfor %}
-  <br /><a href="0" {% ifequal year 0 %}class="selected"{% endifequal %}>{% trans "All Years" %}</a>
+  <a href="0" {% ifequal year 0 %}class="selected"{% endifequal %}>{% trans "All Years" %}</a>
   </div>
   
   <div class="col">  
@@ -32,7 +32,7 @@
     <table>
       <thead>
         <th>{% trans "Port" %}</th>
-        <th>{% trans "Amount" %}</th>
+        <th class="amount">{% trans "Amount" %}</th>
       </thead>
     {% for port in top_ports %}
       {% url data.views.port country=port.country port=port.name as port_url %}
@@ -51,7 +51,7 @@
     <table>
       <thead>
         <th>{% trans "Region" %}</th>
-        <th>{% trans "Amount" %}</th>
+        <th class="amount">{% trans "Amount" %}</th>
       </thead>
     {% for m in top_municipalities %}
       {% url browse_geo2 country=country.code geo1=m.geo1 as municipality_url %}
@@ -79,9 +79,9 @@
       <table>
         <thead>
           <th>{% trans "Beneficiary Name" %}</th>
-          <th>{% trans "Amount" %}</th>
+          <th class="amount">{% trans "Amount" %}</th>
           {% if list_enabled %}
-          <th></th>
+          <th class="list_header"></th>
           {% endif %}
         </thead>
         {% for beneficiary in non_vessles %}
@@ -117,7 +117,7 @@
     <table>
       <thead>
         <th>{% trans "Scheme Name" %}</th>
-        <th>{% trans "Amount" %}</th>
+        <th class="amount">{% trans "Amount" %}</th>
         
       </thead>
     {% for scheme in top_schemes %}

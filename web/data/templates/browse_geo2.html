@@ -24,7 +24,7 @@
   <table>
     <thead>
       <th>{% trans "Municipality Name" %}</th>
-      <th>{% trans "Amount" %}</th>
+      <th class="amount">{% trans "Amount" %}</th>
     </thead>
     {% for m in items %}
       {% url browse_geo1 country=country.code geo2=m.geo2 as municipality_url %}
@@ -39,12 +39,12 @@
 {% if top_ports.0 %}
   
 
-<div class="section col">  
+<div class="col">  
   <h2>{% trans "Top Ports" %}</h2>
   <table>
     <thead>
       <th>{% trans "Port" %}</th>
-      <th>{% trans "Amount" %}</th>
+      <th class="amount">{% trans "Amount" %}</th>
     </thead>
   {% for port in top_ports %}
     {% url data.views.port country=country.code port=port.port_name as port_url %}

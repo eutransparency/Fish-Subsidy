@@ -35,8 +35,6 @@ def search(request):
     for r in (vessels, schemes, ports):
         results_count += r.prefetch().count()
     
-    print vessels[0]
-    
     return render_to_response(
       'results.html', 
       {

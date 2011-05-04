@@ -22,6 +22,8 @@ from data.models import DataDownload, Recipient, Payment, Port, Scheme
 from recipientcomments.forms import RecipientCommentForm
 from recipientcomments.models import RecipientComment
 
+from misc import countryCodes
+
 def home(request):
     ip_country = RequestContext(request)['ip_country']
     top_vessels = Recipient.vessels.order_by('-amount')[:5]
@@ -72,6 +74,7 @@ def country(request, country=None, year=settings.DEFAULT_YEAR):
     if year != 0:
         kwargs['payment__year__exact'] = year
     top_vessels = top_vessels.filter(port__country=country, **kwargs)
+    top_vessels = top_vessels.exclude(payment__amount=None)
     top_vessels = top_vessels.annotate(totalscheme=Sum('payment__amount'))        
     top_vessels = top_vessels.order_by('-totalscheme')
     top_vessels = top_vessels[:5]
@@ -99,10 +102,6 @@ def country(request, country=None, year=settings.DEFAULT_YEAR):
     top_ports = top_ports.filter(**kwargs)
     top_ports = top_ports.annotate(totalsscheme=Sum('payment__amount'))
     top_ports = top_ports.order_by('-totalsscheme')[:5]
-    
-    print top_ports.query
-    print [p.total for p in top_ports]
-    
     
     top_schemes = Scheme.objects.top_schemes(country=country)
     
@@ -153,7 +152,7 @@ def port(request, country, port, year=settings.DEFAULT_YEAR):
 
     ports = FishData.objects.filter(port_name=port)
     if country != "EU":
-        ports.filter(iso_country=country)
+        ports = ports.filter(iso_country=country)
 
     if len(ports) > 0:
         port = ports[0]
@@ -286,14 +285,18 @@ def schemes(request, country=None, year=settings.DEFAULT_YEAR):
         country = country.upper()
 
     top_schemes = Scheme.objects.top_schemes(country=country, year=year, limit=None)
-
+    
+    countries = countryCodes.country_codes()
+    
     data_years = FishData.objects.country_years(country)
     return render_to_response(
         'schemes.html', 
         {
             'schemes' : top_schemes,
             'year' : int(year), 
-            'data_years' : data_years
+            'data_years' : data_years,
+            'countries' : countries,
+            # 'country' : country,
         },
         context_instance=RequestContext(request)
     )

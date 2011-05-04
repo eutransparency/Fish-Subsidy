@@ -74,6 +74,16 @@
             </select>
             <input type="submit" value="{% trans "Go" %}" />
         </form>
+        <div class="loginbar">
+        
+        {% if request.user.is_authenticated %}
+            Logged in as {{ request.user.username }} | <a href="/logout/">Sign out</a>
+        {% else %}
+            <a href="{% url login %}">Create an account</a> or <a href="{% url login %}">Sign in</a>
+        {% endif %}
+        </div>
+        
+        
     </div>
 
     {# Outer #}
@@ -107,6 +117,7 @@
                 <li><a href="{% url countries %}" >{% trans "Countries" %}</a></li>
                 <li><a href="/EU/schemes" >{% trans "Schemes" %}</a></li>
                 <li><a href="/infringements/" >{% trans "Infringements" %}</a></li>
+                <li><a href="/map/" >{% trans "Map" %}</a></li>
                 <li><a href="/lists/">{% trans "Lists" %}</a></li>
                 <li><a href="/news/">{% trans "News &amp; reports" %}</a></li>
                 <li class="last"><a href="/faqs/">{% trans "FAQs" %}</a></li>

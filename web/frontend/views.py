@@ -25,6 +25,8 @@ def login(request):
         redirect = request.GET.get('next')
     else:
         redirect = request.META.get('HTTP_REFERER', '/')
+        if redirect.endswith("/login/"):
+            redirect = "/"
     
     
     #Create login and registration forms
@@ -47,10 +49,7 @@ def login(request):
                     if 'remember_me' in request.POST:
                         request.session.set_expiry(settings.SESSION_TIMEOUT)
 
-                    if 'next' in request.POST:
-                        return HttpResponseRedirect(request.POST['next'])
-                    else:
-                        return HttpResponseRedirect(reverse('home'))
+                    return HttpResponseRedirect(redirect)
 
                 else:
                     # Account exists, but not activated                    

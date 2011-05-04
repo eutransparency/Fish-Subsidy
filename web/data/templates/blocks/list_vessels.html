@@ -7,9 +7,9 @@
     <thead>
       <th>{% trans "Vessel Name" %}</th>
       {% if port %}<th>{% trans "Home Port" %}</th>{% endif %}
-      <th>{% trans "Amount" %}</th>
+      <th class="amount">{% trans "Amount" %}</th>
       {% if list_enabled %}
-      <th></th>
+      <th class="list_header"></th>
       {% endif %}
       
     </thead>
@@ -28,7 +28,7 @@
             ({{ vessel.pk }})</a>        
           {% if expand %}({{ vessel.status }} {{ vessel.status|pluralize }}) {% endif %}
         </td>
-        {% url data.views.port country=vessel.country port=vessel.port_set.name as port_url %}
+        {% url data.views.port country=vessel.country port=vessel.port.name as port_url %}
         {% if port %}<td><a href="{{ port_url }}">{{ vessel.port.name|title }}</a></td>{% endif %}
         <td>{% if amount %}{{ vessel.amount|currencyfmt:"EUR" }}{% endif %}</td>
         {% if list_enabled %}

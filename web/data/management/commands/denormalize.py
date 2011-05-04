@@ -6,6 +6,7 @@ import django
 from django.core.management.base import NoArgsCommand, CommandError
 from django.contrib.contenttypes.models import ContentType
 from django.utils import translation
+from django.db import connection, backend, models
 
 from data.models import Recipient, Payment, Scheme, Port, FishData
 
@@ -70,44 +71,14 @@ class Command(NoArgsCommand):
 
 
     def payments(self):
-        for row in FishData.denormalize.payments():
-            if not row.pk:
-                print "Unknown!"
-
-            try:
-                v = Recipient.objects.get(recipient_id=row.recipient_id)
-                s = Scheme.objects.get(scheme_id=row.scheme2_id)
-                try:
-                    p = Payment.objects.get(payment_id=row.id,)
-                except:
-                    p = Payment(recipient_id=v, payment_id=row.id,)
-
-                try:
-                    po = Port.objects.get(name=row.port_name)
-                except Exception, e:
-                    po = None
-                    
-                row_dict = row.__dict__
-                row_dict['port'] = row_dict.get('port') or ''
-
-                p.amount = row_dict['total_subsidy'] or 0
-                if po: p.port = po
-                p.year = row_dict['year']
-                p.country = row_dict['iso_country']
-                p.scheme = s
-                p.save()
-            except Exception, e:
-                print e
-                # print row_dict
-                print "no vessel"
-
-
+        FishData.denormalize.payments()
+        
     def handle_noargs(self, **options):
         translation.activate('en')
         
-        # print "ports"
+        print "ports"
         self.ports()
-        # print "recipient"
+        print "recipient"
         self.recipient()
         print "schemes"
         self.schemes()

@@ -8,13 +8,18 @@ body {font-family:Helvetica, Arial, sans-serif; text-align:center;color:#141618;
 #topbar form, #topbar fieldset {display:inline;position:relative; top:-2px;}
 #topbar form input {color:#808080;}
 #topbar img{vertical-align:bottom;}
-#topbar #language_picker {position:absolute; top:30%; right:5px;}
+#topbar #language_picker {position:absolute; top:15%; right:20em;}
+
+#topbar .loginbar {float:right; font-size:1em; text-align:right; margin-top:5px}
 
 /* outer */
 #outer {width:90%; background: #fff url(../images/background.png) top right repeat-y; margin:0 auto; text-align:left;border:solid 1px #ccc;}
+.fullwidth #outer {width:90%; background: #fff url(../images/background.png) top 1000px repeat-y; margin:0 auto; text-align:left;border:solid 1px #ccc;}
 
 #outer #content {padding:1em 289px 1em 20px; min-height:300px;_min-height:300px;}
 #outer #right {width:239px; padding:1em 20px 0 20px; float:right; font-size:0.8em;min-height:300px;_min-height:300px;}
+.fullwidth #outer #content {padding:1em 1em 1em 20px; min-height:300px;_min-height:300px;}
+.fullwidth #outer #right {display:none}
 
 /* header */
 #header {background:#fff; position:relative;}
@@ -40,7 +45,7 @@ body {font-family:Helvetica, Arial, sans-serif; text-align:center;color:#141618;
 
 #header #search_form {position:absolute; top:15px; right:0; background:url(../images/trans.png);
     padding:0.6em;}
-#header #search_form #q {width:15em; color:#808080;}
+#header #search_form #q {width:22em; color:#808080; font-size:1.1em}
 #header #search_form small {display:block; padding-top:0.4em;}    
 
 /* content */
@@ -54,6 +59,8 @@ p.more_info {text-align:right; font-size:0.9em; padding-right:2em;}
 ul {padding-bottom:1em; line-height:1.3em;}
 
 th.recipient_name { width:70%;}
+th.amount { text-align:right; width: 10%}
+th.list_header { text-align:right; width: 15%}
 
 table {font-size:0.9em; width:100%; margin-bottom:1.5em;}
 table th {background:#303c30; color:#fff;padding:0.6em 1em;}
@@ -91,6 +98,8 @@ div.features li p {font-size:0.9em;}
 
 /* homepage */
 p.intro {font-size:1.3em;}
+.section .annotations li {margin:20px 0;}
+.section .annotations blockquote {margin:0 20px; font-style:italic;}
 
 /*  links */
 a {color:#3092eb;}

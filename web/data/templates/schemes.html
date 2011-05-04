@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load humanize traffic_lights i18n %}
 {% load babel %}
+{% load code_to_name %}
 {% block title %}
   {% ifnotequal year 0 %}
       {% blocktrans %}Schemes {{ year }}{% endblocktrans %}
@@ -9,7 +10,6 @@
   {% endifnotequal %}
 {% endblock %}
 {% block page_title %}
-
   {% url country country.code as country_url %}
   {% ifnotequal year 0 %}
       {% blocktrans with country.name as country %}Schemes in <a href="{{ country_url }}">{{ country }}</a> in {{ year }}{% endblocktrans %}
@@ -85,7 +85,20 @@
         {% endif %}
       {% endfor %}
     </ul>
+    
+    <h4>{% trans "Countries" %}</h4>
+    <ul>
+    {% for c in countries %}
+        {% if year %}
+            <li><a href="/{{ c }}/schemes/{{ country_year.year }}" {% if c == country.code %}class="selected"{% endif %}>{% code_to_name_dumb c %}</a></li>
+        {% else %}
+            <li><a href="/{{ c }}/schemes" {% if c == country.code %}class="selected"{% endif %}>{% code_to_name_dumb c %}</a></li>
+        {% endif %}
+        
+    {% endfor %}
+    </ul>
     </div>
-  
+    
+
 
 {% endblock %}

@@ -15,7 +15,7 @@ class RecipientAdmin(admin.ModelAdmin):
     list_display = ['recipient_id', 'name', 'amount',]
 
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ['payment_id', 'amount',]
+    list_display = ['pk', 'amount',]
 
 class SchemeAdmin(multilingual.ModelAdmin):
     list_display = ['name','total', 'traffic_light']

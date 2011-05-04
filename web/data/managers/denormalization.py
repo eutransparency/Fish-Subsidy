@@ -63,11 +63,12 @@ class Denormalize(models.Manager):
         #     """, (year,))
         # else:
         cursor.execute("""
-          SELECT scheme2_id, scheme_name, SUM(total_subsidy) as t, scheme_traffic_light
-          FROM data_fishdata
-          WHERE scheme_name !=''
-          GROUP BY scheme2_id, scheme_name, scheme_traffic_light;
-        """)
+            SELECT scheme2_id, scheme_name, SUM(total_subsidy) as t, MAX(scheme_traffic_light)
+            FROM data_fishdata
+            WHERE scheme_name !=''
+            AND scheme_traffic_light !='0'
+            GROUP BY scheme2_id, scheme_name, scheme_traffic_light;        
+            """)
 
         for row in cursor.fetchall():
             p = self.model()
@@ -87,23 +88,14 @@ class Denormalize(models.Manager):
 
         cursor = connection.cursor()
         cursor.execute("""
-          SELECT *, COALESCE(cfr, project_no) as recipient_id
-          FROM data_fishdata f
-          WHERE recipient_id IS NOT NULL;
-        """ % locals())
-
-        desc = cursor.description    
-        result_list = []
-        for row in cursor.fetchall():
-            p = self.model()
-            item = dict(zip([col[0] for col in desc], row))
-            if item.get('amount'):
-                item['amount'] = Decimal(str(item['amount']))
-            else:
-                item['amount'] = Decimal(0)
-            p.__dict__.update(item)
-            result_list.append(p)
-        return result_list
+        DELETE FROM data_payment;
+        INSERT INTO data_payment (recipient_id_id, amount, year, port_id, scheme_id, country)
+        SELECT COALESCE(cfr, project_no) as recipient_id_id,  total_subsidy as amount, year, p.id as port_id, scheme2_id as scheme_id, iso_country
+        FROM data_fishdata as d
+        INNER JOIN (SELECT MAX(id) as id, name FROM data_port GROUP BY name) as p on p.name=d.port_name
+        WHERE p.id IS NOT NULL
+        AND total_subsidy != '0';
+        """)
         
 
     def ports(self):
