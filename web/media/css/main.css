@@ -59,6 +59,8 @@ p.more_info {text-align:right; font-size:0.9em; padding-right:2em;}
 ul {padding-bottom:1em; line-height:1.3em;}
 
 th.recipient_name { width:70%;}
+th.amount { text-align:right; width: 10%}
+th.list_header { text-align:right; width: 15%}
 
 table {font-size:0.9em; width:100%; margin-bottom:1.5em;}
 table th {background:#303c30; color:#fff;padding:0.6em 1em;}
