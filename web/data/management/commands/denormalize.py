@@ -72,8 +72,8 @@ class Command(NoArgsCommand):
     def payments(self):
         for row in FishData.denormalize.payments():
             if not row.pk:
-                print "Unknown!"
-
+                continue
+                
             try:
                 v = Recipient.objects.get(recipient_id=row.recipient_id)
                 s = Scheme.objects.get(scheme_id=row.scheme2_id)
@@ -84,6 +84,7 @@ class Command(NoArgsCommand):
 
                 try:
                     po = Port.objects.get(name=row.port_name)
+                    print po
                 except Exception, e:
                     po = None
                     
@@ -98,17 +99,20 @@ class Command(NoArgsCommand):
                 p.save()
             except Exception, e:
                 print e
-                # print row_dict
+                print "-----"
+                print row
+                print "-----"
                 print "no vessel"
+                raise
 
 
     def handle_noargs(self, **options):
         translation.activate('en')
         
-        print "ports"
-        self.ports()
-        print "recipient"
-        self.recipient()
+        # print "ports"
+        # self.ports()
+        # print "recipient"
+        # self.recipient()
         print "schemes"
         self.schemes()
         print "payments"

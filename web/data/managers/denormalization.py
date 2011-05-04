@@ -88,7 +88,7 @@ class Denormalize(models.Manager):
 
         cursor = connection.cursor()
         cursor.execute("""
-          SELECT *, COALESCE(cfr, project_no) as recipient_id
+          SELECT total_subsidy, year, iso_country, port_name, COALESCE(cfr, project_no) as recipient_id
           FROM data_fishdata f
           WHERE recipient_id IS NOT NULL;
         """ % locals())
