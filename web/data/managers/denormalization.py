@@ -63,11 +63,12 @@ class Denormalize(models.Manager):
         #     """, (year,))
         # else:
         cursor.execute("""
-          SELECT scheme2_id, scheme_name, SUM(total_subsidy) as t, scheme_traffic_light
-          FROM data_fishdata
-          WHERE scheme_name !=''
-          GROUP BY scheme2_id, scheme_name, scheme_traffic_light;
-        """)
+            SELECT scheme2_id, scheme_name, SUM(total_subsidy) as t, MAX(scheme_traffic_light)
+            FROM data_fishdata
+            WHERE scheme_name !=''
+            AND scheme_traffic_light !='0'
+            GROUP BY scheme2_id, scheme_name, scheme_traffic_light;        
+            """)
 
         for row in cursor.fetchall():
             p = self.model()
