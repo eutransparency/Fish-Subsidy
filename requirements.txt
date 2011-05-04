@@ -25,7 +25,6 @@ django-profiles
 django_notify
 django-rosetta
 johnny-cache
-git+git://github.com/vzima/django-multilingual-ds9.git
 babeldjango
 djapian
 gunicorn
