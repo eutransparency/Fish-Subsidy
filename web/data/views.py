@@ -75,6 +75,7 @@ def country(request, country=None, year=settings.DEFAULT_YEAR):
         kwargs['payment__year__exact'] = year
     top_vessels = top_vessels.filter(port__country=country, **kwargs)
     top_vessels = top_vessels.annotate(totalscheme=Sum('payment__amount'))        
+    top_vessels = top_vessels.exclude(totalscheme=0)
     top_vessels = top_vessels.order_by('-totalscheme')
     top_vessels = top_vessels[:5]
     top_vessels = top_vessels.select_related('port__name')

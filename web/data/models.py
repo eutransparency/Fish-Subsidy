@@ -128,7 +128,7 @@ class Payment(models.Model):
   """
   Generic payments.  Stores payments for vessels, non-vessels and individuals.
   """
-  payment_id = models.IntegerField(primary_key=True, db_index=True)
+
   recipient_id = models.ForeignKey(Recipient, db_index=True)
   amount = models.DecimalField(max_digits=40, decimal_places=2, null=True, default=0)
   year = models.IntegerField(blank=True, null=True, db_index=True)

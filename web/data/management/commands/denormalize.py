@@ -6,6 +6,7 @@ import django
 from django.core.management.base import NoArgsCommand, CommandError
 from django.contrib.contenttypes.models import ContentType
 from django.utils import translation
+from django.db import connection, backend, models
 
 from data.models import Recipient, Payment, Scheme, Port, FishData
 
@@ -70,41 +71,12 @@ class Command(NoArgsCommand):
 
 
     def payments(self):
-        for row in FishData.denormalize.payments():
-            if not row.pk:
-                continue
-                
-            try:
-                v = Recipient.objects.get(recipient_id=row.recipient_id)
-                s = Scheme.objects.get(scheme_id=row.scheme2_id)
-                try:
-                    p = Payment.objects.get(payment_id=row.id,)
-                except:
-                    p = Payment(recipient_id=v, payment_id=row.id,)
-
-                try:
-                    po = Port.objects.get(name=row.port_name)
-                    print po
-                except Exception, e:
-                    po = None
-                    
-                row_dict = row.__dict__
-                row_dict['port'] = row_dict.get('port') or ''
-
-                p.amount = str(row_dict['total_subsidy'] or 0)
-                if po: p.port = po
-                p.year = row_dict['year']
-                p.country = row_dict['iso_country']
-                p.scheme = s
-                p.save()
-            except Exception, e:
-                print e
-                print "-----"
-                print row
-                print "-----"
-                print "no vessel"
-                raise
-
+        cursor = connection.cursor()
+        cursor.execute("""
+            DELETE FROM data_payment;
+            INSERT INTO data_payment
+                SELECT COALESCE(cfr, project_no) as recipient_id_id,  total_subsidy, year, 
+            """)
 
     def handle_noargs(self, **options):
         translation.activate('en')
