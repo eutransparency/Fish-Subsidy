@@ -101,10 +101,9 @@ def country(request, country=None, year=settings.DEFAULT_YEAR):
     top_ports = top_ports.filter(**kwargs)
     top_ports = top_ports.annotate(totalsscheme=Sum('payment__amount'))
     top_ports = top_ports.order_by('-totalsscheme')[:5]
+        
     
-    print top_ports.query
-    print [p.total for p in top_ports]
-    
+    print top_vessels[0].port.name
     
     top_schemes = Scheme.objects.top_schemes(country=country)
     
@@ -155,7 +154,7 @@ def port(request, country, port, year=settings.DEFAULT_YEAR):
 
     ports = FishData.objects.filter(port_name=port)
     if country != "EU":
-        ports.filter(iso_country=country)
+        ports = ports.filter(iso_country=country)
 
     if len(ports) > 0:
         port = ports[0]

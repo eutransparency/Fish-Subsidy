@@ -105,9 +105,9 @@ class Command(NoArgsCommand):
     def handle_noargs(self, **options):
         translation.activate('en')
         
-        # print "ports"
+        print "ports"
         self.ports()
-        # print "recipient"
+        print "recipient"
         self.recipient()
         print "schemes"
         self.schemes()
