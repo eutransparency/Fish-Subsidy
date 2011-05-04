@@ -3,7 +3,7 @@ from djapian import space, Indexer, CompositeIndexer
 from models import Recipient, Payment, Scheme, Port, illegalFishing
 
 class RecipientIndexer(Indexer):
-    fields = ['name', 'geo1', 'geo2','payment.amount']
+    fields = ['pk', 'name', 'geo1', 'geo2','payment.amount']
     tags = [
         ('country', 'country'),
         ('type', 'recipient_type'),
