@@ -71,20 +71,15 @@ class Command(NoArgsCommand):
 
 
     def payments(self):
-        cursor = connection.cursor()
-        cursor.execute("""
-            DELETE FROM data_payment;
-            INSERT INTO data_payment
-                SELECT COALESCE(cfr, project_no) as recipient_id_id,  total_subsidy, year, 
-            """)
-
+        FishData.denormalize.payments()
+        
     def handle_noargs(self, **options):
         translation.activate('en')
         
-        # print "ports"
-        # self.ports()
-        # print "recipient"
-        # self.recipient()
+        print "ports"
+        self.ports()
+        print "recipient"
+        self.recipient()
         print "schemes"
         self.schemes()
         print "payments"

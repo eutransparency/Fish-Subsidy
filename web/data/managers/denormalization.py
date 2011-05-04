@@ -94,7 +94,7 @@ class Denormalize(models.Manager):
         FROM data_fishdata as d
         INNER JOIN (SELECT MAX(id) as id, name FROM data_port GROUP BY name) as p on p.name=d.port_name
         WHERE p.id IS NOT NULL
-        AND total_subsidy != '0'
+        AND total_subsidy != '0';
         """)
         
 
