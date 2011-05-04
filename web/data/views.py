@@ -101,9 +101,6 @@ def country(request, country=None, year=settings.DEFAULT_YEAR):
     top_ports = top_ports.filter(**kwargs)
     top_ports = top_ports.annotate(totalsscheme=Sum('payment__amount'))
     top_ports = top_ports.order_by('-totalsscheme')[:5]
-        
-    
-    print top_vessels[0].port.name
     
     top_schemes = Scheme.objects.top_schemes(country=country)
     

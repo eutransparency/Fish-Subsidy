@@ -98,6 +98,8 @@ div.features li p {font-size:0.9em;}
 
 /* homepage */
 p.intro {font-size:1.3em;}
+.section .annotations li {margin:20px 0;}
+.section .annotations blockquote {margin:0 20px; font-style:italic;}
 
 /*  links */
 a {color:#3092eb;}
