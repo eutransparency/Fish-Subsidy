@@ -25,7 +25,11 @@ class Feature(models.Model):
             jc.invalidate('features_feature_translation')
         jc.invalidate('Feature')
 
-       
+    @models.permalink
+    def get_absolute_url(self):
+        return ('feature_detail', [self.slug,]) 
+        
+    
     published = models.BooleanField(default=True)
     featured = models.BooleanField(default=False)
     date = models.DateTimeField(default=datetime.datetime.today)
