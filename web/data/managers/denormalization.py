@@ -13,26 +13,26 @@ class Denormalize(models.Manager):
         
         cursor = connection.cursor()
         cursor.execute("""
-          SELECT 
-          id, cci, description, project_no, iso_country, country_name, nuts, geo1, geo2, municipality_x_cord, municipality_y_cord, scheme1_id, scheme2_id, scheme_name, scheme_traffic_light, status, status_code_status, approval_date, "year", total_cost, member_state, fifg, vessel_name, cfr, cfr_link, external_marking, overall_length, main_power, tonnage, port_name, port_country, source, period, port_lng, port_lat, recipient_id, tuna_fleet, construction_year, construction_place, recipient_name, greenpeace_link, lenght_code, 
-          SUM(f.total_subsidy) as t, COALESCE(cfr, project_no) as recipient_id_fixed
-          FROM data_fishdata f
-          GROUP BY recipient_id_fixed, id, cci, description, project_no, iso_country, country_name, nuts, geo1, geo2, municipality_x_cord, municipality_y_cord, scheme1_id, scheme2_id, scheme_name, scheme_traffic_light, status, status_code_status, approval_date, "year", total_cost, member_state, fifg, vessel_name, cfr, cfr_link, external_marking, overall_length, main_power, tonnage, port_name, port_country, source, period, port_lng, port_lat, recipient_id, tuna_fleet, construction_year, construction_place, recipient_name, greenpeace_link, lenght_code;
-        """ % locals())
-    
-        desc = cursor.description
-        result_list = []
-        for row in cursor.fetchall():
-            p = self.model()
-            item = dict(zip([col[0] for col in desc], row))
-            p.__dict__.update(item)
-            if item['t']:
-                p.amount = Decimal(str(item['t']))
-            else:
-                p.amount = Decimal(0)
-            result_list.append(p)
-        return result_list
+            DELETE FROM data_recipient WHERE recipient_type = 'vessel';
+            INSERT INTO data_recipient
+            SELECT 'vessel' as recipient_type, cfr as recipient_id, MAX(vessel_name), MAX(iso_country), MAX(p.id), SUM(total_subsidy), MAX(geo1), MAX(geo2)
+            FROM data_fishdata as d
+            LEFT JOIN (SELECT MAX(id) as id, name FROM data_port GROUP BY name) as p on p.name=d.port_name
+            WHERE cfr IS NOT NULL
+            GROUP BY cfr;
+        """)
 
+        cursor = connection.cursor()
+        cursor.execute("""
+            DELETE FROM data_recipient WHERE recipient_type = 'nonvessel';
+            INSERT INTO data_recipient
+            SELECT 'nonvessel' as recipient_type, project_no as recipient_id, MAX(vessel_name), MAX(iso_country), MAX(p.id), SUM(total_subsidy), MAX(geo1), MAX(geo2)
+            FROM data_fishdata as d
+            LEFT JOIN (SELECT MAX(id) as id, name FROM data_port GROUP BY name) as p on p.name=d.port_name
+            WHERE project_no IS NOT NULL
+            GROUP BY project_no;
+        """)
+    
     def years(self):
         cursor = connection.cursor()
         
@@ -52,36 +52,17 @@ class Denormalize(models.Manager):
         
     def schemes(self, year=None):
         cursor = connection.cursor()
-        result_list = []
-        # if year:
-        #     cursor.execute("""
-        #       SELECT scheme2_id, scheme_name, year, SUM(total_subsidy) as t, scheme_traffic_light
-        #       FROM `data_fishdata`
-        #       WHERE scheme_name !=''
-        #       AND year = %s
-        #       GROUP BY scheme2_id;
-        #     """, (year,))
-        # else:
         cursor.execute("""
-            SELECT scheme2_id, scheme_name, SUM(total_subsidy) as t, MAX(scheme_traffic_light)
+            DELETE FROM data_scheme;
+            INSERT INTO data_scheme (scheme_id, total, traffic_light)
+            SELECT scheme2_id, SUM(total_subsidy) as t, CAST(MAX(scheme_traffic_light) as integer)
             FROM data_fishdata
             WHERE scheme_name !=''
             AND scheme_traffic_light !='0'
-            GROUP BY scheme2_id, scheme_name, scheme_traffic_light;        
+            GROUP BY scheme2_id, scheme_name, scheme_traffic_light;
+            
             """)
 
-        for row in cursor.fetchall():
-            p = self.model()
-            p.scheme_id = row[0]
-            p.name = row[1]
-            if row[2]:
-                p.total = Decimal(str(row[2]))
-            else:
-                p.total = Decimal(0)
-            p.traffic_light = row[3]
-            result_list.append(p)
-
-        return result_list
         
 
     def payments(self):
@@ -92,32 +73,21 @@ class Denormalize(models.Manager):
         INSERT INTO data_payment (recipient_id_id, amount, year, port_id, scheme_id, country)
         SELECT COALESCE(cfr, project_no) as recipient_id_id,  total_subsidy as amount, year, p.id as port_id, scheme2_id as scheme_id, iso_country
         FROM data_fishdata as d
-        INNER JOIN (SELECT MAX(id) as id, name FROM data_port GROUP BY name) as p on p.name=d.port_name
-        WHERE p.id IS NOT NULL
-        AND total_subsidy != '0';
+        LEFT JOIN (SELECT MAX(id) as id, name FROM data_port GROUP BY name) as p on p.name=d.port_name
+        WHERE COALESCE(cfr, project_no) IS NOT NULL;
+        COMMIT;
         """)
         
 
     def ports(self):
         cursor = connection.cursor()
         cursor.execute("""
-          SELECT 
-          id, cci, description, project_no, iso_country, country_name, nuts, geo1, geo2, municipality_x_cord, municipality_y_cord, scheme1_id, scheme2_id, scheme_name, scheme_traffic_light, status, status_code_status, approval_date, "year", total_cost, member_state, fifg, vessel_name, cfr, cfr_link, external_marking, overall_length, main_power, tonnage, port_name, port_country, source, period, port_lng, port_lat, recipient_id, tuna_fleet, construction_year, construction_place, recipient_name, greenpeace_link, lenght_code, 
-          SUM(total_subsidy) as total
-          FROM data_fishdata f
-          WHERE port_name IS NOT NULL
-          GROUP BY port_name, id, cci, description, project_no, iso_country, country_name, nuts, geo1, geo2, municipality_x_cord, municipality_y_cord, scheme1_id, scheme2_id, scheme_name, scheme_traffic_light, status, status_code_status, approval_date, "year", total_cost, member_state, fifg, vessel_name, cfr, cfr_link, external_marking, overall_length, main_power, tonnage, port_name, port_country, source, period, port_lng, port_lat, recipient_id, tuna_fleet, construction_year, construction_place, recipient_name, greenpeace_link, lenght_code;
+        DELETE FROM data_port;
+        INSERT INTO data_port (name, country, total, geo1, geo2)
+        SELECT port_name, iso_country, SUM(total_subsidy) as t, MAX(geo1), MAX(geo2)
+        FROM data_fishdata
+        WHERE total_subsidy IS NOT NULL
+        AND port_name IS NOT NULL
+        GROUP BY port_name, iso_country;
         """)
 
-        desc = cursor.description
-        result_list = []
-        for row in cursor.fetchall():
-            p = self.model()
-            item = dict(zip([col[0] for col in desc], row))
-            if item['total']:
-                item['total'] = Decimal(str(item['total']))
-            else:
-                item['total'] = 0
-            p.__dict__.update(item)
-            result_list.append(p)
-        return result_list

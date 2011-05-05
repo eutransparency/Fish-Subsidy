@@ -10,6 +10,7 @@
     <a href="{% url country country.code %}">{{ country.name }}</a> &mdash; {% ifnotequal year 0 %} {{ year }}{% else %} {% trans "All years" %}{% endifnotequal %}
 {% endif %}
 <br />{% trans "Scheme" %}: {{ scheme.0.scheme_name }}
+{% traffic_light scheme.0.scheme_traffic_light %}
 {% endblock %}
 
 {% block breadcrumb %}

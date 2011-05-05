@@ -143,7 +143,7 @@ class SchemeManager(multilingual.Manager):
         top_schemes = top_schemes.filter(**kwargs)
         top_schemes = top_schemes.annotate(schemetotal=Sum('payment__amount'))
         top_schemes = top_schemes.order_by('-schemetotal')
-        
+
         if limit:
             return top_schemes[:limit]
         else:

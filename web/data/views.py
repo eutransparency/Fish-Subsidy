@@ -320,7 +320,6 @@ def scheme_detail(request, scheme_id, name, country=None, year=settings.DEFAULT_
     else:
         col = False
 
-
     return render_to_response(
         'scheme_detail.html', 
         {
