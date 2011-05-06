@@ -54,8 +54,11 @@ class Command(NoArgsCommand):
         for field in removed_fields:
             if field in item:
                 del item[field]
+
+        if not item['total_subsidy']:
+            item['total_subsidy'] = 0
+
         try:
-            
             FishData.objects.get_or_create(**item)
             # d.save()
         except Exception, e:

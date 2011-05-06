@@ -78,7 +78,7 @@ class Recipient(models.Model):
   name = models.CharField(blank=True, max_length=255, null=True)
   country = models.CharField(blank=True, max_length=100, db_index=True)
   port = models.ForeignKey('Port', null=True)
-  amount = models.DecimalField(max_digits=40, decimal_places=2, null=True, default=0)
+  amount = models.DecimalField(max_digits=40, decimal_places=2, null=False, default=0)
   geo1 = models.CharField(blank=True, max_length=255, null=True)
   geo2 = models.CharField(blank=True, max_length=255, null=True)
   
@@ -130,7 +130,7 @@ class Payment(models.Model):
   """
 
   recipient_id = models.ForeignKey(Recipient, db_index=True)
-  amount = models.DecimalField(max_digits=40, decimal_places=2, null=True, default=0)
+  amount = models.DecimalField(max_digits=40, decimal_places=2, null=False, default=0)
   year = models.IntegerField(blank=True, null=True, db_index=True)
   port = models.ForeignKey('Port', null=True) # Only here as an optimization
   scheme = models.ForeignKey(Scheme)
