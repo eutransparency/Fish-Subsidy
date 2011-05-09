@@ -27,11 +27,17 @@ class Command(NoArgsCommand):
     def handle_noargs(self, **options):
         translation.activate('en')
         
-        print "ports"
-        self.ports()
-        print "recipient"
-        self.recipient()
-        print "schemes"
-        self.schemes()
-        print "payments"
-        self.payments()
+        # We have to disable triggers before doing anything
+        FishData.denormalize.reltriggers(enable=False)
+        try:
+            print "ports"
+            self.ports()
+            print "recipient"
+            self.recipient()
+            print "schemes"
+            self.schemes()
+            print "payments"
+            self.payments()
+        finally: 
+            # Re enable triggers
+            FishData.denormalize.reltriggers(enable=True)

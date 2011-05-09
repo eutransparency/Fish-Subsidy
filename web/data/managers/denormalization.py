@@ -8,7 +8,24 @@ from django.db import models
 from django.db import connection, backend, models
 
 class Denormalize(models.Manager):
-
+    
+    def reltriggers(self, enable=False):
+        cursor = connection.cursor()
+    
+        if enable:
+            cursor.execute("""
+                ALTER TABLE data_recipient ENABLE TRIGGER ALL;
+                ALTER TABLE data_payment ENABLE TRIGGER ALL;
+                ALTER TABLE data_scheme ENABLE TRIGGER ALL;
+            """)
+        else:
+            cursor.execute("""
+                ALTER TABLE data_recipient DISABLE TRIGGER ALL;
+                ALTER TABLE data_payment DISABLE TRIGGER ALL;
+                ALTER TABLE data_scheme DISABLE TRIGGER ALL;
+            """)
+    
+    
     def recipient(self):
         
         cursor = connection.cursor()
