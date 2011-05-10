@@ -114,8 +114,8 @@ def list_view(request, list_id, slug=None):
 
     list_total = 0
     for i in list_item.listitem_set.all():
-        if i.content_object.total:
-            list_total += i.content_object.total
+        if i.content_object.amount:
+            list_total += i.content_object.amount
     
     return render_to_response(
         'list_item.html',
