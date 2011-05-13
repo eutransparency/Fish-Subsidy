@@ -15,7 +15,7 @@
   <table>
     <thead>
       <th>{% ifequal sort "name"  %}<strong>Name</strong>{% else %}<a href="{% parse_qs request.GET "sort" "name" %}">{% trans "Name" %}</a>{% endifequal %}</th>
-      <th>{% ifequal sort "amount"  %}<strong>Amount</strong>{% else %}<a href="{% parse_qs request.GET "sort" "amount" %}">{% trans "Amount" %}</a>{% endifequal %}</th>
+      <th class="amount">{% ifequal sort "amount"  %}<strong>Amount</strong>{% else %}<a href="{% parse_qs request.GET "sort" "amount" %}">{% trans "Amount" %}</a>{% endifequal %}</th>
       <th>{% ifequal sort "port"  %}<strong>Port</strong>{% else %}<a href="{% parse_qs request.GET "sort" "port" %}">{% trans "Port" %}</a>{% endifequal %}</th>
       {% if list_enabled %}<th></th>{% endif %}
     </thead>

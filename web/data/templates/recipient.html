@@ -85,11 +85,11 @@
       <h3>Information added by users</h3>
       {% for comment in comments %}
         <div class="comment">
-          <div class="info col">        
+          <div class="info">        
             <h4>{{ comment.user.get_profile.name }}</h4>
             {{ comment.date|date:"H.i" }} {{ comment.date|naturalday|title }}
           </div>    
-          <div class="message col">
+          <div class="message">
             {{ comment.comment|markdown }}
           </div>
         </div>

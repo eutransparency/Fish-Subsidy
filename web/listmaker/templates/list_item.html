@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load markup %}
 {% load humanize %}
+{% load parse_qs %}
 {% load list_tags %}
 {% block page_title %}{{ list_item.name }}{% endblock %}
 {% block title %}{{ list_item.name }}{% endblock %}
@@ -26,18 +27,21 @@
   {% if list_item.listitem_set.all %}
       <table>
         <thead>
-          <th>Name</th>
-          <th>Amount</th>
-          <th></th>
+          <th>{% ifequal sort "name"  %}<strong>Name</strong>{% else %}<a href="{% parse_qs request.GET "sort" "name" %}">{% trans "Name" %}</a>{% endifequal %}</th>
+          <th class="amount">{% ifequal sort "amount"  %}<strong>Amount</strong>{% else %}<a href="{% parse_qs request.GET "sort" "amount" %}">{% trans "Amount" %}</a>{% endifequal %}</th>
+          {% if list_enabled %}<th></th>{% endif %}
         </thead>
         <tbody>
-          {% for item in list_item.listitem_set.all %}
+         
+          {% for item in  list_items %}
             <tr>
               <td><a href="{{ item.content_object.get_absolute_url }}">{{ item.content_object.name }}</a></td>
               <td class="money">&euro;{{ item.content_object.amount|floatformat:0|intcomma }}</td>
-              <td>{% list_item_edit item.content_object %}</td>
+              {% if list_enabled %}<td>{% list_item_edit item.content_object %}</td>{% endif %}
+              
             </tr>
           {% endfor %}
+          
           <tr><td class="money" colspan="2"><strong>Total</strong>: &euro;{{ list_total|floatformat:0|intcomma }}</td></tr>
         </tbody>
       </table>

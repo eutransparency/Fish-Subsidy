@@ -117,11 +117,28 @@ def list_view(request, list_id, slug=None):
         if i.content_object.amount:
             list_total += i.content_object.amount
     
+    class sort_qs():
+        def __init__(self, field_name):
+            self.field_name = field_name
+        def __call__(self, o):
+            return getattr(o.content_object, self.field_name, None)
+    
+    sort_by_q = request.GET.get('sort', 'amount')
+    if sort_by_q == "amount":
+        sort_by = "amount"
+    else:
+        sort_by = "name"
+    list_items = sorted(list_item.listitem_set.all(), key=sort_qs(sort_by))
+    if sort_by == "amount":
+        list_items.reverse()
+    
     return render_to_response(
         'list_item.html',
             {
                 'list_item': list_item,
+                'list_items': list_items,
                 'list_total': list_total,
+                'sort_by': sort_by,
             }, context_instance = RequestContext(request))
 
 

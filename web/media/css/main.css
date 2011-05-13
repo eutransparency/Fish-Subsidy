@@ -107,7 +107,7 @@ a {color:#3092eb;}
 a.selected { text-decoration:none; color:#000; font-weight:bold; }
 
 /* comments */
-#disabled_comments textarea {width:90%; height:30px;margin-bottom:1em; background:#fafafa;}
+#id_comment {width:90%; height:120px;margin-bottom:1em; background:#fafafa;}
 #comments #line_comment label {display:block; padding:0 0 0.5em 0;}
 #comments #line_comment textarea {display:block; width:90%; height:8em;}
 .comment {font-style:italic; font-size:0.9em; background:#f2f2f2; margin-bottom:1em; padding:0.5em 1em;}
