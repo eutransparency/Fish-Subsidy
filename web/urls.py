@@ -46,8 +46,8 @@ urlpatterns += patterns('',
     (r'accounts/', include('registration.backends.default.urls')),
     (r'^comments/', include('django.contrib.comments.urls')),    
     
-    # Refine
-    (r'^reconcile/', include('refine.urls')),    
+    # # Refine
+    # (r'^reconcile/', include('refine.urls')),    
     
     
     
