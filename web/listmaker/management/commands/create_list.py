@@ -7,10 +7,13 @@ This script always assumes that the list item content type is data.models.Recipi
 TODO: make this more generic.
 """
 
+import sys
+
 import django
-from django.core.management.base import NoArgsCommand, CommandError
+from django.core.management.base import BaseCommand, CommandError
 from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
+from optparse import make_option
 
 from data.models import Recipient
 from listmaker.models import List, ListItem
@@ -49,20 +52,20 @@ class ListCreator():
             li = ListItem.objects.get_or_create(list_id=self.list, object_id=r.pk, content_type=ct)
         
 
-class Command(NoArgsCommand):
+class Command(BaseCommand):
 
-  def handle_noargs(self, **options):
-      
-      
-      ids = """
-      1
-      2
-      3
-      4
-      5
-      """
-      
-      x = ListCreator(1, [3,4,5,6])
-      x.populate()
-      x = ListCreator(1, ids)
-      x.populate()
+    option_list = BaseCommand.option_list + (
+            make_option('--list',
+                dest='list_id',
+                ),
+            )
+
+    def handle(self, *args, **options):
+        
+        list_id = options['list_id']
+        if not list_id:
+            raise ValueError('List ID is required.')
+        
+        ids = sys.stdin.read()
+        x = ListCreator(list_id, ids)
+        x.populate()
