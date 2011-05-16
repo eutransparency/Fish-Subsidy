@@ -10,6 +10,8 @@ from data.models import Recipient, Payment, Scheme, Port, illegalFishing
 # import queries
 
 def search(request):
+  if request.POST.get('q'):
+      return HttpResponseRedirect("%s?q=%s" % (reverse('search'), request.POST['q']))
   query = query = request.GET.get('q', None)
   if query:
 
