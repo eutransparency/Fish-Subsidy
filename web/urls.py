@@ -25,31 +25,32 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/rosetta/', include('rosetta.urls')),
     (r'^admin/(.*)', admin.site.root),
-    
+
 )
 
 urlpatterns += patterns('',
     (r'', include('data.urls')),
     (r'', include('search.urls')),
-    # (r'', include('web.feeds.urls')),    
+    # (r'', include('web.feeds.urls')),
     (r'^i18n/', include('django.conf.urls.i18n')),
     
     # Features
     url(r'^features/', include('features.urls')),
     url(r'^news/', include('features.urls')),
-
+    
     # Lists
     url(r'lists/', include('listmaker.urls')),
     
     # Frontend, including profiles
     (r'', include('frontend.urls')),
     (r'accounts/', include('registration.backends.default.urls')),
-    (r'^comments/', include('django.contrib.comments.urls')),    
+    (r'^comments/', include('django.contrib.comments.urls')),
     
     # # Refine
-    # (r'^reconcile/', include('refine.urls')),    
+    # (r'^reconcile/', include('refine.urls')),
     
-    
+    # sorl.thumbnail
+    (r'^', include('sorl.thumbnail.urls')),
     
 )
 

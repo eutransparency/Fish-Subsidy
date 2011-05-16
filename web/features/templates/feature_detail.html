@@ -2,6 +2,7 @@
 {% load markup %}
 {% load typogrify %}
 {% load inthenews %}
+{% load thumbnail %}
 
 {% block title %}{{ feature.title }}{% endblock %}
 {% block page_title %}{{ feature.title }}{% endblock %}
@@ -11,6 +12,16 @@
 {% endblock %}
 
 {% block content %}
+    {% thumbnail feature.image "250x500" as im %}
+    {% if feature.report_url %}
+        <a href="{{ feature.report_url }}">
+            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="main_image">
+        </a>
+    {% else %}
+        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="main_image">
+    {% endif %}
+    {% endthumbnail %}
+
     {{ feature.date|date }}.
     {{ feature.body|markdown|typogrify }}
 {% endblock %}

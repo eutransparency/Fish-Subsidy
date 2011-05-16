@@ -7,6 +7,7 @@ from multilingual.translation import TranslationModel
 from johnny import cache as jc
 from django.conf import settings
 
+from sorl.thumbnail import ImageField
 
 class Feature(models.Model):
     """
@@ -33,6 +34,8 @@ class Feature(models.Model):
     published = models.BooleanField(default=True)
     featured = models.BooleanField(default=False)
     date = models.DateTimeField(default=datetime.datetime.today)
+    image = ImageField(upload_to="images/features/", null=True, blank=True)
+    report_url = models.URLField(blank=True, verify_exists=True, null=True)
     
     class Translation(TranslationModel):
         title = models.CharField(blank=False, max_length=255)

@@ -28,7 +28,7 @@ USE_I18N = True
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = '/media'
+MEDIA_URL = '/media/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -93,6 +93,7 @@ INSTALLED_APPS = [
     'djapian',
     'recipientcomments',
     'typogrify',
+    'sorl.thumbnail',
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -149,3 +150,5 @@ CACHE_MIDDLEWARE_SECONDS = 30
 
 STATS_PATH = ROOT_PATH + '/data/stats'
 DEFAULT_YEAR = 0
+
+THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'
