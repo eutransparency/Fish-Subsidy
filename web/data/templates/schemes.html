@@ -67,8 +67,9 @@
   {% endblocktrans %}
 
   <div class="box">
+      <br />
     <h3>{% trans "Filter" %}</h3>
-    <h4>{% trans "Years" %}</h4>
+    <h4>{% trans "Choose year" %}</h4>
     
     <ul>
       {% if country.code %}
@@ -86,7 +87,7 @@
       {% endfor %}
     </ul>
     
-    <h4>{% trans "Countries" %}</h4>
+    <h4>{% trans "Choose country" %}</h4>
     <ul>
     {% for c in countries %}
         {% if year %}
