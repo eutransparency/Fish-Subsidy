@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-16 09:52+0100\n"
+"POT-Creation-Date: 2011-05-16 13:14+0100\n"
 "PO-Revision-Date: 2010-12-19 16:53\n"
 "Last-Translator: <anne.lemoine.fr@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -62,7 +62,8 @@ msgstr "Toutes les années"
 
 #: data/templates/browse.html:17 data/templates/port.html:35
 #: data/templates/scheme_detail.html:43 data/templates/scheme_detail.html:71
-#: data/templates/tuna_fleet.html:18 listmaker/templates/list_item.html:30
+#: data/templates/tuna_fleet.html:18 listmaker/templates/list_item.html:32
+#: search/templates/results.html:43
 #: templates/comments/moderation_queue.html:34
 msgid "Name"
 msgstr "Nom"
@@ -76,7 +77,7 @@ msgstr "Nom"
 #: data/templates/scheme_detail.html:109 data/templates/scheme_detail.html:129
 #: data/templates/schemes.html:26 data/templates/tuna_fleet.html:19
 #: data/templates/blocks/list_vessels.html:10
-#: listmaker/templates/list_item.html:31
+#: listmaker/templates/list_item.html:33 search/templates/results.html:44
 msgid "Amount"
 msgstr "Montant"
 
@@ -495,7 +496,7 @@ msgstr "Tous les programmes de subvention"
 msgid "Scheme"
 msgstr "Programme de subvention"
 
-#: data/templates/recipient.html:62
+#: data/templates/recipient.html:62 listmaker/templates/list_item.html:47
 msgid "Total"
 msgstr "Total"
 
@@ -859,6 +860,50 @@ msgstr "Sauvegarder la liste"
 msgid "Save"
 msgstr "Sauvegarder"
 
+#: listmaker/templates/list_item.html:14
+msgid "Edit this list"
+msgstr ""
+
+#: listmaker/templates/list_item.html:14
+#, fuzzy
+msgid "or"
+msgstr "Port"
+
+#: listmaker/templates/list_item.html:14
+#, fuzzy
+msgid "edit title and description"
+msgstr "Description du fichier"
+
+#: listmaker/templates/list_item.html:17
+msgid ""
+"NOTE: Because you are editing this list, the items below may not match the "
+"(unsaved) items you have added or removed."
+msgstr ""
+
+#: listmaker/templates/list_item.html:21
+#, python-format
+msgid "Created by %(user_name)s"
+msgstr ""
+
+#: listmaker/templates/list_item.html:24
+#, python-format
+msgid ""
+"\n"
+"    The total value of payments on this list is &euro;%(amount)s.\n"
+msgstr ""
+
+#: listmaker/templates/list_item.html:52
+msgid "There is nothing in your list yet."
+msgstr ""
+
+#: listmaker/templates/list_item.html:53
+msgid "Add Items"
+msgstr ""
+
+#: listmaker/templates/list_item.html:55
+msgid "The list owner hasn't added any items to this list yet."
+msgstr ""
+
 #: listmaker/templates/mylists.html:3 listmaker/templates/mylists.html.py:4
 msgid "My Lists"
 msgstr "Mes listes"
@@ -1011,24 +1056,24 @@ msgstr ""
 "Les commentaires seront formatés selon <a href=\"http://fr.wikipedia.org/"
 "wiki/Markdown\">Markdown</a> et le HTML est autorisé."
 
-#: search/templates/results.html:3 search/templates/results.html.py:4
+#: search/templates/results.html:5 search/templates/results.html.py:6
 msgid "Search Results"
 msgstr "Résultats de recherche"
 
-#: search/templates/results.html:7 templates/base.html:116
+#: search/templates/results.html:9 templates/base.html:116
 #: templates/home.html:9
 msgid "Home"
 msgstr "Accueil"
 
-#: search/templates/results.html:18
+#: search/templates/results.html:20
 msgid "Matching Ports"
 msgstr "Ports correspondants"
 
-#: search/templates/results.html:28
+#: search/templates/results.html:30
 msgid "Matching Schemes"
 msgstr "Projets correspondants"
 
-#: search/templates/results.html:38
+#: search/templates/results.html:40
 msgid "Matching Vessels"
 msgstr "Navires correspondants"
 

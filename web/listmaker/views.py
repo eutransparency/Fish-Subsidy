@@ -131,12 +131,12 @@ def list_view(request, list_id, slug=None):
     list_items = sorted(list_item.listitem_set.all(), key=sort_qs(sort_by))
     if sort_by == "amount":
         list_items.reverse()
-    
+        
     return render_to_response(
         'list_item.html',
             {
                 'list_item': list_item,
-                'list_items': list_items,
+                'existing_list_items': list_items,
                 'list_total': list_total,
                 'sort_by': sort_by,
             }, context_instance = RequestContext(request))
