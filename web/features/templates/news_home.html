@@ -10,11 +10,11 @@
 <div class="section">
     <h2>{% trans "News and reports from the fishsubsidy.org network" %}</h2>
     {% for feature in features %}
-        {% thumbnail feature.image "100x100" crop="center" as im %}
-            <a href="{{ feature.get_absolute_url }}">
-                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="thumbnail">
-            </a>
-        {% endthumbnail %}
+        {# {% thumbnail feature.image "100x100" crop="center" as im %} #}
+        {#     <a href="{{ feature.get_absolute_url }}"> #}
+        {#         <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="thumbnail"> #}
+        {#     </a> #}
+        {# {% endthumbnail %} #}
     
         <h4><a href="{{ feature.get_absolute_url }}">{{ feature.title|typogrify }}</a> </h4>
         {{ feature.date|date }}.

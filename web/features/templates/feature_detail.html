@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load markup %}
 {% load typogrify %}
+{% load i18n %}
 {% load inthenews %}
 {% load thumbnail %}
 
@@ -14,8 +15,9 @@
 {% block content %}
     {% thumbnail feature.image "250x500" as im %}
     {% if feature.report_url %}
-        <a href="{{ feature.report_url }}">
-            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="main_image">
+        <a href="{{ feature.report_url }}" class="main_image">
+            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+            <p>{% trans "Download this report in PDF" %}</p>
         </a>
     {% else %}
         <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="main_image">
