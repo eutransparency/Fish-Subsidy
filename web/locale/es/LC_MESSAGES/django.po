@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-16 13:14+0100\n"
+"POT-Creation-Date: 2011-05-17 17:34+0100\n"
 "PO-Revision-Date: 2010-04-28 18:47\n"
 "Last-Translator: <meche_rafa@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Translated-Using: django-rosetta 0.5.3\n"
 
-#: global_settings.py:122
+#: global_settings.py:123
 msgid "English"
 msgstr "Inglés"
 
-#: global_settings.py:123
+#: global_settings.py:124
 msgid "Español"
 msgstr "Español"
 
-#: global_settings.py:124
+#: global_settings.py:125
 msgid "Français"
 msgstr ""
 
@@ -96,7 +96,7 @@ msgstr "Beneficiario desconocido"
 msgid "Unknown port"
 msgstr "Puerto desconocido"
 
-#: data/templates/browse.html:58 data/templates/schemes.html:70
+#: data/templates/browse.html:58 data/templates/schemes.html:71
 msgid "Filter"
 msgstr "Filtrar"
 
@@ -348,7 +348,7 @@ msgstr ""
 
 #: data/templates/data_agreement_form.html:45
 #: templates/registration/password_reset_confirm.html:9
-#: templates/registration/password_reset_form.html:15
+#: templates/registration/password_reset_form.html:17
 msgid "Continue"
 msgstr "Continuar"
 
@@ -393,6 +393,7 @@ msgid "Identified Infringements"
 msgstr "Infracciones detectadas"
 
 #: data/templates/infringements.html:13
+#, fuzzy
 msgid ""
 "\n"
 "<p>Illegal fishing contributes to the overfishing of valuable fish stocks,\n"
@@ -403,6 +404,10 @@ msgid ""
 "official data obtained directly from governments but information collected\n"
 "manually from government websites, press reports and court records. It is\n"
 "therefore certain to be incomplete.</p>\n"
+"\n"
+"<p>Read more about subsidies and illegal fishing in the fishsubsidy.org "
+"report <a href=\"http://fishsubsidy.org/news/features/iuu/\">When Crime "
+"Pays</a>.</p>\n"
 "\n"
 "<p>The table below shows vessels that have received fisheries subsidies and\n"
 "have been convicted of serious infringements.</p>\n"
@@ -420,40 +425,40 @@ msgstr ""
 "La tabla bajo estas líneas muestra pesqueros beneficiarios de ayudas a la "
 "pesca que han sido condenados por infracciones graves\n"
 
-#: data/templates/infringements.html:29
+#: data/templates/infringements.html:31
 #: data/templates/blocks/list_vessels.html:8
 msgid "Vessel Name"
 msgstr "Nombre del pesquero"
 
-#: data/templates/infringements.html:30 data/templates/recipient.html:152
+#: data/templates/infringements.html:32 data/templates/recipient.html:152
 msgid "Registration number"
 msgstr "Número de matrícula"
 
-#: data/templates/infringements.html:32
+#: data/templates/infringements.html:34
 msgid "Date(s) of offences"
 msgstr ""
 
-#: data/templates/infringements.html:33
+#: data/templates/infringements.html:35
 msgid "Description"
 msgstr "Descripción"
 
-#: data/templates/infringements.html:35
+#: data/templates/infringements.html:37
 msgid "FIFG subsidies 1994-2006"
 msgstr ""
 
-#: data/templates/infringements.html:38
+#: data/templates/infringements.html:40
 msgid "Infringed rules before subsidy?"
 msgstr ""
 
-#: data/templates/infringements.html:48 data/templates/recipient.html:201
+#: data/templates/infringements.html:50 data/templates/recipient.html:201
 msgid "Sanction"
 msgstr "Sanción"
 
-#: data/templates/infringements.html:51
+#: data/templates/infringements.html:53
 msgid "Skipper/Owner"
 msgstr "Patrón/Armador"
 
-#: data/templates/infringements.html:60
+#: data/templates/infringements.html:62
 msgid "yes,no"
 msgstr ""
 
@@ -675,8 +680,8 @@ msgstr "Ver otras infracciones"
 msgid "Google this recipient"
 msgstr "Buscar a este beneficiario en Google"
 
-#: data/templates/scheme_detail.html:10 data/templates/schemes.html:75
-#: data/templates/schemes.html.py:77
+#: data/templates/scheme_detail.html:10 data/templates/schemes.html:76
+#: data/templates/schemes.html.py:78
 msgid "All years"
 msgstr "Historial completo"
 
@@ -752,14 +757,14 @@ msgstr ""
 "<a href=\"/about/schemes/\">Más información</a>\n"
 "</div>"
 
-#: data/templates/schemes.html:71
-msgid "Years"
-msgstr "Año"
+#: data/templates/schemes.html:72
+msgid "Choose year"
+msgstr ""
 
-#: data/templates/schemes.html:89 templates/base.html:117
+#: data/templates/schemes.html:90
 #, fuzzy
-msgid "Countries"
-msgstr "Todos los países"
+msgid "Choose country"
+msgstr "Por país"
 
 #: data/templates/tuna_fleet.html:6
 #, python-format
@@ -786,21 +791,25 @@ msgstr ""
 msgid "Map"
 msgstr "Mapa"
 
-#: features/templates/feature_list.html:7
+#: features/templates/feature_detail.html:20
+msgid "Download this report in PDF"
+msgstr ""
+
 #: features/templates/feature_list.html:8
+#: features/templates/feature_list.html:9
 msgid "News &amp; reports from the farmsubsidy.org network"
 msgstr ""
 
-#: features/templates/news_home.html:10
+#: features/templates/news_home.html:11
 msgid "News and reports from the fishsubsidy.org network"
 msgstr ""
 
-#: features/templates/news_home.html:16 features/templates/news_home.html:26
+#: features/templates/news_home.html:23 features/templates/news_home.html:33
 #, fuzzy
 msgid "View All"
 msgstr "Ver todos"
 
-#: features/templates/news_home.html:20
+#: features/templates/news_home.html:27
 msgid "Media coverage"
 msgstr ""
 
@@ -1199,6 +1208,11 @@ msgstr ""
 "Por ejemplo: <a href=\"/search?q=Aurora\">Aurora</a>, <a href=\"/search?"
 "q=DEU000300601\">DEU000300601</a> o <a href=\"/search?q=Dieppe\">Dieppe</a>"
 
+#: templates/base.html:117
+#, fuzzy
+msgid "Countries"
+msgstr "Todos los países"
+
 #: templates/base.html:118
 #, fuzzy
 msgid "Schemes"
@@ -1284,6 +1298,39 @@ msgstr "Principales beneficiarios no pesqueros <br />en Europa"
 #, fuzzy
 msgid "Browse by country"
 msgstr "Por país"
+
+#: templates/home.html:68
+msgid ""
+"\n"
+"            Subsidies paid to owners of fishing vessels and others working "
+"in the fishing industry under the European Union’s Common Fisheries Policy "
+"amount to more than &euro;1 billion a year. Fishsubsidy.org helps people "
+"find out who gets what, and why.\n"
+"            "
+msgstr ""
+
+#: templates/home.html:74
+msgid "Latest news &amp; reports from the fishsubsidy.org network"
+msgstr ""
+
+#: templates/home.html:93
+msgid "View vessel subsidies on the map"
+msgstr ""
+
+#: templates/home.html:99
+msgid "Latest annotations"
+msgstr ""
+
+#: templates/home.html:102
+#, fuzzy, python-format
+msgid ""
+"\n"
+"                %(username)s annotated <a href=\"%(url)s\">"
+"%(recipient_name)s</a>\n"
+"            "
+msgstr ""
+"\n"
+"Flota atunera: Sí (<a href=\"%(link)s\">ver todos</a>)"
 
 #: templates/comments/approve.html:4
 msgid "Approve a comment"
@@ -1584,6 +1631,9 @@ msgstr ""
 "</p>\n"
 "<p>Si pasado ese tiempo todavía no lo ha recibido compruebe la bandeja de "
 "spam o <a href=\"/faq#contact\">escríbanos</a> pidiendo ayuda"
+
+#~ msgid "Years"
+#~ msgstr "Año"
 
 #~ msgid "Total Subsidy"
 #~ msgstr "Monto total de la ayuda"
