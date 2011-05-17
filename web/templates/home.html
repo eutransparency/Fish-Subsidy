@@ -65,11 +65,13 @@
             Welcome to fishsubsidy.org!
         </h2>
         <p class="intro">
+            {% blocktrans  %}
             Subsidies paid to owners of fishing vessels and others working in the fishing industry under the European Union’s Common Fisheries Policy amount to more than &euro;1 billion a year. Fishsubsidy.org helps people find out who gets what, and why.
+            {% endblocktrans %}
         </p>
     </div>
     <div class="section">
-        <h3>Latest news &amp; reports from the fishsubsidy.org network</h3>
+        <h3>{% trans "Latest news &amp; reports from the fishsubsidy.org network" %}</h3>
         {% if featured_items.0 %}                  
             <h5><a href="{{ featured_items.0.get_absolute_url }}">{{ featured_items.0.title }}</a></h5>
             <p>{{ featured_items.0.teaser|truncatewords:"25" }}</p>
@@ -88,17 +90,19 @@
     <div class="section"> 
 
         {# <h3>Watch a short film about the project:</h3>  #}
-        <h3>View vessel subsidies on the map</h3> 
+        <h3>{% trans "View vessel subsidies on the map" %}</h3> 
         {# <object width="640" height="385"><param name="movie" value="http://www.youtube-nocookie.com/v/rDiuj6Vvofs?fs=1&amp;hl=en_US&amp;rel=0"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube-nocookie.com/v/rDiuj6Vvofs?fs=1&amp;hl=en_US&amp;rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="640" height="385"></embed></object>  #}
         <a href="/map/"><img src="/media/images/map_preview.png"></a>
     </div>
     
     <div class="section">
-        <h3>Latest annotations</h3>
+        <h3>{% trans "Latest annotations" %}</h3>
         <ul class="annotations">
         {% for annotation in latest_annotations %}
-            <li>{{ annotation.user.username }} annotated <a href="{{ annotation.recipient.get_absolute_url }}">{{ annotation.recipient.name }}</a>:
-                <blockquote>{{ annotation.comment|markdown|striptags|truncatewords:30 }}</blockquote></li>        
+            <li>{% blocktrans with annotation.user.username as username and annotation.recipient.get_absolute_url as url and annotation.recipient.name as recipient_name %}
+                {{ username }} annotated <a href="{{ url }}">{{ recipient_name }}</a>
+            {% endblocktrans %}:
+            <blockquote>{{ annotation.comment|markdown|striptags|truncatewords:30 }}</blockquote></li>        
         {% endfor %}
         </ul>
     </div>
