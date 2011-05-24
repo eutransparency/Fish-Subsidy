@@ -2,7 +2,7 @@ import sys
 from global_settings import *
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+TEMPLATE_DEBUG = True
 
 ADMINS = (
 )

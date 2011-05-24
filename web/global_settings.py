@@ -94,6 +94,8 @@ INSTALLED_APPS = [
     'recipientcomments',
     'typogrify',
     'sorl.thumbnail',
+    'sentry',
+    'sentry.client',
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = (
