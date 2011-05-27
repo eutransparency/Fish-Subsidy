@@ -7,6 +7,7 @@ class RecipientIndexer(Indexer):
     tags = [
         ('country', 'country'),
         ('type', 'recipient_type'),
+        ('name', 'name', 10),
     ]
 space.add_index(Recipient, RecipientIndexer, attach_as='indexer')
 
