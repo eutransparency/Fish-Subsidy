@@ -30,7 +30,7 @@ class SigninForm(AuthenticationForm):
     # user_or_email = django.forms.CharField(label=_(u'Username or email'))
     next = django.forms.CharField(widget=django.forms.HiddenInput())
     remember_me = django.forms.BooleanField(widget=django.forms.CheckboxInput(),
-                           label=_(u'Remember me'))
+                           label=_(u'Remember me'), required=False)
 
 
 class CreateAccountForm(RegistrationForm):
