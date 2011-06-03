@@ -486,7 +486,7 @@ def greenpeace_blacklist(request):
 def download(request, data_file=None):
     user = request.user
     try:
-        profile = Profile.objects.get(user=user)
+        profile, created = Profile.objects.get_or_create(user=user)
     except Profile.DoesNotExist:
         return HttpResponseRedirect(reverse('profiles_create_profile'))
 
@@ -515,12 +515,9 @@ def download(request, data_file=None):
 
 @login_required
 def data_agreement_form(request):
-    try:
-        profile = Profile.objects.get(user=request.user)
-        if profile.data_agreement:
-            return HttpResponseRedirect(reverse('download'))
-    except Profile.DoesNotExist:
-        return HttpResponseRedirect(reverse('profiles_create_profile'))
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    if profile.data_agreement:
+        return HttpResponseRedirect(reverse('download'))
     
     if request.POST:
         form = DataAgreementForm(request.POST, instance=profile)

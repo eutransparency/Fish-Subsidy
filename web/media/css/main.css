@@ -80,6 +80,7 @@ label {font-weight:bold;}
 .errorlist {border:1px solid #999999; background-color:#EFFACE; width:60%; margin:0.5em; padding:0.5em}
 
 p.hint {color:#808080;font-size:0.8em; line-height:1.5em; padding:0.4em; margin-bottom:1em;}
+.text_format ul li {list-style:disc; margin-left:2em}
 
 .traffic_light { text-decoration:none; padding-right:0.5em;}
 .green-light { background:url('/media/images/traffic_lights.png') no-repeat right 4px;}
