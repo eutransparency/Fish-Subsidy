@@ -3,7 +3,7 @@
 {% load babel %}
 {% load i18n %}
 {% load cache %}
-{# {% load lists %} #}
+{% load list_tags %}
 {% block title %}
   {{ country.name }}
 {% endblock %}
@@ -18,32 +18,29 @@
 {% endblock %}
 
 {% block content %}
-
-  {% load graphs %}
-  {% cache 1000 country_graph country.code %}
-  {% graph "country" country.code %}
-  {% endcache %}
   
   <div class="year_selector">
   {% for country_year in data_years %}
-    {% url data.views.country country=country.code year=country_year.year as year_url %}
-    <a href="{{ year_url }}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a>
+    {% if country_year.year %}
+        {% url data.views.country country=country.code year=country_year.year as year_url %}
+        <a href="{{ year_url }}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a>
+    {% endif %}
   {% endfor %}
-  <br /><a href="0" {% ifequal year 0 %}class="selected"{% endifequal %}>{% trans "All Years" %}</a>
+  <a href="0" {% ifequal year 0 %}class="selected"{% endifequal %}>{% trans "All Years" %}</a>
   </div>
   
-  <div class="section col">  
+  <div class="col">  
     <h2>{% trans "Top Ports" %}</h2>
     <table>
       <thead>
         <th>{% trans "Port" %}</th>
-        <th>{% trans "Amount" %}</th>
+        <th class="amount">{% trans "Amount" %}</th>
       </thead>
     {% for port in top_ports %}
       {% url data.views.port country=port.country port=port.name as port_url %}
       <tr>
       <td><a href="{{ port_url }}">{{ port.name|title }}</a></td>
-      <td>{{ port.total|currencyfmt:"EUR" }}</td>
+      <td>{{ port.totalsscheme|currencyfmt:"EUR" }}</td>
       </tr>
     {% endfor %}
     <tr><td><a href="/{{ country.code }}/ports/browse/0">{% trans "See All" %}</a></td></tr>
@@ -51,12 +48,12 @@
   </div>
 
 
-  <div class="section col">  
+  <div class="col">  
     <h2>{% trans "Top Regions" %}</h2>
     <table>
       <thead>
         <th>{% trans "Region" %}</th>
-        <th>{% trans "Amount" %}</th>
+        <th class="amount">{% trans "Amount" %}</th>
       </thead>
     {% for m in top_municipalities %}
       {% url browse_geo2 country=country.code geo1=m.geo1 as municipality_url %}
@@ -84,7 +81,10 @@
       <table>
         <thead>
           <th>{% trans "Beneficiary Name" %}</th>
-          <th>{% trans "Amount" %}</th>
+          <th class="amount">{% trans "Amount" %}</th>
+          {% if list_enabled %}
+          <th class="list_header"></th>
+          {% endif %}
         </thead>
         {% for beneficiary in non_vessles %}
           {% url nonvessel country=beneficiary.country project_no=beneficiary.recipient_id as beneficiary_url%}
@@ -100,7 +100,11 @@
                 ({{ beneficiary.pk }})</a>
             </td>
             <td>{% if beneficiary.amount %} {{ beneficiary.total|currencyfmt:"EUR" }}{% endif %}</td>
-            {# <td>{% list_item_edit beneficiary %}</td> #}
+            {% if list_enabled %}
+            <td>{% list_item_edit beneficiary %}</td>
+            {% endif %}
+            
+            
           </tr>
         {% endfor %}
       </table>
@@ -115,15 +119,16 @@
     <table>
       <thead>
         <th>{% trans "Scheme Name" %}</th>
-        <th>{% trans "Amount" %}</th>
+        <th class="amount">{% trans "Amount" %}</th>
+        
       </thead>
     {% for scheme in top_schemes %}
       {% url data.views.scheme_detail scheme_id=scheme.scheme_id name=scheme.name|slugify country=country.code as scheme_url %}
       <tr>  
         <td><a href="{{ scheme_url }}">
-          {{ scheme.name_es }}{{ scheme.name_en }}</a>{% traffic_light scheme.traffic_light %}
+          {{ scheme.name }}</a>{% traffic_light scheme.traffic_light %}
         </td>
-          <td>{{ scheme.total|currencyfmt:"EUR" }}</td>
+          <td>{{ scheme.schemetotal|currencyfmt:"EUR" }}</td>
       </tr>
     {% endfor %}
     <tr><td><a href="schemes">{% trans "See All" %}</a></td></tr>

@@ -1,18 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 {% load i18n %}
+{% load list_tags %}
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />  
-  <title>{% block title %}{% endblock %} | FishSubsidy.org</title>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />  
+  <title>{% block title %}{% endblock %} | Fishsubsidy.org</title>
 
-  <link rel="stylesheet" href="{{ MEDIA_URL }}/css/screen.css" type="text/css" media="screen, projection">
-  <link rel="stylesheet" href="{{ MEDIA_URL }}/css/layout.css" type="text/css"> 
-  <link rel="stylesheet" href="{{ MEDIA_URL }}/css/print.css" type="text/css" media="print"> 
-
-  <!--[if IE]>
-    <link rel="stylesheet" href="/media/css/ie.css" type="text/css" media="screen, projection">
-  <![endif]-->
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}/css/reset-min.css"/>
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}/css/main.css"  media="all"/>  
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}/css/print.css"  media="print"/>        
 
   <link rel="shortcut icon" href="/media/images/favicon.ico">
 
@@ -20,147 +17,248 @@
   <script src="{{ MEDIA_URL }}/js/jquery.example.min.js"type="text/javascript"></script>
   <script src="{{ MEDIA_URL }}/js/jquery-ui-1.8.custom.min.js" type="text/javascript"></script>
   <script src="{{ MEDIA_URL }}/js/scripts.js" type="text/javascript" charset="utf-8"></script>
-  <script src="{{ MEDIA_URL }}/js/lists.js" type="text/javascript" charset="utf-8"></script>
+  {% if list_enabled %}
+      <link rel="stylesheet" href="/media/css/custom_lists.css" type="text/css" media="screen, projection">
+      <script src="{{ MEDIA_URL }}/js/lists.js" type="text/javascript" charset="utf-8"></script>    
+  {% endif %}    
+
 
 </head>
 <body id="{% block body_id%}{% endblock %}" class="{% block body_class%}{% endblock %}{% if list_enabled %} list_enabled{% endif %}">
+    {# Topbar #}
+    <div id="topbar">
+        <a href="http://www.twitter.com/fishsubsidy/">
+            <img src="{{MEDIA_URL}}/images/follow.png" alt="Follow us on Twitter"/>
+        </a>
 
-  <div id="topbar">
+        <form method="post" action="http://app.icontact.com/icp/signup.php" name="icpsignup" accept-charset="UTF-8" onsubmit="return verifyRequired();">
+            <fieldset>
+                <input name="redirect" value="http://www.icontact.com/www/signup/thanks.html" type="hidden">
+                <input name="errorredirect" value="http://www.icontact.com/www/signup/error.html" type="hidden">
+                <script type="text/javascript">
 
-    <form method="post" action="http://app.icontact.com/icp/signup.php" name="icpsignup" accept-charset="UTF-8" onsubmit="return verifyRequired();">
-    <input name="redirect" value="http://www.icontact.com/www/signup/thanks.html" type="hidden">
-    <input name="errorredirect" value="http://www.icontact.com/www/signup/error.html" type="hidden">
-    <script type="text/javascript">
+                if (document.location.protocol === "https:") {
+                  document.icpsignup.action = "https://app.icontact.com/icp/signup.php";
+                }
+                function verifyRequired() {
+                  if (document.icpsignup["fields_email"].value == "") {
+                    document.icpsignup["fields_email"].focus();
+                    alert("The Email field is required.");
+                    return false;
+                  }
 
-    if (document.location.protocol === "https:") {
-      document.icpsignup.action = "https://app.icontact.com/icp/signup.php";
-    }
-    function verifyRequired() {
-      if (document.icpsignup["fields_email"].value == "") {
-        document.icpsignup["fields_email"].focus();
-        alert("The Email field is required.");
-        return false;
-      }
-
-    return true;
-    }
-    </script>
-    <div id="SignUp">
-      <label for="fields_email">{% trans "Sign up to our newsletter. Email:" %}</label>
-      &nbsp;<input type="text" name="fields_email" value="" id="fields_email" size="30">
-      <input name="Submit" value="{% trans "Submit" %}" type="submit">
-        <input name="listid" value="32409" type="hidden">
-        <input name="specialid:32409" value="8LDW" type="hidden">
-        <input name="clientid" value="161514" type="hidden">
-        <input name="formid" value="3213" type="hidden">
-        <input name="reallistid" value="1" type="hidden">
-        <input name="doubleopt" value="1" type="hidden">
-    </div>
-    </form>
-  </div>
-
-  <div id="page">
-  <div id="head">
-
-    <h1 id="title"><a href="/">{% block logo %}<img src="{{ MEDIA_URL }}/images/logo-small_{{ LANGUAGE_CODE }}.png" width="309" height="81" />{% endblock %} <span class="hide">FishSubsidy.org</span></a></h1>
-    <h2 id="sub_title" class="hide">{% trans "Discover who gets what from European Fish Subsidies" %}</h2>
-
-    <ul id="mainmenu">
-      {% load active_url %}
-      <li class="{% active request "^/(?!faqs|map|about|blog|news|lists)" %}"><a href="/" >{% trans "Search / Browse" %}</a></li>
-      <li class="{% active request "^/map/" %}"><a href="/map/">{% trans "Map <sup>New!</sup>" %}</a></li>
-      <li class="{% active request "^/faqs/" %}"><a href="/faqs/">{% trans "FAQs" %}</a></li>
-      <li class="{% active request "^/about/" %}"><a href="/about/">{% trans "About" %}</a></li>
-      <li class="{% active request "^/blog/" %}"><a href="/blog/">{% trans "Blog" %}</a></li>
-      <li class="{% active request "^/news/" %}"><a href="/news/">{% trans "In The News" %}</a></li>
-      {# <li class="{% active request "^/lists/" %}"><a href="/lists/">{% trans "Lists" %}</a></li> #}
-    </ul>
-    
-    
-    <div id="user_menu">
-      <form action="/i18n/setlang/" method="post">
-      <select name="language">
-          {% for lang in LANGUAGES %}
-          <option value="{{ lang.0 }}" {% ifequal LANGUAGE_CODE lang.0 %}selected{% endifequal %}>{{ lang.1 }}</option>
-          {% endfor %}
-      </select>
-      <input type="submit" value="{% trans "Go" %}" />
-      </form>
-
-      {% if user.is_authenticated %}
-        <a href="{% url profiles.views.profile_detail user.username %}">{{ user.username }}</a> {% trans "Logged in" %} <a href="{% url logout %}">{% trans "Log out" %}</a>
-      {% else %}
-       <a href="{% url login %}">{% trans "Create an account or Log in" %}</a>
-      {% endif %}  
-
-    </div>
-    
-  </div>
-  {% if featured_items %}
-    <ul id="features">
-        <li>
-          <a href="{% url feature_detail featured_items.0.slug %}">
-          <strong>{{ featured_items.0.title }}:</strong>
-          <p>{{ featured_items.0.teaser|truncatewords:"25" }}</p>
-          </a>
-        </li>
-        {% if featured_items.1 %}
-          <li>
-            <a href="{% url feature_detail featured_items.1.slug %}">
-            <strong>{{ featured_items.1.title }}:</strong>
-            <p>{{ featured_items.1.teaser|truncatewords:"25" }}</p>
-            </a>
-          </li>          
+                return true;
+                }
+                </script>
+                <div id="SignUp">
+                    <label for="fields_email">{% trans "Sign up to our newsletter. Email:" %}</label>
+                    &nbsp;<input type="text" name="fields_email" value="" id="fields_email" size="20">
+                    <input name="Submit" value="{% trans "Go" %}" type="submit">
+                    <input name="listid" value="3290" type="hidden">
+                    <input name="specialid:3290" value="OMN5" type="hidden">
+                    <input name="clientid" value="161514" type="hidden">
+                    <input name="formid" value="278" type="hidden">
+                    <input name="reallistid" value="1" type="hidden">
+                    <input name="doubleopt" value="1" type="hidden">
+                </div>
+            </fieldset>
+        </form>
+        
+        {# Language picker #}
+        <form id="language_picker" action="/i18n/setlang/" method="post">
+            <label for="language">Language</label>
+            <select name="language" is="language">
+                {% for lang in LANGUAGES %}
+                <option value="{{ lang.0 }}" {% ifequal LANGUAGE_CODE lang.0 %}selected{% endifequal %}>{{ lang.1 }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="{% trans "Go" %}" />
+        </form>
+        <div class="loginbar">
+        
+        {% if request.user.is_authenticated %}
+            Logged in as {{ request.user.username }} | <a href="/logout/">Sign out</a>
+        {% else %}
+            <a href="{% url login %}">Create an account</a> or <a href="{% url login %}">Sign in</a>
         {% endif %}
-        {% if featured_items.2 %}        
-        <li>
-          <a href="{% url feature_detail featured_items.2.slug %}">
-          <strong>{{ featured_items.2.title }}:</strong>
-          <p>{{ featured_items.2.teaser|truncatewords:"25" }}</p>
-          </a>
-        </li>
-        {% endif %}        
-    </ul>
-  {% endif %}
-  <div id="content">
-    <div id="breadcrumb">{% block breadcrumb %}{% endblock %}</div>
-    
-  <h2>{% block page_title %}
-    
-  {% endblock %}</h2>
-  
-  {% if notifications %}
-  <ul>
+        </div>
+        
+        
+    </div>
 
-      {% for message in notifications %}
-  	{% if forloop.first %} {% comment %} Just get the first notification - otherwise login message displays twice, strange bug {% endcomment %}
-         <li {% if message.tags %}class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-         {% endif %}
-      {% endfor %}
-  </ul>
-  {% endif %}
-  
-  {% block content %}
-  
-  {% endblock %}
-  </div>
-  <div id="right">
-  {% block right %}
-    
-  {% endblock %}
-  
-    {# {% include "blocks/list_view.html" %} #}
-  </div>
-  </div>
-  <div id="footer">
-    <ul class="col">
-      <li><a href="/about/">{% trans "About" %}</a></li>
-      <li><a href="/about/legal/">{% trans "Legal / Privacy" %}</a></li>
-    </ul>
-    <ul class="col">
-      <li><a href="/faqs/">{% trans "FAQs" %}</a></li>
-      <li><a href="{% url download %}">{% trans "Get the Data" %}</a></li>
-    </ul>
+    {# Outer #}
+    <div id="outer">
+        
+        {# Header #}
+        <div id="header">
+            <div id="photos" class="{{ header_class }}">
+
+            </div>
+
+            <h1><a href="/"><span>Fishsubsidy.org</span></a></h1>
+            <h2>{% trans "Discover who gets what from European Fish Subsidies" %}</h2>
+
+
+            {# search form #}
+            <form id="search_form" action="{% url search %}" method="POST" accept-charset="utf-8">
+              <h2><label for="search" class="section_title">{% trans "Search" %}</label></h2>
+              <input type="text" name="q" value="{{ q }}" id="q" title="{% trans "Enter a vessel name, number, port or place name" %}">
+              <input type="submit" value="Search" class="submit">
+              <small>
+                  {% blocktrans %}
+                   e.g. <a href="/search?q=Aurora">Aurora</a>, <a href="/search?q=DEU000300601">DEU000300601</a> or <a href="/search?q=Dieppe">Dieppe</a>
+                   {% endblocktrans %}
+                </small>
+            </form>
+
+            <ul id="mainmenu">
+                {% load active_url %}
+                <li><a href="/" >{% trans "Home" %}</a></li>
+                <li><a href="{% url countries %}" >{% trans "Countries" %}</a></li>
+                <li><a href="/EU/schemes" >{% trans "Schemes" %}</a></li>
+                <li><a href="/infringements/" >{% trans "Infringements" %}</a></li>
+                <li><a href="/map/" >{% trans "Map" %}</a></li>
+                <li><a href="/lists/">{% trans "Lists" %}</a></li>
+                <li><a href="/news/">{% trans "News &amp; reports" %}</a></li>
+                <li class="last"><a href="/faqs/">{% trans "FAQs" %}</a></li>
+            </ul>
+            
+        </div>
+        {% if not is_home %}
+            {% if featured_items %}
+                <div class="features">
+                    <ul id="features">
+                        <li>
+                          <a href="{% url feature_detail featured_items.0.slug %}">
+                          <strong>{{ featured_items.0.title }}:</strong>
+                          <p>{{ featured_items.0.teaser|truncatewords:"25" }}</p>
+                          </a>
+                        </li>
+                        {% if feature.1 %}
+                          <li>
+                            <a href="{% url feature_detail featured_items.1.slug %}">
+                            <strong>{{ featured_items.1.title }}:</strong>
+                            <p>{{ featured_items.1.teaser|truncatewords:"25" }}</p>
+                            </a>
+                          </li>          
+                        {% endif %}
+                        {% if feature.2 %}        
+                        <li>
+                          <a href="{% url feature_detail featured_items.2.slug %}">
+                          <strong>{{ featured_items.2.title }}:</strong>
+                          <p>{{ featured_items.2.teaser|truncatewords:"25" }}</p>
+                          </a>
+                        </li>
+                        {% endif %}        
+                    </ul>
+                    <br class="clear"/>
+                    <h4>latest news &amp; reports from the fishsubsidy.org network</h4>
+                </div>
+            {% endif %}
+        {% endif %}
+        
+        
+        {# Right column #}
+        <div id="right">
+            {% block right %}
+                {% if featured_items %}
+                    <h5>Latest news</h5>
+                    <ul>
+                        {% if featured_items.0 %}                  
+                            <li>
+                                <h5><a href="{{ featured_items.0.get_absolute_url }}">{{ featured_items.0.title }}</a></h5>
+                                <p>{{ featured_items.0.teaser|truncatewords:"25" }}</p>
+                            </li>
+                        {% endif %}                  
+                        {% if featured_items.1 %}
+                            <li>
+                                <h5><a href="{{ featured_items.1.get_absolute_url }}">{{ featured_items.1.title }}</a></h5>
+                                <p>{{ featured_items.1.teaser|truncatewords:"25" }}</p>
+                            </li>          
+                        {% endif %}
+                        {% if featured_items.2 %}        
+                            <li>
+                                <h5><a href="{{ featured_items.2.get_absolute_url }}">{{ featured_items.2.title }}</a></h5>
+                                <p>{{ featured_items.2.teaser|truncatewords:"25" }}</p>
+                            </li>
+                        {% endif %}        
+                    </ul>
+                {% endif %}
+            {% endblock %}
+            {% include "blocks/list_view.html" %}
+        </div>
+        
+        {# Content #}
+        <div id="content">
+            <div class="heading">
+                <p class="breadcrumbs">{% block breadcrumb %}{% endblock %}</p>
+                <h2>{% block page_title %}{% endblock %}</h2>
+            </div>
+            {% if notifications %}
+            <ul>
+            
+                {% for message in notifications %}
+             {% if forloop.first %} {% comment %} Just get the first notification - otherwise login message displays twice, strange bug {% endcomment %}
+                   <li {% if message.tags %}class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                   {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% block error %}{% endblock %}
+
+            {% block content %}{% endblock %}
+        </div>
+        
+        {# Footer #}
+        {% block footer %}
+             <div id="footer">
+
+               <div id="about">
+                   <a href="http://eutransparency.org">
+                       <img src="{{MEDIA_URL}}/images/eutlogo.png" width="241" height="92" />
+                   </a>                
+                     <p>
+                           Fishsubsidy.org is a project of EU Transparency, a non-profit organisation.
+                     </p>
+               </div>
+
+               <div id="links">
+                   <dl>
+                       {% if featured_items %}
+                           <dt>{% trans "Latest news:" %}</dt>
+                           <dd>
+                               <ul>
+                                   <li><a href="{{ featured_items.0.get_absolute_url }}">{{ featured_items.0.title }}</a></li>
+                               </ul>
+                           </dd>
+                       {% endif %}
+                       <dt>{% trans "Looking for more information?:" %}</dt>
+                       <dd>
+                           <ul>
+                               <li><a href="/news">{% trans "News &amp; reports" %}</a></li>
+                               <li><a href="/legal">{% trans "Legal / Privacy Policy" %}</a></li>
+                               <li><a href="/about#contactus">{% trans "About us" %}</a></li>
+                           </ul>
+                       </dd>
+                       <dt>{% trans "Get in touch" %}</dt>
+                       <dd>
+                           <ul>
+                               <li><a href="mailto:team[-at-]fishsubsidy[-dot-]org">{% trans "Email us" %}</a></li>
+                               <li><a href="http://twitter.com/fishsubsidy">{% trans "Follow fishsubsidy.org on Twitter" %}</a></li>                        
+                           </ul>
+                       </dd>
+                       <dt>{% trans "Technical:" %}</dt>
+                       <dd>
+                           <ul>
+                               <li><a href="http://github.com/eutransparency/Fish-Subsidy">{% trans "Get the code" %}</a></li>
+                               <li><a href="{% url download %}">{% trans "Get the raw data" %}</a></li>
+                           </ul>
+                       </dd>
+                  </dl>                   
+               </div>
+
+             </div>
+           {% endblock %}
   </div>
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
@@ -171,8 +269,6 @@ try {
 var pageTracker = _gat._getTracker("UA-126704-4");
 pageTracker._trackPageview();
 } catch(err) {}</script>
-
-
 
 </body>
 </html>

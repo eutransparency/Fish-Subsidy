@@ -3,7 +3,7 @@
 {% load parse_qs %}
 {% load humanize i18n %}
 {% load babel %}
-{# {% load lists %} #}
+{% load list_tags %}
 {% block page_title%}{% trans "Browse" %}{% endblock %}
 {% block title%}{% trans "Browse Vessels" %}{% endblock %}
 {% block content %}
@@ -15,8 +15,9 @@
   <table>
     <thead>
       <th>{% ifequal sort "name"  %}<strong>Name</strong>{% else %}<a href="{% parse_qs request.GET "sort" "name" %}">{% trans "Name" %}</a>{% endifequal %}</th>
-      <th>{% ifequal sort "amount"  %}<strong>Amount</strong>{% else %}<a href="{% parse_qs request.GET "sort" "amount" %}">{% trans "Amount" %}</a>{% endifequal %}</th>
+      <th class="amount">{% ifequal sort "amount"  %}<strong>Amount</strong>{% else %}<a href="{% parse_qs request.GET "sort" "amount" %}">{% trans "Amount" %}</a>{% endifequal %}</th>
       <th>{% ifequal sort "port"  %}<strong>Port</strong>{% else %}<a href="{% parse_qs request.GET "sort" "port" %}">{% trans "Port" %}</a>{% endifequal %}</th>
+      {% if list_enabled %}<th></th>{% endif %}
     </thead>
     {% for beneficiary in items %}
     {% ifequal beneficiary.recipient_type "vessel" %}
@@ -43,7 +44,7 @@
           {% trans "Unknown port" %}
           {% endif %}
         </td>
-        {# <td>{% list_item_edit beneficiary %}</td> #}
+        <td>{% list_item_edit beneficiary %}</td>
       </tr>
     {% endfor %}
   </table>

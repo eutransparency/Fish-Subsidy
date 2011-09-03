@@ -10,18 +10,31 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
-
+from django.core.urlresolvers import reverse
+from django.template.defaultfilters import slugify
 
 class List(models.Model):
     """Stores list definitions against a user"""
     
     name = models.CharField(blank=False, max_length=100)
-    description = models.TextField(blank=False, help_text="""Text will be formatted using <a href="">Markdown</a>""")
+    slug = models.SlugField(max_length=255)
+    description = models.TextField(blank=False, help_text="""Format help: 
+    Link: [text to display](http://example.net/) 
+    List item: * example item 
+    Bold text: *example text*""")
     user = models.ForeignKey(User)
     
     def __unicode__(self):
         return u"%s" % self.name
+    
+    def get_absolute_url(self):
+        return reverse('list_detail', kwargs={'list_id' : self.pk, 'slug' : self.slug})
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super(List, self).save(*args, **kwargs)
+    
 
 class ListItem(models.Model):
     """Stores ids of other objects against a list"""
@@ -33,5 +46,4 @@ class ListItem(models.Model):
 
     def __unicode__(self):
         return u"%s-%s" % (self.content_type, self.object_id)
-
 

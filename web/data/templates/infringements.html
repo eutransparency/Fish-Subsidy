@@ -19,31 +19,31 @@ official data obtained directly from governments but information collected
 manually from government websites, press reports and court records. It is
 therefore certain to be incomplete.</p>
 
+<p>Read more about subsidies and illegal fishing in the fishsubsidy.org report <a href="http://fishsubsidy.org/news/features/iuu/">When Crime Pays</a>.</p>
+
 <p>The table below shows vessels that have received fisheries subsidies and
 have been convicted of serious infringements.</p>
 {% endblocktrans %}
 
   <table>
     <thead>
-      <th>{% ifnotequal sort 'date'%}<a href="?sort=date">{% trans "Date" %}</a>{% else %}{% trans "Date" %}{% endifnotequal %}</th>
-      <th>{% ifnotequal sort 'vessel'%}<a href="?sort=vessel">{% trans "Vessel Name" %}</a>{% else %}{% trans "Vessel Name" %}{% endifnotequal %}</th>
-      <th>{% ifnotequal sort 'total'%}<a href="?sort=total">{% trans "Total Subsidy" %}</a>{% else %}{% trans "Total Subsidy" %}{% endifnotequal %}</th>
-      <th>{% ifnotequal sort 'port'%}<a href="?sort=port">{% trans "Home Port" %}</a>{% else %}{% trans "Home Port" %}{% endifnotequal %}</th>
-      <th>{% ifnotequal sort 'country'%}<a href="?sort=country">{% trans "Country" %}</a>{% else %}{% trans "Country" %}{% endifnotequal %}</th>
+      <th>
+          {% ifnotequal sort 'vessel'%}<a href="?sort=vessel">{% trans "Vessel Name" %}</a>{% else %}{% trans "Vessel Name" %}{% endifnotequal %} /
+          {% ifnotequal sort 'cfr'%}<a href="?sort=cfr">{% trans "Registration number" %}</a>{% else %}{% trans "Registration number" %}{% endifnotequal %}
+      </th>
+      <th>{% trans "Date(s) of offences" %}</th>
       <th>{% trans "Description" %}</th>
+      <th>
+          {% ifnotequal sort 'amount'%}<a href="?sort=amount">{% trans "FIFG subsidies 1994-2006" %}</a>{% else %}{% trans "FIFG subsidies 1994-2006" %}{% endifnotequal %}
+      </th>
+      <th>
+          {% ifnotequal sort 'before'%}<a href="?sort=before">{% trans "Infringed rules before subsidy?" %}</a>{% else %}{% trans "Infringed rules before subsidy?" %}{% endifnotequal %}
+      </th>
     </thead>
     {% for record in infringements %}
-
-      {% url vessel country=record.iso_country cfr=record.cfr name=record.vesssel_name as link_to_vessel %}
-    
       <tr class="{% cycle 'odd' 'even' %}">
-        <td>{{ record.date|date:"F Y"|default:"Unknown" }}</td>
-        <td><a href="{{ link_to_vessel }}">{{ record.vesssel_name }}</a></td>
-        <td><a href="{{ link_to_vessel }}">{{ record.total|currencyfmt:"EUR" }}</a></td>
-        <td><a href="{% url port record.iso_country record.port_name as port_url %}{{ port_url }}">{{ record.port_name|title }}</a></td>
-
-        <td><a href="{% url country record.iso_country %}">{% code_to_name_dumb record.iso_country %}</a></td>
-
+        <td><a href="{{ record.recipient.get_absolute_url }}">{{ record.recipient.name }} ({{ record.recipient.pk }})</a></td>
+        <td>{{ record.date_list|join:"<br>" }}</td>
         <td>{{ record.description }}
         {% if record.sanction %}
           <br />
@@ -53,6 +53,18 @@ have been convicted of serious infringements.</p>
           {% trans "Skipper/Owner" %}: {{ record.skipper }}<br />
         {% endif %}
         </td>
+        <td>
+
+            {{ record.recipient.amount|currencyfmt:"EUR" }}
+        </td>
+        <td>
+            {% if record.before_subsidy != None %}
+                {{ record.before_subsidy|yesno:_("yes,no")|title }}
+            {% else %}
+                ?
+            {% endif %}
+        </td>
+
       </tr>
 
 

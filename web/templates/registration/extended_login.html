@@ -1,43 +1,45 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block body_class%}wide{% endblock %}
-{% block page_title%}{% trans "Log in or create an account" %}{% endblock %}
-{% block title%}{% trans "Log in or create an account" %}{% endblock %}
+{% block page_title%}{% trans "Sign in or create an account" %}{% endblock %}
+{% block title%}{% trans "Sign in or create an account" %}{% endblock %}
 {% block content %}
+
+    <form method="POST" class="col">
+      <h3>{% trans "Sign in" %}</h3>
+    <table>
+      {{ login_form.as_table }}
+    </table>
+    <input type="submit" name="login" value="{% trans "Sign in" %}" />
+      <a href="{% url reset_password %}">{% trans "Forgotten your password?" %}</a>
+    </form>
+
 
   <form method="POST" class="col col1">
     <h3>{% trans "Create an account" %}</h3>
   <table>
     <tr>
-        <td>{{ registration_form.name.label_tag }}</td>
+        <th>{{ registration_form.name.label_tag }}</th>
         <td>{{ registration_form.name.errors }}{{ registration_form.name }}</td>
     </tr>
     <tr>
-        <td>{{ registration_form.username.label_tag }}</td>
+        <th>{{ registration_form.username.label_tag }}</th>
         <td>{{ registration_form.username.errors }}{{ registration_form.username }}</td>
     </tr>
     <tr>
-        <td>{{ registration_form.email.label_tag }}</td>
+        <th>{{ registration_form.email.label_tag }}</th>
         <td>{{ registration_form.email.errors}}{{ registration_form.email }}</td>
     </tr>
     <tr>
-        <td>{{ registration_form.password1.label_tag }}</td>
+        <th>{{ registration_form.password1.label_tag }}</th>
         <td>{{ registration_form.password1.errors}}{{ registration_form.password1 }}</td>
     </tr>
     <tr>
-        <td>{{ registration_form.password2.label_tag }}</td>
+        <th>{{ registration_form.password2.label_tag }}</th>
         <td>{{ registration_form.password2.errors }}{{ registration_form.password2 }}</td>
     </tr>    
     </table>
   <input type="submit" name="register" value="{% trans "Create your account" %}" />
   </form>  
 
-  <form method="POST" class="col">
-    <h3>Log in</h3>
-  <table>
-    {{ login_form.as_table }}
-  </table>
-  <input type="submit" name="login" value="{% trans "Sign in" %}" />
-    <a href="{% url reset_password %}">{% trans "Forgotten your password?" %}</a>
-  </form>
 {% endblock %}

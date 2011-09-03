@@ -1,13 +1,13 @@
 from django.db import models
+from django.template.defaultfilters import slugify
 from django.db import connection, backend, models
-import conf
 from managers.FishData import *
 from managers.denormalization import Denormalize
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from listmaker.models import ListItem
-import multilingual
-
+from multilingual.translation import TranslationModel
+from misc.countryCodes import country_codes
 
 class FishData(models.Model):
   """(Data description)"""  
@@ -23,7 +23,7 @@ class FishData(models.Model):
   municipality_x_cord = models.TextField(blank=True, null=True)
   municipality_y_cord = models.TextField(blank=True, null=True)
   scheme1_id = models.TextField(blank=True, null=True)
-  scheme2_id = models.TextField(blank=True, null=True)
+  scheme2_id = models.IntegerField(blank=True, null=True)
   scheme_name = models.TextField(blank=True, null=True)
   scheme_traffic_light = models.TextField(blank=True, null=True)
   status = models.TextField(blank=True, null=True)
@@ -53,7 +53,7 @@ class FishData(models.Model):
   recipient_name = models.TextField(blank=True, null=True)
   greenpeace_link = models.TextField(blank=True, null=True)
   lenght_code = models.TextField(blank=True, null=True)
-  total_subsidy = models.TextField(blank=True, null=True)
+  total_subsidy = models.FloatField(blank=True, null=True)
     
   objects = FishDataManager()
   denormalize = Denormalize()
@@ -79,7 +79,7 @@ class Recipient(models.Model):
   name = models.CharField(blank=True, max_length=255, null=True)
   country = models.CharField(blank=True, max_length=100, db_index=True)
   port = models.ForeignKey('Port', null=True)
-  amount = models.DecimalField(max_digits=40, decimal_places=2, null=True, default=0)
+  amount = models.DecimalField(max_digits=40, decimal_places=2, null=False, default=0)
   geo1 = models.CharField(blank=True, max_length=255, null=True)
   geo2 = models.CharField(blank=True, max_length=255, null=True)
   
@@ -88,13 +88,23 @@ class Recipient(models.Model):
   nonvessels = NonVesselsManager()
   
   LIST_ENABLED = True
+  list_hash_fields = ('name', 'country', 'amount')
+  list_total_field = 'amount'
+
 
   def __unicode__(self):
     return u"%s" % self.name
 
   def get_stemming_lang(self):
     return self.country
-
+  
+  @models.permalink
+  def get_absolute_url(self):
+      if self.recipient_type == "vessel":
+          return ('vessel', [self.country, str(self.pk), slugify(self.name)]) 
+      else:
+          return ('nonvessel', [self.country, str(self.pk), slugify(self.name)]) 
+      
 class Scheme(models.Model):
     scheme_id = models.IntegerField(blank=True, null=True, primary_key=True)
     total = models.DecimalField(max_digits=40, decimal_places=2, null=True, default=0)
@@ -102,19 +112,26 @@ class Scheme(models.Model):
     
     objects = SchemeManager()
     
-    class Translation(multilingual.Translation):
+    class Translation(TranslationModel):
         name = models.CharField(max_length=250)
     
     def __unicode__(self):
         return "%s" % (self.name)
 
+class SchemeYear(models.Model):
+    scheme = models.ForeignKey(Scheme)
+    year = models.IntegerField(blank=True, null=True)
+    country = models.CharField(blank=True, max_length=2)
+    total = models.DecimalField(max_digits=40, decimal_places=2, null=True, default=0)
+
+
 class Payment(models.Model):
   """
   Generic payments.  Stores payments for vessels, non-vessels and individuals.
   """
-  payment_id = models.IntegerField(primary_key=True, db_index=True)
+
   recipient_id = models.ForeignKey(Recipient, db_index=True)
-  amount = models.DecimalField(max_digits=40, decimal_places=2, null=True, default=0)
+  amount = models.DecimalField(max_digits=40, decimal_places=2, null=False, default=0)
   year = models.IntegerField(blank=True, null=True, db_index=True)
   port = models.ForeignKey('Port', null=True) # Only here as an optimization
   scheme = models.ForeignKey(Scheme)
@@ -141,16 +158,19 @@ class Port(models.Model):
 class illegalFishing(models.Model):
   
   def __unicode__(self):
-    return "%s" % self.cfr
+    return u"%s - %s" % (self.recipient, self.dates)
 
   objects = illegalFishingManager()
   
-  cfr = models.CharField(blank=True, max_length=100)
-  date = models.DateField(blank=True, null=True)
+  recipient = models.ForeignKey(Recipient)
+  dates = models.CharField(blank=True, max_length=255)
   sanction = models.TextField(blank=True)
   description = models.TextField(blank=True)
   skipper = models.TextField(blank=True)
+  before_subsidy = models.NullBooleanField(default=False, null=True)
 
+  def date_list(self):
+      return self.dates.split(',')
 
 class DataDownload(models.Model):
     
@@ -163,3 +183,30 @@ class DataDownload(models.Model):
     
     def __unicode__(self):
         return u"%s" % self.filename
+
+class EffData(models.Model):
+    country = models.CharField(blank=True, null=True, max_length=2)
+    area1 = models.CharField(blank=True, null=True, max_length=255)
+    area2 = models.CharField(blank=True, null=True, max_length=255)
+    fund = models.CharField(blank=True, null=True, max_length=100)
+    name = models.CharField(blank=True, null=True, max_length=255)
+    measureText = models.TextField(blank=True, null=True)
+    amountEuAllocatedEuro = models.FloatField()
+    amountEuPaymentEuro = models.FloatField()
+    amountTotalAllocatedEuro = models.FloatField()
+    amountTotalPaymentEuro = models.FloatField()
+    
+    
+    def format_location(self):
+        fields = [
+            unicode(country_codes(code=self.country)['name']) or "",
+            self.area1,
+            self.area2,
+        ]
+        fields = [f for f in fields if f]
+        return "<br />".join(fields)
+
+
+
+
+

@@ -1,5 +1,8 @@
-#
 #-*- coding: utf-8 -*-
+
+import os
+PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
+ROOT_PATH = os.path.split(PROJECT_PATH)[0]
 
 # Django settings for web project.
 from django.utils.translation import ugettext_lazy as _
@@ -25,7 +28,7 @@ USE_I18N = True
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = '/media'
+MEDIA_URL = '/media/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -60,9 +63,10 @@ ROOT_URLCONF = 'web.urls'
 
 INSTALLED_APPS = [
     'django.contrib.auth',
-    # 'django.contrib.comments',    
+    'django.contrib.comments',    
     'django.contrib.contenttypes',
     'django.contrib.admin',
+    'django.contrib.flatpages',
     'django.contrib.humanize',
     'django.contrib.sessions',
     'django.contrib.sites',
@@ -73,12 +77,11 @@ INSTALLED_APPS = [
     'stats',
     'feeds',
     'misc',
-    'graphs',
     'tagging',
     'pagination',
     'registration',
     'features',
-    # 'listmaker',
+    'listmaker',
     'profiles',
     'frontend',
     'django_notify',
@@ -88,7 +91,11 @@ INSTALLED_APPS = [
     'multilingual.flatpages',
     'babeldjango',
     'djapian',
-    'recipientcomments'
+    'recipientcomments',
+    'typogrify',
+    'sorl.thumbnail',
+    'sentry',
+    'sentry.client',
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -103,7 +110,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'misc.context_processors.latest_tweet',
     'features.context_processors.featured_items',
     'listmaker.context_processors.list_items',
-    'django_notify.context_processors.notifications',  
+    'django_notify.context_processors.notifications',
+    'misc.context_processors.header_class',
+    'features.context_processors.featured_items'
 )
 
 
@@ -139,3 +148,9 @@ DJAPIAN_STEMMING_LANG = "multi"
 
 
 CACHE_MIDDLEWARE_SECONDS = 30
+
+
+STATS_PATH = ROOT_PATH + '/data/stats'
+DEFAULT_YEAR = 0
+
+THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'

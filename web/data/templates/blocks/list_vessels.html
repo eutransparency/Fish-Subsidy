@@ -1,13 +1,17 @@
 {% load humanize %}
 {% load i18n %}
 {% load babel %}
-{# {% load lists %} #}
+{% load list_tags %}
 {% if table %}
   <table>
     <thead>
       <th>{% trans "Vessel Name" %}</th>
       {% if port %}<th>{% trans "Home Port" %}</th>{% endif %}
-      <th>{% trans "Amount" %}</th>
+      <th class="amount">{% trans "Amount" %}</th>
+      {% if list_enabled %}
+      <th class="list_header"></th>
+      {% endif %}
+      
     </thead>
     {% for vessel in vessels %}
       {% url vessel country=vessel.country cfr=vessel.pk name=vessel.name|slugify as vessel_url %}
@@ -24,10 +28,13 @@
             ({{ vessel.pk }})</a>        
           {% if expand %}({{ vessel.status }} {{ vessel.status|pluralize }}) {% endif %}
         </td>
-        {% url data.views.port country=vessel.country port=vessel.port_set.name as port_url %}
+        {% url data.views.port country=vessel.country port=vessel.port.name as port_url %}
         {% if port %}<td><a href="{{ port_url }}">{{ vessel.port.name|title }}</a></td>{% endif %}
         <td>{% if amount %}{{ vessel.amount|currencyfmt:"EUR" }}{% endif %}</td>
-        {# <td>{% list_item_edit vessel %}</td>                   #}
+        {% if list_enabled %}
+        <td>{% list_item_edit vessel %}</td>
+        {% endif %}
+
       </tr>
     {% endfor %}
   </table>

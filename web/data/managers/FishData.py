@@ -1,11 +1,11 @@
 import re
 import decimal
 
+from django.conf import settings
 from django.db import models
 from django.db import connection, backend, models
 from django.db.models import Sum, Max
 from django.db.models.query import QuerySet, Q
-import conf
 
 
 from django.utils.translation import get_language
@@ -30,16 +30,15 @@ class illegalFishingManager(models.Manager):
     cursor.execute("""
       SELECT i.*, f.vessel_name, f.iso_country, f.port_name, SUM(f.total_subsidy) as t
       FROM data_illegalfishing i
-      INNER JOIN `data_fishdata` f
+      INNER JOIN data_fishdata f
       ON i.cfr = f.cfr
       WHERE f.vessel_name IS NOT NULL
-      GROUP BY i.id
+      GROUP BY i.id, i.cfr, i.date, i.sanction, i.description, i.skipper, f.vessel_name, f.iso_country, f.port_name
       ORDER BY %(order_by)s;
     """ % locals())
     
     result_list = []
     for row in cursor.fetchall():
-        print row
         p = self.model(cfr=row[1], date=row[2], sanction=row[3], description=row[4], skipper=row[5])
         p.vesssel_name = row[6] or row[1]
         p.iso_country = row[7]
@@ -116,7 +115,7 @@ class PortManager(models.Manager):
         if scheme_id:
             kwargs['payment__scheme__exact'] = scheme_id
         top_ports = top_ports.filter(**kwargs)
-        top_ports = top_ports.annotate(total=Sum('payment__amount'))
+        top_ports = top_ports.annotate(totalsubsidy=Sum('payment__amount'))
         top_ports = top_ports.order_by('-total')[:5]
         return top_ports
 
@@ -132,28 +131,25 @@ class SchemeManager(multilingual.Manager):
 
         """
 
-        name_value = "name_%s" % get_language()
+        top_schemes = self
 
-        top_schemes = self.values("scheme_id", name_value)
         kwargs = {}
-
         if country and country != "EU":
             kwargs['payment__country__exact'] = country
 
         if int(year) != 0:
             kwargs['payment__year__exact'] = year
+
         top_schemes = top_schemes.filter(**kwargs)
-        top_schemes = top_schemes.annotate(total=Sum('payment__amount'))
-        top_schemes = top_schemes.values(name_value, "traffic_light", "total", "scheme_id")
-        top_schemes = top_schemes.order_by('-total')
-        
+        top_schemes = top_schemes.annotate(schemetotal=Sum('payment__amount'))
+        top_schemes = top_schemes.order_by('-schemetotal')
+
         if limit:
             return top_schemes[:limit]
         else:
             return top_schemes
 
     def years_total(self, country=None):
-        print repr(country)
         if country and country != "EU" and country != "0":
             extra_and = "AND p.country='%s'" % country
         else:
@@ -201,19 +197,19 @@ class FishDataManager(models.Manager):
     return result_list[0]
       
 
-  def top_vessels(self, country=None, limit=20, year=conf.default_year, port=None):
+  def top_vessels(self, country=None, limit=20, year=settings.DEFAULT_YEAR, port=None):
     extra_and = ""
     if port:
       extra_and += " AND port_name = '%s'" % re.escape(port)
     if country and country != "EU":
-      extra_and += " AND `iso_country` = '%s'" % country
+      extra_and += " AND iso_country = '%s'" % country
     if year and str(year) != "0":
       extra_and += " AND year='%s'" % year
       
     cursor = connection.cursor()
     cursor.execute("""
-      SELECT vessel_name, cfr, sum(total_subsidy) as t, iso_country, count(cfr), port_name 
-      FROM `data_fishdata` 
+      SELECT vessel_name, cfr, sum(total_subsidy_subsidy) as t, iso_country, count(cfr), port_name 
+      FROM data_fishdata 
       WHERE vessel_name IS NOT NULL  %(extra_and)s
       GROUP BY cfr
       ORDER BY t DESC
@@ -235,9 +231,9 @@ class FishDataManager(models.Manager):
     cursor = connection.cursor()
     cursor.execute("""
       SELECT vessel_name, cfr, sum(total_subsidy) as t, iso_country, count(cfr), port_name 
-      FROM `data_fishdata` 
-      WHERE vessel_name IS NOT NULL AND `tuna_fleet` IS NOT NULL  %(extra_and)s
-      GROUP BY cfr
+      FROM data_fishdata 
+      WHERE vessel_name IS NOT NULL AND tuna_fleet IS NOT NULL  %(extra_and)s
+      GROUP BY cfr, iso_country, port_name, vessel_name
       ORDER BY t DESC;
     """ % {'extra_and' : extra_and })
     
@@ -253,20 +249,20 @@ class FishDataManager(models.Manager):
     
   
     
-  def top_vessels_by_scheme(self, scheme_id, country=None, limit=10, year=conf.default_year):
+  def top_vessels_by_scheme(self, scheme_id, country=None, limit=10, year=settings.DEFAULT_YEAR):
 
     extra_and = ""    
     if year and str(year) != "0":
       extra_and += " AND year='%s'" % year
 
     if country and country != "EU":
-      extra_and += " AND `iso_country` = '%s'" % country
+      extra_and += " AND iso_country = '%s'" % country
 
 
     cursor = connection.cursor()
     cursor.execute("""
       SELECT vessel_name, cfr, sum(total_subsidy) as t, iso_country, port_name 
-      FROM `data_fishdata` 
+      FROM data_fishdata 
       WHERE scheme2_id = %(scheme_id)s AND vessel_name IS NOT NULL  %(extra_and)s
       GROUP BY cfr
       ORDER BY t DESC
@@ -281,7 +277,7 @@ class FishDataManager(models.Manager):
     return result_list
     
     
-  def top_schemes(self, country=None, limit=10, year=conf.default_year, port=None):
+  def top_schemes(self, country=None, limit=10, year=settings.DEFAULT_YEAR, port=None):
     extra_and = ""
     if port:
       extra_and = "AND port_name = '%s'" % re.escape(port)
@@ -307,7 +303,7 @@ class FishDataManager(models.Manager):
         result_list.append(p)
     return result_list
     
-  def top_ports(self, country=None, limit=10, year=conf.default_year, geo1=None, scheme_id=None):
+  def top_ports(self, country=None, limit=10, year=settings.DEFAULT_YEAR, geo1=None, scheme_id=None):
     extra_and = ""
     if str(year) != "0":
       extra_and += " AND year = '%s' " % year
@@ -321,7 +317,7 @@ class FishDataManager(models.Manager):
     cursor = connection.cursor()
     cursor.execute("""
       SELECT port_name, sum(total_subsidy) as t 
-      FROM `data_fishdata` 
+      FROM data_fishdata 
       WHERE port_name IS NOT NULL %(extra_and)s
       GROUP BY port_name 
       ORDER BY t DESC      
@@ -381,19 +377,19 @@ class FishDataManager(models.Manager):
         result_list.append(p)
     return result_list
     
-  def scheme_years(self, scheme_id, country='EU', year=conf.default_year):
+  def scheme_years(self, scheme_id, country='EU', year=settings.DEFAULT_YEAR):
     cursor = connection.cursor()
     extra_and = ""
     if country and country != "EU" :
-      extra_and += " AND `iso_country`='%s'" % country
+      extra_and += " AND iso_country='%s'" % country
     if str(year) != "0":
       extra_and += " AND year = '%s' " % year
 
     cursor.execute("""
       SELECT year, sum(total_subsidy), scheme_traffic_light, scheme_name, scheme2_id 
-      FROM `data_fishdata` 
+      FROM data_fishdata 
       WHERE scheme2_id=%(scheme_id)s %(extra_and)s 
-      GROUP BY `year`
+      GROUP BY year, scheme_traffic_light, scheme_name, scheme2_id
     """ % {'scheme_id' : scheme_id, 'extra_and' : extra_and})
     
     result_list = []
@@ -402,19 +398,19 @@ class FishDataManager(models.Manager):
         result_list.append(p)
     return result_list
 
-  def schemes(self, country=None, year=conf.default_year):
+  def schemes(self, country=None, year=settings.DEFAULT_YEAR):
     cursor = connection.cursor()
     
     extra_and = ""    
     if str(year) != "0":
       extra_and += " AND year = '%s' " % year
     if country and country != "EU":
-      extra_and += "AND `iso_country`='%s'" % country
+      extra_and += "AND iso_country='%s'" % country
 
     cursor.execute("""
       SELECT sum(total_subsidy) as t, scheme_traffic_light, scheme_name, scheme2_id 
-      FROM `data_fishdata` WHERE scheme_name IS NOT NULL %(extra_and)s 
-      GROUP BY `scheme2_id`
+      FROM data_fishdata WHERE scheme_name IS NOT NULL %(extra_and)s 
+      GROUP BY scheme2_id
       ORDER BY t DESC
     """ % {'extra_and' : extra_and, 'year' : year})
 
@@ -428,7 +424,7 @@ class FishDataManager(models.Manager):
   def scheme_length_count(self, scheme_id):
     cursor = connection.cursor()
     cursor.execute("""
-        SELECT `overall_length` FROM `data_fishdata` WHERE scheme2_id=%(scheme_id)s AND `overall_length` IS NOT NULL GROUP BY `overall_length`
+        SELECT overall_length FROM data_fishdata WHERE scheme2_id=%(scheme_id)s AND overall_length IS NOT NULL GROUP BY overall_length
       """ % {'scheme_id' : scheme_id})
     
     result_list = []
@@ -438,7 +434,7 @@ class FishDataManager(models.Manager):
     return result_list
     
 
-  def browse(self, country, sort='total_subsidy', year=conf.default_year, geo1=None):
+  def browse(self, country, sort='total_subsidy', year=settings.DEFAULT_YEAR, geo1=None):
     extra_and = ""
     if str(year) != "0":
       extra_and += " AND year = '%s' " % year
@@ -450,9 +446,9 @@ class FishDataManager(models.Manager):
     cursor = connection.cursor()
     cursor.execute("""
             SELECT vessel_name, sum(total_subsidy) as total_subsidy, port_name, cfr, iso_country
-            FROM `data_fishdata` 
-            WHERE `vessel_name` IS NOT NULL %(extra_and)s 
-            GROUP BY `cfr` 
+            FROM data_fishdata 
+            WHERE vessel_name IS NOT NULL %(extra_and)s 
+            GROUP BY cfr 
             ORDER BY %(sort)s 
           """ % {'sort' : sort, 'country' : country, 'extra_and' : extra_and})
               
@@ -463,7 +459,7 @@ class FishDataManager(models.Manager):
     return result_list
 
 
-  def port_browse(self, country, sort='total_subsidy', year=conf.default_year):
+  def port_browse(self, country, sort='total_subsidy', year=settings.DEFAULT_YEAR):
     extra_and = ""
     if str(year) != "0":
       extra_and += " AND year = '%s' " % year
@@ -473,9 +469,9 @@ class FishDataManager(models.Manager):
     cursor = connection.cursor()
     cursor.execute("""
         SELECT port_name, sum(total_subsidy) as total_subsidy, port_name, cfr, iso_country
-        FROM `data_fishdata` 
-        WHERE `port_name` IS NOT NULL  %(extra_and)s
-        GROUP BY `port_name` 
+        FROM data_fishdata 
+        WHERE port_name IS NOT NULL  %(extra_and)s
+        GROUP BY port_name 
         ORDER BY %(sort)s 
       """ % {'sort' : sort, 'country' : country, 'extra_and' : extra_and})
 
@@ -485,7 +481,7 @@ class FishDataManager(models.Manager):
         result_list.append(p)
     return result_list
       
-  def geo(self,geo=1,country="EU", sort="total_subsidy DESC", year=conf.default_year, geo1=None, scheme_id=None, limit=5):
+  def geo(self,geo=1,country="EU", sort="total_subsidy DESC", year=settings.DEFAULT_YEAR, geo1=None, scheme_id=None, limit=5):
     extra_and = " AND vessel_name IS NULL AND port_name IS NULL "
     if str(year) != "0":
       extra_and += " AND year = '%s' " % year
@@ -502,10 +498,11 @@ class FishDataManager(models.Manager):
         limit = ""
     cursor = connection.cursor()
     cursor.execute("""    
-      SELECT geo1,geo2, SUM(total_subsidy) as total_subsidy, iso_country
-      FROM `data_fishdata`
+      SELECT geo1, geo2, SUM(total_subsidy) as total_subsidy, iso_country
+      FROM data_fishdata
       WHERE geo%(geo)s IS NOT NULL %(extra_and)s
-      GROUP BY geo%(geo)s
+      AND total_subsidy IS NOT NULL
+      GROUP BY iso_country, geo1, geo2
       ORDER BY %(sort)s
       %(limit)s
       """ % {'sort' : sort, 

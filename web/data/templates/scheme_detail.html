@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load babel %}
 {% load humanize traffic_lights i18n %}
+{% load list_tags %}
 
 {% block title %}{{ scheme.0.scheme_name }}{% endblock %}
 
@@ -9,6 +10,7 @@
     <a href="{% url country country.code %}">{{ country.name }}</a> &mdash; {% ifnotequal year 0 %} {{ year }}{% else %} {% trans "All years" %}{% endifnotequal %}
 {% endif %}
 <br />{% trans "Scheme" %}: {{ scheme.0.scheme_name }}
+{% traffic_light scheme.0.scheme_traffic_light %}
 {% endblock %}
 
 {% block breadcrumb %}
@@ -20,15 +22,11 @@
     <p><a href="/schemes/{{ scheme.0.scheme2_id }}/{{ scheme.0.scheme_name }}">{% trans "View for all countries" %}</a></p>    
   {% endifnotequal %}
 
-  {% ifequal year 0 %}
-    {% load graphs %}
-    {% graph "scheme" scheme %}
-  {% endifequal %}
 
 
   <div class="year_selector">
   {% for country_year in data_years %}
-    {% url data.views.scheme_detail country=country.code year=country_year.year, scheme_id=scheme.0.scheme2_id, name=scheme.0.scheme_name|slugify as year_url %}
+    {% url data.views.scheme_detail country=country.code year=country_year.year scheme_id=scheme.0.scheme2_id name=scheme.0.scheme_name|slugify as year_url %}
     <a href="{{ year_url }}" {% ifequal year country_year.year %}class="selected"{% endifequal %}>{{ country_year.year }}</a>
   {% endfor %}
   <br /><a href="0" {% ifequal year 0 %}class="selected"{% endifequal %}>{% trans "All Years" %}</a>
@@ -42,16 +40,23 @@
     
       <table>
         <thead>
-          <th>{% trans "Name" %}</th>
+          <th class="recipient_name">{% trans "Name" %}</th>
           <th>{% trans "Amount" %}</th>
+          {% if list_enabled %}
+            <th></th>
+          {% endif %}
         </thead>
         {% for vessel in top_vessels %}
         <tr>{% url vessel country=country.code cfr=vessel.pk name=vessel.name|slugify as vessel_url %}
           <td><a href="{{ vessel_url }}">{{ vessel.name|title }} ({{ vessel.pk }})</a></td>
           <td>{{ vessel.payment_total|currencyfmt:"EUR" }}</td>
+          {% if list_enabled %}
+              <td>{% list_item_edit vessel %}</td>
+          {% endif %}
+          
         </tr>
         {% endfor %}
-    
+        
       </table>    
     </div>
   {% endif %}
@@ -63,8 +68,12 @@
     
       <table>
         <thead>
-          <th>{% trans "Name" %}</th>
+          <th class="recipient_name">{% trans "Name" %}</th>
           <th>{% trans "Amount" %}</th>
+          {% if list_enabled %}
+            <th></th>
+          {% endif %}
+
         </thead>
         {% for beneficiary in top_nonvessels %}
         <tr>{% url nonvessel country=beneficiary.country project_no=beneficiary.pk as vessel_url %}
@@ -78,6 +87,10 @@
             
             </a></td>
           <td>{{ beneficiary.payment_total|currencyfmt:"EUR" }}</td>
+          {% if list_enabled %}
+              <td>{% list_item_edit beneficiary %}</td>
+          {% endif %}
+          
         </tr>
         {% endfor %}
     
@@ -88,11 +101,11 @@
 
 
   {% if top_ports %}
-    <div class="section {% if col %}col{% endif %}">  
+    <div class="{% if col %}col{% endif %}">  
       <h2>Top Ports</h2>
       <table>
         <thead>
-          <th>{% trans "Port" %}</th>
+          <th class="recipient_name">{% trans "Port" %}</th>
           <th>{% trans "Amount" %}</th>
         </thead>
       {% for port in top_ports %}
@@ -108,11 +121,11 @@
   {% endif %}
 
   {% if top_municipalities %}
-  <div class="section {% if col %}col{% endif %}">  
+  <div class="{% if col %}col{% endif %}">  
     <h2>{% trans "Top Regions" %}</h2>
     <table>
       <thead>
-        <th>{% trans "Region" %}</th>
+        <th class="recipient_name">{% trans "Region" %}</th>
         <th>{% trans "Amount" %}</th>
       </thead>
     {% for m in top_municipalities %}

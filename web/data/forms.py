@@ -4,7 +4,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 
-from models import Profile
+from frontend.models import Profile
 
 
 class DownloadDataForm(forms.ModelForm):
@@ -21,3 +21,6 @@ class DataAgreementForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('data_agreement', 'data_description',)
+
+class EffSearchForm(forms.Form):
+    query = forms.CharField(required=True, label=_('Search terms'))

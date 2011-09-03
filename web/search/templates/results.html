@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load list_tags %}
+{% load babel %}
 {% block title %}{% trans "Search Results" %}{% endblock %}
 {% block page_title %}{% trans "Search Results" %}{% endblock %}
 
@@ -18,7 +20,7 @@
     <h2>{% trans "Matching Ports" %}</h2>
     <ul>
       {% for port in ports %}
-        {% url port port.instance.country, port.instance.name,  as port_url %}
+        {% url port port.instance.country  port.instance.name  as port_url %}
         <li><a href="{{ port_url }}">{{ port.instance.name|title }}</a></li>
       {% endfor %}
     </ul>
@@ -28,7 +30,7 @@
     <h2>{% trans "Matching Schemes" %}</h2>
     <ul>
       {% for scheme in schemes %}
-        {% url scheme_country_detail 'EU', scheme.instance.scheme_id, scheme.instance.name as scheme_url %}
+        {% url scheme_country_detail 'EU'  scheme.instance.scheme_id scheme.instance.name as scheme_url %}
         <li><a href="{{ scheme_url }}">{{ scheme.instance.name|title }}</a></li>
       {% endfor %}
     </ul>
@@ -36,12 +38,24 @@
 
   {% if vessels %}
     <h2>{% trans "Matching Vessels" %}</h2>
-    <ul>
-      {% for vessel in vessels %}
-        {% url vessel vessel.instance.country, vessel.instance.pk, vessel.instance.name as vessel_url %}
-        <li><a href="{{ vessel_url }}">{{ vessel.instance.name|title }}</a></li>
-      {% endfor %}
-    </ul>
+    <table>
+        <thead>
+            <th>{% trans "Name" %}</th>
+            <th class="amount">{% trans "Amount" %}</th>
+            {% if list_enabled %}<th></th>{% endif %}
+        </thead>
+        <tbody>
+            {% for vessel in vessels %}
+                {% url vessel vessel.instance.country vessel.instance.pk vessel.instance.name as vessel_url %}
+                <tr>
+                    <td><a href="{{ vessel_url }}">{{ vessel.instance.name|title }}</a></td>
+                    <td>{{ vessel.instance.amount|currencyfmt:"EUR" }}</td>
+                    {% if list_enabled %}<td>{% list_item_edit vessel.instance %}</td>{% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+        
+    </table>
   {% endif %}
   
 {% endblock %}

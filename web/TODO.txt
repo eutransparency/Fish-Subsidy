@@ -1,0 +1,2 @@
+* Make index_data script more efficient by using COPY rather than manually 
+adding each object.

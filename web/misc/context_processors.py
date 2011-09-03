@@ -2,6 +2,7 @@ from datetime import datetime
 import settings
 from django.core.cache import cache
 import twitter
+import random
 
 def latest_tweet(request):
     tweet = cache.get( 'tweet' )
@@ -15,3 +16,6 @@ def latest_tweet(request):
     except:
         tweet = {}
     return {"tweet": tweet}
+    
+def header_class(request):
+    return {'header_class' : 'header_' + str(random.randint(1,6))}  

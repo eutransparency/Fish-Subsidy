@@ -1,0 +1,2 @@
+1. Place `listmaker` on your python path and add it to INSTALLED_APPS.
+* Add `LIST_ENABLED = True` to any model you want to be able to use lists with.

@@ -1,6 +1,12 @@
-import simplejson
+# -*- coding: utf-8 -*-
+import json
 import mimetypes
 
+import xapian
+import redis
+r = redis.Redis()
+
+from django.conf import settings
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
@@ -10,16 +16,19 @@ from django.core.servers.basehttp import FileWrapper
 from django.db.models import Sum, Max
 from django.utils.translation import get_language
 from django.utils.translation import ugettext as _
+from django.core.paginator import Paginator
 
 import models
-import conf
 from data.models import FishData, illegalFishing
 from frontend.models import Profile
 from frontend.forms import UserProfileForm, DataAgreementForm
-from data.models import DataDownload, Recipient, Payment, Port, Scheme
+from data.models import DataDownload, Recipient, Payment, Port, Scheme, EffData
+from data.forms import EffSearchForm
 
 from recipientcomments.forms import RecipientCommentForm
 from recipientcomments.models import RecipientComment
+
+from misc import countryCodes
 
 def home(request):
     ip_country = RequestContext(request)['ip_country']
@@ -29,6 +38,9 @@ def home(request):
     country_top_vessels = Recipient.vessels.filter(country=ip_country).order_by('-amount')[:5]
     top_schemes = Scheme.objects.top_schemes(year=0)
     
+    latest_annotations = RecipientComment.objects.all().order_by('-date')[:5]
+    print latest_annotations
+
     return render_to_response(
         'home.html', 
         {
@@ -37,13 +49,21 @@ def home(request):
             'country_top_vessels' : country_top_vessels,
             'country_top_nonvessels' : country_top_nonvessels,
             'top_schemes' : top_schemes,
+            'latest_annotations' : latest_annotations,
         },
         context_instance=RequestContext(request)
     )  
     
 
+def countries(request):
+    """
+    Home page for countries – just shows a list of countries as defined in the 
+    menu template tag.
+    """
+    return render_to_response('countries.html', {}, context_instance=RequestContext(request))
+    
 
-def country(request, country=None, year=conf.default_year):
+def country(request, country=None, year=settings.DEFAULT_YEAR):
     if country:
         country = country.upper()    
     year = int(year)
@@ -60,8 +80,9 @@ def country(request, country=None, year=conf.default_year):
     if year != 0:
         kwargs['payment__year__exact'] = year
     top_vessels = top_vessels.filter(port__country=country, **kwargs)
-    top_vessels = top_vessels.annotate(total=Sum('payment__amount'))        
-    top_vessels = top_vessels.order_by('-total')
+    top_vessels = top_vessels.exclude(payment__amount=None)
+    top_vessels = top_vessels.annotate(totalscheme=Sum('payment__amount'))        
+    top_vessels = top_vessels.order_by('-totalscheme')
     top_vessels = top_vessels[:5]
     top_vessels = top_vessels.select_related('port__name')
     
@@ -77,18 +98,18 @@ def country(request, country=None, year=conf.default_year):
     non_vessles = non_vessles.order_by('-total')
     non_vessles = non_vessles[:5]
         
-    top_ports = Port.objects.select_related().all()
+    top_ports = Port.objects.all()
     kwargs = {}
     if country and country!='EU':
         kwargs['country'] = country
-        kwargs['payment__country'] = country        
+        kwargs['payment__country'] = country
     if year != 0:
         kwargs['payment__year__exact'] = year
     top_ports = top_ports.filter(**kwargs)
-    top_ports = top_ports.annotate(total=Sum('payment__amount'))
-    top_ports = top_ports.order_by('-total')[:5]
+    top_ports = top_ports.annotate(totalsscheme=Sum('payment__amount'))
+    top_ports = top_ports.order_by('-totalsscheme')[:5]
     
-    top_schemes = Scheme.objects.top_schemes()
+    top_schemes = Scheme.objects.top_schemes(country=country)
     
     top_municipalities = FishData.objects.geo(geo=1, country=country, year=year)[0:5]
 
@@ -128,7 +149,7 @@ def country_ports(request, country):
     )
 
 
-def port(request, country, port, year=conf.default_year):
+def port(request, country, port, year=settings.DEFAULT_YEAR):
     if country:
         country = country.upper()
     
@@ -137,7 +158,7 @@ def port(request, country, port, year=conf.default_year):
 
     ports = FishData.objects.filter(port_name=port)
     if country != "EU":
-        ports.filter(iso_country=country)
+        ports = ports.filter(iso_country=country)
 
     if len(ports) > 0:
         port = ports[0]
@@ -153,7 +174,7 @@ def port(request, country, port, year=conf.default_year):
         context_instance=RequestContext(request)
     )  
 
-def browse_ports(request, country, year=conf.default_year):
+def browse_ports(request, country, year=settings.DEFAULT_YEAR):
     if country:
         country = country.upper()
 
@@ -196,7 +217,7 @@ def vessel(request, country, cfr, name):
     full_row = FishData.objects.get_latest_row(cfr)
     
     total = 0
-    infringement_record = illegalFishing.objects.select_related().filter(cfr=cfr).order_by('date')
+    infringement_record = illegalFishing.objects.select_related().filter(recipient=cfr)
 
     comments = RecipientComment.public.filter(recipient=recipient)
     
@@ -265,24 +286,28 @@ def nonvessel(request, country, project_no):
     )
 
 
-def schemes(request, country=None, year=conf.default_year):
+def schemes(request, country=None, year=settings.DEFAULT_YEAR):
     if country:
         country = country.upper()
 
     top_schemes = Scheme.objects.top_schemes(country=country, year=year, limit=None)
-
+    
+    countries = countryCodes.country_codes()
+    
     data_years = FishData.objects.country_years(country)
     return render_to_response(
         'schemes.html', 
         {
             'schemes' : top_schemes,
             'year' : int(year), 
-            'data_years' : data_years
+            'data_years' : data_years,
+            'countries' : countries,
+            # 'country' : country,
         },
         context_instance=RequestContext(request)
     )
 
-def scheme_detail(request, scheme_id, name, country=None, year=conf.default_year):
+def scheme_detail(request, scheme_id, name, country=None, year=settings.DEFAULT_YEAR):
     if country:
         country = country.upper()    
     
@@ -300,7 +325,6 @@ def scheme_detail(request, scheme_id, name, country=None, year=conf.default_year
         col = True
     else:
         col = False
-
 
     return render_to_response(
         'scheme_detail.html', 
@@ -332,7 +356,7 @@ def tuna_fleet(request, country):
   
  
   
-def country_browse(request, country, year=conf.default_year):
+def country_browse(request, country, year=settings.DEFAULT_YEAR):
     if country:
         country = country.upper()
 
@@ -373,7 +397,7 @@ def country_browse(request, country, year=conf.default_year):
     )
   
   
-def browse_geo1(request, country, sort='amount', year=conf.default_year):
+def browse_geo1(request, country, sort='amount', year=settings.DEFAULT_YEAR):
     if country:
         country = country.upper()
 
@@ -396,7 +420,7 @@ def browse_geo1(request, country, sort='amount', year=conf.default_year):
     )
 
   
-def browse_geo2(request, country, geo1, sort='amount', year=conf.default_year):
+def browse_geo2(request, country, geo1, sort='amount', year=settings.DEFAULT_YEAR):
     if country:
         country = country.upper()
 
@@ -420,9 +444,8 @@ def browse_geo2(request, country, geo1, sort='amount', year=conf.default_year):
         kwargs['payment__country'] = country        
     kwargs['payment__recipient_id__geo1'] = geo1        
     top_ports = top_ports.filter(**kwargs)
-    top_ports = top_ports.annotate(total=Sum('payment__amount'))
-    top_ports = top_ports.order_by('-total')[:5]
-    print top_ports.query.as_sql()
+    top_ports = top_ports.annotate(totalsubsidy=Sum('payment__amount'))
+    top_ports = top_ports.order_by('-totalsubsidy')[:5]
 
 
     return render_to_response(
@@ -441,8 +464,17 @@ def browse_geo2(request, country, geo1, sort='amount', year=conf.default_year):
 
 def infringements(request):
     sort = request.GET.get('sort','date')
-    infringements = illegalFishing.objects.all_infringements(sort=sort)
-
+    infringements = illegalFishing.objects.all()
+    
+    if sort == "vessel":
+        infringements = infringements.order_by('recipient__name')
+    if sort == "cfr":
+        infringements = infringements.order_by('recipient__pk')
+    if sort == "amount":
+        infringements = infringements.order_by('-recipient__amount')
+    if sort == "before":
+        infringements = infringements.order_by('-before_subsidy')
+    
     return render_to_response(
         'infringements.html', 
         {
@@ -453,11 +485,14 @@ def infringements(request):
     )
 
 
+def greenpeace_blacklist(request):
+    pass
+
 @login_required
 def download(request, data_file=None):
     user = request.user
     try:
-        profile = Profile.objects.get(user=user)
+        profile, created = Profile.objects.get_or_create(user=user)
     except Profile.DoesNotExist:
         return HttpResponseRedirect(reverse('profiles_create_profile'))
 
@@ -486,12 +521,9 @@ def download(request, data_file=None):
 
 @login_required
 def data_agreement_form(request):
-    try:
-        profile = Profile.objects.get(user=request.user)
-        if profile.data_agreement:
-            return HttpResponseRedirect(reverse('download'))
-    except Profile.DoesNotExist:
-        return HttpResponseRedirect(reverse('profiles_create_profile'))
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    if profile.data_agreement:
+        return HttpResponseRedirect(reverse('download'))
     
     if request.POST:
         form = DataAgreementForm(request.POST, instance=profile)
@@ -508,4 +540,69 @@ def data_agreement_form(request):
       context_instance=RequestContext(request)
     )
     
+
+def effsearch(request):
+    
+    page = totals = results = results_count = None
+    
+    if request.GET:
+        form = EffSearchForm(request.GET)
+        if form.is_valid():
+            results = EffData.indexer.search(form.cleaned_data['query']).flags(
+                            xapian.QueryParser.FLAG_PHRASE\
+                            | xapian.QueryParser.FLAG_BOOLEAN\
+                            | xapian.QueryParser.FLAG_LOVEHATE\
+                            ).prefetch()
+    
+            results_count = results.count()
+            amountEuAllocatedEuro = \
+            amountEuPaymentEuro = \
+            amountTotalAllocatedEuro = \
+            amountTotalPaymentEuro = 0.0
+            
+            totals = {}
+            cache_key = "result_cache::%s" % form.cleaned_data['query']
+            totals = r.hgetall(cache_key)
+            if totals:
+                for k,v in totals.items():
+                    totals[k] = float(v)
+            else:
+                for result in results:
+                    i = result.instance
+                    amountEuAllocatedEuro = amountEuAllocatedEuro + i.amountEuAllocatedEuro
+                    amountEuPaymentEuro = amountEuPaymentEuro + i.amountEuPaymentEuro
+                    amountTotalAllocatedEuro = amountTotalAllocatedEuro + i.amountTotalAllocatedEuro
+                    amountTotalPaymentEuro = amountTotalPaymentEuro + i.amountTotalPaymentEuro
+                                        
+                    totals['amountEuAllocatedEuro']     = round(amountEuAllocatedEuro)
+                    totals['amountEuPaymentEuro']       = round(amountEuPaymentEuro)
+                    totals['amountTotalAllocatedEuro']  = round(amountTotalAllocatedEuro)
+                    totals['amountTotalPaymentEuro']    = round(amountTotalPaymentEuro)
+                for k,v in totals.items():
+                    r.hset(cache_key, k, v)
+                r.expire(cache_key, 60*60*24*7) # Expire in one week
+                
+            page = Paginator(results, 100).page(request.GET.get('page', 1) or 1)
+            print dir(page)
+    else: 
+        form = EffSearchForm()
+    
+    
+    
+    return render_to_response(
+      'eff_search/search.html', 
+      {
+          'form' : form,
+          'results' : page,
+          'totals' : totals,
+          'number_of_results' : results_count
+      }, 
+      context_instance=RequestContext(request)
+    )
+
+
+
+
+
+
 

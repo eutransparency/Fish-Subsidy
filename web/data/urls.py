@@ -23,6 +23,7 @@ urlpatterns = patterns('web.data.views',
     url(r'^$', 'home', name='home'),
     
     # Country Home page
+    url(r'countries/', 'countries', name='countries' ),
     country_url(r'$', 'country', name='country'),
     country_url(r'(?P<year>\d+)$', 'country'),
 
@@ -65,12 +66,14 @@ urlpatterns = patterns('web.data.views',
     country_url(r'schemes/(?P<scheme_id>\d+)/(?P<name>.*)$', 'scheme_detail', name='scheme_country_detail'),
         
     # infringements
-    url(r'^infringements$', 'infringements', name='infringements'),    
+    url(r'^infringements/$', 'infringements', name='infringements'),    
 
     # downloads
     url(r'^getthedata/download$', 'download', name='download'),
     url(r'^getthedata/download/(?P<data_file>\d+)$', 'download', name='download_file'),
     url(r'^getthedata/data_agreement$', 'data_agreement_form', name='data_agreement_form'),    
+
+    url(r'^eff$', 'effsearch', name='data_agreement_form'),    
     
     )
     

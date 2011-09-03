@@ -1,54 +1,43 @@
 {% extends "base.html" %}
 {% load markup %}
-{% load multilingual_tags %}
-{% load babel %}
-{% block title %}
-{% ifequal LANGUAGE_CODE "es" %}
-  {{ feature.title_es }}  
-{% endifequal %}
-{% ifequal LANGUAGE_CODE "en" %}
-  {{ feature.title_en }}            
-{% endifequal %}
+{% load typogrify %}
+{% load i18n %}
+{% load inthenews %}
+{% load thumbnail %}
 
-{% ifequal LANGUAGE_CODE "fr" %}
-  {{ feature.title_fr }}            
-{% endifequal %}
+{% block title %}{{ feature.title }}{% endblock %}
+{% block page_title %}{{ feature.title }}{% endblock %}
 
-
-{% endblock %}
-{% block page_title %}
-
-
-{% ifequal LANGUAGE_CODE "es" %}
-  {{ feature.title_es }}  
-{% endifequal %}
-
-{% ifequal LANGUAGE_CODE "en" %}
-  {{ feature.title_en }}            
-{% endifequal %}
-
-{% ifequal LANGUAGE_CODE "fr" %}
-  {{ feature.title_fr }}            
-{% endifequal %}
-
-
-
-{% endblock %}
 {% block breadcrumb %}
-  <a href="{% url home %}">Home</a> | <a href="{% url feature_list %}">Previous features</a>
+    <a href="{% url feature_list %}">&laquo; back to all news &amp; reports</a>
 {% endblock %}
 
 {% block content %}
-  {% ifequal LANGUAGE_CODE "es" %}
-    {{ feature.body_es|markdown }}  
-  {% endifequal %}
+    {% thumbnail feature.image "250x500" as im %}
+    {% if feature.report_url %}
+        <a href="{{ feature.report_url }}" class="main_image">
+            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+            <p>{% trans "Download this report in PDF" %}</p>
+        </a>
+    {% else %}
+        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="main_image">
+    {% endif %}
+    {% endthumbnail %}
 
-{% ifequal LANGUAGE_CODE "en" %}
-    {{ feature.body_en|markdown }}            
-  {% endifequal %}
+    {{ feature.date|date }}.
+    {{ feature.body|markdown|typogrify }}
+{% endblock %}
 
-{% ifequal LANGUAGE_CODE "fr" %}
-    {{ feature.body_fr|markdown }}            
-  {% endifequal %}
-
+{% block right %}
+    {% if recent_features %}
+    <div class="section">
+        <h3>Recent news &amp; reports</h3>
+        {% for feature in recent_features %}    
+                <p>
+                    <a href="{{ feature.get_absolute_url }}">{{feature.title}}</a>
+                </p>
+                <p>{{ feature.teaser|truncatewords:"25"|typogrify }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
 {% endblock %}

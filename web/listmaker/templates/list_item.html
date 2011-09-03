@@ -1,51 +1,59 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load markup %}
+{% load humanize %}
+{% load parse_qs %}
+{% load list_tags %}
 {% block page_title %}{{ list_item.name }}{% endblock %}
 {% block title %}{{ list_item.name }}{% endblock %}
 {% block content %}
+    {% if request.user == list_item.user %}
+        
+
+    <p class="hint">  
+        <a href="{% url edit_list_items list_item.pk %}">{% trans "Edit this list" %}</a> {% trans "or" %} <a href="{% url edit_list list_item.pk %}">{% trans "edit title and description" %}</a>
+        {% if list_object.pk == list_item.pk %}
+        <br />
+          {% trans "NOTE: Because you are editing this list, the items below may not match the (unsaved) items you have added or removed." %}
+        {% endif %}
+    </p>
+    {% endif %}  
+  <em>{% blocktrans with list_item.user as user_name %}Created by {{ user_name }}{% endblocktrans %}</em>
   {{ list_item.description|markdown }}
-  
+
+<p>{% blocktrans with list_total|floatformat:0|intcomma as amount %}
+    The total value of payments on this list is &euro;{{ amount }}.
+{% endblocktrans %}.</p>
   <div class="section">
-  <h3>Items</h3>
     
-  {% if list_item.listitem_set.all %}
-  <a href="{% url edit_list_items list_item.pk %}">Add Items</a>
-  <table>
-    <thead>
-      <th>Name</th>
-      <th>Payments</th>
-      <th>Port</th>
-      <th>Amount</th>
-    </thead>
-    <tbody>
-      {% for item in list_item.listitem_set.all %}
-        <tr>
-          <td>{{ item.content_object.name }} ({{ item.content_object.recipient_id }})</td>
-          <td>
-            ---
-            <ul>{% for payment in item.content_object.payment_set.all %}
-            <li>
-              {{ payment.amount }}
-              {{ payment.scheme }}
-            </li>
-          {% endfor %}</ul>
+  {% if existing_list_items %}
+      <table>
+        <thead>
+          <th>{% ifequal sort "name"  %}<strong>{% trans "Name" %}</strong>{% else %}<a href="{% parse_qs request.GET "sort" "name" %}">{% trans "Name" %}</a>{% endifequal %}</th>
+          <th class="amount">{% ifequal sort "amount"  %}<strong>{% trans "Amount" %}</strong>{% else %}<a href="{% parse_qs request.GET "sort" "amount" %}">{% trans "Amount" %}</a>{% endifequal %}</th>
+          {% if list_enabled %}<th></th>{% endif %}
+        </thead>
+        <tbody>
+         
+          {% for item in existing_list_items %}
+            <tr>
+              <td><a href="{{ item.content_object.get_absolute_url }}">{{ item.content_object.name }}</a></td>
+              <td class="money">&euro;{{ item.content_object.amount|floatformat:0|intcomma }}</td>
+              {% if list_enabled %}<td>{% list_item_edit item.content_object %}</td>{% endif %}
+              
+            </tr>
+          {% endfor %}
           
-          
-          </td>
-          <td>{{ item.content_object.port.name }}</td>
-          <td>{{ item.content_object.amount }}</td>
-        </tr>
-      {% endfor %}
-      <p></p>
-    </tbody>
-  </table>
+          <tr><td class="money" colspan="2"><strong>{% trans "Total" %}</strong>: &euro;{{ list_total|floatformat:0|intcomma }}</td></tr>
+        </tbody>
+      </table>
   {% else %}
-  {% ifequal user.pk list_item.user.pk  %}
-  There is nothing in your list yet.  <a href="{% url edit_list_items list_item.pk %}">Add Items</a>
-  {% else %}
-  The list owner hasn't added any items to this list yet.
-  {% endifequal %}
+      {% ifequal user.pk list_item.user.pk  %}
+          {% trans "There is nothing in your list yet." %}
+          <p class="hint"><a href="{% url edit_list_items list_item.pk %}">{% trans "Add Items" %}</a></p>
+      {% else %}
+          {% trans "The list owner hasn't added any items to this list yet." %}
+      {% endifequal %}
   {% endif %}
   </div>
   

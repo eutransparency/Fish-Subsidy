@@ -1,8 +1,9 @@
 from models import Feature
 from django.contrib import admin
 import multilingual
+from sorl.thumbnail.admin import AdminImageMixin
 
-class FeatureAdmin(multilingual.ModelAdmin):
+class FeatureAdmin(AdminImageMixin, multilingual.ModelAdmin):
     list_display = ('title', 'teaser', 'published','featured')
     list_filter = ('published','featured',)
     prepopulated_fields = {

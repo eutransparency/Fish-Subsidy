@@ -5,7 +5,7 @@ register = Library()
 
 def flatpage_menu(language=settings.LANGUAGE_CODE):
     # Create an unordered list of all flatpages
-    pages = MultilingualFlatPage.objects.all().for_language(language)
+    pages = MultilingualFlatPage.objects.all()
 
     menu = '<ul>'
     for page in pages:

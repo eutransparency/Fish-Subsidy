@@ -2,6 +2,7 @@
 {% load humanize %}
 {% load multilingual_tags %}
 {% load babel %}
+{% load list_tags %}
 {% load i18n markup %}
 {% block title %}
   {% if recipient.name %}
@@ -11,14 +12,14 @@
   {% endif %}
     | {{ country.name }}
 {% endblock %}
-{#  #}
+
 {% block page_title %}
   {% if recipient.name %}
-    {{ recipient.name|title }} 
+    {{ recipient.name|title }}
   {% else %}
     {% trans "Unknown beneficiary" %} ({{ recipient.pk }})
   {% endif %}
-  &mdash; {% trans "Fish Subsidy payments" %}  
+  &mdash; {% trans "Fish Subsidy payments" %}     {% list_item_edit recipient %}
 {% endblock %}
 {% block breadcrumb %}
   {% if country %}
@@ -32,11 +33,6 @@
 {% endblock %}
 
 {% block content %}
-  {# {% if vessel.payments_set.1 %} #}
-  {#   {# {% load graphs %} #}
-  {#   {# {% graph "recipient" vessel.payment_set %} #}
-  {# {% endif %} #}
-  {#  #}
   {% load traffic_lights %}
   <table>
     <thead>
@@ -56,7 +52,7 @@
           {% endifequal %}
 
           </a>
-          {# {% traffic_light payment.scheme.traffic_light %} #}
+          {% traffic_light payment.scheme.traffic_light %}
           </td>
         <td>{{ payment.amount|currencyfmt:"EUR" }}</td>
       </tr>
@@ -67,17 +63,33 @@
       <td>{{ recipient.amount|currencyfmt:"EUR" }}</td>
     </tr>
   </table>
-
+  
+  {% if recipient_lists %}
+  <div class="section">
+      <h3>Lists</h3>
+      <p>This recipient features in the following Lists (<a href="{% url lists_home %}">what are Lists?</a>):</p>
+      <ul>
+          {% for list in recipient_lists %}
+          <li>
+              <h4><a href="{{ list.get_absolute_url }}">{{ list }}</a></h4>
+              <p>{{ list.description|markdown|striptags|truncatewords:30 }}</p>
+          </li>
+          {% endfor %}
+      </ul>
+  </div>
+  {% endif %}
+  
+  
   {% if comments %}
     <div class="section">
       <h3>Information added by users</h3>
       {% for comment in comments %}
         <div class="comment">
-          <div class="info col">        
+          <div class="info">        
             <h4>{{ comment.user.get_profile.name }}</h4>
             {{ comment.date|date:"H.i" }} {{ comment.date|naturalday|title }}
           </div>    
-          <div class="message col">
+          <div class="message">
             {{ comment.comment|markdown }}
           </div>
         </div>
@@ -85,9 +97,13 @@
     </div>
   {% endif %}
   <div class="section">
-    {% blocktrans %}
-      <h3>Add information for this recipient</h3>
-      <p>What kind of vessel or recipient is it? Are you the owner or do you live nearby? Which fish stocks does it target? Has it been involved in illegal fishing activity? Any other factual information to add? Please provide sources wherever possible.</p>
+    {% blocktrans with recipient.name as name%}
+      <h3>Tell us more about this recipient</h3>
+      <p>Currently all we know about {{ name }} are the few bits of information released by the European Commission.</p>
+      <p>We need your help to find out more about this recipient. Is it a vessel owned by a large company? Which fish stocks does it target? Has it been involved in illegal, unreported or unregulated fishing? Has it received other national-level subsidies? Anything else that is of wider public interest?</p>
+     <p> What did you find out?</p>
+      
+
     {% endblocktrans %}
     
     {% if user.is_authenticated %}
@@ -112,87 +128,91 @@
 
 
 {% block right %}
-  {% ifequal recipient.recipient_type "vessel"  %}
-  {% if full_row %}
+    {% ifequal recipient.recipient_type "vessel" %}
+    {% if full_row %}
 
-  <div class="box">
-    <h3>{% trans "Vessel type" %}</h3>
-    <ul>
-      <li>{% trans "Length:" %} {{ full_row.overall_length }} M</li>
-      <li>{% trans "Tonnage:" %} {{ full_row.tonnage|floatformat }}</li>
-      <li>{% trans "Power:" %} {{ full_row.main_power|floatformat }} kW</li>
-    </ul>
-    
-    <h3>{% trans "Vessel details" %}</h3>
-    <ul>
-      <li>{% blocktrans with full_row.construction_year as construction_year and full_row.construction_place|title as construction_place  %}
-        Constructed {{ construction_year }} In {{ construction_place }}
-      {% endblocktrans %}</li>
-      {% if full_row.external_marking %}
-        <li>{% trans "External Markings" %}: {{ full_row.external_marking }}</li>
-      {% endif %}
-      <li>{% trans "Registration number" %}: {{ full_row.cfr }}</li>
-      {% url data.views.port country=country.code port=full_row.port_name as port_url %}
-      <li>{% trans "Home Port" %}: <a href="{{ port_url }}">{{ full_row.port_name|title }}</a></li>
-      <li><a href="http://ec.europa.eu/fisheries/fleet/index.cfm?method=Search.ListSearchSimpleOneVessel&COUNTRY_CODE=&CFR_CODE={{ full_row.cfr }}&search_type=advanced" target="_blank">{% trans "Fleet Registry record" %}</a></li>
-      <li>{% trans "Country" %}: <a href="/{{ country.code }}">{{ country.name }}</a></li>
-      <li><a href="{% url infringements %}">{% trans "Infringement record" %}</a>: <a href="/faqs#withheld">{% trans "Data Withheld" %}</a></li>
-      <li><a href="/faqs#withheld">{% trans "Quota: Data Witheld" %}</a></li>
-      {% if full_row.greenpeace_link %}
-        <li><a href="{{ full_row.greenpeace_link }}" target="_blank">{% trans "Greenpeace Blacklist" %}</a></li>
-      {% endif %}
-    </ul>
-    
-    <h3>{% trans "Owner" %}</h3> 
-    <ul>
-      <li>{% blocktrans %}
-        This information has been <a href="/faqs#withheld">Withheld</a>
-      {% endblocktrans %}</li>
-    </ul>
-    
-    <h3>{% trans "Stocks targeted" %}</h3> 
-    <ul>
-      <li>
-        {% url tuna_fleet 'EU' as link %}
-        {% if full_row.tuna_fleet %}
-          {% blocktrans with link as link %}
-            Tuna Fleet:  Yes (<a href="{{ link }}">view all</a>)
-          {% endblocktrans %}
-        {% else %}
-          {% blocktrans %}        
-            <a href="{{ link }}">Tuna Fleet</a>:  No
-          {% endblocktrans %}            
-        {% endif %} 
-        </li>
-      <li>{% blocktrans %}
-        Other: <a href="/faqs#withheld">Data Withheld</a></p>
-      {% endblocktrans %}</li>
-    </ul>
-    
-    {% if infringement_record %}
-    <h3>{% trans "Infringement record" %}</h3> 
-    {% for record in infringement_record %}
-      <ul>
-      <li><strong>{% trans "Date" %}</strong>: {{ record.date|date:"F Y" }}<br />
-      <strong>{% trans "Offense" %}</strong>: {{ record.description }}<br />
-      {% if record.sanction %}        
-        <strong>{% trans "Sanction" %}</strong>: {{ record.sanction }}<br />
-      {% endif %}
-      {% if record.skipper %}        
-        <strong>{% trans "Skipper" %}</strong>: {{ record.skipper }}<br />
-      {% endif %}
-      </ul>
-    {% endfor %}
-    <p><a href="/faqs#infringement">{% trans "About infringement records" %}</a><br />
-    <a href="{% url infringements %}">{% trans "View more infringements" %}</a></p>
-      
-    {% endif %}
-    
-    
-    <p><a href="http://www.google.co.uk/search?q={{ full_row.vessel_name|title }}">{% trans "Google this recipient" %}</a></p>
-    {% endif %}
-    {% endifequal %}
-    
-  </div>
-  
+    <div class="box">
+        <h3>{% trans "Vessel type" %}</h3>
+        <ul>
+            <li>{% trans "Length:" %} {{ full_row.overall_length }} M</li>
+            <li>{% trans "Tonnage:" %} {{ full_row.tonnage|floatformat }}</li>
+            <li>{% trans "Power:" %} {{ full_row.main_power|floatformat }} kW</li>
+        </ul>
+
+        <h3>{% trans "Vessel details" %}</h3>
+        <ul>
+            <li>
+                {% blocktrans with full_row.construction_year as construction_year and full_row.construction_place|title as construction_place  %}
+                    Constructed {{ construction_year }} In {{ construction_place }}
+                {% endblocktrans %}
+            </li>
+            {% if full_row.external_marking %}
+                <li>{% trans "External Markings" %}: {{ full_row.external_marking }}</li>
+            {% endif %}
+            <li>{% trans "Registration number" %}: {{ full_row.cfr }}</li>
+            {% url data.views.port country=country.code port=full_row.port_name as port_url %}
+            <li>{% trans "Home Port" %}: <a href="{{ port_url }}">{{ full_row.port_name|title }}</a></li>
+            <li><a href="http://ec.europa.eu/fisheries/fleet/index.cfm?method=Search.ListSearchSimpleOneVessel&COUNTRY_CODE=&CFR_CODE={{ full_row.cfr }}&search_type=advanced" target="_blank">{% trans "Fleet Registry record" %}</a></li>
+            <li>{% trans "Country" %}: <a href="/{{ country.code }}">{{ country.name }}</a></li>
+            {% if not infringement_record %}<li><a href="{% url infringements %}">{% trans "Infringement record" %}</a>: <a href="/faqs#withheld">{% trans "Data Withheld" %}</a></li>{% endif %}
+            <li><a href="/faqs#withheld">{% trans "Quota: Data Witheld" %}</a></li>
+            {% if full_row.greenpeace_link %}
+                <li>{% trans "Greenpeace Blacklist" %}:<a href="{{ full_row.greenpeace_link }}" target="_blank">{% trans "Yes" %}</a></li>
+            {% else %}
+                <li>{% trans "Greenpeace Blacklist" %}: {% trans "Unknown" %}</li>
+            {% endif %}
+        </ul>
+        
+        <h3>{% trans "Owner" %}</h3> 
+        <ul>
+            <li>{% blocktrans %}
+                This information has been <a href="/faqs#withheld">Withheld</a>
+            {% endblocktrans %}</li>
+        </ul>
+
+        <h3>{% trans "Stocks targeted" %}</h3> 
+        <ul>
+            <li>
+                {% url tuna_fleet 'EU' as link %}
+                {% if full_row.tuna_fleet %}
+                    {% blocktrans with link as link %}
+                        Tuna Fleet:  Yes (<a href="{{ link }}">view all</a>)
+                    {% endblocktrans %}
+                {% else %}
+                    {% blocktrans %}        
+                        <a href="{{ link }}">Tuna Fleet</a>:  No
+                    {% endblocktrans %}            
+                {% endif %} 
+            </li>
+            <li>
+                {% blocktrans %}
+                    Other: <a href="/faqs#withheld">Data Withheld</a></p>
+                {% endblocktrans %}
+            </li>
+        </ul>
+
+        {% if infringement_record %}
+            <h3>{% trans "Infringement record" %}</h3>
+            {% for record in infringement_record %}
+                <ul>
+                    <li><strong>{% trans "Date" %}</strong>: {{ record.date|date:"F Y" }}<br />
+                    <strong>{% trans "Offense" %}</strong>: {{ record.description }}<br />
+                    {% if record.sanction %}        
+                        <strong>{% trans "Sanction" %}</strong>: {{ record.sanction }}<br />
+                    {% endif %}
+                    {% if record.skipper %}        
+                        <strong>{% trans "Skipper" %}</strong>: {{ record.skipper }}<br />
+                    {% endif %}
+                    </li>
+                </ul>
+            {% endfor %}
+            <p><a href="/faqs#infringement">{% trans "About infringement records" %}</a><br />
+            <a href="{% url infringements %}">{% trans "View more infringements" %}</a></p>
+        {% endif %}
+
+
+        <p><a href="http://www.google.co.uk/search?q={{ full_row.vessel_name|title }}">{% trans "Google this recipient" %}</a></p>
+        </div>
+        {% endif %}
+        {% endifequal %}
 {% endblock %}

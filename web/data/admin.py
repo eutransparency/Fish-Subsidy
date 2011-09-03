@@ -4,8 +4,7 @@ from django.contrib import admin
 
 
 class IllegalAdmin(admin.ModelAdmin):
-    list_display = ('cfr', 'date', 'sanction')
-    list_filter = ('date',)    
+    list_display = ('recipient', 'dates', 'sanction')
 
 class PaymentInline(admin.TabularInline):
     model = data.models.Payment
@@ -16,7 +15,7 @@ class RecipientAdmin(admin.ModelAdmin):
     list_display = ['recipient_id', 'name', 'amount',]
 
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ['payment_id', 'amount',]
+    list_display = ['pk', 'amount',]
 
 class SchemeAdmin(multilingual.ModelAdmin):
     list_display = ['name','total', 'traffic_light']

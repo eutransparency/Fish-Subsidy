@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.core.urlresolvers import reverse
@@ -9,17 +10,18 @@ import models
 import forms
 from django.contrib.auth.decorators import login_required
 
+import lists
+
 def active_list_required(view):
     """
     Decorator that checks for a list, and redirects to the list home if one 
     doesn't exist.
     """
     def _decorated(request, *arg, **kw):
-        if not request.session.get('list_enabled'):
+        if not request.session.get('list_name'):
             return HttpResponseRedirect(reverse('lists_home'))
         return view(request, *arg, **kw)
     return _decorated
-
 
 
 def lists_home(request):
@@ -28,59 +30,72 @@ def lists_home(request):
     {}, 
     context_instance = RequestContext(request)
     )
-    
+
+
+def all_lists(request):
+    all_lists_qs = models.List.objects.all().order_by('-pk')
+    return render_to_response(
+        'all_lists.html', 
+        {'lists' : all_lists_qs},
+        context_instance = RequestContext(request)
+    )
 
 def activate(request):
-    request.session['list_enabled'] = True
-    request.session['list_object'] = models.List()
+    list_name = lists.get_list_name(request)
+    lists.create_list(request)
     return HttpResponseRedirect(reverse('lists_home'))
+
 
 def deactivate(request):
     if request.POST.get('deactivate_confirm'):
-        request.session['list_enabled'] = False
-        request.session['list_object'] = models.List()
+        if request.POST['deactivate_confirm'].lower().startswith("save"):
+            if request.session.get('list_object', None):
+                list_id = request.session['list_object'].pk
+            else:
+                list_id = None
+            return HttpResponseRedirect(reverse('save_list', kwargs={'list_id' : list_id} ))
+        lists.delete_list(request)
         request.notifications.add("Your list has been deactivated")
         return HttpResponseRedirect(reverse('lists_home'))
     return render_to_response(
-        'deactivate_warming.html',
+        'deactivate_warning.html',
         {},
         context_instance = RequestContext(request)
         )
-    
+
+
 @login_required
-@active_list_required
 def manage_lists(request, list_id=None):
-    active_list = request.session.get('list_object')
-    if list_id or active_list:
-        print active_list.pk
-        list_item = get_object_or_404(models.List, pk=list_id or active_list.pk, user=request.user)
-    else:
-        list_item = models.List(user=request.user)
+    """
+    Update or create a list.
     
-    if request.POST:
-        new_list_form = forms.ListForm(request.POST, instance=list_item)
-        new_list_form.user = request.user
-        if new_list_form.is_valid():
-            list_item = new_list_form.save()
-            
-            # Save the list object
-            request.session['list_object'] = list_item
-            
-            # Save each item in the list
-            for item in request.session['list_items']:
-                item.save()
-                # models.ListItem.objects.get_or_create(content_type=item.content_)
-            return HttpResponseRedirect(reverse('list_detail', kwargs={'list_id' : list_item.pk}))
+    Handles the POST for the create/edit page, and displaies the correct form.
+    """
+
+    if list_id:
+        list_object = get_object_or_404(models.List, pk=list_id, user=request.user)
     else:
-        print "-=="
-        print repr(list_item)
-        new_list_form = forms.ListForm(instance=list_item)
+        list_object = models.List(user=request.user)
+    
+    form = forms.ListForm(instance=list_object)
+
+    if request.POST:
+        form = forms.ListForm(request.POST, instance=list_object)
+        if form.is_valid():
+            if request.session.get('list_name'):
+                lists.save_items(list_object, request.session.get('list_name'))
+            
+            form.save()
+            lists.delete_list(request)
+            return HttpResponseRedirect(form.instance.get_absolute_url())
+
     return render_to_response(
         'edit.html', 
             {
-                'new_list_form': new_list_form, 
+                'new_list_form': form, 
             }, context_instance = RequestContext(request))
-            
+
+
 @login_required
 def my_lists(request):
     lists = models.List.objects.filter(user=request.user)
@@ -91,35 +106,68 @@ def my_lists(request):
             }, context_instance = RequestContext(request))
 
 
-def list_view(request, list_id):
+def list_view(request, list_id, slug=None):
     try:
         list_item = models.List.objects.select_related().get(pk=list_id)
     except models.List.DoesNotExist:
         raise Http404
 
+    list_total = 0
+    for i in list_item.listitem_set.all():
+        if i.content_object.amount:
+            list_total += i.content_object.amount
+    
+    class sort_qs():
+        def __init__(self, field_name):
+            self.field_name = field_name
+        def __call__(self, o):
+            return getattr(o.content_object, self.field_name, None)
+    
+    sort_by_q = request.GET.get('sort', 'amount')
+    if sort_by_q == "amount":
+        sort_by = "amount"
+    else:
+        sort_by = "name"
+    list_items = sorted(list_item.listitem_set.all(), key=sort_qs(sort_by))
+    if sort_by == "amount":
+        list_items.reverse()
+        
     return render_to_response(
         'list_item.html',
             {
                 'list_item': list_item,
+                'existing_list_items': list_items,
+                'list_total': list_total,
+                'sort_by': sort_by,
             }, context_instance = RequestContext(request))
 
 
 def edit_list_items(request, list_id=None):
+    """
+    'activates' a saved list.
+    """
     if list_id:
         try:
-            list_object = models.List.objects.get(pk=list_id)
+            list_object = get_object_or_404(models.List, pk=list_id, user=request.user)
             request.session['list_object'] = list_object
-            
         except models.List.DoesNotExist:
             return HttpResponseRedirect(reverse('create_list'))
-    request.session['list_enabled'] = True
-    list_items = [i for i in list_object.listitem_set.all()]
-    request.session['list_items'] = list_items
-    list_total = [i.content_object.amount for i in list_items]
-    request.session['list_total'] = list_total
+
+    list_name = lists.get_list_name(request)
     
+    for list_item in list_object.listitem_set.all().select_related():
+        co = list_item.content_object
+        item_key = lists.make_item_key(co)
+        object_hash = lists.make_object_hash(co)
+        lists.add_item(list_name, item_key, object_hash)
+    
+    request.session['list_name'] = list_name    
+    request.session['list_enabled'] = True    
+    request.session['list_object'] = list_object    
     request.session.modified = True
-    return HttpResponseRedirect(reverse('list_detail', args=(list_object.pk,)))
+
+    return HttpResponseRedirect(reverse('list_detail', args=(list_object.pk,list_object.slug,)))
+
 
 @active_list_required
 def add_remove_item(request):
@@ -128,104 +176,49 @@ def add_remove_item(request):
         * content_type
         * object_id
         
-    Only contnet types with a valid `LIST_ENABLED` attribute will be allowed
+    Only content types (models) with a valid `LIST_ENABLED` attribute will be allowed
     """
-    # Validataion
-    if not request.POST:
-        return HttpResponse(
-            json.dumps({
-                'type' : 'error',
-                'message' : 'Invalid request (Expected POST data)'}
-                ),
-            status=200)
     
-    if not request.session.get('list_enabled'):
-        return HttpResponse(
-            json.dumps({
-                'type' : 'error',
-                'message' : 'No List'}
-                ),
-            status=200)
-    list_object = request.session.get('list_object')
-    content_type = request.POST.get('content_type')
-    object_id = request.POST.get('object_id')
-            
-    if not content_type or not object_id:
-        content = {
-            'type' : 'error',
-            'message' : 'content_type and or object_id not specified'
-        }
-        res = HttpResponse(json.dumps(content), status=500)
-        return res    
-    try:
-        ct = ContentType.objects.get(name=content_type)
-    except:
-        return HttpResponse(json.dumps({'type' : 'error', 'message' : 'invalid content type'}), status=500)
-
-    try:
-        co = ct.get_object_for_this_type(pk=object_id)
-    except:
-        return HttpResponse(json.dumps({'type' : 'error', 'message' : 'invalid object id'}), status=500)
-
-    # Load the current list
-    list_items = request.session.get('list_items', [])
+    # The list we're working with
+    list_name = lists.get_list_name(request)
     
-    # Load the object we're adding or removing
-    list_item = models.ListItem(list_id=list_object, content_object=co)
-    list_item_id = request.POST.get('list_item_id')
+    # Grab the POST data we'll need
     
-    action = request.POST.get('action')
+    # Action is 'add' or 'remove'
+    action = request.POST.get('action', 'add')
 
-    # print dir(request.session['list_items'])
-    # print request.session['list_items'].index(list_item)
-    # print list_item
+    content_type = request.POST.get('content_type', None)
+    object_id = request.POST.get('object_id', None)
+
+    # Load the object from the database
+    ct = ContentType.objects.get(name=content_type)
+    co = ct.get_object_for_this_type(pk=object_id)
+    item_key = lists.make_item_key(co, ct)
     
     if action == "add":
-        # print list_item in request.session['list_items']
-        if list_item.content_object not in [i.content_object for i in list_items]:
-            print 'added'
-            list_items.append(list_item)
+        object_hash = lists.make_object_hash(co)
+        lists.add_item(list_name, item_key, object_hash)
 
     if action == "remove":
-        try:
-            for i in list_items:
-                # This is needed becuase an instance of the object
-                # maybe saved, and there wont be the same
-                if i.content_type == list_item.content_type and \
-                i.object_id == list_item.object_id:
-                    list_items.remove(i)
-                # list_items.remove(list_item)
-        except:
-            pass
+        lists.remove_item(list_name, item_key)
+
     # Create the total for this list
-    list_total = sum([float(i.content_object.amount) for i in list_items])
-    
-    
-    # Remake the session items
-    request.session['list_total'] = list_total
-    request.session['list_items'] = list_items
-    
-    # We'll need a dict of the items.
-    items_dict = {}
-    for i in list_items:
-        co = i.content_object
-        items_dict[co.pk] = co.__dict__
-    
-    # Do this to make sure the list is always updated
-    request.session.modified = True
+    if hasattr(co, 'list_total_field'):
+        total_field = getattr(co, co.list_total_field)
+        list_total = lists.make_total(list_name, action, total_field)
     
     t = select_template(["blocks/ahah_list.html",])
     c = RequestContext(request, RequestContext(request))
     html = t.render(c)
     
     
-    if request.META['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest':
+    if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
         return HttpResponse(json.dumps(
             {
             'total' : list_total,
             'html' : html, 
             'action' : action,
-            'list_item_id' : list_item_id,
+            'list_item_id' : item_key,
             }))
         
     res = HttpResponseRedirect(request.META['HTTP_REFERER'])
