@@ -2,6 +2,10 @@
 import json
 import mimetypes
 
+import xapian
+import redis
+r = redis.Redis()
+
 from django.conf import settings
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.template import RequestContext
@@ -12,12 +16,14 @@ from django.core.servers.basehttp import FileWrapper
 from django.db.models import Sum, Max
 from django.utils.translation import get_language
 from django.utils.translation import ugettext as _
+from django.core.paginator import Paginator
 
 import models
 from data.models import FishData, illegalFishing
 from frontend.models import Profile
 from frontend.forms import UserProfileForm, DataAgreementForm
-from data.models import DataDownload, Recipient, Payment, Port, Scheme
+from data.models import DataDownload, Recipient, Payment, Port, Scheme, EffData
+from data.forms import EffSearchForm
 
 from recipientcomments.forms import RecipientCommentForm
 from recipientcomments.models import RecipientComment
@@ -534,4 +540,69 @@ def data_agreement_form(request):
       context_instance=RequestContext(request)
     )
     
+
+def effsearch(request):
+    
+    page = totals = results = results_count = None
+    
+    if request.GET:
+        form = EffSearchForm(request.GET)
+        if form.is_valid():
+            results = EffData.indexer.search(form.cleaned_data['query']).flags(
+                            xapian.QueryParser.FLAG_PHRASE\
+                            | xapian.QueryParser.FLAG_BOOLEAN\
+                            | xapian.QueryParser.FLAG_LOVEHATE\
+                            ).prefetch()
+    
+            results_count = results.count()
+            amountEuAllocatedEuro = \
+            amountEuPaymentEuro = \
+            amountTotalAllocatedEuro = \
+            amountTotalPaymentEuro = 0.0
+            
+            totals = {}
+            cache_key = "result_cache::%s" % form.cleaned_data['query']
+            totals = r.hgetall(cache_key)
+            if totals:
+                for k,v in totals.items():
+                    totals[k] = float(v)
+            else:
+                for result in results:
+                    i = result.instance
+                    amountEuAllocatedEuro = amountEuAllocatedEuro + i.amountEuAllocatedEuro
+                    amountEuPaymentEuro = amountEuPaymentEuro + i.amountEuPaymentEuro
+                    amountTotalAllocatedEuro = amountTotalAllocatedEuro + i.amountTotalAllocatedEuro
+                    amountTotalPaymentEuro = amountTotalPaymentEuro + i.amountTotalPaymentEuro
+                                        
+                    totals['amountEuAllocatedEuro']     = round(amountEuAllocatedEuro)
+                    totals['amountEuPaymentEuro']       = round(amountEuPaymentEuro)
+                    totals['amountTotalAllocatedEuro']  = round(amountTotalAllocatedEuro)
+                    totals['amountTotalPaymentEuro']    = round(amountTotalPaymentEuro)
+                for k,v in totals.items():
+                    r.hset(cache_key, k, v)
+                r.expire(cache_key, 60*60*24*7) # Expire in one week
+                
+            page = Paginator(results, 100).page(request.GET.get('page', 1) or 1)
+            print dir(page)
+    else: 
+        form = EffSearchForm()
+    
+    
+    
+    return render_to_response(
+      'eff_search/search.html', 
+      {
+          'form' : form,
+          'results' : page,
+          'totals' : totals,
+          'number_of_results' : results_count
+      }, 
+      context_instance=RequestContext(request)
+    )
+
+
+
+
+
+
 

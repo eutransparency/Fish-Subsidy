@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load code_to_name %}
+{% load babel %}
+{% load parse_qs %}
+{% load humanize %}
+
+
+{% block content %}
+    <div class="section">
+        <form>
+            <ul>
+            {{ form }}
+            <input type="submit" name="" value="{% trans "Search" %}" id="">
+            </ul>
+        </form>
+    </div>
+    {% if number_of_results %}
+        
+
+    <div class="section">
+        <h3>{% trans "Results" %}</h3>
+        <ul class="results_summary">
+            <li><strong>Number of beneficiaries:</strong> {{ number_of_results|floatformat|intcomma }}</li>
+            <li><strong>EU funds allocated:</strong> {{ totals.amountEuAllocatedEuro|currencyfmt:"EUR" }}</li>
+            <li><strong>EU funds paid:</strong> {{ totals.amountEuPaymentEuro|currencyfmt:"EUR" }}</li>
+            <li><strong>Total allocated:</strong> {{ totals.amountTotalAllocatedEuro|currencyfmt:"EUR" }}</li>
+            <li><strong>Total paid:</strong> {{ totals.amountTotalPaymentEuro|currencyfmt:"EUR" }}</li>
+        </ul>
+        <div class="pagination">
+            <span class="step-links">
+                {% if results.has_previous %}
+                    <a href="{% parse_qs request.GET "page" results.previous_page_number %}&page={{ results.previous_page_number }}">Previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ results.number }} of {{ results.paginator.num_pages }}.
+                </span>
+
+                {% if results.has_next %}
+                    <a href="{% parse_qs request.GET "page" results.next_page_number %}&page={{ results.next_page_number }}">Next</a>
+                {% endif %}
+            </span>
+        </div>
+        <br />
+    <table>
+        <thead>
+            <th>{% trans "Name" %}</th>
+            <th>{% trans "Location" %}</th>
+            <th>{% trans "Description" %}</th>
+            <th>{% trans "EU funds allocated" %}</th>
+            <th>{% trans "EU funds paid" %}</th>
+            <th>{% trans "Total allocated" %}</th>
+            <th>{% trans "Total paid" %}</th>
+        </thead>
+        {% for result in results.object_list %}
+        <tr>
+            <td>
+                {{ result.instance.name }}
+            </td>
+            <td>
+                {{ result.instance.format_location|safe }}
+            </td>
+            <td>{{ result.instance.measureText }}</td>
+            <td>{{ result.instance.amountEuAllocatedEuro|currencyfmt:"EUR" }}</td>
+            <td>{{ result.instance.amountEuPaymentEuro|currencyfmt:"EUR" }}</td>
+            <td>{{ result.instance.amountTotalAllocatedEuro|currencyfmt:"EUR" }}</td>
+            <td>{{ result.instance.amountTotalPaymentEuro|currencyfmt:"EUR" }}</td>
+        </tr>
+            
+        {% endfor %}
+        
+    </table>
+        <div class="pagination">
+            <span class="step-links">
+                {% if results.has_previous %}
+                    <a href="{% parse_qs request.GET "page" results.previous_page_number %}&page={{ results.previous_page_number }}">Previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ results.number }} of {{ results.paginator.num_pages }}.
+                </span>
+
+                {% if results.has_next %}
+                    <a href="{% parse_qs request.GET "page" results.next_page_number %}&page={{ results.next_page_number }}">Next</a>
+                {% endif %}
+            </span>
+        </div>
+        {% endif %}
+    </div>
+    
+{% endblock %}

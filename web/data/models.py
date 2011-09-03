@@ -7,6 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from listmaker.models import ListItem
 from multilingual.translation import TranslationModel
+from misc.countryCodes import country_codes
 
 class FishData(models.Model):
   """(Data description)"""  
@@ -182,3 +183,30 @@ class DataDownload(models.Model):
     
     def __unicode__(self):
         return u"%s" % self.filename
+
+class EffData(models.Model):
+    country = models.CharField(blank=True, null=True, max_length=2)
+    area1 = models.CharField(blank=True, null=True, max_length=255)
+    area2 = models.CharField(blank=True, null=True, max_length=255)
+    fund = models.CharField(blank=True, null=True, max_length=100)
+    name = models.CharField(blank=True, null=True, max_length=255)
+    measureText = models.TextField(blank=True, null=True)
+    amountEuAllocatedEuro = models.FloatField()
+    amountEuPaymentEuro = models.FloatField()
+    amountTotalAllocatedEuro = models.FloatField()
+    amountTotalPaymentEuro = models.FloatField()
+    
+    
+    def format_location(self):
+        fields = [
+            unicode(country_codes(code=self.country)['name']) or "",
+            self.area1,
+            self.area2,
+        ]
+        fields = [f for f in fields if f]
+        return "<br />".join(fields)
+
+
+
+
+

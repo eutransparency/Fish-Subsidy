@@ -90,6 +90,12 @@ h2 .traffic_light { padding:1px;}
 
 .col { float:left; width:49%; padding-bottom:2em; clear:none;}
 
+.results_summary li strong {
+    width:200px;
+    display:block;
+    float:left;
+}
+
 /* features */
 div.features {border-bottom:solid 1px #ccc;background:url(../images/featurebar.png);
     display:none;padding-top:1em;}
