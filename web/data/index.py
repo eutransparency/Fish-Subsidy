@@ -5,6 +5,7 @@ from models import Recipient, Payment, Scheme, Port, illegalFishing, EffData
 
 class RecipientIndexer(Indexer):
     fields = ['pk', 'name', 'geo1', 'geo2','payment.amount']
+
     tags = [
         ('country', 'country'),
         ('type', 'recipient_type'),

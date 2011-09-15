@@ -42,6 +42,7 @@
                 {% endif %}
             </span>
         </div>
+
         <br />
     <table>
         <thead>
@@ -62,10 +63,37 @@
                 {{ result.instance.format_location|safe }}
             </td>
             <td>{{ result.instance.measureText }}</td>
-            <td>{{ result.instance.amountEuAllocatedEuro|currencyfmt:"EUR" }}</td>
-            <td>{{ result.instance.amountEuPaymentEuro|currencyfmt:"EUR" }}</td>
-            <td>{{ result.instance.amountTotalAllocatedEuro|currencyfmt:"EUR" }}</td>
-            <td>{{ result.instance.amountTotalPaymentEuro|currencyfmt:"EUR" }}</td>
+            <td>
+                {% if result.instance.amountEuAllocatedEuro %}
+                    {{ result.instance.amountEuAllocatedEuro|currencyfmt:"EUR"|default_if_none:"Unknown" }}
+                {% else %}
+                    {% trans "Unknown" %}
+                {% endif %}
+            </td>
+            <td>
+                {% if result.instance.amountEuPaymentEuro %}
+                    {{ result.instance.amountEuPaymentEuro|currencyfmt:"EUR"|default_if_none:"Unknown" }}
+                {% else %}
+                    {% trans "Unknown" %}
+                {% endif %}
+            </td>
+            <td>
+                {% if result.instance.amountTotalAllocatedEuro %}
+                    {{ result.instance.amountTotalAllocatedEuro|currencyfmt:"EUR"|default_if_none:"Unknown" }}
+                {% else %}
+                    {% trans "Unknown" %}
+                {% endif %}
+            </td>
+            <td>
+                {% if result.instance.amountTotalPaymentEuro %}
+                    {{ result.instance.amountTotalPaymentEuro|currencyfmt:"EUR"|default_if_none:"Unknown" }}
+                {% else %}
+                    {% trans "Unknown" %}
+                {% endif %}
+            </td>
+            {# <td>{{ result.instance.amountEuPaymentEuro|currencyfmt:"EUR" }}</td> #}
+            {# <td>{{ result.instance.amountTotalAllocatedEuro|currencyfmt:"EUR" }}</td> #}
+            {# <td>{{ result.instance.amountTotalPaymentEuro|currencyfmt:"EUR" }}</td> #}
         </tr>
             
         {% endfor %}
@@ -86,7 +114,7 @@
                 {% endif %}
             </span>
         </div>
-        {% endif %}
     </div>
+        {% endif %}
     
 {% endblock %}
