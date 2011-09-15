@@ -195,7 +195,8 @@ class EffData(models.Model):
     amountEuPaymentEuro = models.FloatField()
     amountTotalAllocatedEuro = models.FloatField()
     amountTotalPaymentEuro = models.FloatField()
-    
+    yearAllocated = models.IntegerField(blank=True, null=True)
+    yearPaid = models.IntegerField(blank=True, null=True, db_index=True)
     
     def format_location(self):
         fields = [

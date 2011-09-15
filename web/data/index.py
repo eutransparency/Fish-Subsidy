@@ -33,11 +33,15 @@ class EffIndexer(Indexer):
         'amountEuPaymentEuro',
         'amountTotalAllocatedEuro',
         'amountTotalPaymentEuro',
+        'yearAllocated',
+        'yearPaid',
     ]
     
     tags = [
         ('country', 'country'),
         ('name', 'name', 10),
+        ('yeara', 'yearAllocated'),
+        ('yearp', 'yearPaid'),
     ]
     
 space.add_index(EffData, EffIndexer, attach_as='indexer')

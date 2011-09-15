@@ -19,6 +19,16 @@ class Command(BaseCommand):
         f = csv.DictReader(open('../data/FishWebsite20110822.csv', 'r'), dialect='SKV')
         EffData.objects.all().delete()
         for line in f:
+            if not line['yearAllocated']:
+                del line['yearAllocated']
+            if not line['yearPaid']:
+                del line['yearPaid']
+            else:
+                try:
+                    int(line['yearPaid'])
+                except ValueError:
+                    del line['yearPaid']
+                
             try:
                 E = EffData()
                 floats = ('amountEuAllocatedEuro', 

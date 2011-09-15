@@ -548,7 +548,10 @@ def effsearch(request):
     if request.GET:
         form = EffSearchForm(request.GET)
         if form.is_valid():
-            results = EffData.indexer.search(form.cleaned_data['query']).flags(
+            q = form.cleaned_data['query']
+            if request.GET.get('yeara'):
+                q = "%s yeara:%s" % (q, request.GET.get('yeara'))
+            results = EffData.indexer.search(q).flags(
                             xapian.QueryParser.FLAG_PHRASE\
                             | xapian.QueryParser.FLAG_BOOLEAN\
                             | xapian.QueryParser.FLAG_LOVEHATE\
@@ -561,7 +564,7 @@ def effsearch(request):
             amountTotalPaymentEuro = 0.0
             
             totals = {}
-            cache_key = "result_cache::%s" % form.cleaned_data['query']
+            cache_key = "result_cache::%s" % q
             totals = r.hgetall(cache_key)
             if totals:
                 for k,v in totals.items():

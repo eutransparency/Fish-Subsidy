@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 
 from frontend.models import Profile
+from models import EffData
 
 
 class DownloadDataForm(forms.ModelForm):
@@ -23,4 +24,12 @@ class DataAgreementForm(forms.ModelForm):
         fields = ('data_agreement', 'data_description',)
 
 class EffSearchForm(forms.Form):
+    
+    from django.db.models import Count
+    
+    YEAR_CHOICES = EffData.objects.all().order_by('yearPaid').values('yearPaid').distinct()
+    YEAR_CHOICES = [(v['yearPaid'],v['yearPaid']) for v in YEAR_CHOICES if v['yearPaid']]
+    YEAR_CHOICES.insert(0, ('', 'All Years'))
+    
     query = forms.CharField(required=True, label=_('Search terms'))
+    yeara = forms.ChoiceField(choices=YEAR_CHOICES, required=False, label=_('Year Allocated'))
