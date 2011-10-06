@@ -16,11 +16,17 @@ csv.register_dialect("SKV", SKV)
 class Command(BaseCommand):
     
     def handle(self, *args, **kwargs):
-        f = csv.DictReader(open('../data/FishWebsite20110822.csv', 'r'), dialect='SKV')
+        f = csv.DictReader(open('../data/website20110922.txt', 'r'), dialect='SKV')
         EffData.objects.all().delete()
         for line in f:
             if not line['yearAllocated']:
                 del line['yearAllocated']
+            else:
+                try:
+                    int(line.get('yearAllocated'))
+                except ValueError:
+                    del line['yearAllocated']
+                
             if not line['yearPaid']:
                 del line['yearPaid']
             else:

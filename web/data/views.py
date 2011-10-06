@@ -17,6 +17,7 @@ from django.db.models import Sum, Max
 from django.utils.translation import get_language
 from django.utils.translation import ugettext as _
 from django.core.paginator import Paginator
+from multilingual.flatpages.models import MultilingualFlatPage
 
 import models
 from data.models import FishData, illegalFishing
@@ -30,6 +31,9 @@ from recipientcomments.models import RecipientComment
 
 from misc import countryCodes
 
+from haystack.query import SearchQuerySet
+from xapian_backend import SearchBackend, SearchQuery
+
 def home(request):
     ip_country = RequestContext(request)['ip_country']
     top_vessels = Recipient.vessels.order_by('-amount')[:5]
@@ -39,7 +43,6 @@ def home(request):
     top_schemes = Scheme.objects.top_schemes(year=0)
     
     latest_annotations = RecipientComment.objects.all().order_by('-date')[:5]
-    print latest_annotations
 
     return render_to_response(
         'home.html', 
@@ -543,21 +546,30 @@ def data_agreement_form(request):
 
 def effsearch(request):
     
-    page = totals = results = results_count = None
+    page = totals = results = facets = results_count = None
+    filter_types = []
     
     if request.GET:
         form = EffSearchForm(request.GET)
         if form.is_valid():
+
             q = form.cleaned_data['query']
+
             if request.GET.get('yeara'):
-                q = "%s yeara:%s" % (q, request.GET.get('yeara'))
-            results = EffData.indexer.search(q).flags(
-                            xapian.QueryParser.FLAG_PHRASE\
-                            | xapian.QueryParser.FLAG_BOOLEAN\
-                            | xapian.QueryParser.FLAG_LOVEHATE\
-                            ).prefetch()
-    
-            results_count = results.count()
+                q = "%s AND yeara:%s" % (q, request.GET.get('yeara'))
+                filter_types.append('yeara')
+            if request.GET.get('country'):
+                q = "%s AND country_exact:%s" % (q, request.GET.get('country').lower())
+                filter_types.append('country')
+
+            backend = SearchBackend()
+            query = backend.parse_query(q)
+
+            results = backend.search(query, facets=['country_exact', 'yeara'])
+            # results = backend.search(query)
+
+            results_count = results['hits']
+            facets = results['facets']
             amountEuAllocatedEuro = \
             amountEuPaymentEuro = \
             amountTotalAllocatedEuro = \
@@ -570,8 +582,8 @@ def effsearch(request):
                 for k,v in totals.items():
                     totals[k] = float(v)
             else:
-                for result in results:
-                    i = result.instance
+                for result in results['results']:
+                    i = result.object
                     amountEuAllocatedEuro = amountEuAllocatedEuro + i.amountEuAllocatedEuro
                     amountEuPaymentEuro = amountEuPaymentEuro + i.amountEuPaymentEuro
                     amountTotalAllocatedEuro = amountTotalAllocatedEuro + i.amountTotalAllocatedEuro
@@ -584,21 +596,27 @@ def effsearch(request):
                 for k,v in totals.items():
                     r.hset(cache_key, k, v)
                 r.expire(cache_key, 60*60*24*7) # Expire in one week
-                
-            page = Paginator(results, 100).page(request.GET.get('page', 1) or 1)
-            print dir(page)
+
+            page = Paginator(results['results'], 25).page(request.GET.get('page', 1) or 1)
+
     else: 
         form = EffSearchForm()
     
-    
-    
+    try:
+        side_bar_help = MultilingualFlatPage.objects.get_or_create(url='/eff/help/', title='EFF Help')
+    except MultilingualFlatPage.DoesNotExist:
+        side_bar_help = MultilingualFlatPage()
+
     return render_to_response(
       'eff_search/search.html', 
       {
           'form' : form,
+          'filter_types' : filter_types,
           'results' : page,
+          'facets' : facets,
           'totals' : totals,
-          'number_of_results' : results_count
+          'number_of_results' : results_count,
+          'side_bar_help' : side_bar_help,
       }, 
       context_instance=RequestContext(request)
     )

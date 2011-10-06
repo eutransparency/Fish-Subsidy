@@ -27,9 +27,13 @@ class EffSearchForm(forms.Form):
     
     from django.db.models import Count
     
-    YEAR_CHOICES = EffData.objects.all().order_by('yearPaid').values('yearPaid').distinct()
-    YEAR_CHOICES = [(v['yearPaid'],v['yearPaid']) for v in YEAR_CHOICES if v['yearPaid']]
-    YEAR_CHOICES.insert(0, ('', 'All Years'))
+    # YEAR_CHOICES = EffData.objects.all().order_by('yearPaid').values('yearPaid').distinct()
+    # YEAR_CHOICES = [(v['yearPaid'],v['yearPaid']) for v in YEAR_CHOICES if v['yearPaid']]
+    # YEAR_CHOICES.insert(0, (0, 'All Years'))
     
-    query = forms.CharField(required=True, label=_('Search terms'))
-    yeara = forms.ChoiceField(choices=YEAR_CHOICES, required=False, label=_('Year Allocated'))
+    query = forms.CharField(required=True, label=_('Search terms'), 
+                min_length=2,
+                error_messages={
+                    'min_length': _('Query must be longer than 2 characters')
+                    })
+    # yeara = forms.ChoiceField(choices=YEAR_CHOICES, required=False, label=_('Year Allocated'))

@@ -96,6 +96,8 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'sentry',
     'sentry.client',
+    'haystack',
+    
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -154,3 +156,7 @@ STATS_PATH = ROOT_PATH + '/data/stats'
 DEFAULT_YEAR = 0
 
 THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'
+
+HAYSTACK_SITECONF = 'web.search_sites'
+HAYSTACK_SEARCH_ENGINE = 'xapian'
+HAYSTACK_XAPIAN_PATH = 'xapian-haystack.db'

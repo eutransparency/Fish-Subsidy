@@ -23,5 +23,5 @@ def code_to_name(parser, token):
 
 @register.simple_tag
 def code_to_name_dumb(code):
-    return countryCodes.country_codes(code)['name']
+    return countryCodes.country_codes(code.upper())['name']
 

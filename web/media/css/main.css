@@ -89,12 +89,16 @@ p.hint {color:#808080;font-size:0.8em; line-height:1.5em; padding:0.4em; margin-
 h2 .traffic_light { padding:1px;}
 
 .col { float:left; width:49%; padding-bottom:2em; clear:none;}
+.facets {width:25%;float:left; overflow:auto}
+.pagination {clear:both; width:100%; display:block}
 
 .results_summary li strong {
     width:200px;
     display:block;
     float:left;
 }
+
+.help_link {vertical-align:super; font-size:0.9em}
 
 /* features */
 div.features {border-bottom:solid 1px #ccc;background:url(../images/featurebar.png);

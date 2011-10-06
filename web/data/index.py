@@ -20,32 +20,3 @@ space.add_index(Scheme, SchemeIndexer, attach_as='indexer')
 class PortIndexer(Indexer):
     fields = ['name','geo1', 'geo2', 'country']
 space.add_index(Port, PortIndexer, attach_as='indexer')
-    
-    
-
-class EffIndexer(Indexer):
-    
-    fields = [
-        'country',
-        'name',
-        'measureText',
-        'amountEuAllocatedEuro',
-        'amountEuPaymentEuro',
-        'amountTotalAllocatedEuro',
-        'amountTotalPaymentEuro',
-        'yearAllocated',
-        'yearPaid',
-    ]
-    
-    tags = [
-        ('country', 'country'),
-        ('name', 'name', 10),
-        ('yeara', 'yearAllocated'),
-        ('yearp', 'yearPaid'),
-    ]
-    
-space.add_index(EffData, EffIndexer, attach_as='indexer')
-
-
-
-    

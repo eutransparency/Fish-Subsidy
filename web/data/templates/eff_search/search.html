@@ -16,17 +16,89 @@
         </form>
     </div>
     {% if number_of_results %}
-        
 
     <div class="section">
         <h3>{% trans "Results" %}</h3>
-        <ul class="results_summary">
-            <li><strong>Number of beneficiaries:</strong> {{ number_of_results|floatformat|intcomma }}</li>
-            <li><strong>EU funds allocated:</strong> {{ totals.amountEuAllocatedEuro|currencyfmt:"EUR" }}</li>
-            <li><strong>EU funds paid:</strong> {{ totals.amountEuPaymentEuro|currencyfmt:"EUR" }}</li>
-            <li><strong>Total allocated:</strong> {{ totals.amountTotalAllocatedEuro|currencyfmt:"EUR" }}</li>
-            <li><strong>Total paid:</strong> {{ totals.amountTotalPaymentEuro|currencyfmt:"EUR" }}</li>
+        <ul class="results_summary col">
+            <li>
+                <strong>Number of beneficiaries:</strong> 
+                {% if number_of_results %}
+                    {{ number_of_results|floatformat|intcomma }}
+                {% else %}
+                    {% trans "Unknown" %}
+                {% endif %}
+
+            </li>
+
+            <li>
+                <strong>EU funds allocated:</strong> 
+                {% if totals.amountEuAllocatedEuro %}
+                    {{ totals.amountEuAllocatedEuro|currencyfmt:"EUR" }}
+                {% else %}
+                    {% trans "Unknown" %}
+                {% endif %}
+
+            </li>
+            <li>
+                <strong>EU funds paid:</strong> 
+                {% if totals.amountEuPaymentEuro %}
+                    {{ totals.amountEuPaymentEuro|currencyfmt:"EUR" }}
+                {% else %}
+                    {% trans "Unknown" %}
+                {% endif %}
+            </li>
+            <li>
+                <strong>Total allocated:</strong> 
+                {% if totals.amountTotalAllocatedEuro %}
+                    {{ totals.amountTotalAllocatedEuro|currencyfmt:"EUR" }}
+                {% else %}
+                    {% trans "Unknown" %}
+                {% endif %}
+            </li>
+            <li>
+                <strong>Total paid:</strong> 
+                {% if totals.amountTotalPaymentEuro %}
+                    {{ totals.amountTotalPaymentEuro|currencyfmt:"EUR" }}
+                {% else %}
+                    {% trans "Unknown" %}
+                {% endif %}
+            </li>
         </ul>
+
+        <div class="facets">
+            {% if "country" in filter_types %}
+                <h4>{% trans "Filter by country" %}:</h4>
+                {% trans "Results in: " %}{% code_to_name_dumb facets.fields.country_exact.0.0 %}<br />
+                <a href="{% parse_qs request.GET "country" "" %}">{% trans "Remove filter" %}</a>
+            {% endif %}
+
+            {% if facets.fields.country_exact.1 %}
+                <h4>{% trans "Filter by country" %}:</h4>
+                <ul>
+                {% for country in facets.fields.country_exact %}
+                    <li><a href="{% parse_qs request.GET "country" country.0 %}">{% code_to_name_dumb country.0 %} ({{ country.1 }})</a></li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div class="facets">
+            {% if "yeara" in filter_types %}
+                <h4>{% trans "Filter by Year allocated" %}:</h4>
+                {% trans "Results in: " %}{{ facets.fields.yeara.0.0 }}<br />
+                <a href="{% parse_qs request.GET "yeara" "" %}">{% trans "Remove filter" %}</a>
+            {% endif %}
+            {% if facets.fields.yeara.1 %}
+                <h4>{% trans "Filter by Year allocated" %}:</h4>
+                <ul>
+                {% for year in facets.fields.yeara %}
+                    {% if year.0 %}                        
+                    <li><a href="{% parse_qs request.GET "yeara" year.0 %}">{% if year.0 != '0' %}{{ year.0 }}{% else %}{% trans "Unknown" %} {% endif %} ({{ year.1 }})</a></li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
         <div class="pagination">
             <span class="step-links">
                 {% if results.has_previous %}
@@ -46,47 +118,63 @@
         <br />
     <table>
         <thead>
-            <th>{% trans "Name" %}</th>
-            <th>{% trans "Location" %}</th>
-            <th>{% trans "Description" %}</th>
-            <th>{% trans "EU funds allocated" %}</th>
-            <th>{% trans "EU funds paid" %}</th>
-            <th>{% trans "Total allocated" %}</th>
-            <th>{% trans "Total paid" %}</th>
+            <th>{% trans "Name" %} <a href="#help_name" class="help_link">?</a></th>
+            <th>{% trans "Location" %} <a href="#help_location" class="help_link">?</a></th>
+            <th>{% trans "Description" %} <a href="#help_description" class="help_link">?</a></th>
+            <th>{% trans "EU funds allocated" %} <a href="#help_funds_allocated" class="help_link">?</a></th>
+            <th>{% trans "EU funds paid" %} <a href="#help_funds_paid" class="help_link">?</a></th>
+            <th>{% trans "Total allocated" %} <a href="#help_total_allocated" class="help_link">?</a></th>
+            <th>{% trans "Total paid" %} <a href="#help_total_paid" class="help_link">?</a></th>
+            <th>{% trans "Year allocated" %} <a href="#help_year_paid" class="help_link">?</a></th>
         </thead>
         {% for result in results.object_list %}
-        <tr>
+        <tr valign="top">
             <td>
-                {{ result.instance.name }}
-            </td>
-            <td>
-                {{ result.instance.format_location|safe }}
-            </td>
-            <td>{{ result.instance.measureText }}</td>
-            <td>
-                {% if result.instance.amountEuAllocatedEuro %}
-                    {{ result.instance.amountEuAllocatedEuro|currencyfmt:"EUR"|default_if_none:"Unknown" }}
+                {% if result.object.name %}
+                    {% if "name" in filter_types %}
+                    {{ result.object.name }}
+                    {% else %}
+                    <a href='?query=name:"{{result.object.name}}"'>{{ result.object.name }}</a>
+                    {% endif %}
                 {% else %}
                     {% trans "Unknown" %}
                 {% endif %}
             </td>
             <td>
-                {% if result.instance.amountEuPaymentEuro %}
-                    {{ result.instance.amountEuPaymentEuro|currencyfmt:"EUR"|default_if_none:"Unknown" }}
+                {{ result.object.format_location|safe }}
+            </td>
+            <td><ul>{{ result.object.format_description|safe }}</ul></td>
+            <td>
+                {% if result.object.amountEuAllocatedEuro %}
+                    {{ result.object.amountEuAllocatedEuro|currencyfmt:"EUR"|default_if_none:"Unknown" }}
                 {% else %}
                     {% trans "Unknown" %}
                 {% endif %}
             </td>
             <td>
-                {% if result.instance.amountTotalAllocatedEuro %}
-                    {{ result.instance.amountTotalAllocatedEuro|currencyfmt:"EUR"|default_if_none:"Unknown" }}
+                {% if result.object.amountEuPaymentEuro %}
+                    {{ result.object.amountEuPaymentEuro|currencyfmt:"EUR"|default_if_none:"Unknown" }}
                 {% else %}
                     {% trans "Unknown" %}
                 {% endif %}
             </td>
             <td>
-                {% if result.instance.amountTotalPaymentEuro %}
-                    {{ result.instance.amountTotalPaymentEuro|currencyfmt:"EUR"|default_if_none:"Unknown" }}
+                {% if result.object.amountTotalAllocatedEuro %}
+                    {{ result.object.amountTotalAllocatedEuro|currencyfmt:"EUR"|default_if_none:"Unknown" }}
+                {% else %}
+                    {% trans "Unknown" %}
+                {% endif %}
+            </td>
+            <td>
+                {% if result.object.amountTotalPaymentEuro %}
+                    {{ result.object.amountTotalPaymentEuro|currencyfmt:"EUR"|default_if_none:"Unknown" }}
+                {% else %}
+                    {% trans "Unknown" %}
+                {% endif %}
+            </td>
+            <td>
+                {% if result.object.yearAllocated %}
+                    {{ result.object.yearAllocated|default_if_none:"Unknown" }}
                 {% else %}
                     {% trans "Unknown" %}
                 {% endif %}
@@ -114,4 +202,9 @@
     </div>
         {% endif %}
     
+{% endblock %}
+
+{% block right %}
+    <h2>{{ side_bar_help.title }}</h2>
+    {{ side_bar_help.content|safe }}
 {% endblock %}

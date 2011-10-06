@@ -190,7 +190,12 @@ class EffData(models.Model):
     area2 = models.CharField(blank=True, null=True, max_length=255)
     fund = models.CharField(blank=True, null=True, max_length=100)
     name = models.CharField(blank=True, null=True, max_length=255)
+
+    axisText = models.TextField(blank=True, null=True)
+    actionText = models.TextField(blank=True, null=True)
+    projectDescription = models.TextField(blank=True, null=True)
     measureText = models.TextField(blank=True, null=True)
+    
     amountEuAllocatedEuro = models.FloatField()
     amountEuPaymentEuro = models.FloatField()
     amountTotalAllocatedEuro = models.FloatField()
@@ -200,12 +205,23 @@ class EffData(models.Model):
     
     def format_location(self):
         fields = [
-            unicode(country_codes(code=self.country)['name']) or "",
+            "<a href='?query=country:\"%s\"'>%s</a>" % (self.country, unicode(country_codes(code=self.country)['name']) or ""),
             self.area1,
             self.area2,
         ]
         fields = [f for f in fields if f]
         return "<br />".join(fields)
+
+    def format_description(self):
+        fields = [
+            (self.axisText, "axisText"),
+            (self.measureText, "measureText"),
+            (self.actionText, "actionText"),
+            (self.projectDescription, "projectDescription"),
+        ]
+        fields = [f for f in fields if f[0]]
+        f_list = ["<li>- <a href='?query=%s:\"%s\"'>%s</a>.</li>" % (f[1], f[0], f[0]) for f in fields]
+        return "".join([f for f in f_list])
 
 
 
