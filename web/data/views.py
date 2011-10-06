@@ -608,9 +608,6 @@ def effsearch(request):
     except MultilingualFlatPage.DoesNotExist:
         side_bar_help = MultilingualFlatPage()
 
-    from django.db import connection
-    print "\n\n\n".join(repr(q) for q in connection.queries)
-
     return render_to_response(
       'eff_search/search.html', 
       {
