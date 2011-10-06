@@ -604,7 +604,7 @@ def effsearch(request):
         form = EffSearchForm()
     
     try:
-        side_bar_help = MultilingualFlatPage.objects.get_or_create(url='/eff/help/', title='EFF Help')
+        side_bar_help = MultilingualFlatPage.objects.get_or_create(url='/eff/help/', title='EFF Help')[0]
     except MultilingualFlatPage.DoesNotExist:
         side_bar_help = MultilingualFlatPage()
 
