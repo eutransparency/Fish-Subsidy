@@ -14,6 +14,11 @@ class EffIndex(SearchIndex):
     projectDescription = CharField(model_attr='projectDescription')
     measureText = CharField(model_attr='measureText')
     
+    amountEuAllocatedEuro = FloatField(model_attr='amountEuAllocatedEuro')
+    amountEuPaymentEuro = FloatField(model_attr='amountEuPaymentEuro')
+    amountTotalAllocatedEuro = FloatField(model_attr='amountTotalAllocatedEuro')
+    amountTotalPaymentEuro = FloatField(model_attr='amountTotalPaymentEuro')
+    
     
     yeara = CharField(model_attr='yearAllocated', default=0, faceted=True)
     

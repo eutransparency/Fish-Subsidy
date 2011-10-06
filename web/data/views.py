@@ -578,16 +578,17 @@ def effsearch(request):
             totals = {}
             cache_key = "result_cache::%s" % q
             totals = r.hgetall(cache_key)
+            
+            
             if totals:
                 for k,v in totals.items():
                     totals[k] = float(v)
             else:
                 for result in results['results']:
-                    i = result.object
-                    amountEuAllocatedEuro = amountEuAllocatedEuro + i.amountEuAllocatedEuro
-                    amountEuPaymentEuro = amountEuPaymentEuro + i.amountEuPaymentEuro
-                    amountTotalAllocatedEuro = amountTotalAllocatedEuro + i.amountTotalAllocatedEuro
-                    amountTotalPaymentEuro = amountTotalPaymentEuro + i.amountTotalPaymentEuro
+                    amountEuAllocatedEuro = amountEuAllocatedEuro + result.amountEuAllocatedEuro
+                    amountEuPaymentEuro = amountEuPaymentEuro + result.amountEuPaymentEuro
+                    amountTotalAllocatedEuro = amountTotalAllocatedEuro + result.amountTotalAllocatedEuro
+                    amountTotalPaymentEuro = amountTotalPaymentEuro + result.amountTotalPaymentEuro
                                         
                     totals['amountEuAllocatedEuro']     = round(amountEuAllocatedEuro)
                     totals['amountEuPaymentEuro']       = round(amountEuPaymentEuro)
@@ -606,6 +607,9 @@ def effsearch(request):
         side_bar_help = MultilingualFlatPage.objects.get_or_create(url='/eff/help/', title='EFF Help')
     except MultilingualFlatPage.DoesNotExist:
         side_bar_help = MultilingualFlatPage()
+
+    from django.db import connection
+    print "\n\n\n".join(repr(q) for q in connection.queries)
 
     return render_to_response(
       'eff_search/search.html', 
