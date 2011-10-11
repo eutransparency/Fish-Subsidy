@@ -565,7 +565,9 @@ def effsearch(request):
             backend = SearchBackend()
             query = backend.parse_query(q)
 
-            results = backend.search(query, facets=['country_exact', 'yeara'])
+            print [request.GET.get('sort', 'name'),]
+
+            results = backend.search(query, facets=['country_exact', 'yeara'], sort_by=[request.GET.get('sort', 'name'),])
             # results = backend.search(query)
 
             results_count = results['hits']

@@ -118,14 +118,14 @@
         <br />
     <table>
         <thead>
-            <th>{% trans "Name" %} <a href="#help_name" class="help_link">?</a></th>
+            <th><a href="{% parse_sort_qs request.GET "sort" "name" %}">{% trans "Name" %}</a> <a href="#help_name" class="help_link">?</a></th>
             <th>{% trans "Location" %} <a href="#help_location" class="help_link">?</a></th>
             <th>{% trans "Description" %} <a href="#help_description" class="help_link">?</a></th>
-            <th>{% trans "EU funds allocated" %} <a href="#help_funds_allocated" class="help_link">?</a></th>
-            <th>{% trans "EU funds paid" %} <a href="#help_funds_paid" class="help_link">?</a></th>
-            <th>{% trans "Total allocated" %} <a href="#help_total_allocated" class="help_link">?</a></th>
-            <th>{% trans "Total paid" %} <a href="#help_total_paid" class="help_link">?</a></th>
-            <th>{% trans "Year allocated" %} <a href="#help_year_paid" class="help_link">?</a></th>
+            <th><a href="{% parse_sort_qs request.GET "sort" "amountEuAllocatedEuro" %}">{% trans "EU funds allocated" %}</a>  <a href="#help_funds_allocated" class="help_link">?</a></th>
+            <th><a href="{% parse_sort_qs request.GET "sort" "amountEuPaymentEuro" %}">{% trans "EU funds paid" %}</a>  <a href="#help_funds_paid" class="help_link">?</a></th>
+            <th><a href="{% parse_sort_qs request.GET "sort" "amountTotalAllocatedEuro" %}">{% trans "Total allocated" %}</a>  <a href="#help_total_allocated" class="help_link">?</a></th>
+            <th><a href="{% parse_sort_qs request.GET "sort" "amountTotalPaymentEuro" %}">{% trans "Total paid" %}</a>  <a href="#help_total_paid" class="help_link">?</a></th>
+            <th><a href="{% parse_sort_qs request.GET "sort" "year" %}">{% trans "Year allocated" %}</a>  <a href="#help_year_paid" class="help_link">?</a></th>
         </thead>
         {% for result in results.object_list %}
         <tr valign="top">
