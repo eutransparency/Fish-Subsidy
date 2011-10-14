@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import csv
+import StringIO
 import json
 import mimetypes
 
@@ -623,6 +625,7 @@ def effsearch(request):
       'eff_search/search.html', 
       {
           'intro_text' : intro_text,
+          'query' : q,
           'form' : form,
           'filter_types' : filter_types,
           'results' : page,
@@ -637,8 +640,41 @@ def effsearch(request):
     )
 
 
+def effsearch_csv(request):
+    if not request.GET.get('query'):
+        return HttpResponseRedirect(reverse('eff_search'))
 
+    q = request.GET.get('query')
+    out = StringIO.StringIO()
+    cols = [
+        'name', 
+        'country',
+        'area1'
+        'area2',
+        'axisText',
+        'measureText',
+        'actionText',
+        'projectDescription',
+        'amountEuAllocatedEuro',
+        'amountEuPaymentEuro',
+        'amountTotalAllocatedEuro',
+        'amountTotalPaymentEuro',
+        'yearAllocated',
+        ]
+    csv_out = csv.DictWriter(out, cols, extrasaction='ignore')
+    backend = SearchBackend()
+    query = backend.parse_query(q)
+    results = backend.search(query, end_offset=200)
+    csv_out.writerow(dict([[c,c] for c in cols]))
+    for result in results['results']:
+        line_data = {}
+        for k,v in result.__dict__.items():
+            if not v:
+                v = ''
+            if type(v) in [unicode, str]:
+                line_data[k] = v.encode('utf8')
 
-
+        csv_out.writerow(line_data)
+    return HttpResponse(out.getvalue())
 
 

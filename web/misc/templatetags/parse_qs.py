@@ -5,16 +5,21 @@ register = Library()
 @register.simple_tag
 def parse_qs(qs, k=None,v=None):
     qs = qs.copy()
+    for k,v in qs.items():
+        qs[k] = unicode(v).encode('utf8')
     if k:
-        qs[k] = v
+        qs[k] = unicode(v).encode('utf8')
     # Normally, we don't want to keep the page element of the string
     if 'page' in qs:
         del qs['page']
-    return "?%s" % urllib.urlencode(qs)
+    return "?%s" % urllib.urlencode(dict(qs))
 
 @register.simple_tag
 def parse_sort_qs(qs, k=None, v=None):
     qs = qs.copy()
+    for k,v in qs.items():
+        qs[k] = unicode(v).encode('utf8')
+
     old_v = qs.get(k, "")
     if k:
         if v in [old_v, old_v[1:]]:
@@ -30,5 +35,5 @@ def parse_sort_qs(qs, k=None, v=None):
     # Normally, we don't want to keep the page element of the string
     if 'page' in qs:
         del qs['page']
-    return "?%s" % urllib.urlencode(qs)
+    return "?%s" % urllib.urlencode(dict(qs))
 
