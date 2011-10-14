@@ -4,15 +4,17 @@
 {% load babel %}
 {% load parse_qs %}
 {% load humanize %}
+{% load markup %}
 
 
 {% block content %}
     <div class="section">
+        {% if not number_of_results %}
+            {{ intro_text.content|markdown }}
+        {% endif %}
         <form>
-            <ul>
             {{ form }}
             <input type="submit" name="" value="{% trans "Search" %}" id="">
-            </ul>
         </form>
     </div>
     {% if number_of_results %}
@@ -116,16 +118,16 @@
         </div>
 
         <br />
-    <table>
+    <table class="sort-{{ sort }}">
         <thead>
-            <th><a href="{% parse_sort_qs request.GET "sort" "name" %}">{% trans "Name" %}</a> <a href="#help_name" class="help_link">?</a></th>
-            <th>{% trans "Location" %} <a href="#help_location" class="help_link">?</a></th>
-            <th>{% trans "Description" %} <a href="#help_description" class="help_link">?</a></th>
-            <th><a href="{% parse_sort_qs request.GET "sort" "amountEuAllocatedEuro" %}">{% trans "EU funds allocated" %}</a>  <a href="#help_funds_allocated" class="help_link">?</a></th>
-            <th><a href="{% parse_sort_qs request.GET "sort" "amountEuPaymentEuro" %}">{% trans "EU funds paid" %}</a>  <a href="#help_funds_paid" class="help_link">?</a></th>
-            <th><a href="{% parse_sort_qs request.GET "sort" "amountTotalAllocatedEuro" %}">{% trans "Total allocated" %}</a>  <a href="#help_total_allocated" class="help_link">?</a></th>
-            <th><a href="{% parse_sort_qs request.GET "sort" "amountTotalPaymentEuro" %}">{% trans "Total paid" %}</a>  <a href="#help_total_paid" class="help_link">?</a></th>
-            <th><a href="{% parse_sort_qs request.GET "sort" "year" %}">{% trans "Year allocated" %}</a>  <a href="#help_year_paid" class="help_link">?</a></th>
+            <th class="{% if sort_by == "name"%}sort{% endif %}"><a href="{% parse_sort_qs request.GET "sort" "name" %}">{% trans "Name" %}</a> <a href="#help_name" class="help_link">?</a></th>
+            <th class="">{% trans "Location" %} <a href="#help_location" class="help_link">?</a></th>
+            <th class="">{% trans "Description" %} <a href="#help_description" class="help_link">?</a></th>
+            <th class="{% if sort_by == "amountEuAllocatedEuro"%}sort{% endif %}"><a href="{% parse_sort_qs request.GET "sort" "amountEuAllocatedEuro" %}">{% trans "EU funds allocated" %}</a>  <a href="#help_funds_allocated" class="help_link">?</a></th>
+            <th class="{% if sort_by == "amountEuPaymentEuro"%}sort{% endif %}"><a href="{% parse_sort_qs request.GET "sort" "amountEuPaymentEuro" %}">{% trans "EU funds paid" %}</a>  <a href="#help_funds_paid" class="help_link">?</a></th>
+            <th class="{% if sort_by == "amountTotalAllocatedEuro"%}sort{% endif %}"><a href="{% parse_sort_qs request.GET "sort" "amountTotalAllocatedEuro" %}">{% trans "Total allocated" %}</a>  <a href="#help_total_allocated" class="help_link">?</a></th>
+            <th class="{% if sort_by == "amountTotalPaymentEuro"%}sort{% endif %}"><a href="{% parse_sort_qs request.GET "sort" "amountTotalPaymentEuro" %}">{% trans "Total paid" %}</a>  <a href="#help_total_paid" class="help_link">?</a></th>
+            <th class="{% if sort_by == "year"%}sort{% endif %}"><a href="{% parse_sort_qs request.GET "sort" "year" %}">{% trans "Year allocated" %}</a>  <a href="#help_year_paid" class="help_link">?</a></th>
         </thead>
         {% for result in results.object_list %}
         <tr valign="top">

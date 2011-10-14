@@ -98,6 +98,10 @@ h2 .traffic_light { padding:1px;}
     float:left;
 }
 
+table.sort-asc .sort a:first-child { background:url('/media/images/table-sort-arrows.png') no-repeat right 3px; padding-right:15px; font-weight:bold; text-decoration: none; }
+table.sort-desc .sort a:first-child { background:url('/media/images/table-sort-arrows.png') no-repeat right -11px; padding-right:15px; font-weight:bold; text-decoration: none; }
+
+
 .help_link {vertical-align:super; font-size:0.9em}
 
 /* features */

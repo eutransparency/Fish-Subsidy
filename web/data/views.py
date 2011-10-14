@@ -546,8 +546,8 @@ def data_agreement_form(request):
 
 def effsearch(request):
     
-    page = totals = results = facets = results_count = None
-    filter_types = []
+    page = totals = results = facets = results_count = sort = None
+    filter_types = sort_by =['']
     
     if request.GET:
         form = EffSearchForm(request.GET)
@@ -564,10 +564,14 @@ def effsearch(request):
 
             backend = SearchBackend()
             query = backend.parse_query(q)
-
-            print [request.GET.get('sort', 'name'),]
-
-            results = backend.search(query, facets=['country_exact', 'yeara'], sort_by=[request.GET.get('sort', 'name'),])
+            
+            sort_by = [request.GET.get('sort', 'name'),]
+            if sort_by[0].startswith('-'):
+                sort = "asc"
+            else:
+                sort = "desc"
+            
+            results = backend.search(query, facets=['country_exact', 'yeara'], sort_by=sort_by)
             # results = backend.search(query)
 
             results_count = results['hits']
@@ -610,9 +614,15 @@ def effsearch(request):
     except MultilingualFlatPage.DoesNotExist:
         side_bar_help = MultilingualFlatPage()
 
+    try:
+        intro_text = MultilingualFlatPage.objects.get_or_create(url='/eff/intro/', title='EFF Intro')[0]
+    except MultilingualFlatPage.DoesNotExist:
+        intro_text = MultilingualFlatPage()
+
     return render_to_response(
       'eff_search/search.html', 
       {
+          'intro_text' : intro_text,
           'form' : form,
           'filter_types' : filter_types,
           'results' : page,
@@ -620,6 +630,8 @@ def effsearch(request):
           'totals' : totals,
           'number_of_results' : results_count,
           'side_bar_help' : side_bar_help,
+          'sort_by': sort_by[0].replace('-', ''),
+          'sort': sort,
       }, 
       context_instance=RequestContext(request)
     )
