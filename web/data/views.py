@@ -675,6 +675,9 @@ def effsearch_csv(request):
                 line_data[k] = v.encode('utf8')
 
         csv_out.writerow(line_data)
-    return HttpResponse(out.getvalue())
-
+        
+    res = HttpResponse(out.getvalue(), content_type="application/csv")
+    res['Content-Disposition'] = 'attachment; filename="%s.csv"' % q.encode('utf8')
+    return res
+    
 
