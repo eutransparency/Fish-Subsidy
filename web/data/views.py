@@ -548,7 +548,7 @@ def data_agreement_form(request):
 
 def effsearch(request):
     
-    page = totals = results = facets = results_count = sort = None
+    page = totals = results = facets = results_count = sort = q= None
     filter_types = sort_by =['']
     
     if request.GET:
