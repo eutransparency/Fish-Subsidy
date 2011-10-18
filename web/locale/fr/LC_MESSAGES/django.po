@@ -40,11 +40,8 @@ msgstr ""
 "données"
 
 #: data/views.py:494
-#, fuzzy
 msgid "Please agree to the following licence before downloading the data"
-msgstr ""
-"Veuillez vous rendre sur la page suivante et choisir un nouveau mot de"
-" passe:"
+msgstr "Veuillez accepter la licence ci-après avant de télécharger les données"
 
 #: data/templates/browse.html:7 data/templates/browse_geo2.html:6
 #: data/templates/browse_ports.html:7
@@ -183,9 +180,8 @@ msgid "Port Name"
 msgstr "Nom du port"
 
 #: data/templates/countries.html:10
-#, fuzzy
 msgid "Browse data by country"
-msgstr "Par pays"
+msgstr "Recherche par pays"
 
 #: data/templates/country.html:13
 #, python-format
@@ -363,7 +359,6 @@ msgid "Identified Infringements"
 msgstr "Infractions constatées"
 
 #: data/templates/infringements.html:13
-#, fuzzy
 msgid ""
 "\n"
 "<p>Illegal fishing contributes to the overfishing of valuable fish stocks,\n"
@@ -374,15 +369,15 @@ msgid ""
 "manually from government websites, press reports and court records. It is\n"
 "therefore certain to be incomplete.</p>\n"
 "\n"
-"<p>Read more about subsidies and illegal fishing in the fishsubsidy.org "
-"report <a href=\"http://fishsubsidy.org/news/features/iuu/\">When Crime "
-"Pays</a>.</p>\n"
+"<p>Read more about subsidies and illegal fishing in the fishsubsidy.org report <a href=\"http://fishsubsidy.org/news/features/iuu/\">When Crime Pays</a>.</p>\n"
 "\n"
 "<p>The table below shows vessels that have received fisheries subsidies and\n"
 "have been convicted of serious infringements.</p>\n"
 msgstr ""
 "\n"
-"<p>La pêche illicite contribue à la surpêche de stocks halieutiques précieux, dont la plupart ont atteints de dangereux niveaux d'épuisement. Très peu de données sur les condamnations pour infractions graves (pêche illicite) ont été réunies en France, en Espagne et au Royaume-Uni. Contrairement aux renseignements sur les subventions à la pêche, ce ne sont pas des données officielles obtenues directement auprès des gouvernements, mais des informations rassemblées une à une à partir des sites web des gouvernements, des rapports de presse et des dossiers de justice. Il est donc certain qu'elles sont incomplètes.</p>\n"
+"<p>La pêche illicite contribue à la surpêche de stocks halieutiques précieux, dont la plupart ont atteints de dangereux niveaux d'épuisement. Très peu de données sur les condamnations pour infractions graves (pêche illicite) ont été réunies en France, en Espagne et au Royaume-Uni. Contrairement aux renseignements sur les subventions à la pêche, ce ne sont pas des données officielles obtenues directement auprès des gouvernements, mais des informations rassemblées une à une à partir des sites web des gouvernements, des rapports de presse et des dossiers de justice. Elles sont donc certainement incomplètes.</p>\n"
+"\n"
+"<p>Pour en savoir plus sur les subventions et la pêche illicite, lisez le rapport de fishsubsidy.org <a href=\"http://fishsubsidy.org/news/features/iuu/\">Quand le crime paie</a>.</p>\n"
 "\n"
 "<p>Le tableau ci-dessous montre les navires qui ont reçu des subventions à la pêche et ont été condamnés pour infractions graves.</p>\n"
 
@@ -397,7 +392,7 @@ msgstr "Numéro d'enregistrement"
 
 #: data/templates/infringements.html:34
 msgid "Date(s) of offences"
-msgstr ""
+msgstr "Date(s) des infractions"
 
 #: data/templates/infringements.html:35
 msgid "Description"
@@ -405,11 +400,11 @@ msgstr "Description"
 
 #: data/templates/infringements.html:37
 msgid "FIFG subsidies 1994-2006"
-msgstr ""
+msgstr "Subventions IFOP 1994-2006"
 
 #: data/templates/infringements.html:40
 msgid "Infringed rules before subsidy?"
-msgstr ""
+msgstr "Règles enfreintes avant la subvention?"
 
 #: data/templates/infringements.html:50 data/templates/recipient.html:201
 msgid "Sanction"
@@ -421,7 +416,7 @@ msgstr "Capitaine/Propriétaire"
 
 #: data/templates/infringements.html:62
 msgid "yes,no"
-msgstr ""
+msgstr "oui,non"
 
 #: data/templates/port.html:12
 #, python-format
@@ -471,6 +466,11 @@ msgid ""
 "\n"
 "    "
 msgstr ""
+"\n"
+"<h3>Dites-nous en plus sur le bénéficiaire</h3>\n"
+"<p>Actuellement, nous ne connaissons que quelques éléments d'information donnés par la Commission européenne sur %(name)s.</p>\n"
+"<p>Nous avons besoin de votre aide pour en savoir plus sur le bénéficiaire. S'agit-il d'un navire appartenant à une grande entreprise? Quels stocks de poissons cible-t-il? S'est-il livré à des activités de pêche illégale, non déclarée ou non réglementée? A-t-il reçu d'autres subventions sur le plan national? Autre information relevant de l'intérêt général?</p>\n"
+"<p>Qu'avez-vous découvert?</p>"
 
 #: data/templates/recipient.html:114
 msgid "Post Comment"
@@ -507,7 +507,7 @@ msgid "Vessel details"
 msgstr "Détails sur le navire"
 
 #: data/templates/recipient.html:145
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "                    Constructed %(construction_year)s In %(construction_place)s\n"
@@ -549,35 +549,32 @@ msgid "Greenpeace Blacklist"
 msgstr "Liste noire de Greenpeace"
 
 #: data/templates/recipient.html:160
-#, fuzzy
 msgid "Yes"
-msgstr "Années"
+msgstr "Oui"
 
 #: data/templates/recipient.html:162
-#, fuzzy
 msgid "Unknown"
-msgstr "Port inconnu"
+msgstr "Inconnu"
 
 #: data/templates/recipient.html:166
 msgid "Owner"
 msgstr "Propriétaire"
 
 #: data/templates/recipient.html:168
-#, fuzzy
 msgid ""
 "\n"
 "                This information has been <a href=\"/faqs#withheld\">Withheld</a>\n"
 "            "
 msgstr ""
 "\n"
-"Cette information n'a pas été <a href=\"/faqs#withheld\">divulguée</a>"
+"Cette information a été <a href=\"/faqs#withheld\">dissimulée</a>"
 
 #: data/templates/recipient.html:173
 msgid "Stocks targeted"
 msgstr "Stocks ciblés"
 
 #: data/templates/recipient.html:178
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "                        Tuna Fleet:  Yes (<a href=\"%(link)s\">view all</a>)\n"
@@ -587,22 +584,21 @@ msgstr ""
 "Flotte thonière: Oui (<a href=\"%(link)s\">voir tout</a>)"
 
 #: data/templates/recipient.html:182
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "        \n"
 "                        <a href=\"%(link)s\">Tuna Fleet</a>:  No\n"
 "                    "
-msgstr "<a href=\"%(link)s\">Flotte thonière</a> : n°"
+msgstr "<a href=\"%(link)s\">Flotte thonière</a>: Non"
 
 #: data/templates/recipient.html:188
-#, fuzzy
 msgid ""
 "\n"
 "                    Other: <a href=\"/faqs#withheld\">Data Withheld</a></p>\n"
 "                "
 msgstr ""
 "\n"
-"Autres: <a href=\"/faqs#withheld\">données non divulguées</a></p>"
+"Autre: <a href=\"/faqs#withheld\">données dissimulées</a></p>"
 
 #: data/templates/recipient.html:198
 msgid "Date"
@@ -706,7 +702,7 @@ msgstr ""
 
 #: data/templates/schemes.html:72
 msgid "Choose year"
-msgstr ""
+msgstr "Choisissez l'année"
 
 #: data/templates/schemes.html:90
 #, fuzzy
@@ -741,25 +737,24 @@ msgstr "Carte"
 
 #: features/templates/feature_detail.html:20
 msgid "Download this report in PDF"
-msgstr ""
+msgstr "Téléchargez ce rapport en PDF"
 
 #: features/templates/feature_list.html:8
 #: features/templates/feature_list.html:9
 msgid "News &amp; reports from the farmsubsidy.org network"
-msgstr ""
+msgstr "Nouvelles &amp; rapports du réseau farmsubsidy.org"
 
 #: features/templates/news_home.html:11
 msgid "News and reports from the fishsubsidy.org network"
-msgstr ""
+msgstr "Nouvelles et rapports du réseau fishsubsidy.org"
 
 #: features/templates/news_home.html:23 features/templates/news_home.html:33
-#, fuzzy
 msgid "View All"
 msgstr "Voir tout"
 
 #: features/templates/news_home.html:27
 msgid "Media coverage"
-msgstr ""
+msgstr "Couverture médiatique"
 
 #: frontend/forms.py:33 misc/forms.py:15
 msgid "Remember me"
@@ -779,27 +774,25 @@ msgstr ""
 
 #: listmaker/templates/deactivate_warning.html:6
 #: listmaker/templates/deactivate_warning.html:7
-#, fuzzy
 msgid "Cancel List"
-msgstr "Sauvegarder la liste"
+msgstr "Supprimer la liste"
 
 #: listmaker/templates/deactivate_warning.html:10
-#, fuzzy
 msgid ""
 "\n"
 "  <h3>Are you sure you want to cancel your list?</h3>\n"
 "\n"
 msgstr ""
 "\n"
-"<h3>Êtes-vous sûr de vouloir désactiver la liste?</h3>\n"
+"<h3>Êtes-vous sûr de vouloir supprimer votre liste?</h3>\n"
 
 #: listmaker/templates/deactivate_warning.html:18
 msgid "Yes, continue without saving"
-msgstr ""
+msgstr "Oui, continuer sans sauvegarder"
 
 #: listmaker/templates/deactivate_warning.html:25
 msgid "Save and publish"
-msgstr ""
+msgstr "Sauvegarder et publier"
 
 #: listmaker/templates/edit.html:3 listmaker/templates/edit.html.py:4
 msgid "Save List"
@@ -811,28 +804,29 @@ msgstr "Sauvegarder"
 
 #: listmaker/templates/list_item.html:14
 msgid "Edit this list"
-msgstr ""
+msgstr "Modifier cette liste"
 
 #: listmaker/templates/list_item.html:14
-#, fuzzy
 msgid "or"
-msgstr "Port"
+msgstr "ou"
 
 #: listmaker/templates/list_item.html:14
-#, fuzzy
 msgid "edit title and description"
-msgstr "Description du fichier"
+msgstr "modifier le titre et la description"
 
 #: listmaker/templates/list_item.html:17
 msgid ""
 "NOTE: Because you are editing this list, the items below may not match "
 "the (unsaved) items you have added or removed."
 msgstr ""
+"NOTE: Étant donné que vous êtes en train de modifier cette liste, les "
+"éléments ci-dessous peuvent ne pas correspondre aux éléments (non "
+"sauvegardés) que vous avez ajoutés ou supprimés."
 
 #: listmaker/templates/list_item.html:21
 #, python-format
 msgid "Created by %(user_name)s"
-msgstr ""
+msgstr "Créé par %(user_name)s"
 
 #: listmaker/templates/list_item.html:24
 #, python-format
@@ -840,18 +834,22 @@ msgid ""
 "\n"
 "    The total value of payments on this list is &euro;%(amount)s.\n"
 msgstr ""
+"\n"
+"La valeur totale des versements figurant sur cette liste s'élève à %(amount)s &euro;.\n"
 
 #: listmaker/templates/list_item.html:52
 msgid "There is nothing in your list yet."
-msgstr ""
+msgstr "Il n'y a rien dans votre liste pour le moment."
 
 #: listmaker/templates/list_item.html:53
 msgid "Add Items"
-msgstr ""
+msgstr "Ajouter des éléments"
 
 #: listmaker/templates/list_item.html:55
 msgid "The list owner hasn't added any items to this list yet."
 msgstr ""
+"Le propriétaire de la liste n'a ajouté aucun élément à cette liste "
+"pour le moment."
 
 #: listmaker/templates/mylists.html:3 listmaker/templates/mylists.html.py:4
 msgid "My Lists"
@@ -1056,12 +1054,12 @@ msgstr ""
 #: stats/load_info.py:39
 #, python-format
 msgid "&euro;%(number)s,000"
-msgstr "&euro;%(number)s,000"
+msgstr "%(number)s 000 &euro;"
 
 #: stats/load_info.py:44
 #, python-format
 msgid "&euro;%(number)s Million"
-msgstr "&euro;%(number)s millions"
+msgstr "%(number)s millions &euro;"
 
 #: stats/load_info.py:54
 #, python-format
@@ -1126,26 +1124,24 @@ msgstr "Inscrivez-vous à la newsletter! Email:"
 
 #: templates/base.html:56 templates/base.html.py:75
 msgid "Go"
-msgstr "Allez"
+msgstr "Go"
 
 #: templates/base.html:99
 msgid "Discover who gets what from European Fish Subsidies"
 msgstr "Découvrez qui reçoit quoi des subventions à la pêche de l'UE"
 
 #: templates/base.html:108
-#, fuzzy
 msgid ""
 "\n"
 "                   e.g. <a href=\"/search?q=Aurora\">Aurora</a>, <a href=\"/search?q=DEU000300601\">DEU000300601</a> or <a href=\"/search?q=Dieppe\">Dieppe</a>\n"
 "                   "
 msgstr ""
 "\n"
-"e.g. <a href=\"/search?q=Aurora\">Aurora</a>, <a href=\"/search?q=DEU000300601\">DEU000300601</a> ou <a href=\"/search?q=Dieppe\">Dieppe</a>"
+"p. ex. <a href=\"/search?q=Aurora\">Aurora</a>, <a href=\"/search?q=DEU000300601\">DEU000300601</a> ou <a href=\"/search?q=Dieppe\">Dieppe</a>"
 
 #: templates/base.html:117
-#, fuzzy
 msgid "Countries"
-msgstr "Tous les pays"
+msgstr "Pays"
 
 #: templates/base.html:118
 msgid "Schemes"
@@ -1156,9 +1152,8 @@ msgid "Infringements"
 msgstr "Infractions"
 
 #: templates/base.html:121
-#, fuzzy
 msgid "Lists"
-msgstr "Mes listes"
+msgstr "Listes"
 
 #: templates/base.html:122 templates/base.html.py:238
 msgid "News &amp; reports"
@@ -1174,52 +1169,45 @@ msgstr "Nouvelles:"
 
 #: templates/base.html:235
 msgid "Looking for more information?:"
-msgstr ""
+msgstr "A la recherche d'autres informations?"
 
 #: templates/base.html:239
-#, fuzzy
 msgid "Legal / Privacy Policy"
-msgstr "Mentions légales/Confidentialité"
+msgstr "Mentions légales / Confidentialité"
 
 #: templates/base.html:240
-#, fuzzy
 msgid "About us"
-msgstr "Qui sommes-nous"
+msgstr "Qui sommes-nous?"
 
 #: templates/base.html:243
 msgid "Get in touch"
-msgstr ""
+msgstr "Contactez-nous"
 
 #: templates/base.html:246
-#, fuzzy
 msgid "Email us"
-msgstr "Courrier électronique"
+msgstr "Contactez-nous par courriel"
 
 #: templates/base.html:247
 msgid "Follow fishsubsidy.org on Twitter"
-msgstr ""
+msgstr "Suivez fishsubsidy.org sur Twitter"
 
 #: templates/base.html:250
 msgid "Technical:"
-msgstr ""
+msgstr "Technique:"
 
 #: templates/base.html:253
-#, fuzzy
 msgid "Get the code"
-msgstr "Obtenir les données"
+msgstr "Obtenir le code"
 
 #: templates/base.html:254
-#, fuzzy
 msgid "Get the raw data"
-msgstr "Obtenir les données"
+msgstr "Obtenir les données brutes"
 
 #: templates/home.html:20
-#, fuzzy
 msgid "Top Vessels in Europe"
-msgstr "Principaux navires bénéficiaires <br />en Europe"
+msgstr "Principaux navires en Europe"
 
 #: templates/home.html:31 templates/home.html.py:52
-#, fuzzy
 msgid "See all"
 msgstr "Voir tout"
 
@@ -1228,42 +1216,39 @@ msgid "Top Non-vessel Payments <br />in Europe"
 msgstr "Principaux versements à d'autres bénéficiaires <br /> en Europe"
 
 #: templates/home.html:57
-#, fuzzy
 msgid "Browse by country"
-msgstr "Par pays"
+msgstr "Recherche par pays"
 
 #: templates/home.html:68
 msgid ""
 "\n"
-"            Subsidies paid to owners of fishing vessels and others working "
-"in the fishing industry under the European Union’s Common Fisheries Policy "
-"amount to more than &euro;1 billion a year. Fishsubsidy.org helps people "
-"find out who gets what, and why.\n"
+"            Subsidies paid to owners of fishing vessels and others working in the fishing industry under the European Union’s Common Fisheries Policy amount to more than &euro;1 billion a year. Fishsubsidy.org helps people find out who gets what, and why.\n"
 "            "
 msgstr ""
+"\n"
+"Les subventions payées aux propriétaires de navires de pêche et à d'autres travaillant dans l'industrie de la pêche dans le cadre de la politique commune de la pêche de l'Union européenne s'élèvent à plus d'un milliard d'euros par an. Fishsubsidy.org permet de découvrir qui obtient quoi et pour quelles raisons."
 
 #: templates/home.html:74
 msgid "Latest news &amp; reports from the fishsubsidy.org network"
-msgstr ""
+msgstr "Dernières nouvelles &amp; derniers rapports du réseau fishsubsidy.org"
 
 #: templates/home.html:93
 msgid "View vessel subsidies on the map"
-msgstr ""
+msgstr "Visualiser les subventions aux navires sur la carte"
 
 #: templates/home.html:99
 msgid "Latest annotations"
-msgstr ""
+msgstr "Dernières notes"
 
 #: templates/home.html:102
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
-"                %(username)s annotated <a href=\"%(url)s\">"
-"%(recipient_name)s</a>\n"
+"                %(username)s annotated <a href=\"%(url)s\">%(recipient_name)s</a>\n"
 "            "
 msgstr ""
 "\n"
-"Flotte thonière: Oui (<a href=\"%(link)s\">voir tout</a>)"
+"%(username)s annoté <a href=\"%(url)s\">%(recipient_name)s</a>"
 
 #: templates/comments/approve.html:4
 msgid "Approve a comment"
@@ -1351,7 +1336,7 @@ msgstr "Commentaire"
 
 #: templates/comments/moderation_queue.html:36
 msgid "Email"
-msgstr "Courrier électronique"
+msgstr "Courriel"
 
 #: templates/comments/moderation_queue.html:37
 msgid "URL"
@@ -1440,7 +1425,6 @@ msgstr ""
 
 #: templates/registration/extended_login.html:4
 #: templates/registration/extended_login.html:5
-#, fuzzy
 msgid "Sign in or create an account"
 msgstr "Se connecter ou créer un compte"
 
