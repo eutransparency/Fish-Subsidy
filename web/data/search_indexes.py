@@ -9,6 +9,9 @@ class EffIndex(SearchIndex):
     name = CharField(model_attr='name', boost=10)
     country = CharField(model_attr='country', faceted=True)
     
+    area1 = CharField(model_attr='area1')
+    area2 = CharField(model_attr='area2')
+    
     axisText = CharField(model_attr='axisText')
     actionText = CharField(model_attr='actionText')
     projectDescription = CharField(model_attr='projectDescription')

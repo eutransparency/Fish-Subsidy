@@ -94,7 +94,7 @@
                 <h4>{% trans "Filter by Year allocated" %}:</h4>
                 <ul>
                 {% for year in facets.fields.yeara %}
-                    {% if year.0 %}                        
+                    {% if year.0 %}
                     <li><a href="{% parse_qs request.GET "yeara" year.0 %}">{% if year.0 != '0' %}{{ year.0 }}{% else %}{% trans "Unknown" %} {% endif %} ({{ year.1 }})</a></li>
                     {% endif %}
                 {% endfor %}

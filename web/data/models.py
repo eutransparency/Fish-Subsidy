@@ -206,8 +206,8 @@ class EffData(models.Model):
     def format_location(self):
         fields = [
             "<a href='?query=country:\"%s\"'>%s</a>" % (self.country, unicode(country_codes(code=self.country)['name']) or ""),
-            self.area1,
-            self.area2,
+            "<a href='?query=\"%s\"'>%s</a>" % (self.area1, self.area1),
+            "<a href='?query=\"%s\"'>%s</a>" % (self.area2, self.area2),
         ]
         fields = [f for f in fields if f]
         return "<br />".join(fields)
