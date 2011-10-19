@@ -128,7 +128,7 @@
             <th class="{% if sort_by == "amountEuPaymentEuro"%}sort{% endif %}"><a href="{% parse_sort_qs request.GET "sort" "amountEuPaymentEuro" %}">{% trans "EU funds paid" %}</a></th>
             <th class="{% if sort_by == "amountTotalAllocatedEuro"%}sort{% endif %}"><a href="{% parse_sort_qs request.GET "sort" "amountTotalAllocatedEuro" %}">{% trans "Total allocated" %}</a></th>
             <th class="{% if sort_by == "amountTotalPaymentEuro"%}sort{% endif %}"><a href="{% parse_sort_qs request.GET "sort" "amountTotalPaymentEuro" %}">{% trans "Total paid" %}</a></th>
-            <th class="{% if sort_by == "year"%}sort{% endif %}"><a href="{% parse_sort_qs request.GET "sort" "year" %}">{% trans "Year allocated" %}</a></th>
+            <th class="{% if sort_by == "year"%}sort{% endif %}"><a href="{% parse_sort_qs request.GET "sort" "year" %}">{% trans "Year" %}</a></th>
         </thead>
         {% for result in results.object_list %}
         <tr valign="top">
