@@ -672,12 +672,13 @@ def effsearch_csv(request):
             if not v:
                 v = ''
             if type(v) in [unicode, str]:
-                line_data[k] = v.encode('utf8')
+                v = v.encode('utf8')
+            line_data[k] = v
 
         csv_out.writerow(line_data)
         
     res = HttpResponse(out.getvalue(), content_type="application/csv")
-    res['Content-Disposition'] = 'attachment; filename="%s.csv"' % q.encode('utf8')
+    res['Content-Disposition'] = 'attachment; filename="EFF Data [search].csv"' % q.encode('utf8')
     return res
     
 
