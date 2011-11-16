@@ -73,7 +73,7 @@ urlpatterns = patterns('web.data.views',
     url(r'^getthedata/download/(?P<data_file>\d+)$', 'download', name='download_file'),
     url(r'^getthedata/data_agreement$', 'data_agreement_form', name='data_agreement_form'),    
 
-    url(r'^eff$', 'effsearch', name="eff_search"),
+    url(r'^eff/$', 'effsearch', name="eff_search"),
     url(r'^eff/csv$', 'effsearch_csv'),
     
     )

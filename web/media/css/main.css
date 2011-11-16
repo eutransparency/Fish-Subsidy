@@ -98,6 +98,8 @@ h2 .traffic_light { padding:1px;}
     float:left;
 }
 
+.eff #id_query {width:300px; margin:0 0.5em;}
+
 table.sort-asc .sort a:first-child { background:url('/media/images/table-sort-arrows.png') no-repeat right 3px; padding-right:15px; font-weight:bold; text-decoration: none; }
 table.sort-desc .sort a:first-child { background:url('/media/images/table-sort-arrows.png') no-repeat right -11px; padding-right:15px; font-weight:bold; text-decoration: none; }
 
