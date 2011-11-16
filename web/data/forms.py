@@ -36,4 +36,3 @@ class EffSearchForm(forms.Form):
                 error_messages={
                     'min_length': _('Query must be longer than 2 characters')
                     })
-    # yeara = forms.ChoiceField(choices=YEAR_CHOICES, required=False, label=_('Year Allocated'))
