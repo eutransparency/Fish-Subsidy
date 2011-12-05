@@ -71,6 +71,14 @@
         </p>
     </div>
     <div class="section">
+        
+    <object width="640" height="385" style="float:right; margin-left:1.5em;"><param name="movie" value="{% ifequal LANGUAGE_CODE 'en' %}http://www.youtube-nocookie.com/v/S2at4cRnHe0?fs=1&amp;hl=en_US&amp;rel=0{% endifequal %}{% ifequal LANGUAGE_CODE 'fr' %}http://www.youtube-nocookie.com/v/zBAAGsJa5XI?fs=1&amp;hl=en_US&amp;rel=0{% endifequal %}{% ifequal LANGUAGE_CODE 'es' %}http://www.youtube-nocookie.com/v/SRvfcmnZWZg?fs=1&amp;hl=en_US&amp;rel=0{% endifequal %}"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="{% ifequal LANGUAGE_CODE 'en' %}http://www.youtube-nocookie.com/v/S2at4cRnHe0?fs=1&amp;hl=en_US&amp;rel=0{% endifequal %}{% ifequal LANGUAGE_CODE 'fr' %}http://www.youtube-nocookie.com/v/zBAAGsJa5XI?fs=1&amp;hl=en_US&amp;rel=0{% endifequal %}{% ifequal LANGUAGE_CODE 'es' %}http://www.youtube-nocookie.com/v/SRvfcmnZWZg?fs=1&amp;hl=en_US&amp;rel=0{% endifequal %}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="440" height="385"></embed></object> 
+
+        
+        
+        
+        
+        
         <h3>{% trans "Latest news &amp; reports from the fishsubsidy.org network" %}</h3>
         {% if featured_items.0 %}                  
             <h5><a href="{{ featured_items.0.get_absolute_url }}">{{ featured_items.0.title }}</a></h5>
@@ -91,7 +99,6 @@
 
         {# <h3>Watch a short film about the project:</h3>  #}
         <h3>{% trans "View vessel subsidies on the map" %}</h3> 
-        {# <object width="640" height="385"><param name="movie" value="http://www.youtube-nocookie.com/v/rDiuj6Vvofs?fs=1&amp;hl=en_US&amp;rel=0"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube-nocookie.com/v/rDiuj6Vvofs?fs=1&amp;hl=en_US&amp;rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="640" height="385"></embed></object>  #}
         <a href="/map/"><img src="/media/images/map_preview.png"></a>
     </div>
     
