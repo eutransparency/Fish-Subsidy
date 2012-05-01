@@ -52,7 +52,7 @@ urlpatterns += patterns('',
     # sorl.thumbnail
     (r'^', include('sorl.thumbnail.urls')),
     
-    (r'^sentry/', include('sentry.web.urls')),
+    # (r'^sentry/', include('sentry.web.urls')),
     
 )
 

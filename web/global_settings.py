@@ -94,8 +94,8 @@ INSTALLED_APPS = [
     'recipientcomments',
     'typogrify',
     'sorl.thumbnail',
-    'sentry',
-    'sentry.client',
+    # 'sentry',
+    # 'sentry.client',
     'haystack',
     
 ]
