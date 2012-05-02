@@ -60,7 +60,6 @@ MIDDLEWARE_CLASSES = [
 
 ROOT_URLCONF = 'web.urls'
 
-
 INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.comments',    
@@ -127,8 +126,9 @@ LANGUAGES = (
   ('en', ugettext('English')),
   ('es', ugettext('Español'.decode('utf8'))),
   ('fr', ugettext('Français'.decode('utf8'))),
+  ('de', ugettext('Deutsch'.decode('utf8'))),
 )
-MULTILINGUAL_FALLBACK_LANGUAGES = ['en', 'es', 'fr']
+MULTILINGUAL_FALLBACK_LANGUAGES = ['en', 'es', 'fr', 'de',]
 LANGUAGE_CODE = 'en'
 DEFAULT_LANGUAGE = 1
 
@@ -149,7 +149,7 @@ DJAPIAN_DATABASE_PATH = "xapian.db"
 DJAPIAN_STEMMING_LANG = "multi"
 
 
-CACHE_MIDDLEWARE_SECONDS = 30
+CACHE_MIDDLEWARE_SECONDS = 600
 
 
 STATS_PATH = ROOT_PATH + '/data/stats'

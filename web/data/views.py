@@ -45,7 +45,7 @@ def home(request):
     top_schemes = Scheme.objects.top_schemes(year=0)
     
     latest_annotations = RecipientComment.objects.all().order_by('-date')[:5]
-
+    
     return render_to_response(
         'home.html', 
         {
