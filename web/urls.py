@@ -46,6 +46,7 @@ urlpatterns += patterns('',
     (r'', include('frontend.urls')),
     (r'accounts/', include('registration.backends.default.urls')),
     (r'^comments/', include('django.contrib.comments.urls')),
+    (r'^annotations/', include('recipientcomments.urls')),
     
     # # Refine
     # (r'^reconcile/', include('refine.urls')),
@@ -53,7 +54,7 @@ urlpatterns += patterns('',
     # sorl.thumbnail
     (r'^', include('sorl.thumbnail.urls')),
     
-    (r'^sentry/', include('sentry.web.urls')),
+    # (r'^sentry/', include('sentry.web.urls')),
     
 )
 

@@ -84,13 +84,13 @@
     <div class="section">
       <h3>Information added by users</h3>
       {% for comment in comments %}
-        <div class="comment">
+        <div class="comment" id="comment-{{ comment.id }}">
           <div class="info">        
             <h4>{{ comment.user.username }}</h4>
             {{ comment.date|date:"H.i" }} {{ comment.date|naturalday|title }}
           </div>    
           <div class="message">
-            {{ comment.comment|markdown }}
+            {{ comment.comment|urlize|markdown }}
           </div>
         </div>
       {% endfor %}    

@@ -93,6 +93,7 @@
         {{ featured_items.2.title }}</a></h5>
         <p>{{ featured_items.2.teaser|truncatewords:"25" }}</p>
         {% endif %}
+        
     </div>
     
     <div class="section"> 
@@ -106,12 +107,10 @@
         <h3>{% trans "Latest annotations" %}</h3>
         <ul class="annotations">
         {% for annotation in latest_annotations %}
-            <li>{% blocktrans with annotation.user.username as username and annotation.recipient.get_absolute_url as url and annotation.recipient.name as recipient_name %}
-                {{ username }} annotated <a href="{{ url }}">{{ recipient_name }}</a>
-            {% endblocktrans %}:
-            <blockquote>{{ annotation.comment|markdown|striptags|truncatewords:30 }}</blockquote></li>        
+            {% include "annotation.html" %}
         {% endfor %}
         </ul>
+        <a href="/annotations">All annotations</a>
     </div>
     
     

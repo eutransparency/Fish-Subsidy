@@ -25,7 +25,7 @@ class RecipientComment(models.Model):
     public = RecipientCommentManager()
     
     class Meta:
-            ordering = ('date',)
+            ordering = ('-date',)
     
     def __unicode__(self):
         return "%s - %s" % (self.user, self.comment[:100])
