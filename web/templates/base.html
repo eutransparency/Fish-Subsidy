@@ -69,7 +69,9 @@
             <label for="language">Language</label>
             <select name="language" is="language">
                 {% for lang in LANGUAGES %}
+                {% if not lang.0 == "de" %}
                 <option value="{{ lang.0 }}" {% ifequal LANGUAGE_CODE lang.0 %}selected{% endifequal %}>{{ lang.1 }}</option>
+                {% endif %}
                 {% endfor %}
             </select>
             <input type="submit" value="{% trans "Go" %}" />

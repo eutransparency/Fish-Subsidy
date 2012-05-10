@@ -21,3 +21,4 @@ PIL
 django-sentry
 xapian-haystack
 django-haystack
+FeinCMS==1.5.3

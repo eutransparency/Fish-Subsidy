@@ -1,6 +1,8 @@
 from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from web.data.models import FishData
 import misc.views
@@ -15,20 +17,12 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Example:
-    # (r'^web/', include('web.foo.urls')),
-
-    # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
-    # to INSTALLED_APPS to enable admin documentation:
-    # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/rosetta/', include('rosetta.urls')),
-    (r'^admin/(.*)', admin.site.root),
+    url(r'^admin/', include(admin.site.urls)),
 
-)
-
-urlpatterns += patterns('',
     (r'', include('data.urls')),
     (r'', include('search.urls')),
     # (r'', include('web.feeds.urls')),
@@ -42,6 +36,7 @@ urlpatterns += patterns('',
     url(r'lists/', include('listmaker.urls')),
     
     # Frontend, including profiles
+    url(r'', include('feincms.urls')),
     (r'', include('frontend.urls')),
     (r'accounts/', include('registration.backends.default.urls')),
     (r'^comments/', include('django.contrib.comments.urls')),
@@ -55,11 +50,14 @@ urlpatterns += patterns('',
     
     # (r'^sentry/', include('sentry.web.urls')),
     
-)
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += staticfiles_urlpatterns()
 
 
-if settings.DEBUG:
-    urlpatterns += patterns('django.views',
-         (r'^media/(?P<path>.*)$', 'static.serve',
-         {'document_root': settings.MEDIA_ROOT}),
-    )
+
+# if settings.DEBUG:
+#     urlpatterns += patterns('django.views',
+#          (r'^media/(?P<path>.*)$', 'static.serve',
+#          {'document_root': settings.MEDIA_ROOT}),
+#     )

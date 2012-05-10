@@ -34,7 +34,7 @@ from recipientcomments.models import RecipientComment
 from misc import countryCodes
 
 from haystack.query import SearchQuerySet
-from xapian_backend import SearchBackend, SearchQuery
+# from xapian_backend import SearchBackend, SearchQuery
 
 def home(request):
     ip_country = RequestContext(request)['ip_country']

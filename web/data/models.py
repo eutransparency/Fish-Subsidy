@@ -106,7 +106,7 @@ class Recipient(models.Model):
           return ('nonvessel', [self.country, str(self.pk), slugify(self.name)]) 
       
 class Scheme(models.Model):
-    scheme_id = models.IntegerField(blank=True, null=True, primary_key=True)
+    scheme_id = models.IntegerField(blank=True, null=False, primary_key=True)
     total = models.DecimalField(max_digits=40, decimal_places=2, null=True, default=0)
     traffic_light = models.IntegerField(blank=True, null=True)
     

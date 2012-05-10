@@ -24,25 +24,46 @@ SITE_ID = 1
 # to load the internationalization machinery.
 USE_I18N = True
 
+MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media/')
+
+STATIC_ROOT = os.path.join(os.path.dirname(__file__), 'static/')
+
+# URL prefix for static files.
+# Example: "http://media.lawrence.com/static/"
+STATIC_URL = '/static/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = '/media/'
 
+STATICFILES_DIRS = (
+    # Put strings here, like "/home/html/static" or "C:/www/django/static".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    MEDIA_ROOT,
+)
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+)
+
+
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/adminmedia/'
+ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '1k-$iny+hp35t*_mgf2fpgck&3g4el_sw1z8dc^l3r5=o+%_qg'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.load_template_source',
-    'django.template.loaders.app_directories.load_template_source',
-#     'django.template.loaders.eggs.load_template_source',
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+#     'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = [
@@ -55,22 +76,24 @@ MIDDLEWARE_CLASSES = [
     'pagination.middleware.PaginationMiddleware',    
     'django_notify.middleware.NotificationsMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
     'multilingual.flatpages.middleware.FlatpageFallbackMiddleware'
 ]
 
 ROOT_URLCONF = 'web.urls'
 
 INSTALLED_APPS = [
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.comments',    
     'django.contrib.contenttypes',
-    'django.contrib.admin',
     'django.contrib.flatpages',
     'django.contrib.humanize',
-    'django.contrib.sessions',
-    'django.contrib.sites',
     'django.contrib.markup',
     'django.contrib.redirects',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.staticfiles',
     'data',
     'search',
     'stats',
@@ -96,15 +119,21 @@ INSTALLED_APPS = [
     # 'sentry',
     # 'sentry.client',
     'haystack',
+    'feincms',
+    'feincms.module.page',
+    'feincms.module.medialibrary',
+    'mptt',
+    'cms',
     
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.core.context_processors.auth",
+    "django.contrib.auth.context_processors.auth",
     "django.core.context_processors.debug",
     "django.core.context_processors.i18n",
     "django.core.context_processors.media",
     "django.core.context_processors.request",
+    'django.core.context_processors.static',
     'multilingual.context_processors.multilingual',  
     'data.context_processors.country',
     'data.context_processors.ip_country',  
@@ -148,8 +177,7 @@ DEFAULT_FROM_EMAIL = "team@fishsubsidy.org"
 DJAPIAN_DATABASE_PATH = "xapian.db"
 DJAPIAN_STEMMING_LANG = "multi"
 
-
-CACHE_MIDDLEWARE_SECONDS = 600
+CACHE_MIDDLEWARE_SECONDS = 6
 
 
 STATS_PATH = ROOT_PATH + '/data/stats'
@@ -157,6 +185,10 @@ DEFAULT_YEAR = 0
 
 THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'
 
-HAYSTACK_SITECONF = 'web.search_sites'
-HAYSTACK_SEARCH_ENGINE = 'xapian'
-HAYSTACK_XAPIAN_PATH = 'xapian-haystack.db'
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE' : 'xapian_backend.XapianEngine',
+        'PATH' : 'xapian-haystack.db',
+        'INCLUDE_SPELLING': True,
+    }
+}
