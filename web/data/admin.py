@@ -2,9 +2,9 @@ import data.models
 import multilingual
 from django.contrib import admin
 
-
 class IllegalAdmin(admin.ModelAdmin):
     list_display = ('recipient', 'dates', 'sanction')
+    # raw_id_fields = ("recipient",)
 
 class PaymentInline(admin.TabularInline):
     model = data.models.Payment
@@ -27,3 +27,4 @@ admin.site.register(data.models.FishData)
 admin.site.register(data.models.Recipient, RecipientAdmin)
 admin.site.register(data.models.Payment, PaymentAdmin)
 admin.site.register(data.models.Scheme, SchemeAdmin)
+admin.site.register(data.models.Port)

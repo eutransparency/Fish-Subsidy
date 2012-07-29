@@ -7,40 +7,16 @@ ROOT_PATH = os.path.split(PROJECT_PATH)[0]
 # Django settings for web project.
 from django.utils.translation import ugettext_lazy as _
 
-# Local time zone for this installation. Choices can be found here:
-# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
-# although not all choices may be available on all operating systems.
-# If running in a Windows environment this must be set to the same as your
-# system time zone.
 TIME_ZONE = 'Europe/London'
-
-# Language code for this installation. All choices can be found here:
-# http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-gb'
-
 SITE_ID = 1
-
-# If you set this to False, Django will make some optimizations so as not
-# to load the internationalization machinery.
 USE_I18N = True
-
 MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media/')
-
 STATIC_ROOT = os.path.join(os.path.dirname(__file__), 'static/')
-
-# URL prefix for static files.
-# Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
-
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash if there is a path component (optional in other cases).
-# Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = (
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
     MEDIA_ROOT,
 )
 
@@ -50,10 +26,6 @@ STATICFILES_FINDERS = (
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
-
-# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
-# trailing slash.
-# Examples: "http://foo.com/media/", "/media/".
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Make this unique, and don't share it with anybody.
@@ -116,15 +88,13 @@ INSTALLED_APPS = [
     'recipientcomments',
     'typogrify',
     'sorl.thumbnail',
-    # 'sentry',
-    # 'sentry.client',
     'haystack',
     'feincms',
     'feincms.module.page',
     'feincms.module.medialibrary',
     'mptt',
     'cms',
-    
+    'twitterfeed',
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -134,15 +104,15 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.media",
     "django.core.context_processors.request",
     'django.core.context_processors.static',
-    'multilingual.context_processors.multilingual',  
+    'multilingual.context_processors.multilingual',
     'data.context_processors.country',
-    'data.context_processors.ip_country',  
-    'misc.context_processors.latest_tweet',
+    'data.context_processors.ip_country',
     'features.context_processors.featured_items',
     'listmaker.context_processors.list_items',
     'django_notify.context_processors.notifications',
     'misc.context_processors.header_class',
-    'features.context_processors.featured_items'
+    'features.context_processors.featured_items',
+    'twitterfeed.context_processors.latest_tweets',
 )
 
 
@@ -162,7 +132,7 @@ LANGUAGE_CODE = 'en'
 DEFAULT_LANGUAGE = 1
 
 TWITTER_USER = "fishsubsidy"
-TWITTER_TIMEOUT = 3600
+TWITTER_TIMEOUT = 300
 
 AUTH_PROFILE_MODULE = 'frontend.Profile'
 LOGIN_URL = '/login/'

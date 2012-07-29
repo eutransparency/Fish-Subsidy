@@ -20,7 +20,7 @@ def country_url(pattern, *args, **kwargs):
 urlpatterns = patterns('web.data.views',
     
     #Home page
-    url(r'^$', 'home', name='home'),
+    # url(r'^$', 'home', name='home'),
     
     # Country Home page
     url(r'countries/', 'countries', name='countries' ),

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load feincms_tags feincms_page_tags %}
+
+{% block meta_description %}{{ feincms_page.meta_description|default:feincms_page.content_title|capfirst }}{% endblock %}
+{% block meta_keywords %}{{ feincms_page.meta_keywords|default:feincms_page.content_title|capfirst }}{% endblock %}
+{% block page_title %}{{ feincms_page.content_title|lower }}{% endblock %}
+
+
+{% block content %}{% feincms_frontend_editing feincms_page request %}
+<div class="span7">
+	<div class="ws">
+		
+		<div class="subheader">
+			<h1>{{ feincms_page.content_title }}</h1>
+			{% if feincms_page.abstract %}
+			<h3>{{ feincms_page.abstract }}</h3>
+			{% endif %}
+		</div>
+
+        {% feincms_render_region feincms_page "main" request %}
+	</div>
+</div>
+{% endblock content %}
+
+{% block right %}
+	<nav>
+		{% feincms_navigation of feincms_page as sub_pages level=2,depth=1 %}
+		<ul>
+			{% for p in sub_pages %}
+	    	<li{% if p|is_equal_or_parent_of:feincms_page %} class="active"{% endif %}>
+	    		<a href="{{ p.get_absolute_url }}" title="{{ p.title }}">{{ p.title }}</a>
+	    	</li>
+			{% endfor %}
+		</ul>
+	</nav>
+	
+    {% feincms_render_region feincms_page "rightsidebar" request %}
+    {{ block.super }}
+{% endblock %}

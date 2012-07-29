@@ -1,0 +1,145 @@
+/* General */
+
+body {
+    background-color:@lightGray;
+    margin:0 auto;
+    max-width:1140px;
+}
+
+#outer {
+    background-color:@rightGrey;
+    border:1px solid #CCC;
+    margin:0;
+    padding:0;
+}
+
+
+/* Header */
+header {
+    clear:both;
+    background-color:@fishBlue;
+    
+    #photos {
+        height:200px;
+        position:relative;
+        z-index:10;
+        background-size:cover;
+        background-position:top left;
+        img {
+            position:relative;
+            top:70px;
+        }
+    }
+    
+    #photos.header_1 {
+        background: url(../images/header_1.jpg) center center;
+    }
+    #photos.header_2 {
+        background: url(../images/header_2.jpg) center center;
+    }
+    #photos.header_3 {
+        background: url(../images/header_3.jpg) center center;
+    }
+    #photos.header_4 {
+        background: url(../images/header_4.jpg) center center;
+    }
+    #photos.header_5 {
+        background: url(../images/header_5.jpg) center center;
+    }
+    #photos.header_6 {
+        background: url(../images/header_6.jpg) center center;
+    }
+    #search_form {
+            display:none;
+        }
+    
+    nav {
+        h1 {
+            font-family:'ApexNew';
+            text-transform:uppercase;
+            padding:0.6em 0 0.4em 1em;
+            text-align:center;
+            min-width:350px;
+            a {
+                color:@white;
+                text-decoration:none;
+                &:hover {
+                    color:@white;
+                    text-decoration:none;
+                }
+            }
+        }
+        #mainmenu {
+            overflow:auto;
+            margin-top:1.8em;
+            li {
+                float:left;
+                list-style-type:none;
+                font-size:1.2em;
+                a {
+                    color:@white;
+                    text-decoration:none;
+                    padding:0 0.4em;
+                    padding:5px;
+                    &:hover {
+                        color:#000;
+                    }
+                }
+            }
+        }
+    }
+}
+
+h1, h2, h3 {
+    font-family:'ApexNewMedium';
+    font-weight:normal;
+}
+#content {
+    background-color:@white;
+    .row-fluid .span6, >section {
+        padding:1em;
+    }
+    
+    -moz-box-shadow:  8px 7px 20px 0 #888;
+    -webkit-box-shadow: 8px 7px 20px 0 #888;
+    box-shadow:  8px 7px 20px 0 #888;
+}
+
+#right {
+    margin:0;
+    padding:0 0 0 1.5em;
+
+}
+
+footer {
+    color:@white;
+    #about {
+        color:@footerBG;
+        font-weight:bold;
+    }
+    #links {
+        background-color:@footerBG;
+        border-top:8px solid black;
+        margin:0;
+        padding:2em 1em;
+        overflow:auto;
+
+        -moz-box-shadow: 10px 2px 11px 0 #888;
+        -webkit-box-shadow: 10px 2px 11px 0 #888;
+        box-shadow: 10px 2px 11px 0 #888;
+        
+        dt {
+            float:left;
+            clear:left;
+        }
+        dd {
+            float:left;
+            margin-left:1em;
+            a {
+                color:@white;
+                text-decoration:none;
+            }
+        }
+    }
+    
+}

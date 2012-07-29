@@ -1,0 +1,32 @@
+{% extends "cms_base.html" %}
+{% load feincms_tags feincms_page_tags i18n %}
+
+{% block content %}
+
+<section class="row-fluid">
+    <h2>
+        Welcome to fishsubsidy.org!
+    </h2>
+    <p class="intro">
+        {% blocktrans  %}
+        Subsidies paid to owners of fishing vessels and others working in the fishing industry under the European Union’s Common Fisheries Policy amount to more than &euro;1 billion a year. Fishsubsidy.org helps people find out who gets what, and why.
+        {% endblocktrans %}
+    </p>
+</section>
+
+
+<div class="row-fluid">
+    <div class="span6">{% feincms_render_region feincms_page "topleft" request %}</div>
+    <div class="span6">{% feincms_render_region feincms_page "topright" request %}</div>
+</div>
+
+<div class="row-fluid">
+    <div class="span6">{% feincms_render_region feincms_page "bottomleft" request %}</div>
+    <div class="span6">{% feincms_render_region feincms_page "bottomright" request %}</div>
+</div>
+
+<div class="container-fluid">
+    <div class="span12">{% feincms_render_region feincms_page "bottom" request %}</div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,22 @@
+{% load humanize %}
+{% load i18n %}
+<section class="tweets">
+    <h3>{% trans "Latest tweets from <a href='http://twitter.com/fishsubsidy'>@fishsubsidy</a>" %}</h3>
+    {% with plugin.get_contents as tweets %}
+    {% for tweet in tweets %}
+        {% if forloop.counter0 < plugin.limit %}
+        <div class-"row-fluid">
+        {% if tweet.retweeted_status.user %}
+            <img src="{{ tweet.retweeted_status.user.profile_image_url }}" class="span2" />
+        {% else %}
+            <img src="{{ tweet.user.profile_image_url }}" class="span2" />
+        {% endif %}
+        <p class="span9">
+            {{ tweet.text }}
+            <span class="date"><a href="http://twitter.com/fishsubsidy/status/{{ tweet.id }}">{{ tweet.created_at|naturaltime }}</a></span>
+        </p>
+        </div>
+        {% endif %}
+    {% endfor %}
+    {% endwith %}
+</section>

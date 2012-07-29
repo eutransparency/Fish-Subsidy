@@ -1,0 +1,10 @@
+{% load i18n %}
+{% with plugin.get_contents as latest_annotations %}
+<section class="annotations">
+    <h3>{% trans "Latest annotations" %}</h3>
+    {% for annotation in latest_annotations %}
+        {% include "annotation.html" %}
+    {% endfor %}
+    <a href="{% url all_annotations %}">All annotations</a>
+</section>
+{% endwith %}

@@ -17,15 +17,13 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    
 
-    # Uncomment the next line to enable the admin:
     url(r'^admin/rosetta/', include('rosetta.urls')),
+
     url(r'^admin/', include(admin.site.urls)),
 
     (r'', include('data.urls')),
     (r'', include('search.urls')),
-    # (r'', include('web.feeds.urls')),
     (r'^i18n/', include('django.conf.urls.i18n')),
     
     # Features
@@ -47,17 +45,12 @@ urlpatterns = patterns('',
     
     # sorl.thumbnail
     (r'^', include('sorl.thumbnail.urls')),
+
+    url(r'', include('feincms.urls')),
+
     
     # (r'^sentry/', include('sentry.web.urls')),
     
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += staticfiles_urlpatterns()
-
-
-
-# if settings.DEBUG:
-#     urlpatterns += patterns('django.views',
-#          (r'^media/(?P<path>.*)$', 'static.serve',
-#          {'document_root': settings.MEDIA_ROOT}),
-#     )

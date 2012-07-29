@@ -1,6 +1,7 @@
+{% load humanize %}
 {% load i18n %}
 {% load markup %}
-<li>{{ annotation.date|date }}: {% blocktrans with annotation.user.username as username and annotation.recipient.get_absolute_url as url and annotation.recipient.name as recipient_name and annotation.pk as pk %}
+<li>{% blocktrans with annotation.user.username as username and annotation.recipient.get_absolute_url as url and annotation.recipient.name as recipient_name and annotation.pk as pk %}
     {{ username }} annotated <a href="{{ url }}#comment-{{ pk }}">{{ recipient_name }}</a>
 {% endblocktrans %}:
-<blockquote>{{ annotation.comment|markdown|striptags|urlize|truncatewords:30 }}</blockquote></li>        
+<blockquote>{{ annotation.comment|markdown|striptags|urlize|truncatewords:30 }}</blockquote><span class="date">{{ annotation.date|naturaltime }}</span></li>        

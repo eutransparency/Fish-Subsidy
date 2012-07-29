@@ -1,3 +1,8 @@
+.DS_Store
+media/cache/*
+data/*.csv
+data/*.zip
+*.db
 web/TIME.txt
 web/settings.py
 *.pyc

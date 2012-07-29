@@ -93,7 +93,7 @@ class Recipient(models.Model):
 
 
   def __unicode__(self):
-    return u"%s" % self.name
+    return u"%s (%s)" % (self.name, self.pk)
 
   def get_stemming_lang(self):
     return self.country
@@ -154,6 +154,9 @@ class Port(models.Model):
     geo2 = models.CharField(blank=True, max_length=255)
 
     objects = PortManager()
+    
+    def __unicode__(self):
+        return "%s (%s)" % (self.name, self.pk)
 
 class illegalFishing(models.Model):
   
