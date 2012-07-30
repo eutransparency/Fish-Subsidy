@@ -95,6 +95,7 @@ INSTALLED_APPS = [
     'mptt',
     'cms',
     'twitterfeed',
+    'ajax_select',
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -162,3 +163,13 @@ HAYSTACK_CONNECTIONS = {
         'INCLUDE_SPELLING': True,
     }
 }
+
+
+# define the lookup channels in use on the site
+AJAX_LOOKUP_CHANNELS = {
+    #   pass a dict with the model and the field to search against
+    'recipient'  : {'model':'data.recipient', 'search_field':'pk'}
+}
+# magically include jqueryUI/js/css
+AJAX_SELECT_BOOTSTRAP = True
+AJAX_SELECT_INLINES = 'inline'
