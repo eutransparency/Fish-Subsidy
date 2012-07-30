@@ -96,6 +96,7 @@ INSTALLED_APPS = [
     # 'sentry',
     # 'sentry.client',
     'haystack',
+    'ajax_select',
     
 ]
 
@@ -160,3 +161,13 @@ THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'
 HAYSTACK_SITECONF = 'web.search_sites'
 HAYSTACK_SEARCH_ENGINE = 'xapian'
 HAYSTACK_XAPIAN_PATH = 'xapian-haystack.db'
+
+
+# define the lookup channels in use on the site
+AJAX_LOOKUP_CHANNELS = {
+    #   pass a dict with the model and the field to search against
+    'recipient'  : {'model':'data.recipient', 'search_field':'pk'}
+}
+# magically include jqueryUI/js/css
+AJAX_SELECT_BOOTSTRAP = True
+AJAX_SELECT_INLINES = 'inline'

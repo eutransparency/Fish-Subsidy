@@ -1,10 +1,14 @@
 import data.models
 import multilingual
 from django.contrib import admin
+from ajax_select import make_ajax_form
+from ajax_select.admin import AjaxSelectAdmin
 
 
-class IllegalAdmin(admin.ModelAdmin):
+
+class IllegalAdmin(AjaxSelectAdmin):
     list_display = ('recipient', 'dates', 'sanction')
+    form = make_ajax_form(data.models.illegalFishing,{'recipient':'recipient'})
 
 class PaymentInline(admin.TabularInline):
     model = data.models.Payment
