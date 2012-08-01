@@ -12,6 +12,7 @@
         <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}/css/style.css" />
 
         <link rel="shortcut icon" href="/media/images/favicon.ico">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <script src="media/js/css3-mediaqueries.js" type="text/javascript" charset="utf-8"></script>
         <script src="{{ MEDIA_URL }}/js/jquery-1.4.2.min.js" type="text/javascript"></script>
@@ -139,22 +140,26 @@
 
         <div class="row-fluid">
             {# Content #}
-            <div id="content" class="span9 fill">
-                <div class="heading">
-                    <p class="breadcrumbs">{% block breadcrumb %}{% endblock %}</p>
-                    <h2>{% block page_title %}{% endblock %}</h2>
+            <div id="content" class="span9">
+                <div class="row-fluid">
+                    
+                        <div class="heading">
+                            <p class="breadcrumbs">{% block breadcrumb %}{% endblock %}</p>
+                            <h2>{% block page_title %}{% endblock %}</h2>
+                        </div>
+                        {% if notifications %}
+                            <ul>
+                                {% for message in notifications %}
+                                    {% if forloop.first %} {% comment %} Just get the first notification - otherwise login message displays twice, strange bug {% endcomment %}
+                                        <li {% if message.tags %}class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    
+                    {% block error %}{% endblock %}
+                    {% block content %}{% endblock %}
                 </div>
-                {% if notifications %}
-                    <ul>
-                        {% for message in notifications %}
-                            {% if forloop.first %} {% comment %} Just get the first notification - otherwise login message displays twice, strange bug {% endcomment %}
-                                <li {% if message.tags %}class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-                {% block error %}{% endblock %}
-                {% block content %}{% endblock %}
             </div>
         
             {# Right column #}

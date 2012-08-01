@@ -23,7 +23,7 @@ urlpatterns = patterns('',
 
     url(r'^admin/rosetta/', include('rosetta.urls')),
     (r'^admin/lookups/', include(ajax_select_urls)),
-    (r'^admin/(.*)', admin.site.root),
+    # (r'^admin/(.*)', admin.site.root),
 
     url(r'^admin/', include(admin.site.urls)),
 

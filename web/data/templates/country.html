@@ -31,16 +31,16 @@
   
   <div class="col">  
     <h2>{% trans "Top Ports" %}</h2>
-    <table>
+    <table class="table table-condensed table-striped">
       <thead>
-        <th>{% trans "Port" %}</th>
+        <th class="recipient_name">{% trans "Port" %}</th>
         <th class="amount">{% trans "Amount" %}</th>
       </thead>
     {% for port in top_ports %}
       {% url data.views.port country=port.country port=port.name as port_url %}
       <tr>
       <td><a href="{{ port_url }}">{{ port.name|title }}</a></td>
-      <td>{{ port.totalsscheme|currencyfmt:"EUR" }}</td>
+      <td>{{ port.totalsscheme|default_if_none:0|currencyfmt:"EUR" }}</td>
       </tr>
     {% endfor %}
     <tr><td><a href="/{{ country.code }}/ports/browse/0">{% trans "See All" %}</a></td></tr>
@@ -50,9 +50,9 @@
 
   <div class="col">  
     <h2>{% trans "Top Regions" %}</h2>
-    <table>
+    <table class="table table-condensed table-striped">
       <thead>
-        <th>{% trans "Region" %}</th>
+        <th class="recipient_name">{% trans "Region" %}</th>
         <th class="amount">{% trans "Amount" %}</th>
       </thead>
     {% for m in top_municipalities %}
@@ -78,9 +78,9 @@
     <div class="section">
       <h2>{% trans "Top non-vessel payments" %}</h2>
       
-      <table>
+      <table class="table table-condensed table-striped">
         <thead>
-          <th>{% trans "Beneficiary Name" %}</th>
+          <th class="recipient_name">{% trans "Beneficiary Name" %}</th>
           <th class="amount">{% trans "Amount" %}</th>
           {% if list_enabled %}
           <th class="list_header"></th>
@@ -99,7 +99,7 @@
 
                 ({{ beneficiary.pk }})</a>
             </td>
-            <td>{% if beneficiary.amount %} {{ beneficiary.total|currencyfmt:"EUR" }}{% endif %}</td>
+            <td>{% if beneficiary.amount %} {{ beneficiary.total|default_if_none:0|currencyfmt:"EUR" }}{% endif %}</td>
             {% if list_enabled %}
             <td>{% list_item_edit beneficiary %}</td>
             {% endif %}
@@ -116,9 +116,9 @@
   <div class="section"> 
     {% load traffic_lights %}
     <h2>{% trans "Top schemes" %}</h2>
-    <table>
+    <table class="table table-condensed table-striped">
       <thead>
-        <th>{% trans "Scheme Name" %}</th>
+        <th class="recipient_name">{% trans "Scheme Name" %}</th>
         <th class="amount">{% trans "Amount" %}</th>
         
       </thead>
@@ -126,9 +126,9 @@
       {% url data.views.scheme_detail scheme_id=scheme.scheme_id name=scheme.name|slugify country=country.code as scheme_url %}
       <tr>  
         <td><a href="{{ scheme_url }}">
-          {{ scheme.name }}</a>{% traffic_light scheme.traffic_light %}
+          {{ scheme.name|wordwrap:120|linebreaksbr }}</a>{% traffic_light scheme.traffic_light %}
         </td>
-          <td>{{ scheme.schemetotal|currencyfmt:"EUR" }}</td>
+          <td>{{ scheme.schemetotal|default_if_none:0|currencyfmt:"EUR" }}</td>
       </tr>
     {% endfor %}
     <tr><td><a href="schemes">{% trans "See All" %}</a></td></tr>

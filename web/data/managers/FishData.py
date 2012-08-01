@@ -54,7 +54,7 @@ class VesselsManager(models.Manager):
                                                     recipient_type='vessel'
                                                     )
 
-    def top_vessels(self, country=None, port=None, scheme_id=None, year=0):
+    def top_vessels(self, country=None, port=None, scheme_id=None, year=0, limit=20):
         vessels = self.all()
         kwargs = {}
         if country and country!='EU':
@@ -70,7 +70,8 @@ class VesselsManager(models.Manager):
         vessels = vessels.filter(**kwargs)
         vessels = vessels.annotate(payment_total=Sum('payment__amount'))
         vessels = vessels.order_by('-payment_total')
-        vessels = vessels[:20]
+        if limit:
+            vessels = vessels[:limit]
         vessels = vessels.select_related('port__name')
         return vessels
 

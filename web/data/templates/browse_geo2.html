@@ -21,7 +21,7 @@
 
 <div class="section col">
   <h2>{% trans "Top Municipalities" %}</h2>
-  <table>
+  <table class="table table-condensed table-striped">
     <thead>
       <th>{% trans "Municipality Name" %}</th>
       <th class="amount">{% trans "Amount" %}</th>
@@ -41,9 +41,9 @@
 
 <div class="col">  
   <h2>{% trans "Top Ports" %}</h2>
-  <table>
+  <table class="table table-condensed table-striped">
     <thead>
-      <th>{% trans "Port" %}</th>
+      <th class="recipient_name">{% trans "Port" %}</th>
       <th class="amount">{% trans "Amount" %}</th>
     </thead>
   {% for port in top_ports %}
@@ -53,7 +53,7 @@
     <td>{{ port.total|currencyfmt:"EUR" }}</td>
     </tr>
   {% endfor %}
-  <tr><td><a href="/{{ country.code }}/ports/browse/0">{% trans "See All" %}</a></td></tr>
+  <tr><td colspan="2"><a href="/{{ country.code }}/ports/browse/0">{% trans "See All" %}</a></td></tr>
   </table>
 </div>
 
@@ -67,7 +67,7 @@
     {% autopaginate vessels 10 %}
     {% load list_data %}
     {% list_vessels vessels 1 0 %}
-    <h4 class="pager">{% paginate %}</h4>    
+    {% paginate %}
   </div>
 {% endif %}
 

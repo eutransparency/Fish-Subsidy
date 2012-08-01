@@ -158,7 +158,7 @@ def port(request, country, port, year=settings.DEFAULT_YEAR):
     if country:
         country = country.upper()
     
-    top_vessels = Recipient.vessels.top_vessels(country=country, port=port, year=year)
+    top_vessels = Recipient.vessels.top_vessels(country=country, port=port, year=year, limit=None)
     data_years = FishData.objects.country_years(country, port=port)
 
     ports = FishData.objects.filter(port_name=port)

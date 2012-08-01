@@ -105,13 +105,31 @@ h3 {
 }
 #content {
   background-color: #ffffff;
+  /*    .row-fluid .span6, >section {
+        padding:1em;
+    }
+*/
   -moz-box-shadow: 8px 7px 20px 0 #888;
   -webkit-box-shadow: 8px 7px 20px 0 #888;
   box-shadow: 8px 7px 20px 0 #888;
-}
-#content .row-fluid .span6,
-#content > section {
   padding: 1em;
+}
+#content .col {
+  float: left;
+  padding-right: 0.5em;
+}
+@media all and (min-width: 800px) {
+  #content .col {
+    width: 48%;
+  }
+}
+@media all and (max-width: 800px) {
+  #content .col {
+    min-width: 100%;
+  }
+}
+#content th.recipient_name {
+  width: 88%;
 }
 #right {
   margin: 0;

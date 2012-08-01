@@ -7,6 +7,6 @@
       <p class="meta quiet">{{ item.date|naturalday }} {% if item.author %}&mdash; {{ item.author }}{% endif %}</p>
       <p>{{ item.description|safe }}</p>
     {% endfor %}
-    <h4 class="pager">{% paginate %}</h4>
+    {% paginate %}
 
 {% endblock %}

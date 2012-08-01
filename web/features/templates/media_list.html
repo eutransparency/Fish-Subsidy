@@ -15,5 +15,5 @@
         {{ feed_item.description|markdown|typogrify }}
         
     {% endfor %}
-    <h4 class="pager">{% paginate %}</h4>
+    {% paginate %}
 {% endblock %}

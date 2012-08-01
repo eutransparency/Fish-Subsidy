@@ -14,6 +14,6 @@
                 {% include "annotation.html" %}
             {% endfor %}
         </ul>
-        <h4 class="pager">{% paginate %}</h4>
+        {% paginate %}
     </div>
 {% endblock content %}

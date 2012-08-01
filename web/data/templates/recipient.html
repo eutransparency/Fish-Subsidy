@@ -34,7 +34,7 @@
 
 {% block content %}
   {% load traffic_lights %}
-  <table>
+  <table class="table table-condensed table-striped">
     <thead>
       <th>{% trans "Year" %}</th>
       <th>{% trans "Scheme" %}</th>
@@ -84,12 +84,12 @@
     <div class="section">
       <h3>Information added by users</h3>
       {% for comment in comments %}
-        <div class="comment" id="comment-{{ comment.id }}">
-          <div class="info">        
+        <div class="comment row-fluid" id="comment-{{ comment.id }}">
+          <div class="info span3">
             <h4>{{ comment.user.username }}</h4>
-            {{ comment.date|date:"H.i" }} {{ comment.date|naturalday|title }}
+            {{ comment.date|naturaltime }}
           </div>    
-          <div class="message">
+          <div class="message span9">
             {{ comment.comment|urlize|markdown }}
           </div>
         </div>
@@ -101,7 +101,7 @@
       <h3>Tell us more about this recipient</h3>
       <p>Currently all we know about {{ name }} are the few bits of information released by the European Commission.</p>
       <p>We need your help to find out more about this recipient. Is it a vessel owned by a large company? Which fish stocks does it target? Has it been involved in illegal, unreported or unregulated fishing? Has it received other national-level subsidies? Anything else that is of wider public interest?</p>
-     <p> What did you find out?</p>
+      <p>What did you find out?</p>
       
 
     {% endblocktrans %}
@@ -109,7 +109,7 @@
     {% if user.is_authenticated %}
     
       {# -----------Comment form-----------  #}
-      <form method="POST">
+      <form method="POST" class="well form-horizontal">
         {{ form.as_p }}
         <input type="submit" name="post" value="{% trans "Post Comment" %}" id="post">
         </form>

@@ -12,7 +12,7 @@
 
 <h3>Recipients in <a href="/{{ country.code }}">{{ country.name }}</a>{% ifequal 0 year %}, {% trans "All Years" %}{% else %}, {{ year }}{% endifequal %}</h3>
 {% autopaginate items 30 %}
-  <table>
+  <table class="table">
     <thead>
       <th>{% ifequal sort "name"  %}<strong>Name</strong>{% else %}<a href="{% parse_qs request.GET "sort" "name" %}">{% trans "Name" %}</a>{% endifequal %}</th>
       <th class="amount">{% ifequal sort "amount"  %}<strong>Amount</strong>{% else %}<a href="{% parse_qs request.GET "sort" "amount" %}">{% trans "Amount" %}</a>{% endifequal %}</th>
@@ -48,7 +48,7 @@
       </tr>
     {% endfor %}
   </table>
-  <h4 class="pager">{% paginate %}</h4>
+  {% paginate %}
 {% endblock %}
 
 

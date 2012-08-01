@@ -38,7 +38,7 @@
     <div class="section">
       <h2>{% trans "Top Vessels" %}</h2>
     
-      <table>
+      <table class="table table-condensed table-striped">
         <thead>
           <th class="recipient_name">{% trans "Name" %}</th>
           <th>{% trans "Amount" %}</th>
@@ -63,10 +63,10 @@
 
 
   {% if top_nonvessels %}
-    <div class="section">
+    <div class="">
       <h2>{% trans "Top Non-vessels" %}</h2>
     
-      <table>
+      <table class="table table-condensed table-striped">
         <thead>
           <th class="recipient_name">{% trans "Name" %}</th>
           <th>{% trans "Amount" %}</th>
@@ -101,9 +101,9 @@
 
 
   {% if top_ports %}
-    <div class="{% if col %}col{% endif %}">  
+    <div class="col">
       <h2>Top Ports</h2>
-      <table>
+      <table class="table table-condensed table-striped">
         <thead>
           <th class="recipient_name">{% trans "Port" %}</th>
           <th>{% trans "Amount" %}</th>
@@ -121,9 +121,9 @@
   {% endif %}
 
   {% if top_municipalities %}
-  <div class="{% if col %}col{% endif %}">  
+  <div class="col span6">
     <h2>{% trans "Top Regions" %}</h2>
-    <table>
+    <table class="table table-condensed table-striped">
       <thead>
         <th class="recipient_name">{% trans "Region" %}</th>
         <th>{% trans "Amount" %}</th>

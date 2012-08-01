@@ -18,9 +18,9 @@
 
 {% load pagination_tags %}
 {% autopaginate items 30 %}
-  <table>
+  <table class="table table-condensed table-striped">
     <thead>
-      <th>{% ifequal sort "name"  %}<strong>Municipality Name</strong>{% else %}<a href="/{{ country.code }}/municipalities/name">Municipality Name</a>{% endifequal %}</th>
+      <th class="recipient_name">{% ifequal sort "name"  %}<strong>Municipality Name</strong>{% else %}<a href="/{{ country.code }}/municipalities/name">Municipality Name</a>{% endifequal %}</th>
       <th>{% ifequal sort "amount"  %}<strong>Amount</strong>{% else %}<a href="/{{ country.code }}/municipalities/amount">Amount</a>{% endifequal %}</th>
     </thead>
     {% for m in items %}
@@ -31,5 +31,5 @@
       </tr>
     {% endfor %}
   </table>
-  <h4 class="pager">{% paginate %}</h4>
+  {% paginate %}
 {% endblock %}

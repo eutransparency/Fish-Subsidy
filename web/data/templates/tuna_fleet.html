@@ -13,7 +13,7 @@
 
 {% if vessels.0 %}
   
-<table>
+<table class="table table-condensed table-striped">
   <thead>
     <th>{% trans "Name" %}</th>
     <th>{% trans "Amount" %}</th>
@@ -30,7 +30,7 @@
     </tr>
   {% endfor %}
 </table>
-  <h4 class="pager">{% paginate %}</h4>
+  {% paginate %}
   {% else %}
     <p>{% blocktrans with country.name as country %}
       {{ country }} has no vessels in the Tuna Fleet.  <a href="/EU/tuna-fleet">View the full list</a>
