@@ -39,6 +39,8 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = [
+    'johnny.middleware.LocalStoreClearMiddleware',
+    'johnny.middleware.QueryCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'babeldjango.middleware.LocaleMiddleware',
@@ -148,7 +150,7 @@ DEFAULT_FROM_EMAIL = "team@fishsubsidy.org"
 DJAPIAN_DATABASE_PATH = "xapian.db"
 DJAPIAN_STEMMING_LANG = "multi"
 
-CACHE_MIDDLEWARE_SECONDS = 600
+CACHE_MIDDLEWARE_SECONDS = 6000
 
 
 STATS_PATH = ROOT_PATH + '/data/stats'

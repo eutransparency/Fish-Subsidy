@@ -100,8 +100,15 @@ class Denormalize(models.Manager):
         cursor = connection.cursor()
         cursor.execute("""
         DELETE FROM data_port;
-        INSERT INTO data_port (name, country, total, geo1, geo2)
-        SELECT port_name, iso_country, SUM(total_subsidy) as t, MAX(geo1), MAX(geo2)
+        INSERT INTO data_port (name, country, total, geo1, geo2, lat, lng)
+        SELECT 
+            port_name, 
+            iso_country, 
+            SUM(total_subsidy) as t, 
+            MAX(geo1), 
+            MAX(geo2),
+            AVG(CAST(port_lat as double precision)),
+            AVG(CAST(port_lng as double precision))
         FROM data_fishdata
         WHERE total_subsidy IS NOT NULL
         AND port_name IS NOT NULL

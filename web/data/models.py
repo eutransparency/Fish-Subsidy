@@ -152,6 +152,13 @@ class Port(models.Model):
     total = models.DecimalField(max_digits=40, decimal_places=2, null=True, default=0)
     geo1 = models.CharField(blank=True, max_length=255)
     geo2 = models.CharField(blank=True, max_length=255)
+    lat = models.FloatField(blank=True, null=True)
+    lng = models.FloatField(blank=True, null=True)
+    
+    # ALTER TABLE data_port ADD COLUMN lat double precision;
+    # ALTER TABLE data_port ADD COLUMN lng double precision;
+    
+
 
     objects = PortManager()
     

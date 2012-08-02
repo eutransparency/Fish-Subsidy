@@ -4,8 +4,7 @@ from django.core.cache import cache
 from utils import get_tweets
 
 def latest_tweets(request):
-    tweets = cache.get( 'tweets' )
-    tweets = None
+    tweets = cache.get('tweets')
 
     if tweets:
         return {"tweets": tweets}
