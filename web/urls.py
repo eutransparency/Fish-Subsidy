@@ -39,11 +39,11 @@ urlpatterns = patterns('',
     url(r'lists/', include('listmaker.urls')),
     
     # Frontend, including profiles
-    url(r'', include('feincms.urls')),
-    (r'', include('frontend.urls')),
     (r'accounts/', include('registration.backends.default.urls')),
     (r'^comments/', include('django.contrib.comments.urls')),
     (r'^annotations/', include('recipientcomments.urls')),
+    url(r'', include('feincms.urls')),
+    (r'', include('frontend.urls')),
     
     # # Refine
     # (r'^reconcile/', include('refine.urls')),

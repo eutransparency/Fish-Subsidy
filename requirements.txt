@@ -25,4 +25,4 @@ FeinCMS==1.5.3
 django-ajax-selects
 python-memcached
 johnny-cache
-
+djapian
