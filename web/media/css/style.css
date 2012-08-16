@@ -70,6 +70,9 @@ header nav h1 {
   padding: 0.6em 0 0.4em 1em;
   text-align: center;
   min-width: 350px;
+  padding: 0;
+  position: relative;
+  top: 10px;
 }
 header nav h1 a {
   color: #ffffff;
@@ -81,7 +84,8 @@ header nav h1 a:hover {
 }
 header nav #mainmenu {
   overflow: auto;
-  margin-top: 1.8em;
+  position: relative;
+  top: 10px;
 }
 header nav #mainmenu li {
   float: left;
@@ -199,4 +203,8 @@ section.annotations li blockquote {
   font-style: italic;
   padding-bottom: 0;
   margin-bottom: 0;
+}
+.home #content .span6,
+.home #content .span12 {
+  margin-top: 2em;
 }
