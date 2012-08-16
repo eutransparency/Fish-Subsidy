@@ -7,6 +7,16 @@
 
 
 {% block content %}
+
+    <section>
+        MAP:
+        {% for annotation in annotations %}
+            {{ annotation.recipient.port.lat }}
+            {{ annotation.recipient.port.lng }}
+            <br />
+        {% endfor %}
+    </section>
+
     <div class="section">
         {% autopaginate annotations 10 as annotations %}
         <ul class="annotations">

@@ -77,7 +77,6 @@ class Denormalize(models.Manager):
             WHERE scheme_name !=''
             AND scheme_traffic_light !='0'
             GROUP BY scheme2_id, scheme_name, scheme_traffic_light;
-            
             """)
 
         
