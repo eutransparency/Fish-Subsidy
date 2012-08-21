@@ -6,7 +6,7 @@
     {% for tweet in tweets %}
         {% if forloop.counter0 < plugin.limit %}
         <div class-"row-fluid">
-        <p class="span12">
+        <p>
             {{ tweet.html|safe }}<br />
             <span class="date"><a href="http://twitter.com/fishsubsidy/status/{{ tweet.id }}">{{ tweet.created_at|naturaltime }}</a></span>
         </p>
