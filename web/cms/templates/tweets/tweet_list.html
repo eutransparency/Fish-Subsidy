@@ -6,13 +6,8 @@
     {% for tweet in tweets %}
         {% if forloop.counter0 < plugin.limit %}
         <div class-"row-fluid">
-        {% if tweet.retweeted_status.user %}
-            <img src="{{ tweet.retweeted_status.user.profile_image_url }}" class="span2" />
-        {% else %}
-            <img src="{{ tweet.user.profile_image_url }}" class="span2" />
-        {% endif %}
-        <p class="span9">
-            {{ tweet.text }}
+        <p class="span12">
+            {{ tweet.html|safe }}<br />
             <span class="date"><a href="http://twitter.com/fishsubsidy/status/{{ tweet.id }}">{{ tweet.created_at|naturaltime }}</a></span>
         </p>
         </div>

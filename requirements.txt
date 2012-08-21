@@ -27,3 +27,4 @@ python-memcached
 redis==2.2.0
 sorl-thumbnail==11.01
 typogrify
+git+git@github.com:symroe/TweetTextParser.git
