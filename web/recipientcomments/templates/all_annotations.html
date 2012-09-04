@@ -9,15 +9,64 @@
 {% block content %}
 
     <section>
-        MAP:
-        {% for annotation in annotations %}
-            {{ annotation.recipient.port.lat }}
-            {{ annotation.recipient.port.lng }}
-            <br />
-        {% endfor %}
+        {% ifequal request.page 1  %}
+            <div id="map" class="span12" style="height:450px"></div>
+
+        
+            <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.css" />
+            <!--[if lte IE 8]>
+                <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.ie.css" />
+            <![endif]-->
+             <script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script>
+         
+             <style type="text/css" media="screen">
+                 .number-marker {
+                     background-color: rgba(8, 74, 126, 0.6);
+                      border: 1px solid #333;
+                      -moz-border-radius:75px;
+                      -webkit-border-radius: 75px;
+                      color:#FFF;
+                      font-weight:bold;
+                      line-height:0.9em;
+                      padding-left:4px;
+                 }
+             </style>
+
+            <script type="text/javascript">  
+                var map = L.map('map')
+                // create the tile layer with correct attribution
+                var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+                var osmAttrib='Map data © OpenStreetMap contributors';
+                var osm = new L.TileLayer(osmUrl, {minZoom: 2, maxZoom: 9, attribution: osmAttrib});
+
+                // start the map in South-East England
+                var center = new L.LatLng(50.0, 0.7)
+                map.setView(center,4);
+                map.addLayer(osm);
+                map.on("dragend", function() {
+                    center = map.getCenter()
+                })
+                map.on("popupclose", function() {
+                    map.panTo(center);
+                })
+            
+                {% for annotation in annotations_map %}
+                    var marker = L.marker([{{ annotation.recipient__port__lat }}, {{ annotation.recipient__port__lng }}],{icon: L.divIcon({html: '{{ annotation.count }}', className: 'number-marker'}) }).addTo(map);
+                    marker.on("click", function(e) {
+                        this_marker = this
+                        jQuery.get('/annotations/ajax/get_by_port/' + {{ annotation.recipient__port }}, function(data) {
+                            this_marker.bindPopup(data).openPopup();
+                        })
+
+                    })
+                {% endfor %}
+            
+              
+        </script>
+        {% endifequal %}
     </section>
 
-    <div class="section">
+    <div class="section span12">
         {% autopaginate annotations 10 as annotations %}
         <ul class="annotations">
             {% for annotation in annotations %}

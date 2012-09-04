@@ -1,0 +1,10 @@
+{% load markup %}
+<h1>{{ port.name }}</h1>
+<section style="max-height:200px;max-width:200px;overflow-x:auto">
+    {% for comment in comments_for_port %}
+        {% ifchanged %}<h3>{{ comment.recipient.name }}</h3>{% endifchanged %}
+        {% with comment as annotation %}
+            {% include "annotation.html" %}
+        {% endwith %}
+    {% endfor %}    
+</section>
