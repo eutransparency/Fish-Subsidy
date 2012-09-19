@@ -3,7 +3,8 @@ from haystack import indexes
 from models import EffData
 
 
-class EffIndex(indexes.Indexable):
+class EffIndex(indexes.SearchIndex, indexes.Indexable):
+    print "called"
     text = indexes.CharField(document=True, use_template=True)
     name = indexes.CharField(model_attr='name', boost=10)
     country = indexes.CharField(model_attr='country', faceted=True)
@@ -19,3 +20,5 @@ class EffIndex(indexes.Indexable):
     amountTotalPaymentEuro = indexes.FloatField(model_attr='amountTotalPaymentEuro')
     yeara = indexes.CharField(model_attr='yearAllocated', default=0, faceted=True)
     
+    def get_model(self):
+        return EffData

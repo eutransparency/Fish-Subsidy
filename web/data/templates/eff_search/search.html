@@ -120,7 +120,7 @@
         </div>
 
         <br />
-    <table class="sort-{{ sort }}">
+    <table class="sort-{{ sort }} table table-condensed table-striped">
         <thead>
             <th class="{% if sort_by == "name"%}sort{% endif %}"><a href="{% parse_sort_qs request.GET "sort" "name" %}">{% trans "Name" %}</a></th>
             <th class="">{% trans "Location" %}</th>

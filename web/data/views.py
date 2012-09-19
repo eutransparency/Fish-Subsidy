@@ -34,6 +34,7 @@ from recipientcomments.models import RecipientComment
 from misc import countryCodes
 
 from haystack.query import SearchQuerySet
+import xapian_backend
 
 def home(request):
     ip_country = RequestContext(request)['ip_country']
@@ -564,8 +565,8 @@ def effsearch(request):
             if request.GET.get('country'):
                 q = "%s AND country_exact:%s" % (q, request.GET.get('country').lower())
                 filter_types.append('country')
-
-            backend = SearchBackend()
+            
+            backend = xapian_backend.XapianSearchBackend('default', PATH=settings.HAYSTACK_CONNECTIONS['default']['PATH'])
             query = backend.parse_query(q)
             
             sort_by = [request.GET.get('sort', 'name'),]
@@ -663,7 +664,7 @@ def effsearch_csv(request):
         'yearAllocated',
         ]
     csv_out = csv.DictWriter(out, cols, extrasaction='ignore')
-    backend = SearchBackend()
+    backend = xapian_backend.XapianSearchBackend('default', PATH=settings.HAYSTACK_CONNECTIONS['default']['PATH'])
     query = backend.parse_query(q)
     results = backend.search(query, end_offset=200)
     csv_out.writerow(dict([[c,c] for c in cols]))
@@ -679,7 +680,7 @@ def effsearch_csv(request):
         csv_out.writerow(line_data)
         
     res = HttpResponse(out.getvalue(), content_type="application/csv")
-    res['Content-Disposition'] = 'attachment; filename="EFF Data [search].csv"' % q.encode('utf8')
+    res['Content-Disposition'] = 'attachment; filename="EFF Data [search: %s].csv"' % q.encode('utf8')
     return res
     
 

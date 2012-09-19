@@ -1,4 +1,5 @@
 import csv
+import sys
 
 import django
 from django.core.management.base import BaseCommand
@@ -16,7 +17,7 @@ csv.register_dialect("SKV", SKV)
 class Command(BaseCommand):
     
     def handle(self, *args, **kwargs):
-        f = csv.DictReader(open('../data/website20110922.txt', 'r'), dialect='SKV')
+        f = csv.DictReader(open('../data/website20120807.txt', 'r'), dialect='SKV')
         EffData.objects.all().delete()
         for line in f:
             if not line['yearAllocated']:
