@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-05-03 21:27+0100\n"
-"PO-Revision-Date: 2012-08-28 20:25\n"
+"PO-Revision-Date: 2012-09-18 14:28\n"
 "Last-Translator:   <wiebko@yahoo.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -390,7 +390,7 @@ msgstr ""
 "\n"
 "<p>Illegale Fischerei ist eine der Ursachen für die Überfischung wertvoller Fischbestände, von denen einige bereits beunruhigend niedrige Niveaus erreicht haben. Für Frankreich, Spanien und Großbritannien wurden nur sehr begrenzte Daten über Verurteilungen aufgrund schwerer Verstöße (illegaler Fischerei) gesammelt. Im Gegensatz zu den Daten im Zusammenhang mit Fischereisubventionen handelt es sich nicht um offizielle, direkt von den Regierungen übermittelte Daten, sondern um Informationen, die in Kleinarbeit von Regierungswebsites, Presseberichten oder Gerichtsaufzeichnungen erhoben wurden. Aus diesem Grund muss davon ausgegangen werden, dass die Daten unvollständig sind.</p>\n"
 "\n"
-"<p>Lesen Sie mehr über Subventionen und illegale Fischerei in dem Bericht von fishsubsidy.org<a href=\"http://fishsubsidy.org/news/features/iuu/\">When Crime Pays</a>.</p>\n"
+"<p>Lesen Sie mehr über Subventionen und illegale Fischerei in dem Bericht von fishsubsidy.org <a href=\"http://fishsubsidy.org/news/features/iuu/\">When Crime Pays</a>.</p>\n"
 "\n"
 "<p>Die untenstehende Tabelle zeigt Schiffe, die Fischereisubventionen erhielten, obwohl sie bereits für schwere Verstöße verurteilt wurden.</p>\n"
 
@@ -401,7 +401,7 @@ msgstr "Schiffsname"
 
 #: data/templates/infringements.html:32 data/templates/recipient.html:152
 msgid "Registration number"
-msgstr "Registrierungsnummer"
+msgstr "Schiffsnummer"
 
 #: data/templates/infringements.html:34
 msgid "Date(s) of offences"
@@ -426,7 +426,7 @@ msgstr "Sanktion"
 
 #: data/templates/infringements.html:53
 msgid "Skipper/Owner"
-msgstr "Kapitän/Reeder"
+msgstr "Kapitän/Eigentümer"
 
 #: data/templates/infringements.html:62
 msgid "yes,no"
@@ -583,7 +583,7 @@ msgstr "Unbekannt"
 
 #: data/templates/recipient.html:166
 msgid "Owner"
-msgstr "Reeder"
+msgstr "Eigentümer"
 
 #: data/templates/recipient.html:168
 msgid ""
@@ -715,12 +715,12 @@ msgid ""
 msgstr ""
 "\n"
 "<h3>Subventionsprogramme</h3>\n"
-"<p>Um die verschiedenen Subventionstypen einzuordnen, haben wir die Klassifizierung des Fischereizentrums der Universität von British Columbia. übernommen. \n"
-"Das Klassifizierungssystem unterteilt Subventionsprogramm und -maßnahmen in:</p>\n"
+"<p>Zur Einordnung der verschiedenen Subventionstypen haben wir die Klassifizierung des Fischereizentrums der Universität von British Columbia übernommen. \n"
+"Das Klassifizierungssystem unterteilt Subventionsprogramme und -maßnahmen in:</p>\n"
 "<ul>\n"
 "<li>Gut (grün %(good)s)</li>\n"
 "<li>Schlecht (rot %(bad)s)</li>\n"
-"<li>Gefährlich (gelb %(ugly)s)</li>\n"
+"<li>Riskant (gelb %(ugly)s)</li>\n"
 "</ul>\n"
 "<a href=\"/ueber/Subventionsprogramme/\">Mehr dazu</a>\n"
 "</div>"
@@ -1317,11 +1317,11 @@ msgid ""
 "            "
 msgstr ""
 "\n"
-"Die Subventionen, die im Rahmen der Gemeinsamen Fischereipolitik der Europäischen Union an Schiffseigentümer und andere Akteure der Fischereiindustrie ausgezahlt werden, belaufen sich auf mehr als 1 Milliarde € pro Jahr. Fishsubsidy.org hilft herauszufinden, wer was bekommt, und warum."
+"Die Subventionen, die im Rahmen der Gemeinsamen Fischereipolitik der Europäischen Union an Schiffseigentümer und andere Akteure der Fischereiindustrie ausgezahlt werden, belaufen sich auf mehr als 1 Milliarde € pro Jahr. Fishsubsidy.org möchte hier mehr Transparenz schaffen: Wer erhält welche Fördergelder und für welchen Verwendungszweck?"
 
 #: templates/home.html:82
 msgid "Latest news &amp; reports from the fishsubsidy.org network"
-msgstr "Aktuelle News &amp; Berichte von dem Netzwerk Fishsubsidy.org"
+msgstr "Aktuelle News &amp; Berichte aus dem Fishsubsidy.org-Netzwerk "
 
 #: templates/home.html:102
 msgid "View vessel subsidies on the map"
@@ -1329,7 +1329,7 @@ msgstr "Schiffssubventionen auf der Karte anzeigen"
 
 #: templates/home.html:107
 msgid "Latest annotations"
-msgstr "Neuste Anmerkungen"
+msgstr "Neuste Beiträge"
 
 #: templates/comments/approve.html:4
 msgid "Approve a comment"
@@ -1355,7 +1355,7 @@ msgid ""
 "site"
 msgstr ""
 "Danke, dass Sie sich die Zeit genommen haben, die Qualität des "
-"Austauschs auf unserer Website zu verbessern."
+"Informationsaustauschs auf unserer Website zu verbessern."
 
 #: templates/comments/delete.html:4
 msgid "Remove a comment"
@@ -1396,7 +1396,7 @@ msgstr "Veröffentlichen"
 
 #: templates/comments/form.html:19 templates/comments/preview.html:35
 msgid "Preview"
-msgstr "Voransicht"
+msgstr "Vorschau"
 
 #: templates/comments/moderation_queue.html:4
 #: templates/comments/moderation_queue.html:19
