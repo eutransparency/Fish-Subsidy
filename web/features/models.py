@@ -15,7 +15,7 @@ class Feature(models.Model):
     """
     
     def __unicode__(self):
-        return self.title
+	return u"%s" % self.title
     
     def save(self, commit=False, message=None, user=None):        
         super(Feature, self).save()
