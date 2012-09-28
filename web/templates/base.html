@@ -65,7 +65,7 @@
                         </select>
                         <input type="submit" value="{% trans "Go" %}" class="btn" />
                     </form>
-                    
+
                     <div class="loginbar" class="span4" style="padding:4px;">
                         {% if request.user.is_authenticated %}
                             Logged in as {{ request.user.username }} | <a href="/logout/">Sign out</a>

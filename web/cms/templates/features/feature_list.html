@@ -2,9 +2,10 @@
 {% with plugin.get_contents as latest_features %}
 <section>
     <h3>{% trans "Latest news &amp; reports" %}</h3>
-    {% for feature in latest_features %}
-        <h5><a href="{{ feature.get_absolute_url }}">{{ feature.title }}</a></h5>
-        {{ feature.teaser }}
-    {% endfor %}
+    {# {{ latest_features }} #}
+    {# {% for feature in latest_features %} #}
+    {#     <h5><a href="{{ feature.get_absolute_url }}">{{ feature.title }}</a></h5> #}
+    {#     {{ feature.teaser }} #}
+    {# {% endfor %} #}
 </section>
 {% endwith %}

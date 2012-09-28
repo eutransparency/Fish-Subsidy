@@ -11,6 +11,7 @@ TIME_ZONE = 'Europe/London'
 LANGUAGE_CODE = 'en-gb'
 SITE_ID = 1
 USE_I18N = True
+USE_L10N = True
 MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media/')
 STATIC_ROOT = os.path.join(os.path.dirname(__file__), 'static/')
 STATIC_URL = '/static/'
@@ -39,10 +40,10 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = [
-    'johnny.middleware.LocalStoreClearMiddleware',
-    'johnny.middleware.QueryCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+    'johnny.middleware.LocalStoreClearMiddleware',
+    'johnny.middleware.QueryCacheMiddleware',
     'babeldjango.middleware.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',    
@@ -102,9 +103,9 @@ INSTALLED_APPS = [
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.core.context_processors.i18n",
     "django.contrib.auth.context_processors.auth",
     "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
     "django.core.context_processors.media",
     "django.core.context_processors.request",
     'django.core.context_processors.static',
@@ -132,8 +133,8 @@ LANGUAGES = (
   ('de', ugettext('Deutsch'.decode('utf8'))),
 )
 MULTILINGUAL_FALLBACK_LANGUAGES = ['en', 'es', 'fr', 'de',]
-LANGUAGE_CODE = 'en'
-DEFAULT_LANGUAGE = 1
+# LANGUAGE_CODE = 'es'
+# DEFAULT_LANGUAGE = 2
 
 TWITTER_USER = "fishsubsidy"
 TWITTER_TIMEOUT = 300

@@ -17,7 +17,7 @@ class Feature(models.Model):
     def __unicode__(self):
         return self.title
     
-    def save(self, commit=False, message=None, user=None):        
+    def save(self, commit=False, message=None, user=None):
         super(Feature, self).save()
 
         # After save, clear the cached items
@@ -42,3 +42,6 @@ class Feature(models.Model):
         slug = models.SlugField(help_text="Forms the URL of the feature, no spaces or fancy characters. best to separate words with hyphens")
         teaser = models.TextField(blank=True, help_text="Appers are the top of every page, shortened to about 25 words")
         body = models.TextField(blank=True)
+        
+        def __unicode__(self):
+            return u"%s" % self.title

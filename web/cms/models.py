@@ -28,7 +28,7 @@ Page.register_extensions(
     'datepublisher', 
     'navigation',
     'seo', 
-    'translations'
+    # 'translations'
     )
 
 
