@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-05-03 21:27+0100\n"
-"PO-Revision-Date: 2012-09-18 14:28\n"
+"PO-Revision-Date: 2012-09-24 11:29\n"
 "Last-Translator:   <wiebko@yahoo.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -388,7 +388,7 @@ msgid ""
 "have been convicted of serious infringements.</p>\n"
 msgstr ""
 "\n"
-"<p>Illegale Fischerei ist eine der Ursachen für die Überfischung wertvoller Fischbestände, von denen einige bereits beunruhigend niedrige Niveaus erreicht haben. Für Frankreich, Spanien und Großbritannien wurden nur sehr begrenzte Daten über Verurteilungen aufgrund schwerer Verstöße (illegaler Fischerei) gesammelt. Im Gegensatz zu den Daten im Zusammenhang mit Fischereisubventionen handelt es sich nicht um offizielle, direkt von den Regierungen übermittelte Daten, sondern um Informationen, die in Kleinarbeit von Regierungswebsites, Presseberichten oder Gerichtsaufzeichnungen erhoben wurden. Aus diesem Grund muss davon ausgegangen werden, dass die Daten unvollständig sind.</p>\n"
+"<p>Illegale Fischerei ist eine der Ursachen für die Überfischung wertvoller Fischbestände, von denen einige bereits beunruhigend stark dezimiert wurden. Für Frankreich, Spanien und Großbritannien verfügen wir nur über sehr begrenzte Daten über Verurteilungen aufgrund schwerer Verstöße (illegale Fischerei). Im Gegensatz zu den Daten im Zusammenhang mit Fischereisubventionen handelt es sich nicht um offizielle, direkt von den Regierungen bereitgestellte Daten, sondern um Informationen, die in mühevoller Kleinarbeit aus Regierungswebsites, Presseberichten oder Gerichtsaufzeichnungen erhoben wurden. Aus diesem Grund muss davon ausgegangen werden, dass die Daten unvollständig sind.</p>\n"
 "\n"
 "<p>Lesen Sie mehr über Subventionen und illegale Fischerei in dem Bericht von fishsubsidy.org <a href=\"http://fishsubsidy.org/news/features/iuu/\">When Crime Pays</a>.</p>\n"
 "\n"
@@ -552,11 +552,11 @@ msgstr "Verstöße "
 
 #: data/templates/recipient.html:157
 msgid "Data Withheld"
-msgstr "Nicht veröffentlichte Daten"
+msgstr "Daten nicht veröffentlicht"
 
 #: data/templates/recipient.html:158
 msgid "Quota: Data Witheld"
-msgstr "Fangquote: nicht veröffentlichte Daten"
+msgstr "Fangquote: Daten nicht veröffentlicht"
 
 #: data/templates/recipient.html:160 data/templates/recipient.html.py:162
 msgid "Greenpeace Blacklist"
@@ -623,7 +623,7 @@ msgid ""
 "                "
 msgstr ""
 "\n"
-"Andere: <a href=\"/faqs#withheld\">nicht veröffentlichte Daten</a></p>"
+"Andere: <a href=\"/faqs#withheld\">Daten nicht veröffentlicht</a></p>"
 
 #: data/templates/recipient.html:198
 msgid "Date"
@@ -1078,7 +1078,7 @@ msgstr ""
 #: recipientcomments/templates/all_annotations.html:5
 #: recipientcomments/templates/all_annotations.html:6
 msgid "All Annotations"
-msgstr "Alle Anmerkungen"
+msgstr "Alle Kommentare"
 
 #: recipientcomments/templates/annotation.html:3
 #, python-format
@@ -1087,7 +1087,7 @@ msgid ""
 "    %(username)s annotated <a href=\"%(url)s#comment-%(pk)s\">%(recipient_name)s</a>\n"
 msgstr ""
 "\n"
-"%(username)s Anmerkung <a href=\"%(url)s#Kommentar-%(pk)s\">%(recipient_name)s</a>\n"
+"%(username)s Kommentar<a href=\"%(url)s#Kommentar-%(pk)s\">%(recipient_name)s</a>\n"
 
 #: search/templates/results.html:5 search/templates/results.html.py:6
 msgid "Search Results"
@@ -1619,7 +1619,7 @@ msgstr ""
 "\n"
 "<p>Ihr Benutzerkonto wurde erstellt. Bevor Sie sich einloggen können, müssen Sie das Konto zunächst aktivieren.</p>\n"
 "<p>Wenn Sie nach 10 Minuten keine E-Mail erhalten haben, können Sie erneut versuchen, sich zu registrieren</p>\n"
-"<p>Wenn Sie auch dann keine E-Mail erhalten haben, überprüfen Sie bitte Ihren Spam-Ordner oder <a href=\"/faqs#contact\">kontaktieren Sie uns</a> damit wir Ihnen behilflich sien können.</p>"
+"<p>Wenn Sie auch dann keine E-Mail erhalten haben, überprüfen Sie bitte Ihren Spam-Ordner oder <a href=\"/faqs#contact\">kontaktieren Sie uns</a> damit wir Ihnen behilflich sein können.</p>"
 
 #~ msgid "German"
 #~ msgstr "Deutsch"
