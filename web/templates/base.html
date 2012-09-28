@@ -58,9 +58,9 @@
                     <form id="language_picker" action="/i18n/setlang/" method="post"  class="form-inline span4">
                         <select name="language" is="language">
                         {% for lang in LANGUAGES %}
-                            {% if not lang.0 == "de" %}
+                            {# {% if not lang.0 == "de" %} #}
                             <option value="{{ lang.0 }}" {% ifequal LANGUAGE_CODE lang.0 %}selected{% endifequal %}>{{ lang.1 }}</option>
-                            {% endif %}
+                            {# {% endif %} #}
                         {% endfor %}
                         </select>
                         <input type="submit" value="{% trans "Go" %}" class="btn" />
