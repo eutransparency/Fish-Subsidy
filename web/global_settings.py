@@ -132,9 +132,9 @@ LANGUAGES = (
   ('fr', ugettext('Français'.decode('utf8'))),
   ('de', ugettext('Deutsch'.decode('utf8'))),
 )
-MULTILINGUAL_FALLBACK_LANGUAGES = ['en', 'es', 'fr', 'de',]
-# LANGUAGE_CODE = 'es'
-# DEFAULT_LANGUAGE = 2
+
+LANGUAGE_CODE = 'en'
+DEFAULT_LANGUAGE = 1
 
 TWITTER_USER = "fishsubsidy"
 TWITTER_TIMEOUT = 300
