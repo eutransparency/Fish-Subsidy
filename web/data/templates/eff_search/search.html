@@ -19,6 +19,8 @@
             <input type="submit" value="{% trans "Search" %}" class="btn">
         </form>
     </div>
+    {% if not number_of_results and query %}
+    <div class="well">{% trans "Sorry, no results found" %}</div>{% endif %}
     {% if number_of_results %}
 
     <div class="section">
