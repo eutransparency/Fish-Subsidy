@@ -22,11 +22,7 @@ class TweetContent(models.Model):
     
     def save(self, *args, **kwargs):
         super(TweetContent, self).save(*args, **kwargs)
-        print "SAVE"
-        print cache.delete('tweets')
-        print "SAVE"
-        print "SAVE"
-        print "SAVE"
+        cache.delete('tweets')
     
     # renders the html portion of the widget
     def render(self, **kwargs):
