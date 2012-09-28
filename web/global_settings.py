@@ -177,3 +177,6 @@ AJAX_LOOKUP_CHANNELS = {
 # magically include jqueryUI/js/css
 AJAX_SELECT_BOOTSTRAP = True
 AJAX_SELECT_INLINES = 'inline'
+
+
+ROSETTA_STORAGE_CLASS = 'rosetta.storage.CacheRosettaStorage'
