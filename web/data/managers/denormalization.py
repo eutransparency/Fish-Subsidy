@@ -113,4 +113,3 @@ class Denormalize(models.Manager):
         AND port_name IS NOT NULL
         GROUP BY port_name, iso_country;
         """)
-
