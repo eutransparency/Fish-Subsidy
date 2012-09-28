@@ -21,6 +21,31 @@ body {
   margin: 0 auto;
   max-width: 1140px;
 }
+#topbar {
+  padding: 0.5em 0 0 0;
+  margin: 0;
+}
+#topbar form {
+  margin: 0;
+  font-size: 0.8em;
+}
+#topbar form input[type="email"] {
+  height: 12px;
+}
+#topbar form select {
+  height: 20px;
+}
+#topbar .navbar-inner {
+  background: none;
+  background-color: #F8F8F8;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  padding: 0;
+}
+#topbar .navbar-inner .btn {
+  line-height: 12px;
+}
 #outer {
   background-color: #f2f2f2;
   border: 1px solid #CCC;

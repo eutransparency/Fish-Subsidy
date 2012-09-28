@@ -98,6 +98,7 @@ INSTALLED_APPS = [
     'cms',
     'twitterfeed',
     'ajax_select',
+    'bootstrapform',
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = (

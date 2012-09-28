@@ -5,6 +5,7 @@
 {% load parse_qs %}
 {% load humanize %}
 {% load markup %}
+{% load bootstrap %}
 
 {% block body_class %}eff{% endblock %}
 
@@ -13,9 +14,9 @@
         {% if not number_of_results %}
             {{ intro_text.content|markdown }}
         {% endif %}
-        <form>
+        <form class="form-inline">
             {{ form }}
-            <input type="submit" name="" value="{% trans "Search" %}" id="">
+            <input type="submit" value="{% trans "Search" %}" class="btn">
         </form>
     </div>
     {% if number_of_results %}
