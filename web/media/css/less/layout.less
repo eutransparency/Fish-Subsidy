@@ -45,6 +45,7 @@ body {
 header {
     clear:both;
     background-color:@fishBlue;
+    position:relative;
     
     #photos {
         height:200px;
@@ -77,8 +78,13 @@ header {
         background: url(../images/header_6.jpg) center center;
     }
     #search_form {
-            display:none;
-        }
+        position: absolute;
+        top: 10px;
+        right:-10px;
+        z-index: 100;
+        background-color:rgba(255,255,255,0.6);
+        padding:0.5em 3em 0.5em 0.5em;
+    }
     
     nav {
         h1 {

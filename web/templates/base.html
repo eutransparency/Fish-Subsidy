@@ -90,10 +90,10 @@
                 <img src="{{ MEDIA_URL }}/images/logo.png" alt="Fishsubsidy.org"></img>
             </div>
             {# search form #}
-            <form id="search_form" action="{% url search %}" method="POST" accept-charset="utf-8">
-              <h2><label for="search" class="section_title">{% trans "Search" %}</label></h2>
+            <form id="search_form" action="{% url search %}" method="POST" accept-charset="utf-8" class="form-search span4 offset7">
+              <label for="search" class="section_title">{% trans "Search" %}</label>
               <input type="text" name="q" value="{{ q }}" id="q" title="{% trans "Enter a vessel name, number, port or place name" %}">
-              <input type="submit" value="Search" class="submit">
+              <input type="submit" value="Search" class="submit"><br />
               <small>
                   {% blocktrans %}
                    e.g. <a href="/search?q=Aurora">Aurora</a>, <a href="/search?q=DEU000300601">DEU000300601</a> or <a href="/search?q=Dieppe">Dieppe</a>
