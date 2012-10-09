@@ -12,7 +12,7 @@
 {% block content %}
 
   {% ifequal results_count 0  %}
-    Sorry, no results found. Try <a href="{% url home %}">browsing</a> or <a href="{% url search %}">searching again</a>
+    Sorry, no results found. Try <a href="/">browsing</a> or <a href="{% url search %}">searching again</a>
   {% endifequal %}
 
 
@@ -38,7 +38,7 @@
 
   {% if vessels %}
     <h2>{% trans "Matching Vessels" %}</h2>
-    <table>
+    <table class="table">
         <thead>
             <th>{% trans "Name" %}</th>
             <th class="amount">{% trans "Amount" %}</th>
