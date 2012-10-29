@@ -1,1 +1,1 @@
-excludeInFileChooser = "{bin,lib,include,share,src,web/xapian.db}" 
+excludeInFileChooser = "{$excludeDirectories,bin,lib,include,share,src,web/xapian.db}" 
