@@ -12,7 +12,6 @@ class TweetContent(models.Model):
 
     # get the content 
     def get_contents(self):
-        print self.limit
         return get_tweets(limit=self.limit)
 
     class Meta:

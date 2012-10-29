@@ -16,4 +16,4 @@ class Test__unicode__(TransactionTestCase):
             unicode(models.Feature(title='Example Title'))
         )
     
-    
+

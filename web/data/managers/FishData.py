@@ -9,7 +9,7 @@ from django.db.models.query import QuerySet, Q
 
 
 from django.utils.translation import get_language
-import multilingual
+from hvad.models import TranslationManager
 
 class illegalFishingManager(models.Manager):
   
@@ -120,8 +120,9 @@ class PortManager(models.Manager):
         top_ports = top_ports.order_by('-total')[:5]
         return top_ports
 
-    
-class SchemeManager(multilingual.Manager):
+
+
+class SchemeManager(TranslationManager):
     
     def top_schemes(self, country=None, year=0, limit=10):
         """

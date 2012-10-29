@@ -64,7 +64,6 @@ def login(request):
         elif request.POST.has_key('register'):
 
             registration_form = CreateAccountForm(data=request.POST)
-            print registration_form
             if registration_form.is_valid():
                 backend = get_backend(settings.REGISTRATION_BACKEND)             
                 new_user = backend.register(request, **registration_form.cleaned_data)

@@ -8,7 +8,6 @@ from django.core.cache import cache
 from tweet_text_parser import TweetTextParser
 
 def get_tweets(limit=10, username=settings.TWITTER_USER):
-    print limit
     tweets = cache.get('tweets')
     if not tweets:
         base_url = "https://api.twitter.com/1/statuses/user_timeline.json"

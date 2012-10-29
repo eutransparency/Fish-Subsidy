@@ -6,7 +6,7 @@ from managers.denormalization import Denormalize
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from listmaker.models import ListItem
-from multilingual.translation import TranslationModel
+from hvad.models import TranslatableModel, TranslatedFields
 from misc.countryCodes import country_codes
 
 class FishData(models.Model):
@@ -105,15 +105,16 @@ class Recipient(models.Model):
       else:
           return ('nonvessel', [self.country, str(self.pk), slugify(self.name)]) 
       
-class Scheme(models.Model):
+class Scheme(TranslatableModel):
     scheme_id = models.IntegerField(blank=True, null=False, primary_key=True)
     total = models.DecimalField(max_digits=40, decimal_places=2, null=True, default=0)
     traffic_light = models.IntegerField(blank=True, null=True)
     
     objects = SchemeManager()
     
-    class Translation(TranslationModel):
-        name = models.CharField(max_length=250)
+    translations = TranslatedFields(
+        name = models.CharField(max_length=250),
+    )
     
     def __unicode__(self):
         return "%s" % (self.name)

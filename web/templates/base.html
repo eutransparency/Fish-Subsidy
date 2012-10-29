@@ -157,7 +157,7 @@
                     {% if featured_items %}
                     <h5>Latest news</h5>
                     <ul>
-                        {% if featured_items.0 %}                  
+                        {% if featured_items.0 %}
                             <li>
                                 <h5><a href="{{ featured_items.0.get_absolute_url }}">{{ featured_items.0.title }}</a></h5>
                                 <p>{{ featured_items.0.teaser|truncatewords:"25" }}</p>

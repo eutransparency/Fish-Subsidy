@@ -24,7 +24,6 @@ class Profile(models.Model):
 from registration.signals import user_registered
 
 def create_user_profile(sender, **kwargs):
-    print kwargs
     user = kwargs['user']
     name = kwargs['request'].POST.get('name')
     profile = Profile(user=user, name=name)

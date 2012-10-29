@@ -46,7 +46,7 @@ MIDDLEWARE_CLASSES = [
     'johnny.middleware.QueryCacheMiddleware',
     'babeldjango.middleware.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',    
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'pagination.middleware.PaginationMiddleware',    
     'django_notify.middleware.NotificationsMiddleware',
@@ -100,6 +100,7 @@ INSTALLED_APPS = [
     'twitterfeed',
     'ajax_select',
     'bootstrapform',
+    'hvad',
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = (

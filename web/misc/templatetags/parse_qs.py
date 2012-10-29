@@ -37,7 +37,6 @@ def parse_sort_qs(qs, k=None, v=None):
                 v = "-%s" % old_v
         # else:
     get_dict[k] = v
-    print get_dict
 
     # Normally, we don't want to keep the page element of the string
     if 'page' in get_dict:

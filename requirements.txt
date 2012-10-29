@@ -29,3 +29,4 @@ sorl-thumbnail==11.01
 typogrify
 git+git://github.com/symroe/TweetTextParser.git
 django-bootstrap-form==0.2
+git+git://github.com/KristianOellegaard/django-hvad.git

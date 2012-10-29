@@ -4,7 +4,6 @@ from models import EffData
 
 
 class EffIndex(indexes.SearchIndex, indexes.Indexable):
-    print "called"
     text = indexes.CharField(document=True, use_template=True)
     name = indexes.CharField(model_attr='name', boost=10)
     country = indexes.CharField(model_attr='country', faceted=True)

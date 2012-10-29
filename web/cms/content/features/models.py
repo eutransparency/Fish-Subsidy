@@ -11,7 +11,6 @@ class FeaturesContent(models.Model):
 
     # get the content 
     def get_contents(self):
-        # print Feature.objects.filter(published=True).order_by('-date')
         return Feature.objects.filter(published=True).order_by('-date')[:self.limit]
 
     class Meta:
