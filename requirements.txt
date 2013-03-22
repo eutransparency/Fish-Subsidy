@@ -3,7 +3,7 @@ FeinCMS==1.5.3
 PIL
 South
 babeldjango
-django-ajax-selects
+-e git://github.com/symroe/django-ajax-selects.git#egg=django-ajax-selects
 django-mptt
 django-pagination==1.0.7
 django-profiles==0.2
